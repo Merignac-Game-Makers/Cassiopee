@@ -6,3 +6,7 @@ Graphics : Village.
 Techno : 3D.
 Scenario : Legend.
 Gameplay : Adventure
+## Three pillars
+Magic
+Astronomy
+Time-travel
