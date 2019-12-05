@@ -3,7 +3,32 @@ guid: 011f7cc850c6a0746a347a94c4c8cb88
 ModelImporter:
   serializedVersion: 26
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 02 - Default
+    second: {fileID: 2100000, guid: 9b58b97cb83f1d3499b2ff173ed5fc77, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: White
+    second: {fileID: 2100000, guid: 78e273b5bd449ce488836e0056cfc9fe, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: ground
+    second: {fileID: 2100000, guid: f41ce7f3b5949c642a2d2e670a0f68d5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: porte
+    second: {fileID: 2100000, guid: ac9d2854602926c459df67f6aeef28fe, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: toit
+    second: {fileID: 2100000, guid: fe1f7c6c1a86856498fcce314399fe5a, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
