@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6544237533609308743}
   - component: {fileID: 1367562468191208479}
   - component: {fileID: 9204164110010297539}
+  - component: {fileID: 1198927641000196192}
   m_Layer: 0
   m_Name: Box008
   m_TagString: Untagged
@@ -79,6 +80,20 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!64 &1198927641000196192
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3156394041608836570}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 14
+  m_Mesh: {fileID: 1226723149311242300, guid: 7c45fec6af1d5ca4eaf513f00d6efb62, type: 3}
 --- !u!1 &4793397966741010776
 GameObject:
   m_ObjectHideFlags: 0
@@ -89,7 +104,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8421392469139884875}
   m_Layer: 0
-  m_Name: closed house (1)
+  m_Name: closed house
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -124,6 +139,7 @@ GameObject:
   - component: {fileID: 6944385579559565644}
   - component: {fileID: 1450455756059258733}
   - component: {fileID: 6019422195117528787}
+  - component: {fileID: 3778084845452210035}
   m_Layer: 0
   m_Name: Box010
   m_TagString: Untagged
@@ -191,6 +207,20 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!64 &3778084845452210035
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5220441030015831820}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 14
+  m_Mesh: {fileID: -3613724358419971262, guid: 7c45fec6af1d5ca4eaf513f00d6efb62, type: 3}
 --- !u!1 &6012180036602005454
 GameObject:
   m_ObjectHideFlags: 0
@@ -202,6 +232,8 @@ GameObject:
   - component: {fileID: 7234905162048885284}
   - component: {fileID: 6912197003550438423}
   - component: {fileID: 5811948790375899072}
+  - component: {fileID: 141898689438183402}
+  - component: {fileID: 6747266381743810365}
   m_Layer: 0
   m_Name: Box007
   m_TagString: Untagged
@@ -269,6 +301,36 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!114 &141898689438183402
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6012180036602005454}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 1
+  m_Area: 1
+  m_IgnoreFromBuild: 0
+  m_AffectedAgents: ffffffff
+--- !u!64 &6747266381743810365
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6012180036602005454}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 14
+  m_Mesh: {fileID: 2954858793080512207, guid: 7c45fec6af1d5ca4eaf513f00d6efb62, type: 3}
 --- !u!1 &7085167031846837370
 GameObject:
   m_ObjectHideFlags: 0
@@ -280,6 +342,7 @@ GameObject:
   - component: {fileID: 5194617389975534579}
   - component: {fileID: 8408613635612271175}
   - component: {fileID: 5552667195539722689}
+  - component: {fileID: 2020114484786663512}
   m_Layer: 0
   m_Name: Box009
   m_TagString: Untagged
@@ -347,3 +410,17 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!64 &2020114484786663512
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7085167031846837370}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 14
+  m_Mesh: {fileID: 7485205316709286908, guid: 7c45fec6af1d5ca4eaf513f00d6efb62, type: 3}
