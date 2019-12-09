@@ -24,12 +24,8 @@ public class ItemEntryUI : MonoBehaviour, IPointerClickHandler, IPointerEnterHan
         {
             if (InventoryEntry != -1)
             {
-                if(Owner.Character.Inventory.Entries[InventoryEntry] != null)
-                    Owner.ObjectDoubleClicked(Owner.Character.Inventory.Entries[InventoryEntry]);
-            }
-            else
-            {
-                Owner.EquipmentDoubleClicked(EquipmentItem);
+                if(InventorySystem.Instance.Entries[InventoryEntry] != null)
+                    InventoryUI.Instance.ObjectDoubleClicked(InventorySystem.Instance.Entries[InventoryEntry]);
             }
         }
     }
@@ -46,7 +42,7 @@ public class ItemEntryUI : MonoBehaviour, IPointerClickHandler, IPointerEnterHan
 
     public void UpdateEntry()
     {
-        var entry = Owner.Character.Inventory.Entries[InventoryEntry];
+        var entry = InventorySystem.Instance.Entries[InventoryEntry];
         bool isEnabled = entry != null;
         
         gameObject.SetActive(isEnabled);
@@ -103,11 +99,13 @@ public class ItemEntryUI : MonoBehaviour, IPointerClickHandler, IPointerEnterHan
         Vector2 referenceResolution = Owner.DragCanvasScaler.referenceResolution;
         Vector2 currentResolution = new Vector2(Screen.width, Screen.height);
  
-        float widthRatio = currentResolution.x / referenceResolution.x;
+        //float widthRatio = currentResolution.x / referenceResolution.x;
         float heightRatio = currentResolution.y / referenceResolution.y;
-        float ratio = Mathf.Lerp(widthRatio, heightRatio,  Owner.DragCanvasScaler.matchWidthOrHeight);
+        //float ratio = Mathf.Lerp(widthRatio, heightRatio,  Owner.DragCanvasScaler.matchWidthOrHeight);
 
-        return vec / ratio;
+        return vec / heightRatio;
+
+        //return new Vector3(vec.x / heightRatio, vec.y / heightRatio, vec.z);
     }
 
     public void OnEndDrag(PointerEventData eventData)

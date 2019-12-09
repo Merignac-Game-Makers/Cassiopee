@@ -23,7 +23,8 @@ public class PlayerControl : MonoBehaviour
     HighlightableObject m_Highlighted;
     Collider m_TargetCollider;
     CharacterData m_CurrentTargetCharacterData = null;
-    InventoryUI.DragData m_CurrentlyDragged = null;
+    [HideInInspector]
+    public InventoryUI.DragData m_CurrentlyDragged = null;
 
     // CharacterData
     public CharacterData Data => m_CharacterData;
@@ -33,7 +34,6 @@ public class PlayerControl : MonoBehaviour
     RaycastHit[] m_RaycastHitCache = new RaycastHit[16];
     int m_TargetLayer;
     int m_InteractableLayer;
-    int m_LevelLayer;
     Vector3 m_LastRaycastResult;
 
 
@@ -56,7 +56,6 @@ public class PlayerControl : MonoBehaviour
 
         m_InteractableLayer = 1 << LayerMask.NameToLayer("Interactable");
         m_TargetLayer = 1 << LayerMask.NameToLayer("Target");
-        m_LevelLayer = 1 << LayerMask.NameToLayer("Default");
 
         m_LastRaycastResult = transform.position;
 
@@ -68,10 +67,12 @@ public class PlayerControl : MonoBehaviour
         Ray screenRay = CameraController.Instance.GameplayCamera.ScreenPointToRay(Input.mousePosition);
         RaycastHit m_HitInfo = new RaycastHit();
 
+        // test if we are approaching an interractable object
         if (m_TargetInteractable != null) {
             CheckInteractableRange();
         }
 
+        // item that we are currently dragging
         m_CurrentlyDragged = m_InventoryUI.CurrentlyDragged;
 
         // zoom
@@ -82,25 +83,32 @@ public class PlayerControl : MonoBehaviour
                 CameraController.Instance.Zoom(-mouseWheel * Time.deltaTime * 40.0f);
         }
 
-        if (Input.GetMouseButtonDown(0)) { //if we click the mouse button, we clear any previously et targets
+        //if we click the mouse button, we clear any previous targets
+        if (Input.GetMouseButtonDown(0)) { 
             m_CurrentTargetCharacterData = null;
             m_TargetInteractable = null;
         }
 
+        // if pointer is NOT over UI
         if (!EventSystem.current.IsPointerOverGameObject()) {
             //Raycast to find object currently under the mouse cursor
             ObjectsRaycasts(screenRay);
 
+            // if we are NOT currently dragging an item
             if (m_CurrentlyDragged == null) {
+                // on mouse click
                 if (Input.GetMouseButton(0)) {
                     if (m_TargetInteractable == null && m_CurrentTargetCharacterData == null) {
-                        InteractableObject obj = m_Highlighted as InteractableObject;
+                        // click on an interractable item ?
+                       InteractableObject obj = m_Highlighted as InteractableObject;
                         if (obj) {
                             InteractWith(obj);
+                        // click on player ?
                         } else {
                             CharacterData data = m_Highlighted as CharacterData;
                             if (data != null) {
                                 m_CurrentTargetCharacterData = data;
+                            // or just move ?
                             } else {
                                 //MoveCheck(screenRay);
                                 if (Physics.Raycast(screenRay.origin, screenRay.direction, out m_HitInfo))
@@ -109,11 +117,14 @@ public class PlayerControl : MonoBehaviour
                         }
                     }
                 }
-            } else {
-                if (!Input.GetMouseButton(0)) {
-
-                }
-            }
+            // if we are dragging an item
+            } 
+            //else {
+            //    // if we try to drop it
+            //    if (Input.GetMouseButtonUp(0)) {
+            //        InventoryUI.Instance.DropItem(m_TargetInteractable, m_CurrentlyDragged);
+            //    }
+            //}
         }
 
         // control speed on NavMesh Links
@@ -149,31 +160,51 @@ public class PlayerControl : MonoBehaviour
             }
         }
 
+        //second check for target (where to drop item)
+        count = Physics.SphereCastNonAlloc(screenRay, 1.0f, m_RaycastHitCache, 1000.0f, m_TargetLayer);
+        if (count > 0) {
+            for (int i = 0; i < count; ++i) {
+                InteractableObject obj = m_RaycastHitCache[0].collider.GetComponentInParent<Target>();
+                if (obj != null && obj.IsInteractable) {
+                    SwitchHighlightedObject(obj);
+                    somethingFound = true;
+                    break;
+                }
+            }
+        }
+
         if (!somethingFound && m_Highlighted != null) {
             SwitchHighlightedObject(null);
         }
     }
 
-    void MoveCheck(Ray screenRay) {
-        if (m_CalculatedPath.status == NavMeshPathStatus.PathComplete) {
-            m_Agent.SetPath(m_CalculatedPath);
-            m_CalculatedPath.ClearCorners();
-        }
+    private void OnTriggerEnter(Collider other) {
+        m_TargetInteractable = other.gameObject.GetComponent<InteractableObject>();
+        if (m_TargetInteractable != null)
+            m_TargetCollider = m_TargetInteractable.GetComponentInChildren<Collider>();
+    }
 
-        if (Physics.RaycastNonAlloc(screenRay, m_RaycastHitCache, 1000.0f, m_LevelLayer) > 0) {
-            Vector3 point = m_RaycastHitCache[0].point;
-            //avoid recomputing path for close enough click
-            if (Vector3.SqrMagnitude(point - m_LastRaycastResult) > 1.0f) {
-                NavMeshHit hit;
-                if (NavMesh.SamplePosition(point, out hit, 0.5f, NavMesh.AllAreas)) {//sample just around where we hit, avoid setting destination outside of navmesh (ie. on building)
-                    m_LastRaycastResult = point;
-                    m_Agent.SetDestination(hit.position);
-                    m_Agent.CalculatePath(hit.position, m_CalculatedPath);
+    /*
+        void MoveCheck(Ray screenRay) {
+            if (m_CalculatedPath.status == NavMeshPathStatus.PathComplete) {
+                m_Agent.SetPath(m_CalculatedPath);
+                m_CalculatedPath.ClearCorners();
+            }
+
+            if (Physics.RaycastNonAlloc(screenRay, m_RaycastHitCache, 1000.0f, m_LevelLayer) > 0) {
+                Vector3 point = m_RaycastHitCache[0].point;
+                //avoid recomputing path for close enough click
+                if (Vector3.SqrMagnitude(point - m_LastRaycastResult) > 1.0f) {
+                    NavMeshHit hit;
+                    if (NavMesh.SamplePosition(point, out hit, 0.5f, NavMesh.AllAreas)) {//sample just around where we hit, avoid setting destination outside of navmesh (ie. on building)
+                        m_LastRaycastResult = point;
+                        m_Agent.SetDestination(hit.position);
+                        m_Agent.CalculatePath(hit.position, m_CalculatedPath);
+                    }
                 }
             }
         }
-    }
-
+    */
     void SwitchHighlightedObject(HighlightableObject obj) {
         if (m_Highlighted != null) m_Highlighted.Dehighlight();
 

@@ -34,16 +34,17 @@ public class InventoryUI : MonoBehaviour
 
 	public static InventoryUI Instance;
 
+	// Raycast
+	RaycastHit[] m_RaycastHitCache = new RaycastHit[16];
+	int m_TargetLayer;
+
+
 	public DragData CurrentlyDragged { get; set; }
 	public CanvasScaler DragCanvasScaler { get; private set; }
 
-	public CharacterData Character {
-		get { return m_Data; }
-	}
-
 	ItemEntryUI[] m_ItemEntries;
 	ItemEntryUI m_HoveredItem;
-	CharacterData m_Data;
+	HighlightableObject m_Item;
 
 	private void Awake() {
 		Init();
@@ -64,6 +65,8 @@ public class InventoryUI : MonoBehaviour
 			m_ItemEntries[i].Owner = this;
 			m_ItemEntries[i].InventoryEntry = i;
 		}
+
+		m_TargetLayer = 1 << LayerMask.NameToLayer("Target");
 
 		//EquipementUI.Init(this);
 	}
@@ -91,8 +94,8 @@ public class InventoryUI : MonoBehaviour
 		openButton.SetActive(!closeButton.activeInHierarchy);
 	}
 
-	public void Load(CharacterData data) {
-		m_Data = data;
+	public void Load(HighlightableObject item) {
+		m_Item = item;
 		//EquipementUI.UpdateEquipment(m_Data.Equipment, m_Data.Stats);
 
 		for (int i = 0; i < m_ItemEntries.Length; ++i) {
@@ -103,23 +106,18 @@ public class InventoryUI : MonoBehaviour
 	public void ObjectDoubleClicked(InventorySystem.InventoryEntry usedItem) {
 		//if(m_Data.Inventory.UseItem(usedItem))
 		//    SFXManager.PlaySound(SFXManager.Use.Sound2D, new SFXManager.PlayData() {Clip = usedItem.Item is EquipmentItem ? SFXManager.ItemEquippedSound : SFXManager.ItemUsedSound} );
-		m_Data.Inventory.UseItem(usedItem);
+		InventorySystem.Instance.UseItem(usedItem);
 		ObjectHoverExited(m_HoveredItem);
-		Load(m_Data);
+		Load(m_Item);
 	}
 
-	public void EquipmentDoubleClicked(EquipmentItem equItem) {
-		m_Data.Equipment.Unequip(equItem.Slot);
-		ObjectHoverExited(m_HoveredItem);
-		Load(m_Data);
-	}
 
 	public void ObjectHoveredEnter(ItemEntryUI hovered) {
 		m_HoveredItem = hovered;
 
 		Tooltip.gameObject.SetActive(true);
 
-		Item itemUsed = m_HoveredItem.InventoryEntry != -1 ? m_Data.Inventory.Entries[m_HoveredItem.InventoryEntry].Item : m_HoveredItem.EquipmentItem;
+		Item itemUsed = m_HoveredItem.InventoryEntry != -1 ? InventorySystem.Instance.Entries[m_HoveredItem.InventoryEntry].Item : m_HoveredItem.EquipmentItem;
 
 		Tooltip.Name.text = itemUsed.ItemName;
 		Tooltip.DescriptionText.text = itemUsed.GetDescription();
@@ -133,19 +131,68 @@ public class InventoryUI : MonoBehaviour
 	}
 
 	public void HandledDroppedEntry(Vector3 position) {
+		// check for drop on ItemSlots
 		for (int i = 0; i < ItemSlots.Length; ++i) {
 			RectTransform t = ItemSlots[i];
 
 			if (RectTransformUtility.RectangleContainsScreenPoint(t, position)) {
 				if (m_ItemEntries[i] != CurrentlyDragged.DraggedEntry) {
-					var prevItem = m_Data.Inventory.Entries[CurrentlyDragged.DraggedEntry.InventoryEntry];
-					m_Data.Inventory.Entries[CurrentlyDragged.DraggedEntry.InventoryEntry] = m_Data.Inventory.Entries[i];
-					m_Data.Inventory.Entries[i] = prevItem;
+					var prevItem = InventorySystem.Instance.Entries[CurrentlyDragged.DraggedEntry.InventoryEntry];
+					InventorySystem.Instance.Entries[CurrentlyDragged.DraggedEntry.InventoryEntry] = InventorySystem.Instance.Entries[i];
+					InventorySystem.Instance.Entries[i] = prevItem;
 
 					CurrentlyDragged.DraggedEntry.UpdateEntry();
 					m_ItemEntries[i].UpdateEntry();
+					return;
 				}
 			}
 		}
+
+		Ray screenRay = CameraController.Instance.GameplayCamera.ScreenPointToRay(Input.mousePosition);
+		int count = Physics.SphereCastNonAlloc(screenRay, 1.0f, m_RaycastHitCache, 1000.0f, m_TargetLayer);
+		if (count > 0) {
+			Target data = m_RaycastHitCache[0].collider.GetComponentInParent<Target>();
+			if (data != null) {
+				Debug.Log("Drp Item");
+				DropItem(data, PlayerControl.Instance.m_CurrentlyDragged);
+			}
+		}
+
 	}
+
+	private void DropItem(Target target, InventoryUI.DragData dragData) {
+		Item item = InventorySystem.Instance.Entries[dragData.DraggedEntry.InventoryEntry].Item;
+		CreateWorldRepresentation(item, target);
+	}
+
+	void CreateWorldRepresentation(Item item, Target target) {
+			var pos = target.gameObject.transform.position + Vector3.up* item.WorldObjectPrefab.gameObject.transform.localScale.y/2;
+		//if the item have a world object prefab set use that...
+		if (item.WorldObjectPrefab != null) {
+			var obj = Instantiate(item.WorldObjectPrefab, pos, new Quaternion(), target.transform);
+			obj.layer = LayerMask.NameToLayer("Interactable");
+			//obj.transform.position = pos;
+			//obj.transform.SetParent(target.transform, true);
+		} else {//...otherwise, we create a billboard using the item sprite
+			GameObject billboard = new GameObject("ItemBillboard");
+			billboard.transform.SetParent(transform, false);
+			billboard.transform.localPosition = Vector3.up * 0.3f;
+			billboard.layer = LayerMask.NameToLayer("Interactable");
+
+			var renderer = billboard.AddComponent<SpriteRenderer>();
+			renderer.sharedMaterial = ResourceManager.Instance.BillboardMaterial;
+			renderer.sprite = item.ItemSprite;
+
+			var rect = item.ItemSprite.rect;
+			float maxSize = rect.width > rect.height ? rect.width : rect.height;
+			float scale = item.ItemSprite.pixelsPerUnit / maxSize;
+
+			billboard.transform.localScale = scale * Vector3.one * 0.5f;
+
+
+			var bc = billboard.AddComponent<BoxCollider>();
+			bc.size = new Vector3(0.5f, 0.5f, 0.5f) * (1.0f / scale);
+		}
+	}
+
 }

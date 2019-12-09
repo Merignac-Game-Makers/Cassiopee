@@ -4,7 +4,7 @@ using System.Data;
 using System.Timers;
 using UnityEngine;
 using UnityEngine.AI;
-
+using UnityEngine.EventSystems;
 
 /// <summary>
 /// Describes an InteractableObject that can be picked up and grants a specific item when interacted with.
@@ -14,12 +14,9 @@ using UnityEngine.AI;
 ///
 /// Finally it will notify the LootUI that a new loot is available in the world so the UI displays the name.
 /// </summary>
-public class Loot : InteractableObject
+public class Target : InteractableObject
 {
 	static float AnimationTime = 0.1f;
-
-	public Item Item;
-	public static InventoryUI m_inventoryUI;
 
 	public override bool IsInteractable => m_AnimationTimer >= AnimationTime;
 
@@ -36,8 +33,6 @@ public class Loot : InteractableObject
 
 	protected override void Start() {
 		base.Start();
-		m_inventoryUI = InventoryUI.Instance;
-		//CreateWorldRepresentation();
 	}
 
 
@@ -52,20 +47,13 @@ public class Loot : InteractableObject
 
 			transform.position = currentPos;
 
-			if (m_AnimationTimer >= AnimationTime) {
-				LootUI.Instance.NewLoot(this);
-			}
 		}
 
 		Debug.DrawLine(m_TargetPoint, m_TargetPoint + new Vector3(0, 2, 0), Color.magenta);
 	}
 
 	public override void InteractWith(HighlightableObject target) {
-		InventorySystem.Instance.AddItem(Item);
-		//SFXManager.PlaySound(SFXManager.Use.Sound2D, new SFXManager.PlayData(){Clip = SFXManager.PickupSound});
 
-		m_inventoryUI.Load(target);
-		Destroy(gameObject);
 	}
 
 	/// <summary>
@@ -100,33 +88,4 @@ public class Loot : InteractableObject
 		return false;
 	}
 
-	void CreateWorldRepresentation() {
-		//remove helper mesh
-		//gameObject.GetComponentInChildren<MeshFilter>().mesh = null;
-		//if the item have a world object prefab set use that...
-		if (Item.WorldObjectPrefab != null) {
-			var obj = Instantiate(Item.WorldObjectPrefab, transform, false);
-			obj.transform.localPosition = Vector3.zero;
-			obj.layer = LayerMask.NameToLayer("Interactable");
-		} else {//...otherwise, we create a billboard using the item sprite
-			GameObject billboard = new GameObject("ItemBillboard");
-			billboard.transform.SetParent(transform, false);
-			billboard.transform.localPosition = Vector3.up * 0.3f;
-			billboard.layer = LayerMask.NameToLayer("Interactable");
-
-			var renderer = billboard.AddComponent<SpriteRenderer>();
-			renderer.sharedMaterial = ResourceManager.Instance.BillboardMaterial;
-			renderer.sprite = Item.ItemSprite;
-
-			var rect = Item.ItemSprite.rect;
-			float maxSize = rect.width > rect.height ? rect.width : rect.height;
-			float scale = Item.ItemSprite.pixelsPerUnit / maxSize;
-
-			billboard.transform.localScale = scale * Vector3.one * 0.5f;
-
-
-			var bc = billboard.AddComponent<BoxCollider>();
-			bc.size = new Vector3(0.5f, 0.5f, 0.5f) * (1.0f / scale);
-		}
-	}
 }

@@ -11,5 +11,5 @@ using UnityEngine;
     {
         public abstract bool IsInteractable { get; }
     
-        public abstract void InteractWith(CharacterData target);
+        public abstract void InteractWith(HighlightableObject target);
     }
