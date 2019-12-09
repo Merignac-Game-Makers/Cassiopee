@@ -8,17 +8,23 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Water_Fog_01_Mat
-  m_Shader: {fileID: 4800000, guid: 07157425b2a4d4948ae45a0def12cc20, type: 3}
-  m_ShaderKeywords: _ALPHABLEND_ON _DETAIL_MULX2 _NORMALMAP _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
+  m_Shader: {fileID: -6465566751694194690, guid: 67914da8b482fb842b23184194267c06,
+    type: 3}
+  m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
-  disabledShaderPasses: []
+  disabledShaderPasses:
+  - SHADOWCASTER
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _BaseMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _BumpMap:
         m_Texture: {fileID: 2800000, guid: 0a73a2411dbe9f44c957819993c77f04, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -49,7 +55,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _MainTex:
         m_Texture: {fileID: 0}
-        m_Scale: {x: 50, y: 50}
+        m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
         m_Texture: {fileID: 0}
@@ -83,16 +89,23 @@ Material:
         m_Texture: {fileID: 2800000, guid: 0ace4403cc5f9464388568973d82f0d2, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_91BCE50D_Texture_1:
+        m_Texture: {fileID: 2800000, guid: 28000922bad6c524491064afe31e4388, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _SpecGlossMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _Absorption: 0.5
+    - _AlphaClip: 0
     - _Anisotropy: 0.5
     - _Bias: 0
+    - _Blend: 0
     - _Blur: 0.25
     - _BumpScale: 0.3
+    - _Cull: 2
     - _Cutoff: 0.5
     - _Depth: 1
     - _DepthBlur: 2
@@ -100,6 +113,7 @@ Material:
     - _Distortion: 1
     - _DstBlend: 10
     - _EdgeBlend: 0.123
+    - _EnvironmentReflections: 1
     - _ExtraEmission: 0
     - _FlowIntensity: 0.05
     - _FlowSpeed: 0.05
@@ -119,14 +133,19 @@ Material:
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _Power: 2
+    - _QueueOffset: 0
+    - _ReceiveShadows: 1
     - _Scale: 1
     - _ShoreFade: 0
     - _ShowBuffers: 0
+    - _Smoothness: 0.708
     - _SmoothnessTextureChannel: 1
     - _Specular: 0.3760684
     - _SpecularHighlights: 1
     - _Speed: 1.1
     - _SrcBlend: 5
+    - _Surface: 1
+    - _TERRAIN_INSTANCED_PERPIXEL_NORMAL: 0
     - _Turbulence: 0.111
     - _UVSec: 0
     - _Visibility: 0
@@ -134,8 +153,10 @@ Material:
     - _WaveFrequency: 1
     - _WaveHeight: 0.0002
     - _WaveLength: 0
+    - _WorkflowMode: 1
     - _ZWrite: 0
     m_Colors:
+    - _BaseColor: {r: 0.3137255, g: 0.6313726, b: 0.59607846, a: 0.8039216}
     - _Color: {r: 0.3137255, g: 0.6313726, b: 0.59607846, a: 0.8039216}
     - _ColorA: {r: 1, g: 1, b: 1, a: 1}
     - _ColorB: {r: 1, g: 1, b: 1, a: 1}
@@ -148,3 +169,16 @@ Material:
     - _ShoreColor: {r: 1, g: 1, b: 1, a: 1}
     - _SpecColor: {r: 0.021387678, g: 0.022058845, b: 0.00989404, a: 1}
     - _SubsurfaceColor: {r: 1, g: 1, b: 1, a: 1}
+--- !u!114 &1946476645198782108
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 1

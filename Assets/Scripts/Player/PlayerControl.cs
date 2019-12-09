@@ -6,6 +6,8 @@ using UnityEngine.EventSystems;
 public class PlayerControl : MonoBehaviour
 {
 
+    InventoryUI m_InventoryUI;
+
     public static PlayerControl Instance { get; protected set; }
 
     // camera
@@ -21,6 +23,7 @@ public class PlayerControl : MonoBehaviour
     HighlightableObject m_Highlighted;
     Collider m_TargetCollider;
     CharacterData m_CurrentTargetCharacterData = null;
+    InventoryUI.DragData m_CurrentlyDragged = null;
 
     // CharacterData
     public CharacterData Data => m_CharacterData;
@@ -42,7 +45,11 @@ public class PlayerControl : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        m_InventoryUI = InventoryUI.Instance;
+
         m_CharacterData = GetComponent<CharacterData>();
+        m_CharacterData.Init();
+
         m_Agent = GetComponent<NavMeshAgent>();
 
         m_CalculatedPath = new NavMeshPath();
@@ -65,12 +72,14 @@ public class PlayerControl : MonoBehaviour
             CheckInteractableRange();
         }
 
+        m_CurrentlyDragged = m_InventoryUI.CurrentlyDragged;
+
         // zoom
         float mouseWheel = Input.GetAxis("Mouse ScrollWheel");
         if (!Mathf.Approximately(mouseWheel, 0.0f)) {
             Vector3 view = m_MainCamera.ScreenToViewportPoint(Input.mousePosition);
             if (view.x > 0f && view.x < 1f && view.y > 0f && view.y < 1f)
-                CameraController.Instance.Zoom(-mouseWheel * Time.deltaTime * 20.0f);
+                CameraController.Instance.Zoom(-mouseWheel * Time.deltaTime * 40.0f);
         }
 
         if (Input.GetMouseButtonDown(0)) { //if we click the mouse button, we clear any previously et targets
@@ -82,25 +91,30 @@ public class PlayerControl : MonoBehaviour
             //Raycast to find object currently under the mouse cursor
             ObjectsRaycasts(screenRay);
 
-            if (Input.GetMouseButton(0)) {
-                if (m_TargetInteractable == null && m_CurrentTargetCharacterData == null) {
-                    InteractableObject obj = m_Highlighted as InteractableObject;
-                    if (obj) {
-                        InteractWith(obj);
-                    } else {
-                        CharacterData data = m_Highlighted as CharacterData;
-                        if (data != null) {
-                            m_CurrentTargetCharacterData = data;
+            if (m_CurrentlyDragged == null) {
+                if (Input.GetMouseButton(0)) {
+                    if (m_TargetInteractable == null && m_CurrentTargetCharacterData == null) {
+                        InteractableObject obj = m_Highlighted as InteractableObject;
+                        if (obj) {
+                            InteractWith(obj);
                         } else {
-                            //MoveCheck(screenRay);
-                            if (Physics.Raycast(screenRay.origin, screenRay.direction, out m_HitInfo))
-                                m_Agent.destination = m_HitInfo.point;
+                            CharacterData data = m_Highlighted as CharacterData;
+                            if (data != null) {
+                                m_CurrentTargetCharacterData = data;
+                            } else {
+                                //MoveCheck(screenRay);
+                                if (Physics.Raycast(screenRay.origin, screenRay.direction, out m_HitInfo))
+                                    m_Agent.destination = m_HitInfo.point;
+                            }
                         }
                     }
                 }
+            } else {
+                if (!Input.GetMouseButton(0)) {
+
+                }
             }
         }
-
 
         // control speed on NavMesh Links
         if (m_Agent.isOnOffMeshLink && !MoveAcrossNavMeshesStarted) {
@@ -126,7 +140,6 @@ public class PlayerControl : MonoBehaviour
             }
         } else {
             count = Physics.SphereCastNonAlloc(screenRay, 1.0f, m_RaycastHitCache, 1000.0f, m_TargetLayer);
-
             if (count > 0) {
                 CharacterData data = m_RaycastHitCache[0].collider.GetComponentInParent<CharacterData>();
                 if (data != null) {
@@ -175,7 +188,7 @@ public class PlayerControl : MonoBehaviour
 
 
         if (distance.sqrMagnitude < 1.5f * 1.5f) {
-            StopAgent();
+            //StopAgent();
             m_TargetInteractable.InteractWith(m_CharacterData);
             m_TargetInteractable = null;
         }

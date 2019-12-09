@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 16f67a5c4af715e469a399ce6bb1de97, type: 3}
-  m_Name: TestSphere
+  m_Name: Cube
   m_EditorClassIdentifier: 
-  ItemName: Sphere
-  ItemSprite: {fileID: 21300000, guid: a19fd14127eefb8469fddbf355a9ca34, type: 3}
-  Description: a sphere to test item picking
-  WorldObjectPrefab: {fileID: 3686046410562572513, guid: 49322d76203ca0343952ac1257961d00,
+  ItemName: Cube
+  ItemSprite: {fileID: 21300000, guid: 757d229cd3d3bbb42973573d96969016, type: 3}
+  Description: a cube to test item picking
+  WorldObjectPrefab: {fileID: 5198676109635102543, guid: bd221e523ec6bda479ee7c9b56b58321,
     type: 3}
   UsageEffects: []
 --- !u!114 &1107657640091256493

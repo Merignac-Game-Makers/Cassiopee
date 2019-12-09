@@ -12,7 +12,7 @@ using UnityEditor;
     /// EquippedEffect which will be executed when the object is equipped and unequipped, allowing to code special
     /// behaviour when the player equipped those object, like raising stats.
     /// </summary>
-    [CreateAssetMenu(fileName = "EquipmentItem", menuName = "Beginner Code/Equipment Item", order = -999)]
+    [CreateAssetMenu(fileName = "EquipmentItem", menuName = "Custom/Equipment Item", order = -999)]
     public class EquipmentItem : Item
     {
         public enum EquipmentSlot

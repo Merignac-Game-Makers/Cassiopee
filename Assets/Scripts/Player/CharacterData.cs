@@ -38,6 +38,7 @@ using Random = UnityEngine.Random;
 
         //float m_AttackCoolDown;
 
+
         public void Init()
         {
             Stats.Init(this);

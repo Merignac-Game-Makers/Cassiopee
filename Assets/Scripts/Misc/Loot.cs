@@ -16,10 +16,10 @@ using UnityEngine.AI;
 /// </summary>
 public class Loot : InteractableObject
 {
-	static float AnimationTime = 0.5f;
+	static float AnimationTime = 0.1f;
 
 	public Item Item;
-	public InventoryUI m_inventoryUI;
+	public static InventoryUI m_inventoryUI;
 
 	public override bool IsInteractable => m_AnimationTimer >= AnimationTime;
 
@@ -36,9 +36,10 @@ public class Loot : InteractableObject
 
 	protected override void Start() {
 		base.Start();
-
+		m_inventoryUI = InventoryUI.Instance;
 		//CreateWorldRepresentation();
 	}
+
 
 	void Update() {
 		if (m_AnimationTimer < AnimationTime) {
@@ -56,7 +57,7 @@ public class Loot : InteractableObject
 			}
 		}
 
-		Debug.DrawLine(m_TargetPoint, m_TargetPoint + new Vector3(0, 2, 0), Color.blue);
+		Debug.DrawLine(m_TargetPoint, m_TargetPoint + new Vector3(0, 2, 0), Color.magenta);
 	}
 
 	public override void InteractWith(CharacterData target) {
@@ -100,6 +101,8 @@ public class Loot : InteractableObject
 	}
 
 	void CreateWorldRepresentation() {
+		//remove helper mesh
+		//gameObject.GetComponentInChildren<MeshFilter>().mesh = null;
 		//if the item have a world object prefab set use that...
 		if (Item.WorldObjectPrefab != null) {
 			var obj = Instantiate(Item.WorldObjectPrefab, transform, false);

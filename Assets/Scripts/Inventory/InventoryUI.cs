@@ -32,6 +32,8 @@ public class InventoryUI : MonoBehaviour
 
 	public Canvas DragCanvas;
 
+	public static InventoryUI Instance;
+
 	public DragData CurrentlyDragged { get; set; }
 	public CanvasScaler DragCanvasScaler { get; private set; }
 
@@ -48,6 +50,8 @@ public class InventoryUI : MonoBehaviour
 	}
 
 	public void Init() {
+		Instance = this;
+
 		CurrentlyDragged = null;
 
 		DragCanvasScaler = DragCanvas.GetComponentInParent<CanvasScaler>();
@@ -99,7 +103,7 @@ public class InventoryUI : MonoBehaviour
 	public void ObjectDoubleClicked(InventorySystem.InventoryEntry usedItem) {
 		//if(m_Data.Inventory.UseItem(usedItem))
 		//    SFXManager.PlaySound(SFXManager.Use.Sound2D, new SFXManager.PlayData() {Clip = usedItem.Item is EquipmentItem ? SFXManager.ItemEquippedSound : SFXManager.ItemUsedSound} );
-
+		m_Data.Inventory.UseItem(usedItem);
 		ObjectHoverExited(m_HoveredItem);
 		Load(m_Data);
 	}

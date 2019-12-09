@@ -108,7 +108,6 @@ public class ItemEntryUI : MonoBehaviour, IPointerClickHandler, IPointerEnterHan
         float ratio = Mathf.Lerp(widthRatio, heightRatio,  Owner.DragCanvasScaler.matchWidthOrHeight);
 
         return vec / ratio;
-        //return vec ;
     }
 
     public void OnEndDrag(PointerEventData eventData)
@@ -121,6 +120,7 @@ public class ItemEntryUI : MonoBehaviour, IPointerClickHandler, IPointerEnterHan
         RectTransform t = transform as RectTransform;
         
         transform.SetParent(Owner.CurrentlyDragged.OriginalParent, true);
+        Owner.CurrentlyDragged = null;
 
         t.offsetMax = -Vector2.one * 4;
         t.offsetMin = Vector2.one * 4;

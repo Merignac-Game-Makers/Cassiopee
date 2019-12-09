@@ -8,18 +8,23 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Water_Simple_02_Mat
-  m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
+  m_Shader: {fileID: -6465566751694194690, guid: a560e2f82e25ac8419e7c77538f36355,
+    type: 3}
   m_ShaderKeywords: _ALPHABLEND_ON _DETAIL_MULX2 _NORMALMAP _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 3000
-  stringTagMap:
-    RenderType: Transparent
-  disabledShaderPasses: []
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses:
+  - SHADOWCASTER
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _BaseMap:
+        m_Texture: {fileID: 2800000, guid: 28000922bad6c524491064afe31e4388, type: 3}
+        m_Scale: {x: 4, y: 2}
+        m_Offset: {x: 0, y: 0}
     - _BumpMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -84,6 +89,14 @@ Material:
         m_Texture: {fileID: 2800000, guid: f9411f1412903324eb924f55f42af468, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _SampleTexture2DLOD_AC7F17E6_Texture_1:
+        m_Texture: {fileID: 2800000, guid: 28000922bad6c524491064afe31e4388, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_3D82065_Texture_1:
+        m_Texture: {fileID: 2800000, guid: f9411f1412903324eb924f55f42af468, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _ScumBump:
         m_Texture: {fileID: 2800000, guid: 8966a67eba656384b8870d6cac30864f, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -98,10 +111,13 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _Absorption: 0.5
+    - _AlphaClip: 0
     - _Anisotropy: 0.5
     - _Bias: 0
+    - _Blend: 0
     - _Blur: 0.25
     - _BumpScale: 1
+    - _Cull: 2
     - _Cutoff: 0.5
     - _Depth: 1
     - _DepthBlur: 4
@@ -109,6 +125,7 @@ Material:
     - _Distortion: 1
     - _DstBlend: 10
     - _EdgeBlend: 0.372
+    - _EnvironmentReflections: 1
     - _ExtraEmission: 0
     - _FlowIntensity: 0.05
     - _FlowSpeed: 0.05
@@ -127,6 +144,8 @@ Material:
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _Power: 2
+    - _QueueOffset: 0
+    - _ReceiveShadows: 1
     - _Scale: 1
     - _ScumFalloff: 5
     - _ScumNoiseContrast: 1
@@ -136,11 +155,13 @@ Material:
     - _ShadowFade: 0.621
     - _ShoreFade: 0
     - _ShowBuffers: 0
+    - _Smoothness: 0.577
     - _SmoothnessTextureChannel: 1
     - _Specular: 0.3760684
     - _SpecularHighlights: 1
     - _Speed: 0.01
     - _SrcBlend: 5
+    - _Surface: 1
     - _Turbulence: 0.111
     - _UVSec: 0
     - _Visibility: 0
@@ -148,8 +169,10 @@ Material:
     - _WaveFrequency: 1
     - _WaveHeight: 0.0002
     - _WaveLength: 0
+    - _WorkflowMode: 1
     - _ZWrite: 0
     m_Colors:
+    - _BaseColor: {r: 1, g: 1, b: 1, a: 0.11764706}
     - _Color: {r: 1, g: 1, b: 1, a: 0.11764706}
     - _ColorA: {r: 1, g: 1, b: 1, a: 1}
     - _ColorB: {r: 1, g: 1, b: 1, a: 1}

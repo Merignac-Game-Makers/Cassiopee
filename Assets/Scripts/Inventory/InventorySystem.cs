@@ -80,7 +80,7 @@
                 if (item.Count <= 0)
                 {
                     //maybe store the index in the InventoryEntry to avoid having to find it again here
-                    for (int i = 0; i < 32; ++i)
+                    for (int i = 0; i < numSlots; ++i)
                     {
                         if (Entries[i] == item)
                         {
