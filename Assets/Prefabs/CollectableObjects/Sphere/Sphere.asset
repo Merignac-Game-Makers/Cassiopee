@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Sphere
   m_EditorClassIdentifier: 
   ItemName: Sphere
-  ItemSprite: {fileID: 21300000, guid: a19fd14127eefb8469fddbf355a9ca34, type: 3}
+  ItemSprite: {fileID: 21300000, guid: f0261b55e138ab542bc38e1fd1426b73, type: 3}
   Description: a sphere to test item picking
   WorldObjectPrefab: {fileID: 3686046410562572513, guid: 49322d76203ca0343952ac1257961d00,
     type: 3}

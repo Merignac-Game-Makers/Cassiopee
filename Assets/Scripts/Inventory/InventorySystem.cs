@@ -81,10 +81,22 @@ public class InventorySystem
 					}
 				}
 			}
-
 			return true;
 		}
-
 		return false;
+	}
+
+
+	public void RemoveItem(int EntryIndex) {
+		//it get consumed and so would be removed from inventory.
+		//(note "consumed" is a loose sense here, e.g. armor get consumed to be removed from inventory and added to
+		//equipement by their subclass, and de-equiping will re-add the equipement to the inventory 
+		InventoryEntry Entry = Entries[EntryIndex];
+		Entry.Count -= 1;
+
+		if (Entry.Count <= 0) {
+			Entries[EntryIndex] = null;
+		}
+		InventoryUI.Instance.m_ItemEntries[EntryIndex].UpdateEntry();
 	}
 }

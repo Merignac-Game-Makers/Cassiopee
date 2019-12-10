@@ -154,7 +154,7 @@ using UnityEditor;
         public void Init(CharacterData owner)
         {
             stats.Copy(baseStats);
-            CurrentHealth = stats.health;
+            CurrentHealth = stats.health - 5;
             m_Owner = owner;
         }
     

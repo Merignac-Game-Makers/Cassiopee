@@ -42,15 +42,12 @@ public class InventoryUI : MonoBehaviour
 	public DragData CurrentlyDragged { get; set; }
 	public CanvasScaler DragCanvasScaler { get; private set; }
 
-	ItemEntryUI[] m_ItemEntries;
+	[HideInInspector]
+	public ItemEntryUI[] m_ItemEntries;
 	ItemEntryUI m_HoveredItem;
 	HighlightableObject m_Item;
 
 	private void Awake() {
-		Init();
-	}
-
-	public void Init() {
 		Instance = this;
 
 		CurrentlyDragged = null;
@@ -66,7 +63,7 @@ public class InventoryUI : MonoBehaviour
 			m_ItemEntries[i].InventoryEntry = i;
 		}
 
-		m_TargetLayer = 1 << LayerMask.NameToLayer("Target");
+		m_TargetLayer = 1 << LayerMask.NameToLayer("Interactable");
 
 		//EquipementUI.Init(this);
 	}
@@ -147,12 +144,12 @@ public class InventoryUI : MonoBehaviour
 				}
 			}
 		}
-
+		// check for drop on 3D target
 		Ray screenRay = CameraController.Instance.GameplayCamera.ScreenPointToRay(Input.mousePosition);
 		int count = Physics.SphereCastNonAlloc(screenRay, 1.0f, m_RaycastHitCache, 1000.0f, m_TargetLayer);
 		if (count > 0) {
 			Target data = m_RaycastHitCache[0].collider.GetComponentInParent<Target>();
-			if (data != null) {
+			if (data.isFree) {
 				Debug.Log("Drp Item");
 				DropItem(data, PlayerControl.Instance.m_CurrentlyDragged);
 			}
@@ -161,38 +158,43 @@ public class InventoryUI : MonoBehaviour
 	}
 
 	private void DropItem(Target target, InventoryUI.DragData dragData) {
-		Item item = InventorySystem.Instance.Entries[dragData.DraggedEntry.InventoryEntry].Item;
-		CreateWorldRepresentation(item, target);
+		var EntryIndex = dragData.DraggedEntry.InventoryEntry;
+		CreateWorldRepresentation(InventorySystem.Instance.Entries[EntryIndex].Item, target);
+		InventorySystem.Instance.RemoveItem(EntryIndex);
 	}
 
 	void CreateWorldRepresentation(Item item, Target target) {
-			var pos = target.gameObject.transform.position + Vector3.up* item.WorldObjectPrefab.gameObject.transform.localScale.y/2;
+		var pos = target.gameObject.transform.position + Vector3.up * item.WorldObjectPrefab.gameObject.transform.localScale.y / 2;
 		//if the item have a world object prefab set use that...
 		if (item.WorldObjectPrefab != null) {
 			var obj = Instantiate(item.WorldObjectPrefab, pos, new Quaternion(), target.transform);
+			obj.transform.localScale = new Vector3(
+				obj.transform.localScale.x / target.transform.localScale.x,
+				obj.transform.localScale.y / target.transform.localScale.y,
+				obj.transform.localScale.z / target.transform.localScale.z
+				);
 			obj.layer = LayerMask.NameToLayer("Interactable");
-			//obj.transform.position = pos;
-			//obj.transform.SetParent(target.transform, true);
-		} else {//...otherwise, we create a billboard using the item sprite
-			GameObject billboard = new GameObject("ItemBillboard");
-			billboard.transform.SetParent(transform, false);
-			billboard.transform.localPosition = Vector3.up * 0.3f;
-			billboard.layer = LayerMask.NameToLayer("Interactable");
+		} 
+		//else {//...otherwise, we create a billboard using the item sprite
+		//	GameObject billboard = new GameObject("ItemBillboard");
+		//	billboard.transform.SetParent(transform, false);
+		//	billboard.transform.localPosition = Vector3.up * 0.3f;
+		//	billboard.layer = LayerMask.NameToLayer("Interactable");
 
-			var renderer = billboard.AddComponent<SpriteRenderer>();
-			renderer.sharedMaterial = ResourceManager.Instance.BillboardMaterial;
-			renderer.sprite = item.ItemSprite;
+		//	var renderer = billboard.AddComponent<SpriteRenderer>();
+		//	renderer.sharedMaterial = ResourceManager.Instance.BillboardMaterial;
+		//	renderer.sprite = item.ItemSprite;
 
-			var rect = item.ItemSprite.rect;
-			float maxSize = rect.width > rect.height ? rect.width : rect.height;
-			float scale = item.ItemSprite.pixelsPerUnit / maxSize;
+		//	var rect = item.ItemSprite.rect;
+		//	float maxSize = rect.width > rect.height ? rect.width : rect.height;
+		//	float scale = item.ItemSprite.pixelsPerUnit / maxSize;
 
-			billboard.transform.localScale = scale * Vector3.one * 0.5f;
+		//	billboard.transform.localScale = scale * Vector3.one * 0.5f;
 
 
-			var bc = billboard.AddComponent<BoxCollider>();
-			bc.size = new Vector3(0.5f, 0.5f, 0.5f) * (1.0f / scale);
-		}
+		//	var bc = billboard.AddComponent<BoxCollider>();
+		//	bc.size = new Vector3(0.5f, 0.5f, 0.5f) * (1.0f / scale);
+		//}
 	}
 
 }

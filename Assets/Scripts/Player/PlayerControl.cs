@@ -15,7 +15,7 @@ public class PlayerControl : MonoBehaviour
 
     // navigation
     NavMeshAgent m_Agent;
-    NavMeshPath m_CalculatedPath;
+    //NavMeshPath m_CalculatedPath;
     bool MoveAcrossNavMeshesStarted = false;
 
     // Interactions
@@ -27,8 +27,8 @@ public class PlayerControl : MonoBehaviour
     public InventoryUI.DragData m_CurrentlyDragged = null;
 
     // CharacterData
-    public CharacterData Data => m_CharacterData;
-    CharacterData m_CharacterData;
+    [HideInInspector]
+    public CharacterData m_CharacterData;
 
     // Raycast
     RaycastHit[] m_RaycastHitCache = new RaycastHit[16];
@@ -52,7 +52,7 @@ public class PlayerControl : MonoBehaviour
 
         m_Agent = GetComponent<NavMeshAgent>();
 
-        m_CalculatedPath = new NavMeshPath();
+        //m_CalculatedPath = new NavMeshPath();
 
         m_InteractableLayer = 1 << LayerMask.NameToLayer("Interactable");
         m_TargetLayer = 1 << LayerMask.NameToLayer("Target");
@@ -102,11 +102,17 @@ public class PlayerControl : MonoBehaviour
                         // click on an interractable item ?
                        InteractableObject obj = m_Highlighted as InteractableObject;
                         if (obj) {
-                            InteractWith(obj);
-                        // click on player ?
+                            if (obj.GetComponentInChildren<Loot>())
+                                InteractWith(obj);
+                            else if (obj.GetComponentInChildren<Target>())
+                                InteractWith(obj);
+                          else if (obj.GetComponentInChildren<Activable>())
+                                Activate(obj as Activable);
+
+                            // click on player ?
                         } else {
                             CharacterData data = m_Highlighted as CharacterData;
-                            if (data != null) {
+                            if (data) {
                                 m_CurrentTargetCharacterData = data;
                             // or just move ?
                             } else {
@@ -119,12 +125,6 @@ public class PlayerControl : MonoBehaviour
                 }
             // if we are dragging an item
             } 
-            //else {
-            //    // if we try to drop it
-            //    if (Input.GetMouseButtonUp(0)) {
-            //        InventoryUI.Instance.DropItem(m_TargetInteractable, m_CurrentlyDragged);
-            //    }
-            //}
         }
 
         // control speed on NavMesh Links
@@ -149,16 +149,17 @@ public class PlayerControl : MonoBehaviour
                     break;
                 }
             }
-        } else {
-            count = Physics.SphereCastNonAlloc(screenRay, 1.0f, m_RaycastHitCache, 1000.0f, m_TargetLayer);
-            if (count > 0) {
-                CharacterData data = m_RaycastHitCache[0].collider.GetComponentInParent<CharacterData>();
-                if (data != null) {
-                    SwitchHighlightedObject(data);
-                    somethingFound = true;
-                }
-            }
-        }
+        } 
+        //else {
+        //    count = Physics.SphereCastNonAlloc(screenRay, 1.0f, m_RaycastHitCache, 1000.0f, m_TargetLayer);
+        //    if (count > 0) {
+        //        CharacterData data = m_RaycastHitCache[0].collider.GetComponentInParent<CharacterData>();
+        //        if (data != null) {
+        //            SwitchHighlightedObject(data);
+        //            somethingFound = true;
+        //        }
+        //    }
+        //}
 
         //second check for target (where to drop item)
         count = Physics.SphereCastNonAlloc(screenRay, 1.0f, m_RaycastHitCache, 1000.0f, m_TargetLayer);
@@ -206,10 +207,17 @@ public class PlayerControl : MonoBehaviour
         }
     */
     void SwitchHighlightedObject(HighlightableObject obj) {
-        if (m_Highlighted != null) m_Highlighted.Dehighlight();
-
+        if (m_Highlighted != null) {
+            var a = m_Highlighted as Activable;
+            if (!a || !a.IsActive)
+                m_Highlighted.Highlight(false);
+        }
         m_Highlighted = obj;
-        if (m_Highlighted != null) m_Highlighted.Highlight();
+        if (m_Highlighted) {
+            var a = m_Highlighted as Activable;
+            if (!a || !a.IsActive)
+                m_Highlighted.Highlight(true);
+        }    
     }
 
 
@@ -230,6 +238,15 @@ public class PlayerControl : MonoBehaviour
             m_TargetCollider = obj.GetComponentInChildren<Collider>();
             m_TargetInteractable = obj;
             m_Agent.SetDestination(obj.transform.position);
+        }
+    }
+    public void Activate(Activable obj) {
+        if (obj.IsInteractable) {
+            Debug.Log("Item activated");
+            m_TargetCollider = obj.GetComponentInChildren<Collider>();
+            m_TargetInteractable = obj;
+            if (obj.IsInteractable)
+                obj.Toggle();
         }
     }
 
