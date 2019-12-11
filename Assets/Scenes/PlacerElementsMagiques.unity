@@ -4569,6 +4569,7 @@ GameObject:
   - component: {fileID: 1326168103}
   - component: {fileID: 1326168102}
   - component: {fileID: 1326168101}
+  - component: {fileID: 1326168106}
   m_Layer: 8
   m_Name: Sphere d
   m_TagString: Untagged
@@ -4607,8 +4608,19 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1326168102}
+        - m_Target: {fileID: 1326168106}
           m_MethodName: Toggle
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 1326168106}
+          m_MethodName: AddAndActivate
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -4689,6 +4701,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1326168099}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1326168106
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1326168099}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c72d8ccbcb7c9c4384f99cc4a3d53da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  electricMaterial: {fileID: 2100000, guid: 539288f2427e98747ad5290e5390308d, type: 2}
 --- !u!224 &1365345787 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4024636409454239658, guid: e294e6f2cdc9b7e4a98c1da23090fc11,
@@ -6432,8 +6457,8 @@ GameObject:
   - component: {fileID: 2096692489}
   - component: {fileID: 2096692488}
   - component: {fileID: 2096692487}
-  - component: {fileID: 2096692492}
   - component: {fileID: 2096692491}
+  - component: {fileID: 2096692493}
   m_Layer: 8
   m_Name: Sphere E
   m_TagString: Untagged
@@ -6531,7 +6556,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 2096692492}
+        - m_Target: {fileID: 2096692493}
           m_MethodName: Toggle
           m_Mode: 1
           m_Arguments:
@@ -6542,7 +6567,18 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
---- !u!114 &2096692492
+        - m_Target: {fileID: 2096692493}
+          m_MethodName: AddAndActivate
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+--- !u!114 &2096692493
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -6551,9 +6587,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 2096692486}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2c7ba2e822fea3046bccb8d6345b56ce, type: 3}
+  m_Script: {fileID: 11500000, guid: 1c72d8ccbcb7c9c4384f99cc4a3d53da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  electricMaterial: {fileID: 2100000, guid: 539288f2427e98747ad5290e5390308d, type: 2}
 --- !u!1 &2104745279
 GameObject:
   m_ObjectHideFlags: 0
