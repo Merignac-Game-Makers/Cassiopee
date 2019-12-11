@@ -13,11 +13,13 @@ using UnityEngine.UI;
 public class BookUI: MonoBehaviour
 {
 
-	public GameObject InvPanel;
+	public GameObject BookPanel;
 	public GameObject openButton;
 	public GameObject closeButton;
+	public GameObject fullScreenButton;
 
 	public static BookUI Instance;
+	bool isFullScreen = false;
 
 	public bool isOpen => IsOpen();
 
@@ -27,7 +29,8 @@ public class BookUI: MonoBehaviour
 	}
 
 	private void Start() {
-		InvPanel.SetActive(false);
+		BookPanel.SetActive(false);
+		fullScreenButton.SetActive(false);
 		closeButton.SetActive(false);
 		openButton.SetActive(true);
 	}
@@ -42,11 +45,26 @@ public class BookUI: MonoBehaviour
 	}
 
 	public void Toggle() {
-		InvPanel.SetActive(!InvPanel.activeInHierarchy);
-		closeButton.SetActive(InvPanel.activeInHierarchy);
+		BookPanel.SetActive(closeButton.activeInHierarchy && isFullScreen);
+		fullScreenButton.SetActive(!fullScreenButton.activeInHierarchy);
+		closeButton.SetActive(fullScreenButton.activeInHierarchy);
 		openButton.SetActive(!closeButton.activeInHierarchy);
+		InventoryUI.Instance.Show(!BookPanel.activeInHierarchy);
 	}
 
+	public void Show(bool on) {
+		gameObject.SetActive(on);
+	}
+
+	public void ToggleFullScreen() {
+		isFullScreen = !isFullScreen;
+		BookPanel.SetActive(isFullScreen);
+		InventoryUI.Instance.Show(!BookPanel.activeInHierarchy);
+	}
+
+	public void TurnPage(int i) {
+
+	}
 
 	bool IsOpen() {
 		return closeButton.activeInHierarchy;

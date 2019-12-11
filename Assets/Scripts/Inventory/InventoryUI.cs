@@ -89,6 +89,11 @@ public class InventoryUI : MonoBehaviour
 		InvPanel.SetActive(!InvPanel.activeInHierarchy);
 		closeButton.SetActive(InvPanel.activeInHierarchy);
 		openButton.SetActive(!closeButton.activeInHierarchy);
+		BookUI.Instance.Show(!InvPanel.activeInHierarchy);
+	}
+
+	public void Show(bool on) {
+			gameObject.SetActive(on);
 	}
 
 	public void Load(HighlightableObject item) {

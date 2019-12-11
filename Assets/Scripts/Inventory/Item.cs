@@ -32,20 +32,16 @@ public abstract class Item : ScriptableObject
 #if UNITY_EDITOR
 public class ItemEditor
 {
-	SerializedObject m_Target;
-
 	SerializedProperty m_NameProperty;
 	SerializedProperty m_IconProperty;
 	SerializedProperty m_DescriptionProperty;
 	SerializedProperty m_WorldObjectPrefabProperty;
 
 	public void Init(SerializedObject target) {
-		m_Target = target;
-
-		m_NameProperty = m_Target.FindProperty(nameof(Item.ItemName));
-		m_IconProperty = m_Target.FindProperty(nameof(Item.ItemSprite));
-		m_DescriptionProperty = m_Target.FindProperty(nameof(Item.Description));
-		m_WorldObjectPrefabProperty = m_Target.FindProperty(nameof(Item.WorldObjectPrefab));
+		m_NameProperty = target.FindProperty(nameof(Item.ItemName));
+		m_IconProperty = target.FindProperty(nameof(Item.ItemSprite));
+		m_DescriptionProperty = target.FindProperty(nameof(Item.Description));
+		m_WorldObjectPrefabProperty = target.FindProperty(nameof(Item.WorldObjectPrefab));
 	}
 
 	public void GUI() {
