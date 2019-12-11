@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a948409defe1da4cb7e439372106d60, type: 3}
   m_Name: Page03
   m_EditorClassIdentifier: 
-  Title: 
+  Title: Page 3
   Picture: {fileID: 0}
-  Text: 
+  Text: Et voici la page 3
