@@ -13,26 +13,37 @@ using UnityEngine.UI;
 public class BookUI: MonoBehaviour
 {
 
-	public GameObject BookPanel;
+	public GameObject FullScreenPanel;
 	public GameObject openButton;
 	public GameObject closeButton;
 	public GameObject fullScreenButton;
+
+	public GameObject m_Title;
+	public GameObject m_Text;
+	public GameObject m_Picture;
+
+	[HideInInspector]
+	public BookSystem bookSystem;
 
 	public static BookUI Instance;
 	bool isFullScreen = false;
 
 	public bool isOpen => IsOpen();
-
+	[HideInInspector]
+	public int currentPage = 0;
 
 	private void Awake() {
 		Instance = this;
 	}
 
 	private void Start() {
-		BookPanel.SetActive(false);
+		FullScreenPanel.SetActive(false);
 		fullScreenButton.SetActive(false);
 		closeButton.SetActive(false);
 		openButton.SetActive(true);
+
+		bookSystem = GetComponent<BookSystem>();
+		ShowPage(0);
 	}
 
 	void OnEnable() {
@@ -45,11 +56,11 @@ public class BookUI: MonoBehaviour
 	}
 
 	public void Toggle() {
-		BookPanel.SetActive(closeButton.activeInHierarchy && isFullScreen);
 		fullScreenButton.SetActive(!fullScreenButton.activeInHierarchy);
 		closeButton.SetActive(fullScreenButton.activeInHierarchy);
+		FullScreenPanel.SetActive(closeButton.activeInHierarchy && isFullScreen);
 		openButton.SetActive(!closeButton.activeInHierarchy);
-		InventoryUI.Instance.Show(!BookPanel.activeInHierarchy);
+		InventoryUI.Instance.Show(!FullScreenPanel.activeInHierarchy);
 	}
 
 	public void Show(bool on) {
@@ -58,11 +69,20 @@ public class BookUI: MonoBehaviour
 
 	public void ToggleFullScreen() {
 		isFullScreen = !isFullScreen;
-		BookPanel.SetActive(isFullScreen);
-		InventoryUI.Instance.Show(!BookPanel.activeInHierarchy);
+		FullScreenPanel.SetActive(isFullScreen);
+		InventoryUI.Instance.Show(!FullScreenPanel.activeInHierarchy);
 	}
 
-	public void TurnPage(int i) {
+
+	void ShowPage(int num) {
+		if (num < bookSystem.MaxPage) {
+			m_Title.GetComponent<Text>().text = bookSystem.pages[num].Title;
+			m_Text.GetComponent<Text>().text = bookSystem.pages[num].Text;
+			m_Picture.GetComponent<Image>().sprite = bookSystem.pages[num].Picture;
+		}
+	}
+
+	public void NextPage() {
 
 	}
 

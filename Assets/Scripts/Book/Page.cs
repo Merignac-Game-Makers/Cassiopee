@@ -33,6 +33,8 @@ public class PageEditor : Editor
 		m_Page = target as Page;
 	}
 	public override void OnInspectorGUI() {
+		EditorStyles.textField.wordWrap = true;
+
 		serializedObject.Update();
 		EditorGUILayout.PropertyField(m_TitleProperty);
 		EditorGUILayout.PropertyField(m_PictureProperty);
