@@ -9,10 +9,7 @@ public class BookSystem : MonoBehaviour
 	public Page[] pages;
 
 	[HideInInspector]
-	public int MaxPage;
-	private void Start() {
-		MaxPage = pages.Length;
-	}
+	public int MaxPage => pages.Length;
 
 
 	public Page GetNextPage(BookUI ui) {
@@ -24,4 +21,12 @@ public class BookSystem : MonoBehaviour
 		}
 	}
 
+	public Page GetPrevPage(BookUI ui) {
+		if (ui.currentPage > 0) {
+			ui.currentPage--;
+			return pages[ui.currentPage];
+		} else {
+			return null;
+		}
+	}
 }
