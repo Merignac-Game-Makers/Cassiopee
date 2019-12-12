@@ -10,7 +10,7 @@ using UnityEngine.UI;
 /// <summary>
 /// Handle all the UI code related to the inventory (drag'n'drop of object, using objects, equipping object etc.)
 /// </summary>
-public class BookUI: MonoBehaviour
+public class BookUI : MonoBehaviour
 {
 
 	public GameObject FullScreenPanel;
@@ -21,6 +21,9 @@ public class BookUI: MonoBehaviour
 	public GameObject m_Title;
 	public GameObject m_Text;
 	public GameObject m_Picture;
+
+	public GameObject m_NextPage;
+	public GameObject m_PrevPage;
 
 	[HideInInspector]
 	public BookSystem bookSystem;
@@ -43,7 +46,7 @@ public class BookUI: MonoBehaviour
 		openButton.SetActive(true);
 
 		bookSystem = GetComponent<BookSystem>();
-		ShowPage(0);
+		ShowPage();
 	}
 
 	void OnEnable() {
@@ -53,6 +56,9 @@ public class BookUI: MonoBehaviour
 		//Keyboard shortcut
 		if (Input.GetKeyUp(KeyCode.B))
 			Toggle();
+
+		m_NextPage.SetActive(currentPage < bookSystem.MaxPage-1);
+		m_PrevPage.SetActive(currentPage > 0);
 	}
 
 	public void Toggle() {
@@ -74,16 +80,20 @@ public class BookUI: MonoBehaviour
 	}
 
 
-	void ShowPage(int num) {
-		if (num < bookSystem.MaxPage) {
-			m_Title.GetComponent<Text>().text = bookSystem.pages[num].Title;
-			m_Text.GetComponent<Text>().text = bookSystem.pages[num].Text;
-			m_Picture.GetComponent<Image>().sprite = bookSystem.pages[num].Picture;
-		}
+	void ShowPage() {
+		m_Title.GetComponent<Text>().text = bookSystem.pages[currentPage].Title;
+		m_Text.GetComponent<Text>().text = bookSystem.pages[currentPage].Text;
+		m_Picture.GetComponent<Image>().sprite = bookSystem.pages[currentPage].Picture;
 	}
 
 	public void NextPage() {
+		if (bookSystem.GetNextPage(this))
+			ShowPage();
+	}
 
+	public void PrevPage() {
+		if (bookSystem.GetPrevPage(this))
+			ShowPage();
 	}
 
 	bool IsOpen() {

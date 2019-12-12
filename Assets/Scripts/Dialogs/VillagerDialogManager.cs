@@ -1,10 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class VillagerDialogManager : MonoBehaviour
 {
-    public DialogManager npcDialogManager;
     public string dialogText;
 
     // Start is called before the first frame update
@@ -21,10 +21,12 @@ public class VillagerDialogManager : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
-        {
-            Debug.Log("Collision !");
-            npcDialogManager.DisplayText(dialogText);
+        // if pointer is NOT over UI
+        if (!EventSystem.current.IsPointerOverGameObject()) {
+            if (collision.gameObject.CompareTag("Player")) {
+                Debug.Log("Collision !");
+                DialogManager.Instance.DisplayText(dialogText);
+            }
         }
     }
 }

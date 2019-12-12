@@ -250,7 +250,7 @@ public class PlayerControl : MonoBehaviour
         }
     }
 
-    void StopAgent() {
+    public void StopAgent() {
         m_Agent.ResetPath();
         m_Agent.velocity = Vector3.zero;
     }
