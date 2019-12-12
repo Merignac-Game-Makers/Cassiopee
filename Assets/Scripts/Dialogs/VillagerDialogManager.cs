@@ -5,7 +5,6 @@ using UnityEngine.EventSystems;
 
 public class VillagerDialogManager : MonoBehaviour
 {
-    public DialogManager npcDialogManager;
     public string dialogText;
 
     // Start is called before the first frame update
@@ -26,7 +25,7 @@ public class VillagerDialogManager : MonoBehaviour
         if (!EventSystem.current.IsPointerOverGameObject()) {
             if (collision.gameObject.CompareTag("Player")) {
                 Debug.Log("Collision !");
-                npcDialogManager.DisplayText(dialogText);
+                DialogManager.Instance.DisplayText(dialogText);
             }
         }
     }

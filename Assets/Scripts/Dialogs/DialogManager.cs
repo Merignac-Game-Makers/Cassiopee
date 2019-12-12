@@ -11,6 +11,12 @@ public class DialogManager : MonoBehaviour
     public GameObject panel;
     public Text dialogText;
 
+    public static DialogManager Instance;
+
+    private void Awake() {
+        Instance = this;
+    }
+
     void Start()
     {
         panel.SetActive(state);

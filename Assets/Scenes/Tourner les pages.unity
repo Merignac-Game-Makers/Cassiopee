@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1310,7 +1310,7 @@ PrefabInstance:
         type: 3}
       propertyPath: npcDialogManager
       value: 
-      objectReference: {fileID: 1742635645}
+      objectReference: {fileID: 0}
     - target: {fileID: 7461447850348518340, guid: 8efebf9b3e0ae0e459b01d5dfae9a335,
         type: 3}
       propertyPath: dialogText
@@ -4027,7 +4027,7 @@ PrefabInstance:
         type: 3}
       propertyPath: npcDialogManager
       value: 
-      objectReference: {fileID: 1742635645}
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8efebf9b3e0ae0e459b01d5dfae9a335, type: 3}
 --- !u!4 &1188234531 stripped
@@ -4782,7 +4782,7 @@ PrefabInstance:
         type: 3}
       propertyPath: npcDialogManager
       value: 
-      objectReference: {fileID: 1742635645}
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8efebf9b3e0ae0e459b01d5dfae9a335, type: 3}
 --- !u!4 &1564428832 stripped
@@ -5150,137 +5150,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e294e6f2cdc9b7e4a98c1da23090fc11, type: 3}
---- !u!1001 &1742635644
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 6863632964247756701, guid: e0773897260782b4a988e018797f43c4,
-        type: 3}
-      propertyPath: m_Name
-      value: Dialog
-      objectReference: {fileID: 0}
-    - target: {fileID: 6863632964247756673, guid: e0773897260782b4a988e018797f43c4,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6863632964247756673, guid: e0773897260782b4a988e018797f43c4,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6863632964247756673, guid: e0773897260782b4a988e018797f43c4,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6863632964247756673, guid: e0773897260782b4a988e018797f43c4,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6863632964247756673, guid: e0773897260782b4a988e018797f43c4,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6863632964247756673, guid: e0773897260782b4a988e018797f43c4,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6863632964247756673, guid: e0773897260782b4a988e018797f43c4,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6863632964247756673, guid: e0773897260782b4a988e018797f43c4,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 11
-      objectReference: {fileID: 0}
-    - target: {fileID: 6863632964247756673, guid: e0773897260782b4a988e018797f43c4,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6863632964247756673, guid: e0773897260782b4a988e018797f43c4,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6863632964247756673, guid: e0773897260782b4a988e018797f43c4,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6863632964247756673, guid: e0773897260782b4a988e018797f43c4,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6863632964247756673, guid: e0773897260782b4a988e018797f43c4,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6863632964247756673, guid: e0773897260782b4a988e018797f43c4,
-        type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6863632964247756673, guid: e0773897260782b4a988e018797f43c4,
-        type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6863632964247756673, guid: e0773897260782b4a988e018797f43c4,
-        type: 3}
-      propertyPath: m_AnchorMin.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6863632964247756673, guid: e0773897260782b4a988e018797f43c4,
-        type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6863632964247756673, guid: e0773897260782b4a988e018797f43c4,
-        type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6863632964247756673, guid: e0773897260782b4a988e018797f43c4,
-        type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6863632964247756673, guid: e0773897260782b4a988e018797f43c4,
-        type: 3}
-      propertyPath: m_Pivot.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6863632964247756673, guid: e0773897260782b4a988e018797f43c4,
-        type: 3}
-      propertyPath: m_Pivot.y
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: e0773897260782b4a988e018797f43c4, type: 3}
---- !u!114 &1742635645 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1513702238, guid: e0773897260782b4a988e018797f43c4,
-    type: 3}
-  m_PrefabInstance: {fileID: 1742635644}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 23116ea44c52a2a429bbfd12ca0675e5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1743908673
 GameObject:
   m_ObjectHideFlags: 0
@@ -5607,7 +5476,7 @@ PrefabInstance:
         type: 3}
       propertyPath: npcDialogManager
       value: 
-      objectReference: {fileID: 1742635645}
+      objectReference: {fileID: 0}
     - target: {fileID: 7461447850348518340, guid: 8efebf9b3e0ae0e459b01d5dfae9a335,
         type: 3}
       propertyPath: dialogText
