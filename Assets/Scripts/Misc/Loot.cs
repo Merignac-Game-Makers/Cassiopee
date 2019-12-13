@@ -101,8 +101,6 @@ public class Loot : InteractableObject
 	}
 
 	void CreateWorldRepresentation() {
-		//remove helper mesh
-		//gameObject.GetComponentInChildren<MeshFilter>().mesh = null;
 		//if the item have a world object prefab set use that...
 		if (Item.WorldObjectPrefab != null) {
 			var obj = Instantiate(Item.WorldObjectPrefab, transform, false);
