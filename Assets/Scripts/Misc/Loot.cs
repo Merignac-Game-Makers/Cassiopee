@@ -37,11 +37,11 @@ public class Loot : InteractableObject
 	protected override void Start() {
 		base.Start();
 		m_inventoryUI = InventoryUI.Instance;
-		//CreateWorldRepresentation();
 	}
 
 
 	void Update() {
+		// animation de mise en place
 		if (m_AnimationTimer < AnimationTime) {
 			m_AnimationTimer += Time.deltaTime;
 
@@ -52,9 +52,10 @@ public class Loot : InteractableObject
 
 			transform.position = currentPos;
 
-			if (m_AnimationTimer >= AnimationTime) {
-				LootUI.Instance.NewLoot(this);
-			}
+			// ajouter 1 étiquette
+			//if (m_AnimationTimer >= AnimationTime) {
+			//	LootUI.Instance.NewLoot(this);
+			//}
 		}
 
 		Debug.DrawLine(m_TargetPoint, m_TargetPoint + new Vector3(0, 2, 0), Color.magenta);
@@ -62,7 +63,7 @@ public class Loot : InteractableObject
 
 	public override void InteractWith(HighlightableObject target) {
 		InventorySystem.Instance.AddItem(Item);
-		//SFXManager.PlaySound(SFXManager.Use.Sound2D, new SFXManager.PlayData(){Clip = SFXManager.PickupSound});
+		SFXManager.PlaySound(SFXManager.Use.Sound2D, new SFXManager.PlayData(){Clip = SFXManager.PickupSound});
 
 		m_inventoryUI.Load(target);
 		Destroy(gameObject);
@@ -73,58 +74,58 @@ public class Loot : InteractableObject
 	/// This is rarely called manually, and mostly called by the LootSpawner class.
 	/// </summary>
 	/// <param name="position"></param>
-	public void Spawn(Vector3 position) {
-		m_OriginalPosition = position;
-		transform.position = position;
+	//public void Spawn(Vector3 position) {
+	//	m_OriginalPosition = position;
+	//	transform.position = position;
 
-		Vector3 targetPos;
-		if (!RandomPoint(transform.position, 2.0f, out targetPos))
-			targetPos = transform.position;
+	//	Vector3 targetPos;
+	//	if (!RandomPoint(transform.position, 2.0f, out targetPos))
+	//		targetPos = transform.position;
 
-		m_TargetPoint = targetPos;
-		m_AnimationTimer = 0.0f;
+	//	m_TargetPoint = targetPos;
+	//	m_AnimationTimer = 0.0f;
 
-		gameObject.layer = LayerMask.NameToLayer("Interactable");
-	}
+	//	gameObject.layer = LayerMask.NameToLayer("Interactable");
+	//}
 
-	bool RandomPoint(Vector3 center, float range, out Vector3 result) {
-		for (int i = 0; i < 30; i++) {
-			Vector3 randomPoint = center + Random.insideUnitSphere * range;
-			NavMeshHit hit;
-			if (NavMesh.SamplePosition(randomPoint, out hit, 1.0f, NavMesh.AllAreas)) {
-				result = hit.position;
-				return true;
-			}
-		}
-		result = Vector3.zero;
-		return false;
-	}
+	//bool RandomPoint(Vector3 center, float range, out Vector3 result) {
+	//	for (int i = 0; i < 30; i++) {
+	//		Vector3 randomPoint = center + Random.insideUnitSphere * range;
+	//		NavMeshHit hit;
+	//		if (NavMesh.SamplePosition(randomPoint, out hit, 1.0f, NavMesh.AllAreas)) {
+	//			result = hit.position;
+	//			return true;
+	//		}
+	//	}
+	//	result = Vector3.zero;
+	//	return false;
+	//}
 
-	void CreateWorldRepresentation() {
-		//if the item have a world object prefab set use that...
-		if (Item.WorldObjectPrefab != null) {
-			var obj = Instantiate(Item.WorldObjectPrefab, transform, false);
-			obj.transform.localPosition = Vector3.zero;
-			obj.layer = LayerMask.NameToLayer("Interactable");
-		} else {//...otherwise, we create a billboard using the item sprite
-			GameObject billboard = new GameObject("ItemBillboard");
-			billboard.transform.SetParent(transform, false);
-			billboard.transform.localPosition = Vector3.up * 0.3f;
-			billboard.layer = LayerMask.NameToLayer("Interactable");
+	//void CreateWorldRepresentation() {
+	//	//if the item have a world object prefab set use that...
+	//	if (Item.WorldObjectPrefab != null) {
+	//		var obj = Instantiate(Item.WorldObjectPrefab, transform, false);
+	//		obj.transform.localPosition = Vector3.zero;
+	//		obj.layer = LayerMask.NameToLayer("Interactable");
+	//	} else {//...otherwise, we create a billboard using the item sprite
+	//		GameObject billboard = new GameObject("ItemBillboard");
+	//		billboard.transform.SetParent(transform, false);
+	//		billboard.transform.localPosition = Vector3.up * 0.3f;
+	//		billboard.layer = LayerMask.NameToLayer("Interactable");
 
-			var renderer = billboard.AddComponent<SpriteRenderer>();
-			renderer.sharedMaterial = ResourceManager.Instance.BillboardMaterial;
-			renderer.sprite = Item.ItemSprite;
+	//		var renderer = billboard.AddComponent<SpriteRenderer>();
+	//		renderer.sharedMaterial = ResourceManager.Instance.BillboardMaterial;
+	//		renderer.sprite = Item.ItemSprite;
 
-			var rect = Item.ItemSprite.rect;
-			float maxSize = rect.width > rect.height ? rect.width : rect.height;
-			float scale = Item.ItemSprite.pixelsPerUnit / maxSize;
+	//		var rect = Item.ItemSprite.rect;
+	//		float maxSize = rect.width > rect.height ? rect.width : rect.height;
+	//		float scale = Item.ItemSprite.pixelsPerUnit / maxSize;
 
-			billboard.transform.localScale = scale * Vector3.one * 0.5f;
+	//		billboard.transform.localScale = scale * Vector3.one * 0.5f;
 
 
-			var bc = billboard.AddComponent<BoxCollider>();
-			bc.size = new Vector3(0.5f, 0.5f, 0.5f) * (1.0f / scale);
-		}
-	}
+	//		var bc = billboard.AddComponent<BoxCollider>();
+	//		bc.size = new Vector3(0.5f, 0.5f, 0.5f) * (1.0f / scale);
+	//	}
+	//}
 }

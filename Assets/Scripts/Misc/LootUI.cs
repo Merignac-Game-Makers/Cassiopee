@@ -48,6 +48,7 @@ public class LootUI : MonoBehaviour
 		}
 	}
 
+	// ajouter 1 étiquette à l'objet
 	public void NewLoot(Loot loot) {
 		Vector3 screenPos;
 		if (OnScreen(loot.transform.position, out screenPos)) {

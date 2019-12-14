@@ -136,7 +136,7 @@ public class PlayerControl : MonoBehaviour
 		bool somethingFound = false;
 
 		//first check for interactable Object
-		int count = Physics.SphereCastNonAlloc(screenRay, 1.0f, m_RaycastHitCache, 1000.0f, m_InteractableLayer);
+		int count = Physics.SphereCastNonAlloc(screenRay, .2f, m_RaycastHitCache, 1000.0f, m_InteractableLayer);
 		if (count > 0) {
 			for (int i = 0; i < count; ++i) {
 				InteractableObject obj = m_RaycastHitCache[0].collider.GetComponentInParent<InteractableObject>();
