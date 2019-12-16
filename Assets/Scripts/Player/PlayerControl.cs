@@ -6,6 +6,8 @@ using UnityEngine.EventSystems;
 public class PlayerControl : MonoBehaviour
 {
 
+	float defaultInteractionDistance = 1.5f;
+
 	InventoryUI m_InventoryUI;
 
 	public static PlayerControl Instance { get; protected set; }
@@ -178,6 +180,7 @@ public class PlayerControl : MonoBehaviour
 
 	private void OnTriggerEnter(Collider other) {
 		m_TargetInteractable = other.gameObject.GetComponent<InteractableObject>();
+		if (m_TargetInteractable!=null && !m_TargetInteractable.IsInteractable) m_TargetInteractable = null;
 		if (m_TargetInteractable != null)
 			m_TargetCollider = m_TargetInteractable.GetComponentInChildren<Collider>();
 	}
@@ -222,8 +225,7 @@ public class PlayerControl : MonoBehaviour
 
 		Vector3 distance = m_TargetCollider.ClosestPointOnBounds(transform.position) - transform.position;
 
-
-		if ((m_TargetInteractable.OnTheFly || m_TargetInteractable.Clicked) && distance.sqrMagnitude < 1.5f * 1.5f) {
+		if ((m_TargetInteractable.m_Mode!=InteractableObject.mode.onClick || m_TargetInteractable.Clicked) && distance.sqrMagnitude < defaultInteractionDistance * defaultInteractionDistance) {
 			//StopAgent();
 			m_TargetInteractable.InteractWith(m_CharacterData);
 			m_TargetInteractable = null;

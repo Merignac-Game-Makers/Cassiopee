@@ -13,7 +13,7 @@ public class DialogSystem : InteractableObject
 
 
 
-	private void Start() {
+	protected override void Start() {
 		base.Start();
 		m_DialogUI = DialogUI.Instance;
 	}
@@ -28,6 +28,8 @@ public class DialogSystem : InteractableObject
 
 	public override void InteractWith(HighlightableObject target) {
 		Clicked = false;
+		if (m_Mode == mode.onTheFlyOnce)
+			m_Mode = mode.onClick;
 		m_DialogUI.DisplayText(DialogText);
 		//throw new System.NotImplementedException();
 	}

@@ -17,6 +17,7 @@ public class BookUI : MonoBehaviour
 	public GameObject openButton;
 	public GameObject closeButton;
 	public GameObject fullScreenButton;
+	public GameObject sidePanel;
 
 	public GameObject m_Title;
 	public GameObject m_Text;
@@ -39,11 +40,23 @@ public class BookUI : MonoBehaviour
 		Instance = this;
 	}
 
-	private void Start() {
+	//private void Start() {
+	//	FullScreenPanel.SetActive(false);
+	//	fullScreenButton.SetActive(false);
+	//	closeButton.SetActive(false);
+	//	openButton.SetActive(true);
+	//	sidePanel.SetActive(false);
+
+	//	bookSystem = GetComponent<BookSystem>();
+	//	ShowPage();
+	//}
+
+	public void Init() {
 		FullScreenPanel.SetActive(false);
 		fullScreenButton.SetActive(false);
 		closeButton.SetActive(false);
 		openButton.SetActive(true);
+		sidePanel.SetActive(false);
 
 		bookSystem = GetComponent<BookSystem>();
 		ShowPage();
@@ -63,6 +76,7 @@ public class BookUI : MonoBehaviour
 
 	public void Toggle() {
 		fullScreenButton.SetActive(!fullScreenButton.activeInHierarchy);
+		sidePanel.SetActive(fullScreenButton.activeInHierarchy);
 		closeButton.SetActive(fullScreenButton.activeInHierarchy);
 		FullScreenPanel.SetActive(closeButton.activeInHierarchy && isFullScreen);
 		openButton.SetActive(!closeButton.activeInHierarchy);

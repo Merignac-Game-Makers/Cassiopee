@@ -16,11 +16,10 @@ public class DialogUI : MonoBehaviour
 	}
 
 	// Start is called before the first frame update
-	void Start() {
-		//panel = gameObject.GetComponentInChildren<Image>().gameObject;
+	public void Init() {
 		panel.SetActive(false);
-		//dialogText = gameObject.GetComponentInChildren<Text>();
 	}
+
 	// Update is called once per frame
 	void Update() {
 		if (isActive && Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject()) {
