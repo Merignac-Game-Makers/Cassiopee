@@ -48,6 +48,7 @@ public class LootUI : MonoBehaviour
 		}
 	}
 
+	// ajouter 1 étiquette à l'objet
 	public void NewLoot(Loot loot) {
 		Vector3 screenPos;
 		if (OnScreen(loot.transform.position, out screenPos)) {
@@ -73,6 +74,9 @@ public class LootUI : MonoBehaviour
 		m_OnScreenLoot.Add(dl);
 	}
 
+	/// <summary>
+	/// l'objet est-il affiché à l'écran ?
+	/// </summary>
 	bool OnScreen(Vector3 position, out Vector3 screenPosition) {
 		screenPosition = Camera.main.WorldToScreenPoint(position);
 		return (screenPosition.x >= 0 && screenPosition.y >= 0 && screenPosition.x <= Screen.width && screenPosition.y <= Screen.height);

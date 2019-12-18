@@ -197,7 +197,6 @@ GameObject:
   - component: {fileID: 5501873739996842800}
   - component: {fileID: 5501873739996842801}
   - component: {fileID: 5501873739996842766}
-  - component: {fileID: 7461447850348518340}
   - component: {fileID: 6629927487269398302}
   m_Layer: 0
   m_Name: Villager
@@ -283,20 +282,6 @@ CapsuleCollider:
   m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &7461447850348518340
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5501873739996842767}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 76c9364fb01e67c4ab05988f5d47c44a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  npcDialogManager: {fileID: 0}
-  dialogText: Coucou Yacine !
 --- !u!208 &6629927487269398302
 NavMeshObstacle:
   m_ObjectHideFlags: 0
