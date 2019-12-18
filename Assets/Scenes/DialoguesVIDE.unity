@@ -3371,6 +3371,16 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: -20
       objectReference: {fileID: 0}
+    - target: {fileID: 3421413478304148529, guid: ea1e865023c77f449a04abdd0d6c235d,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 759336552}
+    - target: {fileID: 3421413478304148529, guid: ea1e865023c77f449a04abdd0d6c235d,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Next
+      objectReference: {fileID: 0}
     - target: {fileID: 3421413477467350637, guid: ea1e865023c77f449a04abdd0d6c235d,
         type: 3}
       propertyPath: m_fontAsset
@@ -4501,7 +4511,7 @@ Camera:
     height: 1
   near clip plane: 0.1
   far clip plane: 5000
-  field of view: 40
+  field of view: 45
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -4526,8 +4536,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: 0.071377404, y: 0.7950416, z: -0.095417395, w: 0.59473497}
-  m_LocalPosition: {x: -41.329, y: -2.56, z: -7.4494686}
+  m_LocalRotation: {x: 0.05999987, y: -0.84432876, z: 0.09675445, w: 0.523591}
+  m_LocalPosition: {x: -6.380001, y: 2.56, z: 8.92}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1093710607}
