@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -34,11 +35,17 @@ public class PageEditor : Editor
 	}
 	public override void OnInspectorGUI() {
 		EditorStyles.textField.wordWrap = true;
+		//var layoutOptions = new List<GUILayoutOption>();
+		//layoutOptions.Add(GUILayout.TextArea(new Rect(10, 10, 200, 100), "strin"));
 
 		serializedObject.Update();
 		EditorGUILayout.PropertyField(m_TitleProperty);
 		EditorGUILayout.PropertyField(m_PictureProperty);
-		EditorGUILayout.PropertyField(m_TextProperty, GUILayout.MinHeight(128));
+
+		//EditorGUILayout.PropertyField(m_TextProperty, GUILayout.MinHeight(128));
+		m_TextProperty.stringValue = GUILayout.TextArea(m_TextProperty.stringValue, GUILayout.MinHeight(128));
+		
+		//m_TextProperty.stringValue.Replace("\\n", "\n");
 		serializedObject.ApplyModifiedProperties();
 	}
 }

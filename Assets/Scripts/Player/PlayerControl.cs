@@ -16,7 +16,8 @@ public class PlayerControl : MonoBehaviour
 	Camera m_MainCamera;
 
 	// navigation
-	NavMeshAgent m_Agent;
+	[HideInInspector]
+	public NavMeshAgent m_Agent;
 	//NavMeshPath m_CalculatedPath;
 	bool MoveAcrossNavMeshesStarted = false;
 

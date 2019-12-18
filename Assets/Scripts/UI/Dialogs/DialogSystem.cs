@@ -5,8 +5,9 @@ using UnityEngine.EventSystems;
 
 public class DialogSystem : InteractableObject
 {
-
+	public string nameText;
 	public string DialogText;
+
 	DialogUI m_DialogUI;
 
 	public override bool IsInteractable => DialogText!="";
@@ -30,7 +31,7 @@ public class DialogSystem : InteractableObject
 		Clicked = false;
 		if (m_Mode == mode.onTheFlyOnce)
 			m_Mode = mode.onClick;
-		m_DialogUI.DisplayText(DialogText);
+		m_DialogUI.DisplayText(nameText, DialogText);
 		//throw new System.NotImplementedException();
 	}
 }

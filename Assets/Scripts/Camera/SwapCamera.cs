@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
+using UnityEngine.EventSystems;
 
 public class SwapCamera : MonoBehaviour
 {
@@ -13,6 +14,10 @@ public class SwapCamera : MonoBehaviour
     CinemachineVirtualCamera localCam;      // la caméra à activer pour la zone
     Collider m_Collider;                    // la zone à surveiller
     GameObject player;                      // l'objet à surveiller
+
+
+    bool isInside = false;
+    CinemachineVirtualCamera cam;
 
     // Start is called before the first frame update
     void Start()
@@ -27,16 +32,25 @@ public class SwapCamera : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // récupérer la caméra active
-        var cam = cinemachineBrain.ActiveVirtualCamera as CinemachineVirtualCamera;
-        if (cam != localCam) mainCam = cam;
-        /// /!\ le collider doit être désactivé pour permettre de naviguer vers l'intérieur de la zone
-        /// cela impose de le réactiver à chaque frame, contrôler la présence du player dans le collider, puis désactiver le collider pour autoriser la navigation
-        m_Collider.enabled = true;
-        // si le player est dans la zone => activer la caméra locale et désactiver la caméra principale
-        localCam.gameObject.SetActive(m_Collider.bounds.Contains(player.transform.position));       
-        mainCam?.gameObject.SetActive(!localCam.gameObject.activeInHierarchy);
-        // réactiver le collider our autoriser la navigation
-        m_Collider.enabled = false;
+        isInside = m_Collider.bounds.Contains(player.transform.position);
+
+        if (isInside) {
+            // récupérer la caméra active
+            cam = cinemachineBrain.ActiveVirtualCamera as CinemachineVirtualCamera;
+            if (cam != localCam) mainCam = cam;
+            localCam.gameObject.SetActive(true);
+            mainCam?.gameObject.SetActive(false);
+        } else if (cam == localCam) {
+            localCam.gameObject.SetActive(false);
+            mainCam?.gameObject.SetActive(true);
+        }
+
+      // si le player est dans la zone => activer la caméra locale et désactiver la caméra principale
+        //localCam.gameObject.SetActive(m_Collider.bounds.Contains(player.transform.position));
+        //mainCam?.gameObject.SetActive(!localCam.gameObject.activeInHierarchy);
+    }
+
+    private void OnCollisionEnter(Collision collision) {
+        PlayerControl.Instance.m_Agent.destination = gameObject.transform.position;
     }
 }

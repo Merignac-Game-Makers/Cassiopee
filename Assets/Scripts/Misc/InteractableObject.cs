@@ -25,17 +25,17 @@ public abstract class InteractableObject : HighlightableObject
 	public abstract void InteractWith(HighlightableObject target);
 }
 
-#if UNITY_EDITOR
-[CustomEditor(typeof(SFXManager))]
-public class InteractableObjectEditor : Editor
-{
-	SerializedProperty m_Mode;
+//#if UNITY_EDITOR
+//[CustomEditor(typeof(SFXManager))]
+//public class InteractableObjectEditor : Editor
+//{
+//	SerializedProperty m_Mode;
 
-	void OnEnable() {
-		m_Mode = serializedObject.FindProperty("m_Mode");
+//	void OnEnable() {
+//		m_Mode = serializedObject.FindProperty("m_Mode");
 
-		int mode = Enum.GetValues(typeof(InteractableObject.mode)).Length;
-		serializedObject.ApplyModifiedProperties();
-	}
-}
-#endif
+//		int mode = Enum.GetValues(typeof(InteractableObject.mode)).Length;
+//		serializedObject.ApplyModifiedProperties();
+//	}
+//}
+//#endif

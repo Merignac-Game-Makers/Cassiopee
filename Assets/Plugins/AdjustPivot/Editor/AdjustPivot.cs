@@ -30,7 +30,7 @@ public class AdjustPivot : EditorWindow
 
 	private Vector2 scrollPos = Vector2.zero;
 
-	[MenuItem( "Window/Adjust Pivot" )]
+	[MenuItem( "Tools/Adjust Pivot" )]
 	private static void Init()
 	{
 		AdjustPivot window = GetWindow<AdjustPivot>();

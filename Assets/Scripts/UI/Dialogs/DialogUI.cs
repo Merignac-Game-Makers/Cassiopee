@@ -9,6 +9,7 @@ public class DialogUI : MonoBehaviour
 	public static DialogUI Instance;
 	public bool isActive => panel.activeInHierarchy;
 	public GameObject panel;
+	public Text nameText;
 	public Text dialogText;
 
 	private void Awake() {
@@ -27,7 +28,8 @@ public class DialogUI : MonoBehaviour
 		}
 	}
 
-	public void DisplayText(string textToDisplay) {
+	public void DisplayText(string name, string textToDisplay) {
+		nameText.text = name;
 		dialogText.text = textToDisplay;
 		panel.SetActive(true);
 		PlayerControl.Instance.StopAgent();

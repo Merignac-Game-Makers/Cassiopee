@@ -8,23 +8,29 @@ public class BookSystem : MonoBehaviour
 
 	public Page[] pages;
 
+	public static BookSystem Instance;
+
 	[HideInInspector]
 	public int MaxPage => pages.Length;
 
+	private void Awake() {
+		Instance = this;
+	}
+
 
 	public Page GetNextPage(BookUI ui) {
-		if (ui.currentPage + 1 < MaxPage) {
-			ui.currentPage++;
-			return pages[ui.currentPage];
+		if (ui.currentPageIdx + 1 < MaxPage) {
+			ui.currentPageIdx++;
+			return pages[ui.currentPageIdx];
 		} else {
 			return null;
 		}
 	}
 
 	public Page GetPrevPage(BookUI ui) {
-		if (ui.currentPage > 0) {
-			ui.currentPage--;
-			return pages[ui.currentPage];
+		if (ui.currentPageIdx > 0) {
+			ui.currentPageIdx--;
+			return pages[ui.currentPageIdx];
 		} else {
 			return null;
 		}

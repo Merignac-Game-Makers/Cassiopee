@@ -249,8 +249,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3838c537ea5b634ca5ef296aaeee28b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OnTheFly: 1
+  m_Mode: 0
   Clicked: 0
+  nameText: 
   DialogText: Hello !
 --- !u!208 &6629927487269398302
 NavMeshObstacle:
