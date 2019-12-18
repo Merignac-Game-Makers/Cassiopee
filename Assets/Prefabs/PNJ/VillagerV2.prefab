@@ -461,18 +461,58 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6437314751666368476, guid: ff31b53edd780114699d9409a067462e,
         type: 3}
+      propertyPath: diags.Array.size
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 6437314751666368476, guid: ff31b53edd780114699d9409a067462e,
+        type: 3}
       propertyPath: assignedIndex
-      value: 8
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 6437314751666368476, guid: ff31b53edd780114699d9409a067462e,
         type: 3}
       propertyPath: assignedID
-      value: 47022
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6437314751666368476, guid: ff31b53edd780114699d9409a067462e,
         type: 3}
       propertyPath: assignedDialogue
-      value: Laura
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6437314751666368476, guid: ff31b53edd780114699d9409a067462e,
+        type: 3}
+      propertyPath: alias
+      value: Mr Cube
+      objectReference: {fileID: 0}
+    - target: {fileID: 6437314751666368476, guid: ff31b53edd780114699d9409a067462e,
+        type: 3}
+      propertyPath: defaultNPCSprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6437314751666368476, guid: ff31b53edd780114699d9409a067462e,
+        type: 3}
+      propertyPath: defaultPlayerSprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6437314751666368476, guid: ff31b53edd780114699d9409a067462e,
+        type: 3}
+      propertyPath: diags.Array.data[11]
+      value: Quest001
+      objectReference: {fileID: 0}
+    - target: {fileID: 6437314751666368476, guid: ff31b53edd780114699d9409a067462e,
+        type: 3}
+      propertyPath: diags.Array.data[12]
+      value: QuestChartDemo
+      objectReference: {fileID: 0}
+    - target: {fileID: 6437314751666368476, guid: ff31b53edd780114699d9409a067462e,
+        type: 3}
+      propertyPath: diags.Array.data[13]
+      value: TriggeredDude
+      objectReference: {fileID: 0}
+    - target: {fileID: 6437314751666368476, guid: ff31b53edd780114699d9409a067462e,
+        type: 3}
+      propertyPath: diags.Array.data[14]
+      value: Witch
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ff31b53edd780114699d9409a067462e, type: 3}
