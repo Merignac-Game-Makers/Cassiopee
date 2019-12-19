@@ -1481,7 +1481,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bookUI: {fileID: 1717899594}
   inventoryUI: {fileID: 2104745285}
-  dialogUI: {fileID: 1915633236}
 --- !u!4 &346047472 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4028039009567210, guid: 29a91f6f7d436ed4ca56ac9b92cb0c82,
@@ -4048,7 +4047,7 @@ Camera:
     height: 1
   near clip plane: 0.1
   far clip plane: 5000
-  field of view: 40
+  field of view: 45
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -4073,8 +4072,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: 0.016358646, y: 0.9834744, z: -0.11803223, w: 0.13630487}
-  m_LocalPosition: {x: -44.19271, y: -2.56, z: 20.41958}
+  m_LocalRotation: {x: 0.05999987, y: -0.84432876, z: 0.09675445, w: 0.523591}
+  m_LocalPosition: {x: -6.380001, y: 2.56, z: 8.92}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1093710607}
@@ -7466,6 +7465,26 @@ PrefabInstance:
       propertyPath: nameText
       value: Silencieux
       objectReference: {fileID: 0}
+    - target: {fileID: 894202577121726682, guid: b61a203dbbafdba4d8f1e41bfd9a4ba8,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 894202577121726662, guid: b61a203dbbafdba4d8f1e41bfd9a4ba8,
+        type: 3}
+      propertyPath: assignedIndex
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 894202577121726662, guid: b61a203dbbafdba4d8f1e41bfd9a4ba8,
+        type: 3}
+      propertyPath: assignedID
+      value: 84810
+      objectReference: {fileID: 0}
+    - target: {fileID: 894202577121726662, guid: b61a203dbbafdba4d8f1e41bfd9a4ba8,
+        type: 3}
+      propertyPath: assignedDialogue
+      value: Quest001
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b61a203dbbafdba4d8f1e41bfd9a4ba8, type: 3}
 --- !u!1 &1717899592
@@ -8562,6 +8581,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 235631803, guid: 5ea51587d2ce31345ac0d77b7eff7366, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 199919291714069032, guid: 5ea51587d2ce31345ac0d77b7eff7366,
         type: 3}
       propertyPath: m_StartPoint.y
@@ -8583,10 +8606,6 @@ PrefabInstance:
       value: 1.8401939
       objectReference: {fileID: 0}
     - target: {fileID: 235631802, guid: 5ea51587d2ce31345ac0d77b7eff7366, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 235631803, guid: 5ea51587d2ce31345ac0d77b7eff7366, type: 3}
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}

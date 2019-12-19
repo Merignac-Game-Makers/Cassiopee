@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
@@ -14,7 +15,7 @@ public abstract class InteractableObject : HighlightableObject
 
 	public enum mode { onClick, onTheFly, onTheFlyOnce }
 
-	[SerializeField]
+	public QuestBase Quest;
 	public mode m_Mode;
 
 	public abstract bool IsInteractable { get; }
@@ -23,19 +24,37 @@ public abstract class InteractableObject : HighlightableObject
 	public bool Clicked;
 
 	public abstract void InteractWith(HighlightableObject target);
+
 }
 
 //#if UNITY_EDITOR
-//[CustomEditor(typeof(SFXManager))]
+//[CustomEditor(typeof(InteractableObject))]
 //public class InteractableObjectEditor : Editor
 //{
+//	SerializedProperty m_IsQuest;
+//	SerializedProperty m_Quest;
 //	SerializedProperty m_Mode;
 
 //	void OnEnable() {
+//		m_IsQuest = serializedObject.FindProperty("IsQuest");
+//		m_Quest = serializedObject.FindProperty("Quest");
 //		m_Mode = serializedObject.FindProperty("m_Mode");
 
-//		int mode = Enum.GetValues(typeof(InteractableObject.mode)).Length;
 //		serializedObject.ApplyModifiedProperties();
+//	}
+
+//	public override void OnInspectorGUI() {
+//		serializedObject.Update();
+
+//		EditorGUILayout.PropertyField(m_Mode);
+//		EditorGUILayout.PropertyField(m_IsQuest);
+
+//		if (m_IsQuest.boolValue) {
+//			EditorGUILayout.PropertyField(m_Quest);
+//		}
+
+//		serializedObject.ApplyModifiedProperties();
+
 //	}
 //}
 //#endif
