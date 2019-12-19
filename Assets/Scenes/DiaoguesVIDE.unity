@@ -1541,6 +1541,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: DialogsCanvas
       objectReference: {fileID: 0}
+    - target: {fileID: 8294889278445644319, guid: ea1e865023c77f449a04abdd0d6c235d,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8294889278445644322, guid: ea1e865023c77f449a04abdd0d6c235d,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1646,15 +1651,14 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 1520322757713042001, guid: ea1e865023c77f449a04abdd0d6c235d,
+    - target: {fileID: 8294889278445644318, guid: ea1e865023c77f449a04abdd0d6c235d,
         type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 115
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4242037474987007010, guid: ea1e865023c77f449a04abdd0d6c235d,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 115
+    - target: {fileID: 1389687798, guid: ea1e865023c77f449a04abdd0d6c235d, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -51.21
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ea1e865023c77f449a04abdd0d6c235d, type: 3}
@@ -5176,16 +5180,16 @@ MonoBehaviour:
   - Example3Dialogue
   - Example4_dialogue
   - Item_LookUp
+  - Kub
   - Laura
   - MrCube
   - NPCOnly
-  - Quest001
   - QuestChartDemo
   - TriggeredDude
   - Witch
-  assignedIndex: 11
+  assignedIndex: 8
   assignedID: 84810
-  assignedDialogue: Quest001
+  assignedDialogue: Kub
   interactionCount: 0
   alias: Kub
   overrideStartNode: -1
@@ -5200,24 +5204,6 @@ MonoBehaviour:
   langs: []
   S_playerDiags: []
   S_actionNodes: []
---- !u!114 &1163150963
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1163150958}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 92d96ec94754be54b8c5aa893b305aae, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  quest: {fileID: 612877506}
-  AcceptedQuestNode: 7
-  RefusedQuestNode: 10
-  DoneQuestNode: 12
-  FailedQuestNode: 13
-  PassedQuestNode: 15
 --- !u!1 &1215054282
 GameObject:
   m_ObjectHideFlags: 0
@@ -7091,7 +7077,8 @@ PrefabInstance:
       propertyPath: nameText
       value: "N\xB04"
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6142126115427498357, guid: b61a203dbbafdba4d8f1e41bfd9a4ba8, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: b61a203dbbafdba4d8f1e41bfd9a4ba8, type: 3}
 --- !u!4 &1627554408 stripped
 Transform:
@@ -7543,48 +7530,38 @@ PrefabInstance:
       propertyPath: m_Name
       value: Kub
       objectReference: {fileID: 0}
-    - target: {fileID: 7451765576206506042, guid: b61a203dbbafdba4d8f1e41bfd9a4ba8,
-        type: 3}
-      propertyPath: DialogText
-      value: "Salut, moi je n'ai rien \xE0 dire..."
-      objectReference: {fileID: 0}
-    - target: {fileID: 7451765576206506042, guid: b61a203dbbafdba4d8f1e41bfd9a4ba8,
-        type: 3}
-      propertyPath: OnTheFly
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7451765576206506042, guid: b61a203dbbafdba4d8f1e41bfd9a4ba8,
-        type: 3}
-      propertyPath: nameText
-      value: Silencieux
-      objectReference: {fileID: 0}
-    - target: {fileID: 894202577121726682, guid: b61a203dbbafdba4d8f1e41bfd9a4ba8,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 894202577121726662, guid: b61a203dbbafdba4d8f1e41bfd9a4ba8,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 894202577121726662, guid: b61a203dbbafdba4d8f1e41bfd9a4ba8,
+    - target: {fileID: 6142126115427498357, guid: b61a203dbbafdba4d8f1e41bfd9a4ba8,
         type: 3}
       propertyPath: assignedIndex
       value: 11
       objectReference: {fileID: 0}
-    - target: {fileID: 894202577121726662, guid: b61a203dbbafdba4d8f1e41bfd9a4ba8,
+    - target: {fileID: 6142126115427498357, guid: b61a203dbbafdba4d8f1e41bfd9a4ba8,
         type: 3}
       propertyPath: assignedID
       value: 84810
       objectReference: {fileID: 0}
-    - target: {fileID: 894202577121726662, guid: b61a203dbbafdba4d8f1e41bfd9a4ba8,
+    - target: {fileID: 6142126115427498357, guid: b61a203dbbafdba4d8f1e41bfd9a4ba8,
         type: 3}
       propertyPath: assignedDialogue
       value: Quest001
       objectReference: {fileID: 0}
+    - target: {fileID: 6142126115427498357, guid: b61a203dbbafdba4d8f1e41bfd9a4ba8,
+        type: 3}
+      propertyPath: alias
+      value: Kub
+      objectReference: {fileID: 0}
+    - target: {fileID: 6142126115427498345, guid: b61a203dbbafdba4d8f1e41bfd9a4ba8,
+        type: 3}
+      propertyPath: quest
+      value: 
+      objectReference: {fileID: 612877506}
+    - target: {fileID: 6142126115427498345, guid: b61a203dbbafdba4d8f1e41bfd9a4ba8,
+        type: 3}
+      propertyPath: FailedQuestNode
+      value: 13
+      objectReference: {fileID: 0}
     m_RemovedComponents:
-    - {fileID: 894202577121726662, guid: b61a203dbbafdba4d8f1e41bfd9a4ba8, type: 3}
+    - {fileID: 6142126115427498357, guid: b61a203dbbafdba4d8f1e41bfd9a4ba8, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: b61a203dbbafdba4d8f1e41bfd9a4ba8, type: 3}
 --- !u!1 &1717899592
 GameObject:
@@ -8156,6 +8133,41 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6d113e84f332a9841b112bb990e97444, type: 3}
+--- !u!1 &1898159213 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 894202577121726682, guid: b61a203dbbafdba4d8f1e41bfd9a4ba8,
+    type: 3}
+  m_PrefabInstance: {fileID: 1623871798}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1898159218
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1898159213}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b8b99d8a12e39e4b94d2d7162c7c978, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  diags: []
+  assignedIndex: -1
+  assignedID: 0
+  assignedDialogue: 
+  interactionCount: 0
+  alias: 
+  overrideStartNode: -1
+  defaultNPCSprite: {fileID: 0}
+  defaultPlayerSprite: {fileID: 0}
+  targetManager: {fileID: 0}
+  preload: 0
+  notuptodate: 0
+  startp: 0
+  loadtag: 
+  langs: []
+  S_playerDiags: []
+  S_actionNodes: []
 --- !u!1001 &1931923362
 PrefabInstance:
   m_ObjectHideFlags: 0
