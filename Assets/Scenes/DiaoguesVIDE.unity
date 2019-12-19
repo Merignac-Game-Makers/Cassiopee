@@ -51,7 +51,7 @@ LightmapSettings:
     m_IndirectOutputScale: 1
     m_AlbedoBoost: 1
     m_EnvironmentLightingMode: 0
-    m_EnableBakedLightmaps: 1
+    m_EnableBakedLightmaps: 0
     m_EnableRealtimeLightmaps: 0
   m_LightmapEditorSettings:
     serializedVersion: 12
@@ -2468,11 +2468,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1081507780}
     m_Modifications:
-    - target: {fileID: 5501873739996842767, guid: b61a203dbbafdba4d8f1e41bfd9a4ba8,
-        type: 3}
-      propertyPath: m_Name
-      value: VillagerV2
-      objectReference: {fileID: 0}
     - target: {fileID: 5501873739996842803, guid: b61a203dbbafdba4d8f1e41bfd9a4ba8,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2527,6 +2522,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5501873739996842767, guid: b61a203dbbafdba4d8f1e41bfd9a4ba8,
+        type: 3}
+      propertyPath: m_Name
+      value: VillagerV2
       objectReference: {fileID: 0}
     - target: {fileID: 7451765576206506042, guid: b61a203dbbafdba4d8f1e41bfd9a4ba8,
         type: 3}
@@ -3755,11 +3755,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1081507780}
     m_Modifications:
-    - target: {fileID: 5501873739996842767, guid: b61a203dbbafdba4d8f1e41bfd9a4ba8,
-        type: 3}
-      propertyPath: m_Name
-      value: VillagerV2 (3)
-      objectReference: {fileID: 0}
     - target: {fileID: 5501873739996842803, guid: b61a203dbbafdba4d8f1e41bfd9a4ba8,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3814,6 +3809,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5501873739996842767, guid: b61a203dbbafdba4d8f1e41bfd9a4ba8,
+        type: 3}
+      propertyPath: m_Name
+      value: VillagerV2 (3)
       objectReference: {fileID: 0}
     - target: {fileID: 7451765576206506042, guid: b61a203dbbafdba4d8f1e41bfd9a4ba8,
         type: 3}
@@ -4408,11 +4408,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1081507780}
     m_Modifications:
-    - target: {fileID: 5501873739996842767, guid: b61a203dbbafdba4d8f1e41bfd9a4ba8,
-        type: 3}
-      propertyPath: m_Name
-      value: VillagerV2 (1)
-      objectReference: {fileID: 0}
     - target: {fileID: 5501873739996842803, guid: b61a203dbbafdba4d8f1e41bfd9a4ba8,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -4467,6 +4462,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5501873739996842767, guid: b61a203dbbafdba4d8f1e41bfd9a4ba8,
+        type: 3}
+      propertyPath: m_Name
+      value: VillagerV2 (1)
       objectReference: {fileID: 0}
     - target: {fileID: 7451765576206506042, guid: b61a203dbbafdba4d8f1e41bfd9a4ba8,
         type: 3}
@@ -5193,288 +5193,13 @@ MonoBehaviour:
   defaultPlayerSprite: {fileID: 21300000, guid: bed45b8e3af278045bdd5e7aa225dc03,
     type: 3}
   targetManager: {fileID: 0}
-  preload: 1
+  preload: 0
   notuptodate: 0
   startp: 0
   loadtag: 
   langs: []
-  S_playerDiags:
-  - commentCount: 2
-    s_comment:
-    - text: Bonjour
-      extraData: ExtraData
-      inputSetIndex: 0
-      outputNodeIndex: 1
-      outActionIndex: -1
-      sprites: {fileID: 0}
-      audios: {fileID: 0}
-      visible: 1
-    - text: "J'ai un service \xE0 te demander"
-      extraData: ExtraData
-      inputSetIndex: 0
-      outputNodeIndex: -1
-      outActionIndex: -1
-      sprites: {fileID: 0}
-      audios: {fileID: 0}
-      visible: 1
-    ID: 0
-    pTag: 
-    sprite: {fileID: 0}
-    vars: []
-    varKeys: []
-    isPlayer: 0
-  - commentCount: 2
-    s_comment:
-    - text: Oui? Lequel ?
-      extraData: ExtraData
-      inputSetIndex: 1
-      outputNodeIndex: 2
-      outActionIndex: -1
-      sprites: {fileID: 0}
-      audios: {fileID: 0}
-      visible: 1
-    - text: "J'ai autre chose \xE0 faire !"
-      extraData: ExtraData
-      inputSetIndex: 1
-      outputNodeIndex: 3
-      outActionIndex: -1
-      sprites: {fileID: 0}
-      audios: {fileID: 0}
-      visible: 1
-    ID: 1
-    pTag: 
-    sprite: {fileID: 0}
-    vars: []
-    varKeys: []
-    isPlayer: 1
-  - commentCount: 1
-    s_comment:
-    - text: J'aimerais que tu ailles mettre un cube dans le puits
-      extraData: ExtraData
-      inputSetIndex: 2
-      outputNodeIndex: 4
-      outActionIndex: -1
-      sprites: {fileID: 0}
-      audios: {fileID: 0}
-      visible: 1
-    ID: 2
-    pTag: 
-    sprite: {fileID: 0}
-    vars: []
-    varKeys: []
-    isPlayer: 0
-  - commentCount: 1
-    s_comment:
-    - text: "C'est vraiment pas tr\xE8s sympa !"
-      extraData: ExtraData
-      inputSetIndex: 3
-      outputNodeIndex: -1
-      outActionIndex: 0
-      sprites: {fileID: 0}
-      audios: {fileID: 0}
-      visible: 1
-    ID: 3
-    pTag: 
-    sprite: {fileID: 0}
-    vars: []
-    varKeys: []
-    isPlayer: 0
-  - commentCount: 2
-    s_comment:
-    - text: Avec plaisir ...
-      extraData: ExtraData
-      inputSetIndex: 4
-      outputNodeIndex: -1
-      outActionIndex: 1
-      sprites: {fileID: 0}
-      audios: {fileID: 0}
-      visible: 1
-    - text: "Ben... Un cube dans un cercle... \xE7a va pas rentrer !\nTu me prends
-        pour une buse ???"
-      extraData: ExtraData
-      inputSetIndex: 4
-      outputNodeIndex: -1
-      outActionIndex: 0
-      sprites: {fileID: 0}
-      audios: {fileID: 0}
-      visible: 1
-    ID: 5
-    pTag: 
-    sprite: {fileID: 0}
-    vars: []
-    varKeys: []
-    isPlayer: 1
-  - commentCount: 1
-    s_comment:
-    - text: "Alors, tu en es o\xF9 ?"
-      extraData: ExtraData
-      inputSetIndex: 5
-      outputNodeIndex: -1
-      outActionIndex: -1
-      sprites: {fileID: 0}
-      audios: {fileID: 0}
-      visible: 1
-    ID: 7
-    pTag: 
-    sprite: {fileID: 0}
-    vars: []
-    varKeys: []
-    isPlayer: 0
-  - commentCount: 1
-    s_comment:
-    - text: Sympa, merci !
-      extraData: ExtraData
-      inputSetIndex: 6
-      outputNodeIndex: -1
-      outActionIndex: -1
-      sprites: {fileID: 0}
-      audios: {fileID: 0}
-      visible: 1
-    ID: 8
-    pTag: 
-    sprite: {fileID: 0}
-    vars: []
-    varKeys: []
-    isPlayer: 0
-  - commentCount: 1
-    s_comment:
-    - text: Pas cool mec !
-      extraData: ExtraData
-      inputSetIndex: 7
-      outputNodeIndex: -1
-      outActionIndex: -1
-      sprites: {fileID: 0}
-      audios: {fileID: 0}
-      visible: 1
-    ID: 9
-    pTag: 
-    sprite: {fileID: 0}
-    vars: []
-    varKeys: []
-    isPlayer: 0
-  - commentCount: 1
-    s_comment:
-    - text: Tu ne veux toujours pas m'aider et mettre un cube dans le puits ?
-      extraData: ExtraData
-      inputSetIndex: 8
-      outputNodeIndex: 9
-      outActionIndex: -1
-      sprites: {fileID: 0}
-      audios: {fileID: 0}
-      visible: 1
-    ID: 10
-    pTag: 
-    sprite: {fileID: 0}
-    vars: []
-    varKeys: []
-    isPlayer: 0
-  - commentCount: 2
-    s_comment:
-    - text: Bon allez, d'accord
-      extraData: ExtraData
-      inputSetIndex: 9
-      outputNodeIndex: -1
-      outActionIndex: 1
-      sprites: {fileID: 0}
-      audios: {fileID: 0}
-      visible: 1
-    - text: "Rien \xE0 faire"
-      extraData: ExtraData
-      inputSetIndex: 9
-      outputNodeIndex: -1
-      outActionIndex: 0
-      sprites: {fileID: 0}
-      audios: {fileID: 0}
-      visible: 1
-    ID: 11
-    pTag: 
-    sprite: {fileID: 0}
-    vars: []
-    varKeys: []
-    isPlayer: 1
-  - commentCount: 1
-    s_comment:
-    - text: Super ! T'es vraiment un AS !!!
-      extraData: ExtraData
-      inputSetIndex: 10
-      outputNodeIndex: -1
-      outActionIndex: -1
-      sprites: {fileID: 0}
-      audios: {fileID: 0}
-      visible: 1
-    ID: 12
-    pTag: 
-    sprite: {fileID: 0}
-    vars: []
-    varKeys: []
-    isPlayer: 0
-  - commentCount: 2
-    s_comment:
-    - text: Oh ! Pas de bol... c'est pas un cube !
-      extraData: ExtraData
-      inputSetIndex: 11
-      outputNodeIndex: -1
-      outActionIndex: 2
-      sprites: {fileID: 0}
-      audios: {fileID: 0}
-      visible: 1
-    - text: "Allez, on vire \xE7a de l\xE0 et on recommence"
-      extraData: ExtraData
-      inputSetIndex: 11
-      outputNodeIndex: -1
-      outActionIndex: -1
-      sprites: {fileID: 0}
-      audios: {fileID: 0}
-      visible: 1
-    ID: 13
-    pTag: 
-    sprite: {fileID: 0}
-    vars: []
-    varKeys: []
-    isPlayer: 0
-  S_actionNodes:
-  - pauseHere: 0
-    gameObjectName: CubeInWell
-    methodName: RefuseQuest
-    paramType: 0
-    gotoNode: -1
-    param_bool: 0
-    param_string: 
-    param_int: 0
-    param_float: 0
-    ID: 4
-    outPlayerIndex: 7
-    outActionIndex: -1
-    ovrStartNode: -1
-    renameDialogue: 
-  - pauseHere: 0
-    gameObjectName: CubeInWell
-    methodName: AcceptQuest
-    paramType: 0
-    gotoNode: -1
-    param_bool: 0
-    param_string: 
-    param_int: 0
-    param_float: 0
-    ID: 6
-    outPlayerIndex: 6
-    outActionIndex: -1
-    ovrStartNode: -1
-    renameDialogue: 
-  - pauseHere: 0
-    gameObjectName: CubeInWell
-    methodName: Reset
-    paramType: 0
-    gotoNode: -1
-    param_bool: 0
-    param_string: 
-    param_int: 0
-    param_float: 0
-    ID: 14
-    outPlayerIndex: -1
-    outActionIndex: -1
-    ovrStartNode: -1
-    renameDialogue: 
+  S_playerDiags: []
+  S_actionNodes: []
 --- !u!114 &1163150963
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5492,6 +5217,7 @@ MonoBehaviour:
   RefusedQuestNode: 10
   DoneQuestNode: 12
   FailedQuestNode: 13
+  PassedQuestNode: 15
 --- !u!1 &1215054282
 GameObject:
   m_ObjectHideFlags: 0
@@ -7290,11 +7016,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1081507780}
     m_Modifications:
-    - target: {fileID: 5501873739996842767, guid: b61a203dbbafdba4d8f1e41bfd9a4ba8,
-        type: 3}
-      propertyPath: m_Name
-      value: VillagerV2 (2)
-      objectReference: {fileID: 0}
     - target: {fileID: 5501873739996842803, guid: b61a203dbbafdba4d8f1e41bfd9a4ba8,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -7349,6 +7070,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5501873739996842767, guid: b61a203dbbafdba4d8f1e41bfd9a4ba8,
+        type: 3}
+      propertyPath: m_Name
+      value: VillagerV2 (2)
       objectReference: {fileID: 0}
     - target: {fileID: 7451765576206506042, guid: b61a203dbbafdba4d8f1e41bfd9a4ba8,
         type: 3}
@@ -7757,11 +7483,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1081507780}
     m_Modifications:
-    - target: {fileID: 5501873739996842767, guid: b61a203dbbafdba4d8f1e41bfd9a4ba8,
-        type: 3}
-      propertyPath: m_Name
-      value: Kub
-      objectReference: {fileID: 0}
     - target: {fileID: 5501873739996842803, guid: b61a203dbbafdba4d8f1e41bfd9a4ba8,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -7816,6 +7537,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5501873739996842767, guid: b61a203dbbafdba4d8f1e41bfd9a4ba8,
+        type: 3}
+      propertyPath: m_Name
+      value: Kub
       objectReference: {fileID: 0}
     - target: {fileID: 7451765576206506042, guid: b61a203dbbafdba4d8f1e41bfd9a4ba8,
         type: 3}
@@ -8058,11 +7784,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1081507780}
     m_Modifications:
-    - target: {fileID: 5501873739996842767, guid: b61a203dbbafdba4d8f1e41bfd9a4ba8,
-        type: 3}
-      propertyPath: m_Name
-      value: GrandMa
-      objectReference: {fileID: 0}
     - target: {fileID: 5501873739996842803, guid: b61a203dbbafdba4d8f1e41bfd9a4ba8,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -8117,6 +7838,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5501873739996842767, guid: b61a203dbbafdba4d8f1e41bfd9a4ba8,
+        type: 3}
+      propertyPath: m_Name
+      value: GrandMa
       objectReference: {fileID: 0}
     - target: {fileID: 7451765576206506042, guid: b61a203dbbafdba4d8f1e41bfd9a4ba8,
         type: 3}

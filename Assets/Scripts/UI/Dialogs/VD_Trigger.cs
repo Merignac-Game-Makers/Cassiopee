@@ -9,13 +9,13 @@ public class VD_Trigger : MonoBehaviour
 	DManager dialogManager;
 	VIDE_Assign dialog;
 
-	Quest001Conditions QC;
+	KubDialogManager QC;
 
 	// Start is called before the first frame update
 	void Start() {
 		dialogManager = DManager.Instance;
 		dialog = GetComponent<VIDE_Assign>();
-		QC = GetComponent<Quest001Conditions>();
+		QC = GetComponent<KubDialogManager>();
 	}
 
 	// Update is called once per frame

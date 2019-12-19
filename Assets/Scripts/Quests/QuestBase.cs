@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class QuestBase : MonoBehaviour
 {
-	public enum QuestStatus { None, Accepted, Refused, Done, Failed }
+	public enum QuestStatus { None, Accepted, Refused, Done, Failed, Passed }
 	[HideInInspector]
 	public QuestStatus status = QuestStatus.None;
 

@@ -176,7 +176,7 @@ public class InventoryUI : MonoBehaviour
 		int count = Physics.SphereCastNonAlloc(screenRay, 1.0f, m_RaycastHitCache, 1000.0f, m_TargetLayer);
 		if (count > 0) {
 			foreach (RaycastHit rh in m_RaycastHitCache) {
-				Target data = rh.collider.GetComponentInParent<Target>();
+				Target data = rh.collider?.GetComponentInParent<Target>();
 				if (data!=null && data.isFree) {
 					Debug.Log("Drop Item");
 					DropItem(data, PlayerControl.Instance.m_CurrentlyDragged);

@@ -4,13 +4,14 @@ using UnityEngine;
 using VIDE_Data;
 using static QuestBase;
 
-public class Quest001Conditions : MonoBehaviour
+public class KubDialogManager : MonoBehaviour
 {
 	public QuestBase quest;
 	public int AcceptedQuestNode = -1;
 	public int RefusedQuestNode = -1;
 	public int DoneQuestNode = -1;
 	public int FailedQuestNode = -1;
+	public int PassedQuestNode = -1;
 
 	// Start is called before the first frame update
 	void Start()
@@ -42,6 +43,8 @@ public class Quest001Conditions : MonoBehaviour
 				dialogue.overrideStartNode = DoneQuestNode;
 			} else if (quest.status == QuestStatus.Failed) {
 				dialogue.overrideStartNode = FailedQuestNode;
+			} else if (quest.status == QuestStatus.Passed) {
+				dialogue.overrideStartNode = PassedQuestNode;
 			}
 		}
 		return true;

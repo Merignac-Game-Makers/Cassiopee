@@ -20,6 +20,10 @@ public class CubeInWell : QuestBase
 	public void QuestFailed() {
 		status = QuestStatus.Failed;
 	}
+	public void QuestPassed() {
+		status = QuestStatus.Passed;
+	}
+
 	public override bool TestSuccess() {
 		if (status == QuestStatus.Accepted) {
 			var loots = holder.GetComponentsInChildren<Loot>();

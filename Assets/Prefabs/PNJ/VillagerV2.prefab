@@ -198,6 +198,7 @@ GameObject:
   - component: {fileID: 6629927487269398302}
   - component: {fileID: 15138888569715543}
   - component: {fileID: 4604046639683640003}
+  - component: {fileID: 2358903971270907958}
   m_Layer: 8
   m_Name: VillagerV2
   m_TagString: Untagged
@@ -299,6 +300,21 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5501873739996842767}
   m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &2358903971270907958
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5501873739996842767}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78d1a5b4edb585946a9d7f0beb7bf2cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Quest: {fileID: 0}
+  m_Mode: 0
+  Clicked: 0
 --- !u!1 &7880743438250664808
 GameObject:
   m_ObjectHideFlags: 0
@@ -399,11 +415,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5501873739996842803}
     m_Modifications:
-    - target: {fileID: 6437314751666368448, guid: ff31b53edd780114699d9409a067462e,
-        type: 3}
-      propertyPath: m_Name
-      value: VD_Trigger
-      objectReference: {fileID: 0}
     - target: {fileID: 6437314751666368449, guid: ff31b53edd780114699d9409a067462e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -458,6 +469,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6437314751666368448, guid: ff31b53edd780114699d9409a067462e,
+        type: 3}
+      propertyPath: m_Name
+      value: VD_Trigger
       objectReference: {fileID: 0}
     - target: {fileID: 6437314751666368476, guid: ff31b53edd780114699d9409a067462e,
         type: 3}
