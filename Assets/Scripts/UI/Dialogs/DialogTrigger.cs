@@ -1,10 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using VIDE_Data;
 
-public class Dialog_Trigger : MonoBehaviour
+public class DialogTrigger : MonoBehaviour
 {
 
 
@@ -30,7 +31,7 @@ public class Dialog_Trigger : MonoBehaviour
 
 	public void Run() {
 		//if (dialogManager.PreConditions(dialog))
-		if (QC!=null && dialog.assignedID != 0 && QC.QuestConditions(dialog))
+		if (QC != null && dialog.assignedID != 0 && QC.QuestConditions(dialog))
 			dialogManager.Begin(dialog);
 	}
 
@@ -40,4 +41,19 @@ public class Dialog_Trigger : MonoBehaviour
 		Run();
 	}
 
+
+
 }
+
+#if UNITY_EDITOR
+[CustomEditor(typeof(DialogTrigger))]
+public class DialogTriggerEditor : Editor
+{
+
+	public override void OnInspectorGUI() {
+
+		GUILayout.Label("Attention !\nIl est impératif d'ajouter les scripts : \n  - VIDE_Assign\n  - DialogValidation spécifique du dialogue");
+
+	}
+}
+#endif

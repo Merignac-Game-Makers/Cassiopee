@@ -11,8 +11,6 @@ GameObject:
   - component: {fileID: 894202577121726683}
   - component: {fileID: 894202577121726661}
   - component: {fileID: 731255338325866456}
-  - component: {fileID: 6142126115427498357}
-  - component: {fileID: 6142126115427498345}
   m_Layer: 8
   m_Name: DialogTrigger
   m_TagString: Untagged
@@ -60,68 +58,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1380d64d7d5f314ea50abccfd40ddde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &6142126115427498357
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 894202577121726682}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4b8b99d8a12e39e4b94d2d7162c7c978, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  diags:
-  - Charlie
-  - CommentModifier
-  - CrazyCap
-  - DEMO_Condition
-  - demo_Narration
-  - Example3Dialogue
-  - Example4_dialogue
-  - Item_LookUp
-  - Kub
-  - Laura
-  - MrCube
-  - NPCOnly
-  - QuestChartDemo
-  - TriggeredDude
-  - Witch
-  assignedIndex: -1
-  assignedID: 0
-  assignedDialogue: 
-  interactionCount: 0
-  alias: 
-  overrideStartNode: -1
-  defaultNPCSprite: {fileID: 0}
-  defaultPlayerSprite: {fileID: 0}
-  targetManager: {fileID: 0}
-  preload: 0
-  notuptodate: 0
-  startp: 0
-  loadtag: 
-  langs: []
-  S_playerDiags: []
-  S_actionNodes: []
---- !u!114 &6142126115427498345
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 894202577121726682}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 92d96ec94754be54b8c5aa893b305aae, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  quest: {fileID: 0}
-  AcceptedQuestNode: 7
-  RefusedQuestNode: 10
-  DoneQuestNode: 12
-  FailedQuestNode: 16
-  PassedQuestNode: 15
 --- !u!1 &1273075054447260922
 GameObject:
   m_ObjectHideFlags: 0

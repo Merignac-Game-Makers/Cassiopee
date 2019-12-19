@@ -129,8 +129,8 @@ public class PlayerControl : MonoBehaviour
 
 		// control speed on NavMesh Links
 		if (m_Agent.isOnOffMeshLink && !MoveAcrossNavMeshesStarted) {
-			StartCoroutine(MoveAcrossNavMeshLink(m_Agent.destination));
 			MoveAcrossNavMeshesStarted = true;
+			StartCoroutine(MoveAcrossNavMeshLink(m_Agent.destination));
 		}
 
 	}
