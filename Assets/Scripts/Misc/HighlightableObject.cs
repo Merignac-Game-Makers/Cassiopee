@@ -25,7 +25,7 @@ public class HighlightableObject : MonoBehaviour
 	Color transparent = new Color(0, 0, 0, 0);
 
 	protected virtual void Start() {
-		m_Renderers = GetComponentsInChildren<Renderer>();
+		m_Renderers = GetComponents<Renderer>();
 
 		m_RimColorID = Shader.PropertyToID("_RimColor");
 		m_RimPowID = Shader.PropertyToID("_RimPower");
@@ -62,7 +62,7 @@ public class HighlightableObject : MonoBehaviour
 	/// false : this will switch all the material parameters to make it back to normal
 	/// </summary>
 	public void Highlight(bool on) {
-		for (int i = 0; i < m_Renderers.Length; ++i) {
+		for (int i = 0; i < m_Renderers?.Length; ++i) {
 			var rend = m_Renderers[i];
 
 			if (rend == null)

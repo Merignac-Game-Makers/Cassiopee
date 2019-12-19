@@ -175,10 +175,14 @@ public class InventoryUI : MonoBehaviour
 		Ray screenRay = CameraController.Instance.GameplayCamera.ScreenPointToRay(Input.mousePosition);
 		int count = Physics.SphereCastNonAlloc(screenRay, 1.0f, m_RaycastHitCache, 1000.0f, m_TargetLayer);
 		if (count > 0) {
-			Target data = m_RaycastHitCache[0].collider.GetComponentInParent<Target>();
-			if (data.isFree) {
-				Debug.Log("Drp Item");
-				DropItem(data, PlayerControl.Instance.m_CurrentlyDragged);
+			foreach (RaycastHit rh in m_RaycastHitCache) {
+				Target data = rh.collider.GetComponentInParent<Target>();
+				if (data!=null && data.isFree) {
+					Debug.Log("Drop Item");
+					DropItem(data, PlayerControl.Instance.m_CurrentlyDragged);
+					break;
+				}
+
 			}
 		}
 

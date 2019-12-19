@@ -1,7 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Timers;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.EventSystems;
@@ -16,6 +18,7 @@ using UnityEngine.EventSystems;
 /// </summary>
 public class Target : InteractableObject
 {
+
 	public override bool IsInteractable => true;
 
 	public bool isFree => IsFree();
@@ -44,3 +47,36 @@ public class Target : InteractableObject
 	}
 
 }
+
+//#if UNITY_EDITOR
+//[CustomEditor(typeof(Target))]
+//public class TargetObjectEditor : Editor
+//{
+//	SerializedProperty m_IsQuest;
+//	SerializedProperty m_Quest;
+//	SerializedProperty m_Mode;
+
+//	void OnEnable() {
+//		m_IsQuest = serializedObject.FindProperty("IsQuest");
+//		m_Quest = serializedObject.FindProperty("Quest");
+//		m_Mode = serializedObject.FindProperty("m_Mode");
+
+//		serializedObject.ApplyModifiedProperties();
+//	}
+
+//	public override void OnInspectorGUI() {
+//		serializedObject.Update();
+
+//		EditorGUILayout.PropertyField(m_Mode);
+//		EditorGUILayout.PropertyField(m_IsQuest);
+
+//		if (m_IsQuest.boolValue) {
+//			EditorGUILayout.PropertyField(m_Quest);
+//		}
+
+//		serializedObject.ApplyModifiedProperties();
+
+//	}
+
+//}
+//#endif

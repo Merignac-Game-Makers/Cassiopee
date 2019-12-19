@@ -42,6 +42,7 @@ public class DManager : MonoBehaviour
 	}
 
 	public void Begin(VIDE_Assign dialog) {
+		PlayerControl.Instance.StopAgent();
 		VD.OnNodeChange += UpdateUI;
 		VD.OnEnd += End;
 		VD.BeginDialogue(dialog);

@@ -40,7 +40,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6437314751666368448}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4b8b99d8a12e39e4b94d2d7162c7c978, type: 3}
   m_Name: 
@@ -57,6 +57,7 @@ MonoBehaviour:
   - Laura
   - MrCube
   - NPCOnly
+  - Quest001
   - QuestChartDemo
   - TriggeredDude
   - Witch
@@ -64,10 +65,10 @@ MonoBehaviour:
   assignedID: 15408
   assignedDialogue: MyDialogue
   interactionCount: 0
-  alias: Walter
+  alias: 
   overrideStartNode: -1
-  defaultNPCSprite: {fileID: 21300000, guid: 7804fbac3501c8a469b4c2d6952336fd, type: 3}
-  defaultPlayerSprite: {fileID: 21300000, guid: 8b547fe9d26af744cb624a90abcbc953,
+  defaultNPCSprite: {fileID: 21300000, guid: 8b30c8e73bde757418a12a699a978363, type: 3}
+  defaultPlayerSprite: {fileID: 21300000, guid: c7464680bd116eb4d8dd1fd8bc814753,
     type: 3}
   targetManager: {fileID: 0}
   preload: 0

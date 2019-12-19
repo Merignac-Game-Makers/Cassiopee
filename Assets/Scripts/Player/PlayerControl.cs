@@ -142,7 +142,7 @@ public class PlayerControl : MonoBehaviour
 		int count = Physics.SphereCastNonAlloc(screenRay, .2f, m_RaycastHitCache, 1000.0f, m_InteractableLayer);
 		if (count > 0) {
 			for (int i = 0; i < count; ++i) {
-				InteractableObject obj = m_RaycastHitCache[0].collider.GetComponentInParent<InteractableObject>();
+				InteractableObject obj = m_RaycastHitCache[i].collider.gameObject.GetComponentInParent<InteractableObject>();
 				if (obj != null && obj.IsInteractable) {
 					SwitchHighlightedObject(obj);
 					somethingFound = true;
