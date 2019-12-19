@@ -30,7 +30,7 @@ public class Dialog_Trigger : MonoBehaviour
 
 	public void Run() {
 		//if (dialogManager.PreConditions(dialog))
-		if (QC!=null && dialog !=null && QC.QuestConditions(dialog))
+		if (QC!=null && dialog.assignedID != 0 && QC.QuestConditions(dialog))
 			dialogManager.Begin(dialog);
 	}
 
