@@ -17,6 +17,7 @@ public class CubeInWell : QuestBase
 	}
 	public void QuestDone() {
 		status = QuestStatus.Done;
+		questsUI.TerminateQuest(this);
 	}
 	public void QuestFailed() {
 		status = QuestStatus.Failed;
@@ -45,7 +46,6 @@ public class CubeInWell : QuestBase
 	public override void Reset() {
 		var loots = holder.GetComponentsInChildren<Loot>();
 		foreach (Loot loot in loots) {
-			//Destroy(loot.gameObject);
 			loot.InteractWith(PlayerControl.Instance.m_CharacterData);
 		}
 		AcceptQuest();
