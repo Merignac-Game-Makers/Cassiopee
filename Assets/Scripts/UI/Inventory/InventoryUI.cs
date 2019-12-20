@@ -47,34 +47,17 @@ public class InventoryUI : MonoBehaviour
 	ItemEntryUI m_HoveredItem;
 	HighlightableObject m_Item;
 
-	private void Awake() {
-		Instance = this;
-
-		//CurrentlyDragged = null;
-
-		//DragCanvasScaler = DragCanvas.GetComponentInParent<CanvasScaler>();
-
-		//m_ItemEntries = new ItemEntryUI[ItemSlots.Length];
-
-		//for (int i = 0; i < m_ItemEntries.Length; ++i) {
-		//	m_ItemEntries[i] = Instantiate(ItemEntryPrefab, ItemSlots[i]);
-		//	m_ItemEntries[i].gameObject.SetActive(false);
-		//	m_ItemEntries[i].Owner = this;
-		//	m_ItemEntries[i].InventoryEntry = i;
-		//}
-
-		//m_TargetLayer = 1 << LayerMask.NameToLayer("Interactable");
-
-		//EquipementUI.Init(this);
-	}
-
-	//private void Start() {
-	//	InvPanel.SetActive(false);
-	//	closeButton.SetActive(false);
-	//	openButton.SetActive(true);
+	//private void Awake() {
+	//	Instance = this;
 	//}
 
 	public void Init() {
+		Instance = this;
+		gameObject.SetActive(true);
+		InvPanel.SetActive(false);
+		closeButton.SetActive(false);
+		openButton.SetActive(true);
+
 		CurrentlyDragged = null;
 
 		DragCanvasScaler = DragCanvas.GetComponentInParent<CanvasScaler>();
@@ -90,9 +73,6 @@ public class InventoryUI : MonoBehaviour
 
 		m_TargetLayer = 1 << LayerMask.NameToLayer("Interactable");
 
-		InvPanel.SetActive(false);
-		closeButton.SetActive(false);
-		openButton.SetActive(true);
 
 	}
 

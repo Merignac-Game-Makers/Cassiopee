@@ -13,6 +13,7 @@ public class CubeInWell : QuestBase
 	}
 	public void AcceptQuest() {
 		status = QuestStatus.Accepted;
+		questsUI.AddQuest(this);
 	}
 	public void QuestDone() {
 		status = QuestStatus.Done;

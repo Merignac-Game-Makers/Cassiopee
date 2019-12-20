@@ -8,6 +8,15 @@ public abstract class QuestBase : MonoBehaviour
 	[HideInInspector]
 	public QuestStatus status = QuestStatus.None;
 
+	public static QuestsUI questsUI;
+
+	public Sprite picture;
+	public string title;
+	public string shortText;
 	public abstract bool TestSuccess();
 	public abstract void Reset();
+
+	private void Start() {
+		questsUI = QuestsUI.Instance;
+	}
 }

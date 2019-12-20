@@ -43,11 +43,13 @@ public class BookUI : MonoBehaviour
 	[HideInInspector]
 	public int currentPageIdx = 0;
 
-	private void Awake() {
-		Instance = this;
-	}
+	//private void Awake() {
+	//	Instance = this;
+	//}
 
 	public void Init() {
+		Instance = this;
+		gameObject.SetActive(true);
 		fullScreenPanel.SetActive(false);
 		fullScreenButton.SetActive(false);
 		closeButton.SetActive(false);

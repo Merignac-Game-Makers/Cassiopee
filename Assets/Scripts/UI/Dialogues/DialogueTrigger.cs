@@ -5,17 +5,17 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using VIDE_Data;
 
-public class DialogTrigger : MonoBehaviour
+public class DialogueTrigger : MonoBehaviour
 {
 
 
-	DManager dialogManager;
+	DialoguesUI dialoguesUI;
 	VIDE_Assign dialog;
 	DialogValidation QC;
 
 	// Start is called before the first frame update
 	void Start() {
-		dialogManager = DManager.Instance;
+		dialoguesUI = DialoguesUI.Instance;
 		dialog = GetComponent<VIDE_Assign>();
 
 		QC = GetComponentInChildren<DialogValidation>();
@@ -24,7 +24,7 @@ public class DialogTrigger : MonoBehaviour
 	// Update is called once per frame
 	void Update() {
 		if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject()) {
-			dialogManager.End(null);
+			dialoguesUI.End(null);
 		}
 
 	}
@@ -32,7 +32,7 @@ public class DialogTrigger : MonoBehaviour
 	public void Run() {
 		//if (dialogManager.PreConditions(dialog))
 		if (QC != null && dialog.assignedID != 0 && QC.QuestConditions(dialog))
-			dialogManager.Begin(dialog);
+			dialoguesUI.Begin(dialog);
 	}
 
 	private void OnTriggerEnter(Collider other) {
@@ -46,7 +46,7 @@ public class DialogTrigger : MonoBehaviour
 }
 
 #if UNITY_EDITOR
-[CustomEditor(typeof(DialogTrigger))]
+[CustomEditor(typeof(DialogueTrigger))]
 public class DialogTriggerEditor : Editor
 {
 

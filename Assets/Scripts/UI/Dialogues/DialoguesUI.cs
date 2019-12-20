@@ -5,10 +5,10 @@ using UnityEngine.UI;
 using VIDE_Data;
 using TMPro;
 
-public class DManager : MonoBehaviour
+public class DialoguesUI : MonoBehaviour
 {
 
-	public static DManager Instance;
+	public static DialoguesUI Instance;
 
 	public GameObject container_NPC;
 	public Image NPC_Sprite;
@@ -22,9 +22,9 @@ public class DManager : MonoBehaviour
 	public GameObject Buttons;
 	public TMP_Text[] choices;
 
-	private void Awake() {
+	public void Init() {
 		Instance = this;
-
+		gameObject.SetActive(true);
 	}
 
 	// Start is called before the first frame update

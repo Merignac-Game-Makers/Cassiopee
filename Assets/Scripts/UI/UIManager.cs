@@ -6,19 +6,18 @@ public class UIManager : MonoBehaviour
 {
     public BookUI bookUI;
     public InventoryUI inventoryUI;
-    //public DialogUI dialogUI;
+    public DialoguesUI dialoguesUI;
+    public QuestsUI questsUI;
+
+
 
     // Start is called before the first frame update
     void OnEnable()
     {
-        bookUI.gameObject.SetActive(true);
         bookUI.Init();
-
-        inventoryUI.gameObject.SetActive(true);
         inventoryUI.Init();
-
-        //dialogUI.gameObject.SetActive(true);
-        //dialogUI.Init();
+        dialoguesUI.Init();
+        questsUI.Init();
 
     }
 
