@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class PNJ : InteractableObject
 {
-    public string name;
+    public string Name;
     public Sprite image;
 
     public override bool IsInteractable => true;

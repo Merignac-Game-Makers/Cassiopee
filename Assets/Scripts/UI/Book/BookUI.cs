@@ -39,7 +39,7 @@ public class BookUI : UIBase
 	Image background;
 	bool isFullScreen = false;
 
-	public bool isOpen => fullScreenButton.activeInHierarchy;
+	public bool IsOpen => fullScreenButton.activeInHierarchy;
 	[HideInInspector]
 	public int currentPageIdx = 0;
 
@@ -76,10 +76,6 @@ public class BookUI : UIBase
 		//openButton.SetActive(!fullScreenButton.activeInHierarchy);
 		InventoryUI.Instance.Show(!fullScreenPanel.activeInHierarchy);
 		background.enabled = fullScreenPanel.activeInHierarchy;
-	}
-
-	public void Show(bool on) {
-		gameObject.SetActive(on);
 	}
 
 	public void ToggleFullScreen() {

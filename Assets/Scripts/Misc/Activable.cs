@@ -17,7 +17,7 @@ using UnityEngine.EventSystems;
 public class Activable : InteractableObject
 {
 
-	public override bool IsInteractable => BookUI.Instance.isOpen;
+	public override bool IsInteractable => BookUI.Instance.IsOpen;
 
 	Vector3 m_TargetPoint;
 

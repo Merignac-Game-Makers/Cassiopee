@@ -45,7 +45,10 @@ public class DialoguesUI : MonoBehaviour
 		PlayerControl.Instance.StopAgent();
 		VD.OnNodeChange += UpdateUI;
 		VD.OnEnd += End;
-		VD.BeginDialogue(dialog);
+		if (VD.isActive)
+			VD.Next(); //.EndDialogue();
+		else 
+			VD.BeginDialogue(dialog);
 	}
 
 	void UpdateUI(VD.NodeData data) {

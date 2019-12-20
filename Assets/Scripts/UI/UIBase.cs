@@ -13,7 +13,7 @@ using UnityEngine.UI;
 public abstract class UIBase : MonoBehaviour
 {
 
-	public static UIBase Instance;
+	//public static UIBase Instance;
 
 	public abstract void Init();
 

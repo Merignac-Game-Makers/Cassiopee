@@ -13,7 +13,7 @@ public class KubDialogValidation : DialogValidation
 		quest?.TestSuccess();
 
 		if (VD.isActive) {  //Stuff we check while the dialogue is active
-			var data = VD.nodeData;
+			//var data = VD.nodeData;
 
 			
 		} else {            //Stuff we do right before the dialogue begins

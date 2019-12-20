@@ -6,6 +6,7 @@ public class QuestsUI : UIBase
 {
     public static QuestsUI Instance;
 
+    public UIButton bookButton;
     public GameObject panel;
     public GameObject content;
     public GameObject questPrefab;
@@ -24,11 +25,7 @@ public class QuestsUI : UIBase
 
     public override void Toggle() {
         panel.SetActive(!panel.activeInHierarchy);
-        BookUI.Instance.Show(!panel.activeInHierarchy);
-    }
-
-    public void Show(bool on) {
-        gameObject.SetActive(on);
+        bookButton.gameObject.SetActive(!panel.activeInHierarchy);
     }
 
     public void AddQuest(QuestBase quest) {

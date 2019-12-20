@@ -45,7 +45,8 @@ public class CubeInWell : QuestBase
 	public override void Reset() {
 		var loots = holder.GetComponentsInChildren<Loot>();
 		foreach (Loot loot in loots) {
-			Destroy(loot.gameObject);
+			//Destroy(loot.gameObject);
+			loot.InteractWith(PlayerControl.Instance.m_CharacterData);
 		}
 		AcceptQuest();
 	}

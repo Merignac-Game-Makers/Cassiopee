@@ -18,6 +18,7 @@ public class InventoryUI : UIBase
 		public RectTransform OriginalParent;
 	}
 
+	public UIButton bookButton;
 	public GameObject InvPanel;
 
 	public RectTransform[] ItemSlots;
@@ -27,13 +28,12 @@ public class InventoryUI : UIBase
 
 	public EquipmentUI EquipementUI;
 
-
 	public Canvas DragCanvas;
 
 	public static InventoryUI Instance;
 
 	// Raycast
-	RaycastHit[] m_RaycastHitCache = new RaycastHit[16];
+	readonly RaycastHit[] m_RaycastHitCache = new RaycastHit[16];
 	int m_TargetLayer;
 
 
@@ -85,11 +85,7 @@ public class InventoryUI : UIBase
 
 	public override void Toggle() {
 		InvPanel.SetActive(!InvPanel.activeInHierarchy);
-		BookUI.Instance.Show(!InvPanel.activeInHierarchy);
-	}
-
-	public void Show(bool on) {
-			gameObject.SetActive(on);
+		bookButton.gameObject.SetActive(!InvPanel.activeInHierarchy);
 	}
 
 	public void Load(HighlightableObject item) {
@@ -150,16 +146,16 @@ public class InventoryUI : UIBase
 		int count = Physics.SphereCastNonAlloc(screenRay, 1.0f, m_RaycastHitCache, 1000.0f, m_TargetLayer);
 		if (count > 0) {
 			foreach (RaycastHit rh in m_RaycastHitCache) {
-				Target data = rh.collider?.GetComponentInParent<Target>();
-				if (data!=null && data.isFree) {
-					Debug.Log("Drop Item");
-					DropItem(data, PlayerControl.Instance.m_CurrentlyDragged);
-					break;
+				if (rh.collider != null) {
+					Target data = rh.collider.GetComponentInParent<Target>();
+					if (data != null && data.isFree) {
+						Debug.Log("Drop Item");
+						DropItem(data, PlayerControl.Instance.m_CurrentlyDragged);
+						break;
+					}
 				}
-
 			}
 		}
-
 	}
 
 	private void DropItem(Target target, InventoryUI.DragData dragData) {
@@ -179,7 +175,7 @@ public class InventoryUI : UIBase
 				obj.transform.localScale.z / target.transform.localScale.z
 				);
 			obj.layer = LayerMask.NameToLayer("Interactable");
-		} 
+		}
 		//else {//...otherwise, we create a billboard using the item sprite
 		//	GameObject billboard = new GameObject("ItemBillboard");
 		//	billboard.transform.SetParent(transform, false);
