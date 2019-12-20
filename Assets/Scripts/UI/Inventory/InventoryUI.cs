@@ -10,7 +10,7 @@ using UnityEngine.UI;
 /// <summary>
 /// Handle all the UI code related to the inventory (drag'n'drop of object, using objects, equipping object etc.)
 /// </summary>
-public class InventoryUI : MonoBehaviour
+public class InventoryUI : UIBase
 {
 	public class DragData
 	{
@@ -19,8 +19,6 @@ public class InventoryUI : MonoBehaviour
 	}
 
 	public GameObject InvPanel;
-	public GameObject openButton;
-	public GameObject closeButton;
 
 	public RectTransform[] ItemSlots;
 
@@ -51,12 +49,10 @@ public class InventoryUI : MonoBehaviour
 	//	Instance = this;
 	//}
 
-	public void Init() {
+	public override void Init() {
 		Instance = this;
 		gameObject.SetActive(true);
 		InvPanel.SetActive(false);
-		closeButton.SetActive(false);
-		openButton.SetActive(true);
 
 		CurrentlyDragged = null;
 
@@ -87,10 +83,8 @@ public class InventoryUI : MonoBehaviour
 			Toggle();
 	}
 
-	public void Toggle() {
+	public override void Toggle() {
 		InvPanel.SetActive(!InvPanel.activeInHierarchy);
-		closeButton.SetActive(InvPanel.activeInHierarchy);
-		openButton.SetActive(!closeButton.activeInHierarchy);
 		BookUI.Instance.Show(!InvPanel.activeInHierarchy);
 	}
 

@@ -10,7 +10,7 @@ using UnityEngine.UI;
 /// <summary>
 /// Handle all the UI code related to the inventory (drag'n'drop of object, using objects, equipping object etc.)
 /// </summary>
-public class BookUI : MonoBehaviour
+public class BookUI : UIBase
 {
 
 	public GameObject fullScreenPanel;
@@ -18,8 +18,8 @@ public class BookUI : MonoBehaviour
 	public GameObject rightPage;
 
 
-	public GameObject openButton;
-	public GameObject closeButton;
+	//public GameObject openButton;
+	//public GameObject closeButton;
 	public GameObject fullScreenButton;
 	public GameObject sidePanel;
 
@@ -39,7 +39,7 @@ public class BookUI : MonoBehaviour
 	Image background;
 	bool isFullScreen = false;
 
-	public bool isOpen => closeButton.activeInHierarchy;
+	public bool isOpen => fullScreenButton.activeInHierarchy;
 	[HideInInspector]
 	public int currentPageIdx = 0;
 
@@ -47,13 +47,13 @@ public class BookUI : MonoBehaviour
 	//	Instance = this;
 	//}
 
-	public void Init() {
+	public override void Init() {
 		Instance = this;
 		gameObject.SetActive(true);
 		fullScreenPanel.SetActive(false);
 		fullScreenButton.SetActive(false);
-		closeButton.SetActive(false);
-		openButton.SetActive(true);
+		//closeButton.SetActive(false);
+		//openButton.SetActive(true);
 		sidePanel.SetActive(false);
 		background = GetComponent<Image>();
 		background.enabled = fullScreenPanel.activeInHierarchy;
@@ -63,20 +63,17 @@ public class BookUI : MonoBehaviour
 	}
 
 	private void Update() {
-		//Keyboard shortcut
-		if (Input.GetKeyUp(KeyCode.B))
-			Toggle();
 
 		m_NextPage.SetActive(currentPageIdx < bookSystem.MaxPage-1);
 		m_PrevPage.SetActive(currentPageIdx > 0);
 	}
 
-	public void Toggle() {
+	public override void Toggle() {
 		fullScreenButton.SetActive(!fullScreenButton.activeInHierarchy);
-		closeButton.SetActive(fullScreenButton.activeInHierarchy);
-		fullScreenPanel.SetActive(closeButton.activeInHierarchy && isFullScreen);
-		sidePanel.SetActive(closeButton.activeInHierarchy);
-		openButton.SetActive(!closeButton.activeInHierarchy);
+		//closeButton.SetActive(fullScreenButton.activeInHierarchy);
+		fullScreenPanel.SetActive(fullScreenButton.activeInHierarchy && isFullScreen);
+		sidePanel.SetActive(fullScreenButton.activeInHierarchy);
+		//openButton.SetActive(!fullScreenButton.activeInHierarchy);
 		InventoryUI.Instance.Show(!fullScreenPanel.activeInHierarchy);
 		background.enabled = fullScreenPanel.activeInHierarchy;
 	}
@@ -88,7 +85,7 @@ public class BookUI : MonoBehaviour
 	public void ToggleFullScreen() {
 		isFullScreen = !isFullScreen;
 		fullScreenPanel.SetActive(isFullScreen);
-		sidePanel.SetActive(closeButton.activeInHierarchy);
+		sidePanel.SetActive(fullScreenButton.activeInHierarchy);
 		InventoryUI.Instance.Show(!fullScreenPanel.activeInHierarchy);
 		background.enabled = fullScreenPanel.activeInHierarchy;
 	}

@@ -2,22 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class QuestsUI : MonoBehaviour
+public class QuestsUI : UIBase
 {
     public static QuestsUI Instance;
 
     public GameObject panel;
-    public GameObject openButton;
-    public GameObject closeButton;
     public GameObject content;
     public GameObject questPrefab;
 
-    public void Init() {
+    public override void Init() {
         Instance = this;
         gameObject.SetActive(true);
         panel.SetActive(false);
-        closeButton.SetActive(false);
-        openButton.SetActive(true);
     }
 
     private void Update() {
@@ -26,10 +22,8 @@ public class QuestsUI : MonoBehaviour
             Toggle();
     }
 
-    public void Toggle() {
+    public override void Toggle() {
         panel.SetActive(!panel.activeInHierarchy);
-        closeButton.SetActive(panel.activeInHierarchy);
-        openButton.SetActive(!closeButton.activeInHierarchy);
         BookUI.Instance.Show(!panel.activeInHierarchy);
     }
 
