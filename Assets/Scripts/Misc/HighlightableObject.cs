@@ -16,6 +16,8 @@ public class HighlightableObject : MonoBehaviour
 	int m_RimPowID;
 	int m_RimIntensityID;
 
+	float m_on, m_off;
+
 
 	Color[] m_OriginalRimColor;
 	float[] m_SavedRimIntensity;
@@ -54,6 +56,10 @@ public class HighlightableObject : MonoBehaviour
 			m_PropertyBlock.SetFloat(m_RimIntensityID, mat.GetFloat(m_RimIntensityID));
 
 			rend.SetPropertyBlock(m_PropertyBlock);
+
+			m_on = m_PropertyBlock.GetFloat(m_RimPowID) * .25f;
+			m_off = m_PropertyBlock.GetFloat(m_RimPowID) * 4.0f;
+
 		}
 	}
 
@@ -72,14 +78,14 @@ public class HighlightableObject : MonoBehaviour
 
 			if (on) {
 				m_PropertyBlock.SetColor(m_RimColorID, m_OriginalRimColor[i]);
-				m_PropertyBlock.SetFloat(m_RimPowID, m_PropertyBlock.GetFloat(m_RimPowID) * 0.25f);
+				m_PropertyBlock.SetFloat(m_RimPowID, m_on);
 
 				m_SavedRimIntensity[i] = m_PropertyBlock.GetFloat(m_RimIntensityID);
 				m_PropertyBlock.SetFloat(m_RimIntensityID, 1.0f);
-			} else { 
-					m_PropertyBlock.SetColor(m_RimColorID, transparent);
-					m_PropertyBlock.SetFloat(m_RimPowID, m_PropertyBlock.GetFloat(m_RimPowID) * 4.0f);
-					m_PropertyBlock.SetFloat(m_RimIntensityID, m_SavedRimIntensity[i]);
+			} else {
+				m_PropertyBlock.SetColor(m_RimColorID, transparent);
+				m_PropertyBlock.SetFloat(m_RimPowID, m_off);
+				m_PropertyBlock.SetFloat(m_RimIntensityID, m_SavedRimIntensity[i]);
 			}
 
 			rend.SetPropertyBlock(m_PropertyBlock);

@@ -26,7 +26,7 @@ public class Electric : MonoBehaviour
 
     private void Start ()
     {
-        lRend = GetComponent<LineRenderer>();
+        lRend = GetComponentInChildren<LineRenderer>();
         points = new Vector3[pointsCount];
         lRend.positionCount = pointsCount;
     }

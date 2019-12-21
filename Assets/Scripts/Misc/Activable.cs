@@ -22,7 +22,8 @@ public class Activable : InteractableObject
 	Vector3 m_TargetPoint;
 
 	public bool IsActive => m_IsActive;
-	bool m_IsActive;
+	[HideInInspector]
+	public bool m_IsActive;
 
 	void Awake() {
 		m_TargetPoint = transform.position;
@@ -52,6 +53,7 @@ public class Activable : InteractableObject
 
 	public void Toggle() {
 		m_IsActive = !m_IsActive;
+		MagicController.Instance.AddOrRemove(this);
 	}
 
 }
