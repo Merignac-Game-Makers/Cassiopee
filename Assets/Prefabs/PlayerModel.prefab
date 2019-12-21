@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 4886907886234282154}
   - component: {fileID: 4886907886234282157}
   - component: {fileID: 4886907886234282156}
-  - component: {fileID: 4886907886234282155}
   m_Layer: 9
   m_Name: right eye
   m_TagString: Untagged
@@ -79,19 +78,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!135 &4886907886234282155
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4886907886234282153}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &4886907886706858842
 GameObject:
   m_ObjectHideFlags: 0
@@ -103,10 +89,8 @@ GameObject:
   - component: {fileID: 4886907886706858847}
   - component: {fileID: 4886907886706858846}
   - component: {fileID: 4886907886706858845}
-  - component: {fileID: 4886907886706858844}
   - component: {fileID: 4886907886706858843}
   - component: {fileID: 6763122045294833797}
-  - component: {fileID: 9205743276017638255}
   m_Layer: 9
   m_Name: PlayerModel
   m_TagString: Player
@@ -176,20 +160,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!136 &4886907886706858844
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4886907886706858842}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &4886907886706858843
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -228,19 +198,6 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &9205743276017638255
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4886907886706858842}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5954df0658fa77e49bac58f3f0f19917, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  UI: {fileID: 0}
 --- !u!1 &4886907886861828481
 GameObject:
   m_ObjectHideFlags: 0
@@ -252,7 +209,6 @@ GameObject:
   - component: {fileID: 4886907886861828482}
   - component: {fileID: 4886907886861828485}
   - component: {fileID: 4886907886861828484}
-  - component: {fileID: 4886907886861828483}
   m_Layer: 9
   m_Name: left eye
   m_TagString: Untagged
@@ -320,16 +276,3 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!135 &4886907886861828483
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4886907886861828481}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}

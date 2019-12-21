@@ -202,17 +202,16 @@ public class VIDEUIManager1 : MonoBehaviour
                 //For NPC sprite, we'll first check if there's any "sprite" key
                 //Such key is being used to apply the sprite only when at a certain comment index
                 //Check CrazyCap dialogue for reference
-                if (data.extraVars.ContainsKey("sprite"))
-                {
+                if (data.extraVars.ContainsKey("sprite")) {
                     if (data.commentIndex == (int)data.extraVars["sprite"])
                         NPCSprite.sprite = data.sprite;
                     else
                         NPCSprite.sprite = VD.assigned.defaultNPCSprite; //If not there yet, set default dialogue sprite
-                }
-                else //Otherwise use the node sprites
-                {
+                } else //Otherwise use the node sprites
+                  {
                     NPCSprite.sprite = data.sprite;
                 }
+
             } //or use the default sprite if there isnt a node sprite at all
             else if (VD.assigned.defaultNPCSprite != null)
                 NPCSprite.sprite = VD.assigned.defaultNPCSprite;

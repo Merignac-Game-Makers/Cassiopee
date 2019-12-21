@@ -13,13 +13,14 @@ using UnityEngine.UI;
 public abstract class UIBase : MonoBehaviour
 {
 
-	//public static UIBase Instance;
+	public GameObject panel;
+	public bool isOn => (panel==null && gameObject.activeInHierarchy) || panel.activeInHierarchy;
 
-	public abstract void Init();
+	public abstract void Init(UIManager uiManager);
 
 	public abstract void Toggle();
 
 	public void Show(bool on) {
-		gameObject.SetActive(on);
+		panel.SetActive(on);
 	}
 }

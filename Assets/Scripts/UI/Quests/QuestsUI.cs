@@ -7,27 +7,25 @@ public class QuestsUI : UIBase
     public static QuestsUI Instance;
 
     public UIButton bookButton;
-    public GameObject panel;
+    public GameObject bookPanel;
+
     public GameObject pending;
     public GameObject over;
     public GameObject questPrefab;
 
+    UIManager uiManager;
 
-    public override void Init() {
+    public override void Init(UIManager uiManager) {
         Instance = this;
+        this.uiManager = uiManager;
+
         gameObject.SetActive(true);
         panel.SetActive(false);
     }
 
-    private void Update() {
-        //Keyboard shortcut
-        if (Input.GetKeyUp(KeyCode.Q))
-            Toggle();
-    }
-
     public override void Toggle() {
-        panel.SetActive(!panel.activeInHierarchy);
-        bookButton.gameObject.SetActive(!panel.activeInHierarchy);
+        panel.SetActive(!isOn);
+        uiManager.ManageButtons();
     }
 
     public void AddQuest(QuestBase quest) {

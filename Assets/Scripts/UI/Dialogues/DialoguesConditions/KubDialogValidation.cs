@@ -17,11 +17,12 @@ public class KubDialogValidation : DialogValidation
 
 			
 		} else {            //Stuff we do right before the dialogue begins
-			if (quest?.status == QuestStatus.Refused) {
-				dialogue.overrideStartNode = RefusedQuestNode;
-			} else if (quest?.status == QuestStatus.Accepted) {
-				dialogue.overrideStartNode = AcceptedQuestNode;
-			} else if (quest?.status == QuestStatus.Done) {
+			//if (quest?.status == QuestStatus.Refused) {
+			//	dialogue.overrideStartNode = RefusedQuestNode;
+			//} else if (quest?.status == QuestStatus.Accepted) {
+			//	dialogue.overrideStartNode = AcceptedQuestNode;
+			//} else 
+			if (quest?.status == QuestStatus.Done) {
 				dialogue.overrideStartNode = DoneQuestNode;
 			} else if (quest?.status == QuestStatus.Failed) {
 				dialogue.overrideStartNode = FailedQuestNode;

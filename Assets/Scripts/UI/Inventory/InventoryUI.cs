@@ -1,9 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
-using UnityEngine;
-using UnityEngine.Analytics;
-using UnityEngine.EventSystems;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 
@@ -19,7 +14,7 @@ public class InventoryUI : UIBase
 	}
 
 	public UIButton bookButton;
-	public GameObject InvPanel;
+	public GameObject bookPanel;
 
 	public RectTransform[] ItemSlots;
 
@@ -42,17 +37,18 @@ public class InventoryUI : UIBase
 
 	[HideInInspector]
 	public ItemEntryUI[] m_ItemEntries;
+
 	ItemEntryUI m_HoveredItem;
 	HighlightableObject m_Item;
+	UIManager uiManager;
 
-	//private void Awake() {
-	//	Instance = this;
-	//}
 
-	public override void Init() {
+	public override void Init(UIManager uiManager) {
 		Instance = this;
+		this.uiManager = uiManager;
+
 		gameObject.SetActive(true);
-		InvPanel.SetActive(false);
+		panel.SetActive(false);
 
 		CurrentlyDragged = null;
 
@@ -77,15 +73,10 @@ public class InventoryUI : UIBase
 		Tooltip.gameObject.SetActive(false);
 	}
 
-	private void Update() {
-		//Keyboard shortcut
-		if (Input.GetKeyUp(KeyCode.I))
-			Toggle();
-	}
 
 	public override void Toggle() {
-		InvPanel.SetActive(!InvPanel.activeInHierarchy);
-		bookButton.gameObject.SetActive(!InvPanel.activeInHierarchy);
+		panel.SetActive(!isOn);
+		uiManager.ManageButtons();
 	}
 
 	public void Load(HighlightableObject item) {

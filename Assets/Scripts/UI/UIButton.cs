@@ -26,7 +26,7 @@ public class UIButton : MonoBehaviour
 	}
 
 	public void Toggle() {
-		image.sprite = image.sprite == open ? close : open;
 		target.Toggle();
+		image.sprite = image.sprite == target.isOn ? close : open;
 	}
 }

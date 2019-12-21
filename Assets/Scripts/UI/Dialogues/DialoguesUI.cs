@@ -22,8 +22,12 @@ public class DialoguesUI : MonoBehaviour
 	public GameObject Buttons;
 	public TMP_Text[] choices;
 
-	public void Init() {
+	UIManager uiManager;
+
+	public void Init(UIManager uiManager) {
 		Instance = this;
+		this.uiManager = uiManager;
+
 		gameObject.SetActive(true);
 	}
 
@@ -46,28 +50,35 @@ public class DialoguesUI : MonoBehaviour
 		VD.OnNodeChange += UpdateUI;
 		VD.OnEnd += End;
 		if (VD.isActive)
-			VD.Next(); //.EndDialogue();
-		else 
+			VD.Next(); 
+		else {
 			VD.BeginDialogue(dialog);
+		}
 	}
 
 	void UpdateUI(VD.NodeData data) {
 		container_NPC.SetActive(false);
 		container_PLAYER.SetActive(false);
 
+
 		if (data.isPlayer) {
 			container_PLAYER.SetActive(true);
 			// set sprite
-			if (data.sprite != null)
+			if (data.creferences[data.commentIndex].sprites != null)
+				PLAYER_Sprite.sprite = data.creferences[data.commentIndex].sprites;    // specific for comment i exists
+			else if (data.sprite != null)
 				PLAYER_Sprite.sprite = data.sprite;
 			else if (VD.assigned.defaultPlayerSprite != null)
 				PLAYER_Sprite.sprite = VD.assigned.defaultPlayerSprite;
+
+			// set name
 			//If it has a tag, show it, otherwise let's use the alias we set in the VIDE Assign
 			if (data.tag.Length > 0)
 				PLAYER_Label.text = data.tag;
 			else
 				PLAYER_Label.text = "Player";
 
+			// set choices
 			for (int i = 0; i < choices.Length; i++) {
 				if (i < data.comments.Length) {
 					choices[i].transform.parent.gameObject.SetActive(true);
@@ -79,32 +90,28 @@ public class DialoguesUI : MonoBehaviour
 		} else {
 			container_NPC.SetActive(true);
 
-			//Set node sprite if there's any, otherwise try to use default sprite
-			if (data.sprite != null) {
-				//For NPC sprite, we'll first check if there's any "sprite" key
-				//Such key is being used to apply the sprite only when at a certain comment index
-				//Check CrazyCap dialogue for reference
-				if (data.extraVars.ContainsKey("sprite")) {
-					if (data.commentIndex == (int)data.extraVars["sprite"])
-						NPC_Sprite.sprite = data.sprite;
-					else
-						NPC_Sprite.sprite = VD.assigned.defaultNPCSprite; //If not there yet, set default dialogue sprite
-				} else { //Otherwise use the node sprites
-					NPC_Sprite.sprite = data.sprite;
-				}
-			} //or use the default sprite if there isnt a node sprite at all
+			// set sprite
+			if (data.creferences[data.commentIndex].sprites != null)				
+				NPC_Sprite.sprite = data.creferences[data.commentIndex].sprites;	// specific for comment i exists
+			else if (data.sprite != null)		
+				NPC_Sprite.sprite = data.sprite;									// specific for node if exists
 			else if (VD.assigned.defaultNPCSprite != null)
-				NPC_Sprite.sprite = VD.assigned.defaultNPCSprite;
+				NPC_Sprite.sprite = VD.assigned.defaultNPCSprite;					// for dialog
 
-			//If it has a tag, show it, otherwise let's use the alias we set in the VIDE Assign
+			// set name
+			// If it has a tag, show it, otherwise let's use the alias we set in the VIDE Assign
 			if (data.tag.Length > 0)
 				NPC_label.text = data.tag;
 			else
 				NPC_label.text = VD.assigned.alias;
 
+			// set text
 			text_NPC.text = data.comments[data.commentIndex];
 		}
 	}
+
+	
+
 	public void End(VD.NodeData data) {
 		container_NPC.SetActive(false);
 		container_PLAYER.SetActive(false);
@@ -125,22 +132,6 @@ public class DialoguesUI : MonoBehaviour
 
 	public void Next() {
 		VD.Next();
-	}
-
-	public bool PreConditions(VIDE_Assign dialogue) {
-		var data = VD.nodeData;
-		if (VD.isActive) {  //Stuff we check while the dialogue is active
-
-		} else {            //Stuff we do right before the dialogue begins
-			if (dialogue.alias == "Walter") { 
-				if (questStatus == QuestStatus.Refused) {
-					dialogue.overrideStartNode = 4;
-				} else if (questStatus == QuestStatus.Done) {
-					dialogue.overrideStartNode = 8;
-				}
-			}
-		}
-		return true;
 	}
 
 	public enum QuestStatus { None, Accepted, Refused, Done}

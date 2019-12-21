@@ -18,8 +18,7 @@ public class BookUI : UIBase
 	public GameObject rightPage;
 
 
-	//public GameObject openButton;
-	//public GameObject closeButton;
+	public GameObject bookButton;
 	public GameObject fullScreenButton;
 	public GameObject sidePanel;
 
@@ -36,54 +35,38 @@ public class BookUI : UIBase
 
 	public static BookUI Instance;
 
-	Image background;
 	bool isFullScreen = false;
+	UIManager uiManager;
 
 	public bool IsOpen => fullScreenButton.activeInHierarchy;
 	[HideInInspector]
 	public int currentPageIdx = 0;
 
-	//private void Awake() {
-	//	Instance = this;
-	//}
-
-	public override void Init() {
+	public override void Init(UIManager uiManager) {
 		Instance = this;
+		this.uiManager = uiManager;
+
 		gameObject.SetActive(true);
-		fullScreenPanel.SetActive(false);
-		fullScreenButton.SetActive(false);
-		//closeButton.SetActive(false);
-		//openButton.SetActive(true);
-		sidePanel.SetActive(false);
-		background = GetComponent<Image>();
-		background.enabled = fullScreenPanel.activeInHierarchy;
+		panel.SetActive(false);
 
 		bookSystem = GetComponent<BookSystem>();
 		ShowPage(0);
 	}
 
 	private void Update() {
-
 		m_NextPage.SetActive(currentPageIdx < bookSystem.MaxPage-1);
 		m_PrevPage.SetActive(currentPageIdx > 0);
 	}
 
 	public override void Toggle() {
-		fullScreenButton.SetActive(!fullScreenButton.activeInHierarchy);
-		//closeButton.SetActive(fullScreenButton.activeInHierarchy);
-		fullScreenPanel.SetActive(fullScreenButton.activeInHierarchy && isFullScreen);
-		sidePanel.SetActive(fullScreenButton.activeInHierarchy);
-		//openButton.SetActive(!fullScreenButton.activeInHierarchy);
-		InventoryUI.Instance.Show(!fullScreenPanel.activeInHierarchy);
-		background.enabled = fullScreenPanel.activeInHierarchy;
+		panel.SetActive(!panel.activeInHierarchy);
+		//fullScreenPanel.SetActive(isOn && isFullScreen);
+		sidePanel.SetActive(isOn);
 	}
 
 	public void ToggleFullScreen() {
 		isFullScreen = !isFullScreen;
 		fullScreenPanel.SetActive(isFullScreen);
-		sidePanel.SetActive(fullScreenButton.activeInHierarchy);
-		InventoryUI.Instance.Show(!fullScreenPanel.activeInHierarchy);
-		background.enabled = fullScreenPanel.activeInHierarchy;
 	}
 
 

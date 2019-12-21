@@ -20,7 +20,7 @@ public class MagicSystem : MonoBehaviour
 
 	// Start is called before the first frame update
 	void Start() {
-
+		m_SelectedArtefact = SelectedArtefact.Sun;
 	}
 
 	// Update is called once per frame
@@ -30,12 +30,12 @@ public class MagicSystem : MonoBehaviour
 
 	public void selectSun() {
 		m_SelectedArtefact = SelectedArtefact.Sun;
-		SunButton.GetComponent<Toggle>().Select();
+		//SunButton.GetComponent<Toggle>().Select();
 	}
 
 	public void selectMoon() {
 		m_SelectedArtefact = SelectedArtefact.Moon;
-		MoonButton.GetComponent<Toggle>().Select();
+		//MoonButton.GetComponent<Toggle>().Select();
 	}
 
 	public void selectNone() {

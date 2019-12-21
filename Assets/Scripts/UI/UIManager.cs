@@ -4,26 +4,25 @@ using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
-    public BookUI bookUI;
-    public InventoryUI inventoryUI;
-    public DialoguesUI dialoguesUI;
-    public QuestsUI questsUI;
+	public BookUI bookUI;
+	public InventoryUI inventoryUI;
+	public DialoguesUI dialoguesUI;
+	public QuestsUI questsUI;
+
+	public UIButton bookButton;
 
 
+	// Start is called before the first frame update
+	void OnEnable() {
+		bookUI.Init(this);
+		inventoryUI.Init(this);
+		dialoguesUI.Init(this);
+		questsUI.Init(this);
 
-    // Start is called before the first frame update
-    void OnEnable()
-    {
-        bookUI.Init();
-        inventoryUI.Init();
-        dialoguesUI.Init();
-        questsUI.Init();
+	}
 
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+	public void ManageButtons() {
+		//bookUI.Show(!inventoryUI.isOn && !questsUI.isOn);
+		bookButton.gameObject.SetActive(!inventoryUI.isOn && !questsUI.isOn);
+	}
 }
