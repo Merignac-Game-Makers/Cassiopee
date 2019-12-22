@@ -6,24 +6,27 @@ using UnityEngine;
 public class MagicController : MonoBehaviour
 {
 	public LineRenderer lineRendered;
+	public Material magicMaterial;
 
 	[HideInInspector]
 	public List<Activable> magicActivatedItems;
 
 	public static MagicController Instance;
 
+	[HideInInspector]
+	List<Activable> cassiopee;
+
 	private void Awake() {
 		Instance = this;
 	}
 
-	// Start is called before the first frame update
-	void Start() {
-
-	}
-
-	// Update is called once per frame
-	void Update() {
-
+	private void Start() {
+		cassiopee = new List<Activable>();
+		cassiopee.AddItem(GameObject.Find("SphereA"));
+		cassiopee.AddItem(GameObject.Find("SphereB"));
+		cassiopee.AddItem(GameObject.Find("Well"));
+		cassiopee.AddItem(GameObject.Find("SphereC"));
+		cassiopee.AddItem(GameObject.Find("SphereD"));
 	}
 
 	public void AddOrRemove(Activable item) {
@@ -40,7 +43,7 @@ public class MagicController : MonoBehaviour
 		} else {
 			Debug.Log("remove " + item.name);
 			int idx = magicActivatedItems.IndexOf(item);
-			for (int i=magicActivatedItems.Count-1; i>=idx; i--) {
+			for (int i = magicActivatedItems.Count - 1; i >= idx; i--) {
 				Activable obj = magicActivatedItems[i];
 				Destroy(obj.GetComponent<Electric>());
 				Destroy(obj.GetComponentInChildren<LineRenderer>()?.gameObject);
@@ -49,11 +52,35 @@ public class MagicController : MonoBehaviour
 				obj.Highlight(false);
 			}
 		}
+		if (TestSuccess()) {
+			Debug.Log("DONE !!!");
+			PlayerControl.Instance.gameObject.GetComponentInChildren<MeshRenderer>().material = magicMaterial;
+		}
+	}
+
+	bool TestSuccess() {
+		return magicActivatedItems.IsLke(cassiopee);
 	}
 }
 public static class Extensions
 {
 	public static Activable Last(this List<Activable> list) {
 		return list[list.Count - 1];
+	}
+	public static void AddItem(this List<Activable> list, GameObject item) {
+		if (item.GetComponentInChildren<Activable>() != null)
+			list.Add(item.GetComponentInChildren<Activable>());
+	}
+	public static bool IsLke(this List<Activable> list, List<Activable> other) {
+		if (list.Count != other.Count)
+			return false;
+		else {
+			for (int i = 0; i < list.Count; i++) {
+				if (list[i] != other[i])
+					return false;
+			}
+			return true;
+		}
+
 	}
 }

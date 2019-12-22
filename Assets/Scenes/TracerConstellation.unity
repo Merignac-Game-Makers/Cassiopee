@@ -166,7 +166,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 1
-  m_FollowOffset: {x: 11.809996, y: 8.07, z: 15.169997}
+  m_FollowOffset: {x: 10.139994, y: 16.08, z: 14.339997}
   m_XDamping: 1
   m_YDamping: 1
   m_ZDamping: 1
@@ -558,6 +558,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lineRendered: {fileID: 1486704699677177761, guid: 7a78caf96889de140ab93cb857bdad34,
     type: 3}
+  magicMaterial: {fileID: 2100000, guid: 7e26b8f429254ce48b8046218ccffd40, type: 2}
   magicActivatedItems: []
 --- !u!1001 &167638222
 PrefabInstance:
@@ -3816,7 +3817,7 @@ PrefabInstance:
     - target: {fileID: 1174205456259649103, guid: 108b55799d02ed64a863be48d66be402,
         type: 3}
       propertyPath: m_Name
-      value: Well Y
+      value: Well
       objectReference: {fileID: 0}
     - target: {fileID: 2742908213249211484, guid: 108b55799d02ed64a863be48d66be402,
         type: 3}
@@ -4227,8 +4228,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: 0.059976466, y: -0.8443199, z: 0.09671092, w: 0.5236162}
-  m_LocalPosition: {x: 10.110001, y: 6.8300004, z: 17.1}
+  m_LocalRotation: {x: 0.104634635, y: -0.8329403, z: 0.16873473, w: 0.5165179}
+  m_LocalPosition: {x: 8.43, y: 14.889999, z: 16.27}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1093710607}
@@ -5588,7 +5589,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.53300005, y: 0.07300001}
   m_AnchorMax: {x: 0.81148475, y: 0.21785495}
-  m_AnchoredPosition: {x: 9.0000305, y: -6}
+  m_AnchoredPosition: {x: 9.000153, y: -6}
   m_SizeDelta: {x: 8, y: 6}
   m_Pivot: {x: 1, y: 0}
 --- !u!1 &1352769142
@@ -6029,7 +6030,7 @@ GameObject:
   - component: {fileID: 1465591844}
   - component: {fileID: 1465591843}
   m_Layer: 8
-  m_Name: Sphere a
+  m_Name: SphereC
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6318,8 +6319,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1483247591}
-  m_LocalRotation: {x: 0.059976466, y: -0.8443199, z: 0.09671092, w: 0.5236162}
-  m_LocalPosition: {x: 10.11, y: 6.83, z: 17.1}
+  m_LocalRotation: {x: 0.104634635, y: -0.8329403, z: 0.16873473, w: 0.5165179}
+  m_LocalPosition: {x: 8.43, y: 14.89, z: 16.27}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 15395265}
@@ -6655,7 +6656,7 @@ GameObject:
   - component: {fileID: 1515622869}
   - component: {fileID: 1515622868}
   m_Layer: 8
-  m_Name: Sphere d
+  m_Name: SphereB
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7123,7 +7124,7 @@ GameObject:
   - component: {fileID: 1575772433}
   - component: {fileID: 1575772432}
   m_Layer: 8
-  m_Name: Sphere B
+  m_Name: SphereD
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8269,6 +8270,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: LineRenderer
       objectReference: {fileID: 0}
+    - target: {fileID: 36354040572090656, guid: 7a78caf96889de140ab93cb857bdad34,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7894640919123012903, guid: 7a78caf96889de140ab93cb857bdad34,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -8750,7 +8756,7 @@ GameObject:
   - component: {fileID: 1881703010}
   - component: {fileID: 1881703009}
   m_Layer: 8
-  m_Name: Sphere E
+  m_Name: SphereA
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9729,5 +9735,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 95785325123566174, guid: 4eb0b1734dc9a6d4482d02260ee0ea5a,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 17938a61eaa56884699230b1b735c8a2, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4eb0b1734dc9a6d4482d02260ee0ea5a, type: 3}
