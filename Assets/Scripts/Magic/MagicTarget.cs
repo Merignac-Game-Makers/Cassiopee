@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.AI;
 
 public class MagicTarget : InteractableObject
 {
@@ -32,9 +33,11 @@ public class MagicTarget : InteractableObject
 	public void MakeMagicalStuff(MagicOrb orb) {
 		Debug.Log("DO MAGIC !!!");
 		if (orb.GetComponentInChildren<MagicOrb>().orbType == MagicOrb.OrbType.Moon) {
-			gameObject.transform.localScale /= 1.2f;
+			gameObject.transform.localScale /= 2f;
+			GetComponentInChildren<NavMeshLink>().enabled = false;
 		} else {
-			gameObject.transform.localScale *= 1.2f;
+			gameObject.transform.localScale *= 2f;
+			GetComponentInChildren<NavMeshLink>().enabled = true;
 		}
 		Destroy(orb.gameObject);
 	}
