@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 16f67a5c4af715e469a399ce6bb1de97, type: 3}
-  m_Name: WaterOrb
+  m_Name: MoonOrb
   m_EditorClassIdentifier: 
-  ItemName: Water Orb
+  ItemName: Moon Orb
   ItemSprite: {fileID: 0}
-  Description: WATER orb
-  WorldObjectPrefab: {fileID: 708512745193857573, guid: 0a42c6dbb118963419463f46c50cf3c6,
+  Description: MOON orb
+  WorldObjectPrefab: {fileID: 708512745193857573, guid: b3d7ea6f2518833469289ba6fe49f978,
     type: 3}
   UsageEffects: []

@@ -4,7 +4,9 @@ using System.Collections;
 public class Electric : MonoBehaviour
 {
     private LineRenderer lRend;
+    [HideInInspector]
     public Transform transformPointA;
+    [HideInInspector]
     public Transform transformPointB;
     private readonly int pointsCount = 5;
     private readonly int half = 2;

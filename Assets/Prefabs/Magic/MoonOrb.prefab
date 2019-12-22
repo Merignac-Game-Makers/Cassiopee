@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8917283038323709626}
   - component: {fileID: 8882288825721271739}
   m_Layer: 10
-  m_Name: MagicOrb
+  m_Name: MoonOrb
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -31,7 +31,12 @@ public class MagicTarget : InteractableObject
 
 	public void MakeMagicalStuff(MagicOrb orb) {
 		Debug.Log("DO MAGIC !!!");
-		gameObject.transform.localScale *= 1.2f;
+		if (orb.GetComponentInChildren<MagicOrb>().orbType == MagicOrb.OrbType.Moon) {
+			gameObject.transform.localScale /= 1.2f;
+		} else {
+			gameObject.transform.localScale *= 1.2f;
+		}
+		Destroy(orb.gameObject);
 	}
 }
 

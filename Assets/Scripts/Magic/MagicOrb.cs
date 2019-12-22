@@ -7,35 +7,25 @@ using UnityEngine.UI;
 
 public class MagicOrb : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
+	public enum OrbType { Moon, Sun}
 
-	//public Canvas dragCanvas;
-	public CanvasScaler dragCanvasScaler { get; private set; }
-	public MagicTarget mTarget { get; private set; }
+	public OrbType orbType;
 
-
-	MagicController magicController;
-	GameObject pivot;
-	RaycastHit m_HitInfo = new RaycastHit();
-	int m_Layer;
+	private MagicTarget mTarget;
+	private MagicController magicController;
+	private int m_Layer;
+	private RaycastHit[] m_RaycastHitCache = new RaycastHit[4];
 
 	// Start is called before the first frame update
 	void Start() {
 		magicController = MagicController.Instance;
-		pivot = Instantiate(new GameObject());
-		m_Layer = 1 << LayerMask.NameToLayer("Magic");
-		m_Layer = ~m_Layer;
+		m_Layer = ~(1 << LayerMask.NameToLayer("Magic"));
 	}
 
-	// Update is called once per frame
-	void Update() {
-
-	}
-
-	private RaycastHit[] m_RaycastHitCache = new RaycastHit[4];
 
 	public void OnBeginDrag(PointerEventData eventData) {
 		magicController.dragging = this;
-		transform.SetParent(pivot.transform, true);
+		transform.SetParent(null, true);
 	}
 
 	public void OnDrag(PointerEventData eventData) {

@@ -220,9 +220,9 @@ MonoBehaviour:
   categories: []
   uiBounds:
     serializedVersion: 2
-    x: 707
+    x: 349
     y: -190
-    width: 377
+    width: 735
     height: 1365
 --- !u!114 &114350483966674976
 MonoBehaviour:
@@ -234,7 +234,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7d4c867f6b72b714dbb5fd1780afe208, type: 3}
-  m_Name: VFX test
+  m_Name: VFX Moon
   m_EditorClassIdentifier: 
   m_Parent: {fileID: 0}
   m_Children:
@@ -242,11 +242,25 @@ MonoBehaviour:
   - {fileID: 114946465509916290}
   - {fileID: 114780028408030698}
   - {fileID: 114063133802684794}
+  - {fileID: 8926484042661614640}
   m_UIPosition: {x: 0, y: 0}
   m_UICollapsed: 1
   m_UISuperCollapsed: 0
   m_UIInfos: {fileID: 114340500867371532}
-  m_ParameterInfo: []
+  m_ParameterInfo:
+  - name: Gradient
+    path: Gradient
+    tooltip: 
+    sheetType: m_Gradient
+    realType: Gradient
+    defaultValue:
+      m_Type:
+        m_SerializableType: UnityEngine.Gradient, UnityEngine.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+      m_SerializableObject: '{"colorKeys":[{"color":{"r":0.0,"g":0.0,"b":0.0,"a":1.0},"time":0.0},{"color":{"r":0.0,"g":0.021811069920659066,"b":0.7490196228027344,"a":1.0},"time":0.3000076413154602},{"color":{"r":0.124345563352108,"g":0.6590968370437622,"b":1.25,"a":1.0},"time":0.5000076293945313},{"color":{"r":0.5130889415740967,"g":2.4845433235168459,"b":3.499999761581421,"a":1.0},"time":0.7000076174736023},{"color":{"r":1.214659571647644,"g":3.654445171356201,"b":3.999999523162842,"a":1.0},"time":0.9000076055526733},{"color":{"r":2.5130884647369386,"g":11.99999713897705,"b":11.370022773742676,"a":1.0},"time":1.0}],"alphaKeys":[{"alpha":0.0,"time":0.0},{"alpha":1.0,"time":1.0}],"gradientMode":0}'
+    min: -Infinity
+    max: Infinity
+    descendantCount: 0
   m_GraphVersion: 2
   m_saved: 1
   m_SubgraphDependencies: []
@@ -781,7 +795,7 @@ VisualEffectResource:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: VFX test
+  m_Name: VFX Moon
   m_Graph: {fileID: 114350483966674976}
   m_ShaderSources:
   - compute: 1
@@ -1057,13 +1071,13 @@ VisualEffectResource:
         data[0]: -1
         data[1]: -1
         data[2]: -1
-        data[3]: 13
+        data[3]: 14
       - op: 1
         valueIndex: 1
         data[0]: -1
         data[1]: -1
         data[2]: -1
-        data[3]: 14
+        data[3]: 13
       - op: 1
         valueIndex: 2
         data[0]: -1
@@ -1108,13 +1122,13 @@ VisualEffectResource:
         data[3]: -1
       - op: 56
         valueIndex: 15
-        data[0]: 0
+        data[0]: 1
         data[1]: -1
         data[2]: -1
         data[3]: 0
       - op: 57
         valueIndex: 19
-        data[0]: 1
+        data[0]: 0
         data[1]: -1
         data[2]: -1
         data[3]: 0
@@ -1164,7 +1178,7 @@ VisualEffectResource:
         m_Array: []
       m_AnimationCurve:
         m_Array:
-        - m_ExpressionIndex: 0
+        - m_ExpressionIndex: 1
           m_Value:
             serializedVersion: 2
             m_Curve:
@@ -1191,7 +1205,7 @@ VisualEffectResource:
             m_RotationOrder: 4
       m_Gradient:
         m_Array:
-        - m_ExpressionIndex: 1
+        - m_ExpressionIndex: 0
           m_Value:
             serializedVersion: 2
             key0: {r: 0, g: 0, b: 0, a: 0}
@@ -1227,7 +1241,9 @@ VisualEffectResource:
           m_Value: {fileID: 10300, guid: 0000000000000000f000000000000000, type: 0}
       m_Bool:
         m_Array: []
-    m_ExposedExpressions: []
+    m_ExposedExpressions:
+    - nameId: Gradient
+      index: 0
     m_Buffers:
     - type: 1
       size: 416
@@ -2012,7 +2028,8 @@ MonoBehaviour:
       m_Regex: 
       m_RegexMaxLength: 0
   m_Direction: 0
-  m_LinkedSlots: []
+  m_LinkedSlots:
+  - {fileID: 8926484042661614641}
 --- !u!114 &8926484042661614612
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2059,3 +2076,80 @@ MonoBehaviour:
       m_RegexMaxLength: 0
   m_Direction: 0
   m_LinkedSlots: []
+--- !u!114 &8926484042661614640
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 330e0fca1717dde4aaa144f48232aa64, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Parent: {fileID: 114350483966674976}
+  m_Children: []
+  m_UIPosition: {x: 0, y: 0}
+  m_UICollapsed: 0
+  m_UISuperCollapsed: 0
+  m_InputSlots: []
+  m_OutputSlots:
+  - {fileID: 8926484042661614641}
+  m_ExposedName: Gradient
+  m_Exposed: 1
+  m_Order: 0
+  m_Category: 
+  m_Min:
+    m_Type:
+      m_SerializableType: 
+    m_SerializableObject: 
+  m_Max:
+    m_Type:
+      m_SerializableType: 
+    m_SerializableObject: 
+  m_IsOutput: 0
+  m_Tooltip: 
+  m_Nodes:
+  - m_Id: 0
+    linkedSlots:
+    - outputSlot: {fileID: 8926484042661614641}
+      inputSlot: {fileID: 8926484042661614591}
+    position: {x: 349, y: 752}
+    expandedSlots: []
+    expanded: 0
+--- !u!114 &8926484042661614641
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76f778ff57c4e8145b9681fe3268d8e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Parent: {fileID: 0}
+  m_Children: []
+  m_UIPosition: {x: 0, y: 0}
+  m_UICollapsed: 1
+  m_UISuperCollapsed: 0
+  m_MasterSlot: {fileID: 8926484042661614641}
+  m_MasterData:
+    m_Owner: {fileID: 8926484042661614640}
+    m_Value:
+      m_Type:
+        m_SerializableType: UnityEngine.Gradient, UnityEngine.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+      m_SerializableObject: '{"colorKeys":[{"color":{"r":0.0,"g":0.0,"b":0.0,"a":1.0},"time":0.0},{"color":{"r":0.0,"g":0.021811069920659066,"b":0.7490196228027344,"a":1.0},"time":0.3000076413154602},{"color":{"r":0.124345563352108,"g":0.6590968370437622,"b":1.25,"a":1.0},"time":0.5000076293945313},{"color":{"r":0.5130889415740967,"g":2.4845433235168459,"b":3.499999761581421,"a":1.0},"time":0.7000076174736023},{"color":{"r":1.214659571647644,"g":3.654445171356201,"b":3.999999523162842,"a":1.0},"time":0.9000076055526733},{"color":{"r":2.5130884647369386,"g":11.99999713897705,"b":11.370022773742676,"a":1.0},"time":1.0}],"alphaKeys":[{"alpha":0.0,"time":0.0},{"alpha":1.0,"time":1.0}],"gradientMode":0}'
+    m_Space: 2147483647
+  m_Property:
+    name: o
+    m_serializedType:
+      m_SerializableType: UnityEngine.Gradient, UnityEngine.CoreModule, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+    attributes: []
+  m_Direction: 1
+  m_LinkedSlots:
+  - {fileID: 8926484042661614591}

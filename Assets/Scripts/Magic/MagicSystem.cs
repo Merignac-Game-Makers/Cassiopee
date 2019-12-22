@@ -30,11 +30,13 @@ public class MagicSystem : MonoBehaviour
 
 	public void selectSun() {
 		m_SelectedArtefact = SelectedArtefact.Sun;
+		MagicController.Instance.UpdateArtefact(m_SelectedArtefact);
 		//SunButton.GetComponent<Toggle>().Select();
 	}
 
 	public void selectMoon() {
 		m_SelectedArtefact = SelectedArtefact.Moon;
+		MagicController.Instance.UpdateArtefact(m_SelectedArtefact);
 		//MoonButton.GetComponent<Toggle>().Select();
 	}
 
