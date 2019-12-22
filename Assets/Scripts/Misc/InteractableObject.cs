@@ -15,7 +15,7 @@ public abstract class InteractableObject : HighlightableObject
 
 	public enum mode { onClick, onTheFly, onTheFlyOnce }
 
-	public QuestBase Quest;
+	//public QuestBase Quest;
 	public mode m_Mode;
 
 	public abstract bool IsInteractable { get; }

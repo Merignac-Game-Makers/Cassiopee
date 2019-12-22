@@ -103,11 +103,12 @@ public class PlayerControl : MonoBehaviour
 						// click on an interractable item ?
 						InteractableObject obj = m_Highlighted as InteractableObject;
 						if (obj) {
-							if (obj.GetComponentInChildren<Loot>() || obj.GetComponentInChildren<Target>() || obj.GetComponentInChildren<PNJ>()) {
+							if (obj.GetComponentInChildren<Activable>()) {
+								Activate(obj as Activable);
+							} else if (obj.GetComponentInChildren<Loot>() || obj.GetComponentInChildren<Target>() || obj.GetComponentInChildren<PNJ>()) {
 								obj.Clicked = true;
 								InteractWith(obj);
-							}  else if (obj.GetComponentInChildren<Activable>())
-								Activate(obj as Activable);
+							}
 
 							// click on player ?
 						} else {

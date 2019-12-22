@@ -20,6 +20,7 @@ public class Target : InteractableObject
 {
 
 	public override bool IsInteractable => true;
+	//public QuestBase Quest;
 
 	public bool isFree => IsFree();
 
