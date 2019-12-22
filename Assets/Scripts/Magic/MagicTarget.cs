@@ -1,26 +1,8 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Data;
-using System.Timers;
-using UnityEditor;
-using UnityEngine;
-using UnityEngine.AI;
-using UnityEngine.EventSystems;
+﻿using UnityEngine;
 
-/// <summary>
-/// Describes an InteractableObject that can be picked up and grants a specific item when interacted with.
-///
-/// It will also play a small animation (object going in an arc from spawn point to a random point around) when the
-/// object is actually "spawned", and the object becomes interactable only when that animation is finished.
-///
-/// Finally it will notify the LootUI that a new loot is available in the world so the UI displays the name.
-/// </summary>
-public class Target : InteractableObject
+public class MagicTarget : InteractableObject
 {
-
 	public override bool IsInteractable => true;
-	//public QuestBase Quest;
 
 	public bool isFree => IsFree();
 
@@ -44,9 +26,13 @@ public class Target : InteractableObject
 	}
 
 	public bool IsFree() {
-		return !GetComponentInChildren<Loot>();
+		return !GetComponentInChildren<MagicOrb>();
 	}
 
+	public void MakeMagicalStuff(MagicOrb orb) {
+		Debug.Log("DO MAGIC !!!");
+		gameObject.transform.localScale *= 1.2f;
+	}
 }
 
 //#if UNITY_EDITOR

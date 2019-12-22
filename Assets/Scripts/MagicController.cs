@@ -7,11 +7,15 @@ public class MagicController : MonoBehaviour
 {
 	public LineRenderer lineRendered;
 	public Material magicMaterial;
+	public MagicOrb magicOrb;
 
 	[HideInInspector]
 	public List<Activable> magicActivatedItems;
 
 	public static MagicController Instance;
+
+	[HideInInspector]
+	public MagicOrb dragging;
 
 	[HideInInspector]
 	List<Activable> cassiopee;
@@ -54,12 +58,19 @@ public class MagicController : MonoBehaviour
 		}
 		if (TestSuccess()) {
 			Debug.Log("DONE !!!");
-			PlayerControl.Instance.gameObject.GetComponentInChildren<MeshRenderer>().material = magicMaterial;
+			Instantiate(magicOrb, PlayerControl.Instance.gameObject.transform);
+			StartCoroutine(ResetConstellation(2));
 		}
 	}
 
 	bool TestSuccess() {
 		return magicActivatedItems.IsLke(cassiopee);
+	}
+
+	IEnumerator ResetConstellation(float s) {
+		yield return new WaitForSeconds(s);
+		AddOrRemove(magicActivatedItems[0]);
+		yield return null;
 	}
 }
 public static class Extensions

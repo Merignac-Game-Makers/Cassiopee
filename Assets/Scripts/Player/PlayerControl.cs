@@ -9,6 +9,7 @@ public class PlayerControl : MonoBehaviour
 	float defaultInteractionDistance = 1.5f;
 
 	InventoryUI m_InventoryUI;
+	MagicController m_MagicController;
 
 	public static PlayerControl Instance { get; protected set; }
 
@@ -27,7 +28,9 @@ public class PlayerControl : MonoBehaviour
 	Collider m_TargetCollider;
 	CharacterData m_CurrentTargetCharacterData = null;
 	[HideInInspector]
-	public InventoryUI.DragData m_CurrentlyDragged = null;
+	public InventoryUI.DragData m_InvItemDragging = null;
+	[HideInInspector]
+	public MagicOrb m_MagicOrb = null;
 
 	// CharacterData
 	[HideInInspector]
@@ -35,6 +38,7 @@ public class PlayerControl : MonoBehaviour
 
 	// Raycast
 	RaycastHit[] m_RaycastHitCache = new RaycastHit[16];
+	int m_MagicLayer;
 	int m_TargetLayer;
 	int m_InteractableLayer;
 	Vector3 m_LastRaycastResult;
@@ -48,6 +52,7 @@ public class PlayerControl : MonoBehaviour
 	// Start is called before the first frame update
 	void Start() {
 		m_InventoryUI = InventoryUI.Instance;
+		m_MagicController = MagicController.Instance;
 
 		m_CharacterData = GetComponent<CharacterData>();
 		m_CharacterData.Init();
@@ -58,6 +63,7 @@ public class PlayerControl : MonoBehaviour
 
 		m_InteractableLayer = 1 << LayerMask.NameToLayer("Interactable");
 		m_TargetLayer = 1 << LayerMask.NameToLayer("Target");
+		m_MagicLayer = 1 << LayerMask.NameToLayer("Magic");
 
 		m_LastRaycastResult = transform.position;
 
@@ -74,7 +80,10 @@ public class PlayerControl : MonoBehaviour
 		}
 
 		// item that we are currently dragging
-		m_CurrentlyDragged = m_InventoryUI.CurrentlyDragged;
+		m_InvItemDragging = m_InventoryUI.CurrentlyDragged;
+
+		// Magic orb that we are currently dragging
+		m_MagicOrb = m_MagicController.dragging;
 
 		// zoom
 		float mouseWheel = Input.GetAxis("Mouse ScrollWheel");
@@ -96,7 +105,7 @@ public class PlayerControl : MonoBehaviour
 			ObjectsRaycasts(screenRay);
 
 			// if we are NOT currently dragging an item
-			if (m_CurrentlyDragged == null) {
+			if (m_InvItemDragging == null && m_MagicController.dragging == null) {
 				// on mouse click
 				if (Input.GetMouseButton(0)) {
 					if (m_TargetInteractable == null && m_CurrentTargetCharacterData == null) {
@@ -124,8 +133,10 @@ public class PlayerControl : MonoBehaviour
 						}
 					}
 				}
-				// if we are dragging an item
-			}
+			}				// if we are dragging an item
+
+
+
 		}
 
 		// control speed on NavMesh Links
@@ -151,16 +162,6 @@ public class PlayerControl : MonoBehaviour
 				}
 			}
 		}
-		//else {
-		//    count = Physics.SphereCastNonAlloc(screenRay, 1.0f, m_RaycastHitCache, 1000.0f, m_TargetLayer);
-		//    if (count > 0) {
-		//        CharacterData data = m_RaycastHitCache[0].collider.GetComponentInParent<CharacterData>();
-		//        if (data != null) {
-		//            SwitchHighlightedObject(data);
-		//            somethingFound = true;
-		//        }
-		//    }
-		//}
 
 		//second check for target (where to drop item)
 		count = Physics.SphereCastNonAlloc(screenRay, 1.0f, m_RaycastHitCache, 1000.0f, m_TargetLayer);
@@ -174,6 +175,19 @@ public class PlayerControl : MonoBehaviour
 				}
 			}
 		}
+
+		//// third check for magic orb (where to drop item)
+		//count = Physics.SphereCastNonAlloc(screenRay, 1.0f, m_RaycastHitCache, 1000.0f, m_MagicLayer);
+		//if (count > 0) {
+		//	for (int i = 0; i < count; ++i) {
+		//		MagicOrb obj = m_RaycastHitCache[0].collider.GetComponentInParent<MagicOrb>();
+		//		if (obj != null && obj.gameObject.activeInHierarchy) {
+		//			SwitchHighlightedObject(obj);
+		//			somethingFound = true;
+		//			break;
+		//		}
+		//	}
+		//}
 
 		if (!somethingFound && m_Highlighted != null) {
 			SwitchHighlightedObject(null);

@@ -32,11 +32,11 @@ public class Activable : InteractableObject
 
 	protected override void Start() {
 		base.Start();
-		EventTrigger trigger = GetComponent<EventTrigger>();
-		EventTrigger.Entry entry = new EventTrigger.Entry();
-		entry.eventID = EventTriggerType.PointerClick;
-		entry.callback.AddListener((data) => { OnPointerDownDelegate((PointerEventData)data); });
-		trigger.triggers.Add(entry);
+		//EventTrigger trigger = GetComponent<EventTrigger>();
+		//EventTrigger.Entry entry = new EventTrigger.Entry();
+		//entry.eventID = EventTriggerType.PointerClick;
+		//entry.callback.AddListener((data) => { OnPointerDownDelegate((PointerEventData)data); });
+		//trigger.triggers.Add(entry);
 	}
 
 	void Update() {
