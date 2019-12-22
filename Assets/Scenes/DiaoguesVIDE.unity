@@ -2215,11 +2215,61 @@ Transform:
   m_LocalPosition: {x: 2.1900024, y: 0, z: 3.5639954}
   m_LocalScale: {x: 63.83704, y: 48.973408, z: 1}
   m_Children: []
+<<<<<<< HEAD:Assets/Scenes/DiaoguesVIDE.unity
   m_Father: {fileID: 1577002425}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!64 &248172905
 MeshCollider:
+=======
+  m_Father: {fileID: 96561441}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &370845023
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 370845021}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 4
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 370845024}
+          m_MethodName: Toggle
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+--- !u!114 &370845024
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 370845021}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c7ba2e822fea3046bccb8d6345b56ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Mode: 0
+  Clicked: 0
+--- !u!135 &370845025
+SphereCollider:
+>>>>>>> TracerConstellation:Assets/Scenes/PlacerElementsMagiques.unity
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -3243,10 +3293,23 @@ CanvasRenderer:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
+<<<<<<< HEAD:Assets/Scenes/DiaoguesVIDE.unity
   m_GameObject: {fileID: 401869661}
   m_CullTransparentMesh: 0
 --- !u!1 &419013423
 GameObject:
+=======
+  m_GameObject: {fileID: 750127002}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c7ba2e822fea3046bccb8d6345b56ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Mode: 0
+  Clicked: 0
+--- !u!135 &750127006
+SphereCollider:
+>>>>>>> TracerConstellation:Assets/Scenes/PlacerElementsMagiques.unity
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -8330,14 +8393,25 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
+<<<<<<< HEAD:Assets/Scenes/DiaoguesVIDE.unity
   - component: {fileID: 1241718799}
   m_Layer: 5
   m_Name: EnCours
   m_TagString: Untagged
+=======
+  - component: {fileID: 963194228}
+  - component: {fileID: 963194227}
+  - component: {fileID: 963194229}
+  - component: {fileID: 963194230}
+  m_Layer: 0
+  m_Name: Main Camera
+  m_TagString: MainCamera
+>>>>>>> TracerConstellation:Assets/Scenes/PlacerElementsMagiques.unity
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+<<<<<<< HEAD:Assets/Scenes/DiaoguesVIDE.unity
 --- !u!224 &1241718799
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8465,6 +8539,10 @@ MonoBehaviour:
   m_Text: Title
 --- !u!222 &1249920916
 CanvasRenderer:
+=======
+--- !u!20 &963194227
+Camera:
+>>>>>>> TracerConstellation:Assets/Scenes/PlacerElementsMagiques.unity
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -8579,6 +8657,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
+<<<<<<< HEAD:Assets/Scenes/DiaoguesVIDE.unity
   m_GameObject: {fileID: 1251303615}
   m_Enabled: 0
   m_EditorHideFlags: 0
@@ -8610,6 +8689,22 @@ CanvasRenderer:
   m_GameObject: {fileID: 1251303615}
   m_CullTransparentMesh: 0
 --- !u!114 &1251303622
+=======
+  m_GameObject: {fileID: 963194225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab262463ce486c64184d678c7ae76030, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GameplayCamera: {fileID: 963194227}
+  Vcam: {fileID: 0}
+  CameraTarget: {fileID: 271453132}
+  MinAngle: 5
+  MaxAngle: 45
+  MinDistance: 5
+  MaxDistance: 45
+--- !u!114 &963194230
+>>>>>>> TracerConstellation:Assets/Scenes/PlacerElementsMagiques.unity
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -9490,6 +9585,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< HEAD:Assets/Scenes/DiaoguesVIDE.unity
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
@@ -9508,6 +9604,12 @@ MonoBehaviour:
   m_PixelsPerUnitMultiplier: 1
 --- !u!222 &1465681683
 CanvasRenderer:
+=======
+  m_Mode: 0
+  Clicked: 0
+--- !u!135 &1326168103
+SphereCollider:
+>>>>>>> TracerConstellation:Assets/Scenes/PlacerElementsMagiques.unity
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -9558,6 +9660,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45e653bab7fb20e499bda25e1b646fea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< HEAD:Assets/Scenes/DiaoguesVIDE.unity
   m_ExcludedPropertiesInInspector:
   - m_Script
   m_LockStageInInspector: 
@@ -9581,6 +9684,23 @@ MonoBehaviour:
         m_Calls: []
   m_LegacyBlendHint: 0
   m_ComponentOwner: {fileID: 15395265}
+=======
+  m_Mode: 0
+  Clicked: 0
+  electricMaterial: {fileID: 2100000, guid: 539288f2427e98747ad5290e5390308d, type: 2}
+--- !u!224 &1365345787 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 4024636409454239658, guid: e294e6f2cdc9b7e4a98c1da23090fc11,
+    type: 3}
+  m_PrefabInstance: {fileID: 1649720746}
+  m_PrefabAsset: {fileID: 0}
+--- !u!224 &1373380246 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 4024636409454239658, guid: e294e6f2cdc9b7e4a98c1da23090fc11,
+    type: 3}
+  m_PrefabInstance: {fileID: 24530331}
+  m_PrefabAsset: {fileID: 0}
+>>>>>>> TracerConstellation:Assets/Scenes/PlacerElementsMagiques.unity
 --- !u!1 &1489195878
 GameObject:
   m_ObjectHideFlags: 0
@@ -11234,7 +11354,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Kub
       objectReference: {fileID: 0}
+<<<<<<< HEAD:Assets/Scenes/DiaoguesVIDE.unity
     - target: {fileID: 5501873739996842803, guid: b61a203dbbafdba4d8f1e41bfd9a4ba8,
+=======
+    - target: {fileID: 6863632964247756701, guid: e0773897260782b4a988e018797f43c4,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6863632964247756673, guid: e0773897260782b4a988e018797f43c4,
+>>>>>>> TracerConstellation:Assets/Scenes/PlacerElementsMagiques.unity
         type: 3}
       propertyPath: m_LocalPosition.x
       value: 25.21
@@ -11332,6 +11461,7 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 2358903971270907958, guid: b61a203dbbafdba4d8f1e41bfd9a4ba8,
         type: 3}
+<<<<<<< HEAD:Assets/Scenes/DiaoguesVIDE.unity
       propertyPath: Quest
       value: 
       objectReference: {fileID: 612877506}
@@ -11339,6 +11469,41 @@ PrefabInstance:
     - {fileID: 6142126115427498357, guid: b61a203dbbafdba4d8f1e41bfd9a4ba8, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: b61a203dbbafdba4d8f1e41bfd9a4ba8, type: 3}
 --- !u!1 &1706273789
+=======
+      propertyPath: m_Pivot.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6863632964247756673, guid: e0773897260782b4a988e018797f43c4,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6863632964247756673, guid: e0773897260782b4a988e018797f43c4,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6863632964247756673, guid: e0773897260782b4a988e018797f43c4,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e0773897260782b4a988e018797f43c4, type: 3}
+--- !u!114 &1742635645 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1513702238, guid: e0773897260782b4a988e018797f43c4,
+    type: 3}
+  m_PrefabInstance: {fileID: 1742635644}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23116ea44c52a2a429bbfd12ca0675e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &1743908673
+>>>>>>> TracerConstellation:Assets/Scenes/PlacerElementsMagiques.unity
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -11624,10 +11789,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2562850eef5539140922351c6f2487a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< HEAD:Assets/Scenes/DiaoguesVIDE.unity
   m_SelectedArtefact: 0
   SunButton: {fileID: 910888490}
   MoonButton: {fileID: 1465681679}
 --- !u!114 &1717899599
+=======
+  fullScreenPanel: {fileID: 0}
+  leftPage: {fileID: 0}
+  rightPage: {fileID: 0}
+  openButton: {fileID: 305785871}
+  closeButton: {fileID: 268570604}
+  fullScreenButton: {fileID: 824563887}
+  sidePanel: {fileID: 0}
+  m_Title: {fileID: 0}
+  m_Text: {fileID: 0}
+  m_Picture: {fileID: 0}
+  m_NextPage: {fileID: 0}
+  m_PrevPage: {fileID: 0}
+  bookSystem: {fileID: 0}
+  currentPageIdx: 0
+--- !u!114 &1759274857
+>>>>>>> TracerConstellation:Assets/Scenes/PlacerElementsMagiques.unity
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -11719,6 +11902,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< HEAD:Assets/Scenes/DiaoguesVIDE.unity
   m_Material: {fileID: 0}
   m_Color: {r: 0, g: 0, b: 0, a: 0}
   m_RaycastTarget: 1
@@ -11743,6 +11927,13 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1757573331}
   m_CullTransparentMesh: 0
+=======
+  pages:
+  - {fileID: 11400000, guid: 12be600fbc3418c47a497a7bcd64c8b4, type: 2}
+  - {fileID: 11400000, guid: ed191192d947e4348a8be3df0da373b2, type: 2}
+  - {fileID: 11400000, guid: 3011eb7bee8339346b91e63b3feaccaa, type: 2}
+  - {fileID: 11400000, guid: d1205dc7ce52a774ba85b35993c7c341, type: 2}
+>>>>>>> TracerConstellation:Assets/Scenes/PlacerElementsMagiques.unity
 --- !u!224 &1767632076 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4024636409454239658, guid: e294e6f2cdc9b7e4a98c1da23090fc11,
@@ -12408,6 +12599,157 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 206216594}
   m_PrefabAsset: {fileID: 0}
+<<<<<<< HEAD:Assets/Scenes/DiaoguesVIDE.unity
+=======
+--- !u!1 &2096692486
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2096692490}
+  - component: {fileID: 2096692489}
+  - component: {fileID: 2096692488}
+  - component: {fileID: 2096692487}
+  - component: {fileID: 2096692491}
+  - component: {fileID: 2096692493}
+  m_Layer: 8
+  m_Name: Sphere E
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!135 &2096692487
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2096692486}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!23 &2096692488
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2096692486}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 9839820e6e70b8a4a8a882c2d08a3eda, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!33 &2096692489
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2096692486}
+  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &2096692490
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2096692486}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -10.6, y: 0.30585933, z: -38.1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 96561441}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2096692491
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2096692486}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 4
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 2096692493}
+          m_MethodName: Toggle
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 2096692493}
+          m_MethodName: AddAndActivate
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+--- !u!114 &2096692493
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2096692486}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c72d8ccbcb7c9c4384f99cc4a3d53da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Mode: 0
+  Clicked: 0
+  electricMaterial: {fileID: 2100000, guid: 539288f2427e98747ad5290e5390308d, type: 2}
+>>>>>>> TracerConstellation:Assets/Scenes/PlacerElementsMagiques.unity
 --- !u!1 &2104745279
 GameObject:
   m_ObjectHideFlags: 0
