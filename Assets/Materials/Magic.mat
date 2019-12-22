@@ -21,11 +21,11 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - Texture2D_418A6B57:
-        m_Texture: {fileID: 2800000, guid: b46450d462c614a4d9898d5891c243c0, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - Texture2D_50B728DE:
-        m_Texture: {fileID: 2800000, guid: 75ba7e4c8d5af1748938be558b078ad9, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - Texture2D_6A4D9402:
@@ -84,6 +84,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Texture2DAsset_37F87894_Out_0:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Floats:
     - _AlphaClip: 0
     - _Blend: 0
@@ -99,6 +103,7 @@ Material:
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
+    - _Opacity: 1
     - _Parallax: 0.02
     - _QueueOffset: 0
     - _ReceiveShadows: 1
@@ -110,11 +115,19 @@ Material:
     - _SrcBlend: 1
     - _Surface: 0
     - _UVSec: 0
+    - _UseColorMap: 1
+    - _UseEmissiveMap: 0
+    - _UseMetallicMap: 0
+    - _UseNormalMap: 0
+    - _UseOpacityMap: 0
+    - _UseRoughnessMap: 0
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
     - _BaseColor: {r: 1, g: 0.6320754, b: 0.7767606, a: 1}
-    - _Color: {r: 1, g: 0.6320754, b: 0.7767606, a: 1}
-    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _RimColor: {r: 0.57939434, g: 0, b: 1, a: 0}
+    - _Color: {r: 1, g: 0, b: 0.8534627, a: 0}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 0.007843138}
+    - _RimColor: {r: 0.58039236, g: 0, b: 1, a: 1}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
+    - _UvOffset: {r: 0, g: 0, b: 0, a: 0}
+    - _UvTiling: {r: 1, g: 1, b: 0, a: 0}

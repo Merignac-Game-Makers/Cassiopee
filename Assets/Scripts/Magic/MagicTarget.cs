@@ -3,7 +3,7 @@ using UnityEngine.AI;
 
 public class MagicTarget : InteractableObject
 {
-	public override bool IsInteractable => true;
+	public override bool IsInteractable => BookUI.Instance.IsOpen;
 
 	public bool isFree => IsFree();
 

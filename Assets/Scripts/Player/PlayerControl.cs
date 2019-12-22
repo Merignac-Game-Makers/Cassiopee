@@ -38,10 +38,10 @@ public class PlayerControl : MonoBehaviour
 
 	// Raycast
 	RaycastHit[] m_RaycastHitCache = new RaycastHit[16];
-	int m_MagicLayer;
-	int m_TargetLayer;
+	//int m_MagicLayer;
+	//int m_TargetLayer;
 	int m_InteractableLayer;
-	Vector3 m_LastRaycastResult;
+	//Vector3 m_LastRaycastResult;
 
 
 	void Awake() {
@@ -62,10 +62,10 @@ public class PlayerControl : MonoBehaviour
 		//m_CalculatedPath = new NavMeshPath();
 
 		m_InteractableLayer = 1 << LayerMask.NameToLayer("Interactable");
-		m_TargetLayer = 1 << LayerMask.NameToLayer("Target");
-		m_MagicLayer = 1 << LayerMask.NameToLayer("Magic");
+		//m_TargetLayer = 1 << LayerMask.NameToLayer("Target");
+		//m_MagicLayer = 1 << LayerMask.NameToLayer("Magic");
 
-		m_LastRaycastResult = transform.position;
+		//m_LastRaycastResult = transform.position;
 
 	}
 
@@ -163,18 +163,18 @@ public class PlayerControl : MonoBehaviour
 			}
 		}
 
-		//second check for target (where to drop item)
-		count = Physics.SphereCastNonAlloc(screenRay, 1.0f, m_RaycastHitCache, 1000.0f, m_TargetLayer);
-		if (count > 0) {
-			for (int i = 0; i < count; ++i) {
-				InteractableObject obj = m_RaycastHitCache[0].collider.GetComponentInParent<Target>();
-				if (obj != null && obj.IsInteractable) {
-					SwitchHighlightedObject(obj);
-					somethingFound = true;
-					break;
-				}
-			}
-		}
+		//second check for target(where to drop item)
+		//count = Physics.SphereCastNonAlloc(screenRay, 1.0f, m_RaycastHitCache, 1000.0f, m_TargetLayer);
+		//if (count > 0) {
+		//		for (int i = 0; i < count; ++i) {
+		//			InteractableObject obj = m_RaycastHitCache[0].collider.GetComponentInParent<Target>();
+		//			if (obj != null && obj.IsInteractable) {
+		//				SwitchHighlightedObject(obj);
+		//				somethingFound = true;
+		//				break;
+		//			}
+		//		}
+		//	}
 
 		//// third check for magic orb (where to drop item)
 		//count = Physics.SphereCastNonAlloc(screenRay, 1.0f, m_RaycastHitCache, 1000.0f, m_MagicLayer);
