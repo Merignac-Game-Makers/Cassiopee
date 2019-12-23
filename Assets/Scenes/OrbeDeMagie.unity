@@ -6627,6 +6627,76 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 875231844}
   m_CullTransparentMesh: 0
+--- !u!1 &883007208 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 894202577121726682, guid: b61a203dbbafdba4d8f1e41bfd9a4ba8,
+    type: 3}
+  m_PrefabInstance: {fileID: 965344604}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &883007212
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 883007208}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b8b99d8a12e39e4b94d2d7162c7c978, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  diags:
+  - Charlie
+  - CommentModifier
+  - CrazyCap
+  - DEMO_Condition
+  - demo_Narration
+  - Example3Dialogue
+  - Example4_dialogue
+  - Item_LookUp
+  - Kub
+  - Laura
+  - MrCube
+  - NPCOnly
+  - PNJDefault
+  - QuestChartDemo
+  - TriggeredDude
+  - Witch
+  assignedIndex: 12
+  assignedID: 55919
+  assignedDialogue: PNJDefault
+  interactionCount: 0
+  alias: "N\xB06"
+  overrideStartNode: -1
+  defaultNPCSprite: {fileID: 21300000, guid: 8b30c8e73bde757418a12a699a978363, type: 3}
+  defaultPlayerSprite: {fileID: 21300000, guid: c7464680bd116eb4d8dd1fd8bc814753,
+    type: 3}
+  targetManager: {fileID: 0}
+  preload: 0
+  notuptodate: 0
+  startp: 0
+  loadtag: 
+  langs: []
+  S_playerDiags: []
+  S_actionNodes: []
+--- !u!114 &883007213
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 883007208}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3fb4fb81bfe3714dac53da3f61f0dc4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  quest: {fileID: 0}
+  AcceptedQuestNode: -1
+  RefusedQuestNode: -1
+  DoneQuestNode: -1
+  FailedQuestNode: -1
+  PassedQuestNode: -1
 --- !u!4 &901074377 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5501873739996842803, guid: b61a203dbbafdba4d8f1e41bfd9a4ba8,
@@ -8498,6 +8568,7 @@ MonoBehaviour:
   - Laura
   - MrCube
   - NPCOnly
+  - PNJDefault
   - QuestChartDemo
   - TriggeredDude
   - Witch
@@ -8507,352 +8578,17 @@ MonoBehaviour:
   interactionCount: 0
   alias: Kub
   overrideStartNode: 17
-  defaultNPCSprite: {fileID: 21300000, guid: b19cd6b87d7753946a8a7a513e6f9a8b, type: 3}
-  defaultPlayerSprite: {fileID: 21300000, guid: bed45b8e3af278045bdd5e7aa225dc03,
+  defaultNPCSprite: {fileID: 21300000, guid: 8b30c8e73bde757418a12a699a978363, type: 3}
+  defaultPlayerSprite: {fileID: 21300000, guid: c7464680bd116eb4d8dd1fd8bc814753,
     type: 3}
   targetManager: {fileID: 0}
-  preload: 1
+  preload: 0
   notuptodate: 0
   startp: 0
   loadtag: 
   langs: []
-  S_playerDiags:
-  - commentCount: 1
-    s_comment:
-    - text: 
-      extraData: ExtraData
-      inputSetIndex: 0
-      outputNodeIndex: -1
-      outActionIndex: -1
-      sprites: {fileID: 0}
-      audios: {fileID: 0}
-      visible: 1
-    ID: 0
-    pTag: 
-    sprite: {fileID: 0}
-    vars:
-    - 17
-    - 7
-    - 10
-    - 12
-    - 13
-    - 15
-    varKeys:
-    - none
-    - accepted
-    - refused
-    - success
-    - failed
-    - over
-    isPlayer: 0
-  - commentCount: 2
-    s_comment:
-    - text: Oui? Lequel ?
-      extraData: ExtraData
-      inputSetIndex: 1
-      outputNodeIndex: 2
-      outActionIndex: -1
-      sprites: {fileID: 0}
-      audios: {fileID: 0}
-      visible: 1
-    - text: "J'ai autre chose \xE0 faire !"
-      extraData: ExtraData
-      inputSetIndex: 1
-      outputNodeIndex: 3
-      outActionIndex: -1
-      sprites: {fileID: 0}
-      audios: {fileID: 0}
-      visible: 1
-    ID: 1
-    pTag: 
-    sprite: {fileID: 0}
-    vars: []
-    varKeys: []
-    isPlayer: 1
-  - commentCount: 1
-    s_comment:
-    - text: J'aimerais que tu ailles mettre un cube dans le puits
-      extraData: ExtraData
-      inputSetIndex: 2
-      outputNodeIndex: 4
-      outActionIndex: -1
-      sprites: {fileID: 0}
-      audios: {fileID: 0}
-      visible: 1
-    ID: 2
-    pTag: 
-    sprite: {fileID: 0}
-    vars: []
-    varKeys: []
-    isPlayer: 0
-  - commentCount: 1
-    s_comment:
-    - text: "C'est vraiment pas tr\xE8s sympa !"
-      extraData: ExtraData
-      inputSetIndex: 3
-      outputNodeIndex: -1
-      outActionIndex: 0
-      sprites: {fileID: 0}
-      audios: {fileID: 0}
-      visible: 1
-    ID: 3
-    pTag: 
-    sprite: {fileID: 0}
-    vars: []
-    varKeys: []
-    isPlayer: 0
-  - commentCount: 2
-    s_comment:
-    - text: Avec plaisir ...
-      extraData: ExtraData
-      inputSetIndex: 4
-      outputNodeIndex: 6
-      outActionIndex: -1
-      sprites: {fileID: 0}
-      audios: {fileID: 0}
-      visible: 1
-    - text: "Ben... Un cube dans un cercle... \xE7a va pas rentrer !\nTu me prends
-        pour une buse ???"
-      extraData: ExtraData
-      inputSetIndex: 4
-      outputNodeIndex: 7
-      outActionIndex: -1
-      sprites: {fileID: 0}
-      audios: {fileID: 0}
-      visible: 1
-    ID: 5
-    pTag: 
-    sprite: {fileID: 0}
-    vars: []
-    varKeys: []
-    isPlayer: 1
-  - commentCount: 1
-    s_comment:
-    - text: "Alors, tu en es o\xF9 ?"
-      extraData: ExtraData
-      inputSetIndex: 5
-      outputNodeIndex: -1
-      outActionIndex: -1
-      sprites: {fileID: 0}
-      audios: {fileID: 0}
-      visible: 1
-    ID: 7
-    pTag: 
-    sprite: {fileID: 0}
-    vars: []
-    varKeys: []
-    isPlayer: 0
-  - commentCount: 1
-    s_comment:
-    - text: Sympa, merci !
-      extraData: ExtraData
-      inputSetIndex: 6
-      outputNodeIndex: -1
-      outActionIndex: 1
-      sprites: {fileID: 0}
-      audios: {fileID: 0}
-      visible: 1
-    ID: 8
-    pTag: 
-    sprite: {fileID: 0}
-    vars: []
-    varKeys: []
-    isPlayer: 0
-  - commentCount: 1
-    s_comment:
-    - text: 'Pas cool mec !
-
-        Tu serais pas un peu psychorigide des fois ?'
-      extraData: ExtraData
-      inputSetIndex: 7
-      outputNodeIndex: -1
-      outActionIndex: 0
-      sprites: {fileID: 0}
-      audios: {fileID: 0}
-      visible: 1
-    ID: 9
-    pTag: 
-    sprite: {fileID: 0}
-    vars: []
-    varKeys: []
-    isPlayer: 0
-  - commentCount: 1
-    s_comment:
-    - text: Tu ne veux toujours pas m'aider et mettre un cube dans le puits ?
-      extraData: ExtraData
-      inputSetIndex: 8
-      outputNodeIndex: 9
-      outActionIndex: -1
-      sprites: {fileID: 0}
-      audios: {fileID: 0}
-      visible: 1
-    ID: 10
-    pTag: 
-    sprite: {fileID: 0}
-    vars: []
-    varKeys: []
-    isPlayer: 0
-  - commentCount: 2
-    s_comment:
-    - text: Bon allez, d'accord
-      extraData: ExtraData
-      inputSetIndex: 9
-      outputNodeIndex: 6
-      outActionIndex: -1
-      sprites: {fileID: 0}
-      audios: {fileID: 0}
-      visible: 1
-    - text: "Rien \xE0 faire"
-      extraData: ExtraData
-      inputSetIndex: 9
-      outputNodeIndex: 7
-      outActionIndex: -1
-      sprites: {fileID: 0}
-      audios: {fileID: 0}
-      visible: 1
-    ID: 11
-    pTag: 
-    sprite: {fileID: 0}
-    vars: []
-    varKeys: []
-    isPlayer: 1
-  - commentCount: 1
-    s_comment:
-    - text: Super ! T'es vraiment un AS !!!
-      extraData: ExtraData
-      inputSetIndex: 10
-      outputNodeIndex: -1
-      outActionIndex: 3
-      sprites: {fileID: 0}
-      audios: {fileID: 0}
-      visible: 1
-    ID: 12
-    pTag: 
-    sprite: {fileID: 0}
-    vars: []
-    varKeys: []
-    isPlayer: 0
-  - commentCount: 2
-    s_comment:
-    - text: Oh ! Pas de bol... c'est pas un cube !
-      extraData: ExtraData
-      inputSetIndex: 11
-      outputNodeIndex: -1
-      outActionIndex: 2
-      sprites: {fileID: 0}
-      audios: {fileID: 0}
-      visible: 1
-    - text: "Allez, on vire \xE7a de l\xE0 et on recommence"
-      extraData: ExtraData
-      inputSetIndex: 11
-      outputNodeIndex: -1
-      outActionIndex: -1
-      sprites: {fileID: 0}
-      audios: {fileID: 0}
-      visible: 1
-    ID: 13
-    pTag: 
-    sprite: {fileID: 0}
-    vars: []
-    varKeys: []
-    isPlayer: 0
-  - commentCount: 1
-    s_comment:
-    - text: Tout va bien maintenant, t'es vraiment un pote !
-      extraData: ExtraData
-      inputSetIndex: 12
-      outputNodeIndex: -1
-      outActionIndex: -1
-      sprites: {fileID: 0}
-      audios: {fileID: 0}
-      visible: 1
-    ID: 15
-    pTag: 
-    sprite: {fileID: 0}
-    vars: []
-    varKeys: []
-    isPlayer: 0
-  - commentCount: 2
-    s_comment:
-    - text: Bonjour
-      extraData: ExtraData
-      inputSetIndex: 13
-      outputNodeIndex: 1
-      outActionIndex: -1
-      sprites: {fileID: 0}
-      audios: {fileID: 0}
-      visible: 1
-    - text: "J'ai un service \xE0 te demander"
-      extraData: ExtraData
-      inputSetIndex: 13
-      outputNodeIndex: -1
-      outActionIndex: -1
-      sprites: {fileID: 0}
-      audios: {fileID: 0}
-      visible: 1
-    ID: 17
-    pTag: 
-    sprite: {fileID: 0}
-    vars: []
-    varKeys: []
-    isPlayer: 0
-  S_actionNodes:
-  - pauseHere: 0
-    gameObjectName: CubeInWell
-    methodName: RefuseQuest
-    paramType: 0
-    gotoNode: -1
-    param_bool: 0
-    param_string: 
-    param_int: 0
-    param_float: 0
-    ID: 4
-    outPlayerIndex: -1
-    outActionIndex: -1
-    ovrStartNode: 10
-    renameDialogue: 
-  - pauseHere: 0
-    gameObjectName: CubeInWell
-    methodName: AcceptQuest
-    paramType: 0
-    gotoNode: -1
-    param_bool: 0
-    param_string: 
-    param_int: 0
-    param_float: 0
-    ID: 6
-    outPlayerIndex: -1
-    outActionIndex: -1
-    ovrStartNode: 7
-    renameDialogue: 
-  - pauseHere: 0
-    gameObjectName: CubeInWell
-    methodName: Reset
-    paramType: 0
-    gotoNode: -1
-    param_bool: 0
-    param_string: 
-    param_int: 0
-    param_float: 0
-    ID: 14
-    outPlayerIndex: -1
-    outActionIndex: -1
-    ovrStartNode: -1
-    renameDialogue: 
-  - pauseHere: 0
-    gameObjectName: CubeInWell
-    methodName: QuestPassed
-    paramType: 0
-    gotoNode: -1
-    param_bool: 0
-    param_string: 
-    param_int: 0
-    param_float: 0
-    ID: 16
-    outPlayerIndex: -1
-    outActionIndex: -1
-    ovrStartNode: -1
-    renameDialogue: 
+  S_playerDiags: []
+  S_actionNodes: []
 --- !u!114 &1163150960
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11688,8 +11424,55 @@ PrefabInstance:
       propertyPath: Quest
       value: 
       objectReference: {fileID: 612877506}
+    - target: {fileID: 2358903971270907958, guid: b61a203dbbafdba4d8f1e41bfd9a4ba8,
+        type: 3}
+      propertyPath: Name
+      value: Kub
+      objectReference: {fileID: 0}
+    - target: {fileID: 18327319842907501, guid: b61a203dbbafdba4d8f1e41bfd9a4ba8,
+        type: 3}
+      propertyPath: S_playerDiags.Array.size
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 18327319842907501, guid: b61a203dbbafdba4d8f1e41bfd9a4ba8,
+        type: 3}
+      propertyPath: S_actionNodes.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 18327319842907501, guid: b61a203dbbafdba4d8f1e41bfd9a4ba8,
+        type: 3}
+      propertyPath: assignedIndex
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 18327319842907501, guid: b61a203dbbafdba4d8f1e41bfd9a4ba8,
+        type: 3}
+      propertyPath: assignedID
+      value: 84810
+      objectReference: {fileID: 0}
+    - target: {fileID: 18327319842907501, guid: b61a203dbbafdba4d8f1e41bfd9a4ba8,
+        type: 3}
+      propertyPath: assignedDialogue
+      value: Kub
+      objectReference: {fileID: 0}
+    - target: {fileID: 18327319842907501, guid: b61a203dbbafdba4d8f1e41bfd9a4ba8,
+        type: 3}
+      propertyPath: alias
+      value: Kub
+      objectReference: {fileID: 0}
+    - target: {fileID: 18327319842907501, guid: b61a203dbbafdba4d8f1e41bfd9a4ba8,
+        type: 3}
+      propertyPath: overrideStartNode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 18327319842907501, guid: b61a203dbbafdba4d8f1e41bfd9a4ba8,
+        type: 3}
+      propertyPath: preload
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6142126115427498357, guid: b61a203dbbafdba4d8f1e41bfd9a4ba8, type: 3}
+    - {fileID: 1667767874474460429, guid: b61a203dbbafdba4d8f1e41bfd9a4ba8, type: 3}
+    - {fileID: 8707043112155213127, guid: b61a203dbbafdba4d8f1e41bfd9a4ba8, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: b61a203dbbafdba4d8f1e41bfd9a4ba8, type: 3}
 --- !u!1 &1706273789
 GameObject:
@@ -13186,6 +12969,98 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!1 &2139125817
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2139125818}
+  - component: {fileID: 2139125821}
+  - component: {fileID: 2139125820}
+  - component: {fileID: 2139125819}
+  m_Layer: 8
+  m_Name: Cube (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2139125818
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2139125817}
+  m_LocalRotation: {x: 0.46193978, y: 0.19134173, z: 0.19134173, w: 0.84462327}
+  m_LocalPosition: {x: 0, y: 1.63, z: 0}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_Children: []
+  m_Father: {fileID: 1743388173}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 45, y: 45, z: 45}
+--- !u!65 &2139125819
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2139125817}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!23 &2139125820
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2139125817}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 17938a61eaa56884699230b1b735c8a2, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!33 &2139125821
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2139125817}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1001 &199919290946396885
 PrefabInstance:
   m_ObjectHideFlags: 0

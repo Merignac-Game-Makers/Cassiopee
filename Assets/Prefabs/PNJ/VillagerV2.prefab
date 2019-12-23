@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 894202577121726683}
   - component: {fileID: 894202577121726661}
   - component: {fileID: 731255338325866456}
+  - component: {fileID: 8707043112155213127}
+  - component: {fileID: 1667767874474460429}
   m_Layer: 8
   m_Name: DialogTrigger
   m_TagString: Untagged
@@ -58,6 +60,70 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1380d64d7d5f314ea50abccfd40ddde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8707043112155213127
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 894202577121726682}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3fb4fb81bfe3714dac53da3f61f0dc4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  quest: {fileID: 0}
+  AcceptedQuestNode: -1
+  RefusedQuestNode: -1
+  DoneQuestNode: -1
+  FailedQuestNode: -1
+  PassedQuestNode: -1
+--- !u!114 &1667767874474460429
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 894202577121726682}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b8b99d8a12e39e4b94d2d7162c7c978, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  diags:
+  - Charlie
+  - CommentModifier
+  - CrazyCap
+  - DEMO_Condition
+  - demo_Narration
+  - Example3Dialogue
+  - Example4_dialogue
+  - Item_LookUp
+  - Kub
+  - Laura
+  - MrCube
+  - NPCOnly
+  - PNJDefault
+  - QuestChartDemo
+  - TriggeredDude
+  - Witch
+  assignedIndex: 12
+  assignedID: 55919
+  assignedDialogue: PNJDefault
+  interactionCount: 0
+  alias: 
+  overrideStartNode: -1
+  defaultNPCSprite: {fileID: 21300000, guid: 8b30c8e73bde757418a12a699a978363, type: 3}
+  defaultPlayerSprite: {fileID: 21300000, guid: c7464680bd116eb4d8dd1fd8bc814753,
+    type: 3}
+  targetManager: {fileID: 0}
+  preload: 0
+  notuptodate: 0
+  startp: 0
+  loadtag: 
+  langs: []
+  S_playerDiags: []
+  S_actionNodes: []
 --- !u!1 &1273075054447260922
 GameObject:
   m_ObjectHideFlags: 0
@@ -370,9 +436,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78d1a5b4edb585946a9d7f0beb7bf2cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Quest: {fileID: 0}
   m_Mode: 0
   Clicked: 0
+  Name: 
+  image: {fileID: 0}
 --- !u!1 &7880743438250664808
 GameObject:
   m_ObjectHideFlags: 0
