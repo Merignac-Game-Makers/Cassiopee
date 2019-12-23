@@ -7199,7 +7199,7 @@ Camera:
     height: 1
   near clip plane: 0.1
   far clip plane: 5000
-  field of view: 45
+  field of view: 42.43608
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -9904,7 +9904,7 @@ MonoBehaviour:
   m_LookAt: {fileID: 271453133}
   m_Follow: {fileID: 0}
   m_Lens:
-    FieldOfView: 45
+    FieldOfView: 42.43608
     OrthographicSize: 10
     NearClipPlane: 0.1
     FarClipPlane: 5000
@@ -12001,7 +12001,28 @@ PrefabInstance:
       propertyPath: m_Radius
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 1667767874474460429, guid: b61a203dbbafdba4d8f1e41bfd9a4ba8,
+        type: 3}
+      propertyPath: assignedIndex
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1667767874474460429, guid: b61a203dbbafdba4d8f1e41bfd9a4ba8,
+        type: 3}
+      propertyPath: assignedID
+      value: 14265
+      objectReference: {fileID: 0}
+    - target: {fileID: 1667767874474460429, guid: b61a203dbbafdba4d8f1e41bfd9a4ba8,
+        type: 3}
+      propertyPath: assignedDialogue
+      value: GrandMa
+      objectReference: {fileID: 0}
+    - target: {fileID: 1667767874474460429, guid: b61a203dbbafdba4d8f1e41bfd9a4ba8,
+        type: 3}
+      propertyPath: alias
+      value: Itza
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 8707043112155213127, guid: b61a203dbbafdba4d8f1e41bfd9a4ba8, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: b61a203dbbafdba4d8f1e41bfd9a4ba8, type: 3}
 --- !u!1 &1857926213
 GameObject:

@@ -31,7 +31,8 @@ public class DialogueTrigger : MonoBehaviour
 
 	public void Run() {
 		//if (dialogManager.PreConditions(dialog))
-		if (QC != null && dialog.assignedID != 0 && QC.QuestConditions(dialog))
+		//if (QC != null && dialog.assignedID != 0 && QC.QuestConditions(dialog))
+		if ((QC != null && QC.QuestConditions(dialog)) || QC==null)
 			dialoguesUI.Begin(dialog);
 	}
 
