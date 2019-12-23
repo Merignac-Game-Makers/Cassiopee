@@ -10,6 +10,9 @@ public class PNJ : InteractableObject
 
     public override bool IsInteractable => true;
 
-    public override void InteractWith(HighlightableObject target) { }
+    public override void InteractWith(HighlightableObject target) {
+        PlayerControl.Instance.StopAgent();
+        GetComponentInChildren<DialogueTrigger>()?.Run();
+    }
 
 }

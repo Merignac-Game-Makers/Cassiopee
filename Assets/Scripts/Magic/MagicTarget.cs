@@ -3,75 +3,24 @@ using UnityEngine.AI;
 
 public class MagicTarget : InteractableObject
 {
-	public override bool IsInteractable => BookUI.Instance.IsOpen;
 
-	public bool isFree => IsFree();
+	public bool oneShot = true;
 
-	Vector3 m_TargetPoint;
+	public override bool IsInteractable => BookUI.Instance.IsOpen && enabled;
 
-	void Awake() {
-		m_TargetPoint = transform.position;
-	}
+	public bool isFree => !GetComponentInChildren<MagicOrb>();
 
 	protected override void Start() {
 		base.Start();
-	}
-
-
-	void Update() {
-		Debug.DrawLine(m_TargetPoint, m_TargetPoint + new Vector3(0, 2, 0), Color.magenta);
 	}
 
 	public override void InteractWith(HighlightableObject target) {
 
 	}
 
-	public bool IsFree() {
-		return !GetComponentInChildren<MagicOrb>();
-	}
-
 	public void MakeMagicalStuff(MagicOrb orb) {
-		Debug.Log("DO MAGIC !!!");
-		if (orb.GetComponentInChildren<MagicOrb>().orbType == MagicOrb.OrbType.Moon) {
-			gameObject.transform.localScale /= 2f;
-			GetComponentInChildren<NavMeshLink>().enabled = false;
-		} else {
-			gameObject.transform.localScale *= 2f;
-			GetComponentInChildren<NavMeshLink>().enabled = true;
-		}
-		Destroy(orb.gameObject);
+		GetComponentInChildren<MagicEffectBase>()?.Act(orb);
+		if (oneShot)
+			enabled = false;
 	}
 }
-
-//#if UNITY_EDITOR
-//[CustomEditor(typeof(Target))]
-//public class TargetObjectEditor : Editor
-//{
-//	SerializedProperty m_IsQuest;
-//	SerializedProperty m_Quest;
-//	SerializedProperty m_Mode;
-
-//	void OnEnable() {
-//		m_IsQuest = serializedObject.FindProperty("IsQuest");
-//		m_Quest = serializedObject.FindProperty("Quest");
-//		m_Mode = serializedObject.FindProperty("m_Mode");
-
-//		serializedObject.ApplyModifiedProperties();
-//	}
-
-//	public override void OnInspectorGUI() {
-//		serializedObject.Update();
-
-//		EditorGUILayout.PropertyField(m_Mode);
-//		EditorGUILayout.PropertyField(m_IsQuest);
-
-//		if (m_IsQuest.boolValue) {
-//			EditorGUILayout.PropertyField(m_Quest);
-//		}
-
-//		serializedObject.ApplyModifiedProperties();
-
-//	}
-
-//}
-//#endif

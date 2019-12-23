@@ -35,11 +35,11 @@ public class DialogueTrigger : MonoBehaviour
 			dialoguesUI.Begin(dialog);
 	}
 
-	private void OnTriggerEnter(Collider other) {
-		Debug.Log(other);
-		PlayerControl.Instance.StopAgent();
-		Run();
-	}
+	//private void OnTriggerEnter(Collider other) {
+	//	//Debug.Log(other);
+	//	PlayerControl.Instance.StopAgent();
+	//	Run();
+	//}
 
 
 

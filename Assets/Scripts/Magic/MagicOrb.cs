@@ -36,15 +36,13 @@ public class MagicOrb : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 			var rch = RayCast();
 			if (rch.collider != null) {
 				transform.localPosition = rch.point + Vector3.up;
-				Debug.Log(rch.collider?.gameObject);
-				Debug.Log(transform.localPosition);
 			}
 		}
 	}
 
 	public void OnEndDrag(PointerEventData eventData) {
 		magicController.dragging = null;
-		if (mTarget!=null && mTarget.IsFree()) {
+		if (mTarget!=null && mTarget.isFree) {
 			mTarget.MakeMagicalStuff(this);
 		}
 	}
