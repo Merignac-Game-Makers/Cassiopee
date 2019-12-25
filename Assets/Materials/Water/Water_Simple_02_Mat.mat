@@ -110,6 +110,10 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - Vector1_1AEB5AB0: 10
+    - Vector1_2AC7257D: 0.01
+    - Vector1_7D622CB4: 0.001
+    - Vector1_843D85E4: 0.35
     - _Absorption: 0.5
     - _AlphaClip: 0
     - _Anisotropy: 0.5
