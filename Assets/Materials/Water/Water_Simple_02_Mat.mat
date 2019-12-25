@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Water_Simple_02_Mat
-  m_Shader: {fileID: -6465566751694194690, guid: a560e2f82e25ac8419e7c77538f36355,
+  m_Shader: {fileID: -6465566751694194690, guid: 1ca6436dc09e65d449941a4132a1a2d7,
     type: 3}
   m_ShaderKeywords: _ALPHABLEND_ON _DETAIL_MULX2 _NORMALMAP _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
   m_LightmapFlags: 4
@@ -110,10 +110,10 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - Vector1_1AEB5AB0: 10
-    - Vector1_2AC7257D: 0.01
-    - Vector1_7D622CB4: 0.001
-    - Vector1_843D85E4: 0.35
+    - Vector1_1AEB5AB0: 8
+    - Vector1_2AC7257D: 0.008
+    - Vector1_7D622CB4: 0.0016
+    - Vector1_843D85E4: 0.3
     - _Absorption: 0.5
     - _AlphaClip: 0
     - _Anisotropy: 0.5
