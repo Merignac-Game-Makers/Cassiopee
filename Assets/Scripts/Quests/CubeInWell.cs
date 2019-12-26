@@ -7,23 +7,25 @@ public class CubeInWell : QuestBase
 {
 	public GameObject holder;
 	public Loot item;
+	public QuestBase nextQuest;
 
-	public void RefuseQuest() {
-		status = QuestStatus.Refused;
+	public override void QuestAvailable() {
+		base.QuestAvailable();
 	}
-	public void AcceptQuest() {
-		status = QuestStatus.Accepted;
-		questsUI.AddQuest(this);
+	public override void RefuseQuest() {
+		base.RefuseQuest();
 	}
-	public void QuestDone() {
-		status = QuestStatus.Done;
-		questsUI.TerminateQuest(this);
+	public override void AcceptQuest() {
+		base.AcceptQuest();
 	}
-	public void QuestFailed() {
-		status = QuestStatus.Failed;
+	public override void QuestDone() {
+		base.QuestDone();
 	}
-	public void QuestPassed() {
-		status = QuestStatus.Passed;
+	public override void QuestFailed() {
+		base.QuestFailed();
+	}
+	public override void QuestPassed() {
+		base.QuestPassed();
 	}
 
 	public override bool TestSuccess() {
@@ -32,6 +34,7 @@ public class CubeInWell : QuestBase
 			foreach (Loot loot in loots) {
 				if (loot.name.StartsWith("Cube")) {
 					QuestDone();
+					nextQuest?.QuestAvailable();
 					return true;
 				}
 			}

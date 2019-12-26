@@ -39,7 +39,7 @@ public class MagicController : MonoBehaviour
 
 	public void AddOrRemove(Activable item) {
 		if (!magicActivatedItems.Contains(item)) {
-			Debug.Log("add " + item.name);
+			//Debug.Log("add " + item.name);
 			if (magicActivatedItems.Count > 0) {
 				LineRenderer lr = Instantiate(lineRendered, item.transform);
 				lr.GetComponent<LineRenderer>().material = activeArtfact == MagicSystem.SelectedArtefact.Moon ? moonRay : sunRay;
@@ -50,7 +50,7 @@ public class MagicController : MonoBehaviour
 			}
 			magicActivatedItems.Add(item);
 		} else {
-			Debug.Log("remove " + item.name);
+			//Debug.Log("remove " + item.name);
 			int idx = magicActivatedItems.IndexOf(item);
 			for (int i = magicActivatedItems.Count - 1; i >= idx; i--) {
 				Activable obj = magicActivatedItems[i];
@@ -62,7 +62,7 @@ public class MagicController : MonoBehaviour
 			}
 		}
 		if (TestSuccess()) {
-			Debug.Log("DONE !!!");
+			//Debug.Log("DONE !!!");
 			var orb = activeArtfact == MagicSystem.SelectedArtefact.Moon ?moonOrb : sunOrb;
 			Instantiate(orb, PlayerControl.Instance.gameObject.transform);
 			StartCoroutine(ResetConstellation(2));
