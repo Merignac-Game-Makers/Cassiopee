@@ -13,8 +13,11 @@ public class CameraController : MonoBehaviour
 	public static CameraController Instance { get; set; }
 
 	public Camera GameplayCamera;
-	public CinemachineVirtualCamera Vcam;
+	public CinemachineVirtualCamera vCam;
 	public GameObject CameraTarget;
+
+	[HideInInspector]
+	public List<CinemachineVirtualCamera> vCams;
 
 	/// <summary>
 	/// Angle in degree (down compared to horizon) the camera will look at when at the closest of the character
@@ -36,15 +39,14 @@ public class CameraController : MonoBehaviour
 
 	void Awake() {
 		Instance = this;
+
 	}
 
 	void Start() {
+		vCams = new List<CinemachineVirtualCamera> { vCam };			
 		Zoom(0);
 	}
 
-	private void Update() {
-		//GameplayCamera.transform.LookAt(CameraTarget.transform);
-	}
 	/// <summary>
 	/// Zoom of the given distance. Note that distance need to be a param between 0...1,a d the distance is a ratio
 	/// </summary>
@@ -55,8 +57,17 @@ public class CameraController : MonoBehaviour
 		Vector3 rotation = transform.rotation.eulerAngles;
 		rotation.x = Mathf.LerpAngle(MinAngle, MaxAngle, m_CurrentDistance);
 		transform.rotation = Quaternion.Euler(rotation);
-		Vcam.m_Lens.FieldOfView = MinAngle + (MaxAngle - MinAngle) * m_CurrentDistance;
-		//GameplayCamera.transform.LookAt(CameraTarget.transform);
-		//AmbiencePlayer.UpdateVolume(m_CurrentDistance);
+		if (vCam!=null) vCam.m_Lens.FieldOfView = MinAngle + (MaxAngle - MinAngle) * m_CurrentDistance;
+	}
+}
+
+public static partial class Extensions
+{
+	public static CinemachineVirtualCamera Last(this List<CinemachineVirtualCamera> list) {
+		return list.Count >0 ? list[list.Count - 1] : null;
+	}
+	public static void AddItem(this List<CinemachineVirtualCamera> list, GameObject item) {
+		if (item.GetComponentInChildren<CinemachineVirtualCamera>() != null)
+			list.Add(item.GetComponentInChildren<CinemachineVirtualCamera>());
 	}
 }

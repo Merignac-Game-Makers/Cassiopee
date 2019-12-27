@@ -10,10 +10,10 @@ public abstract class MagicEffectBase : MonoBehaviour
 
 	public void Act(MagicOrb orb) {
 		if (orb.GetComponentInChildren<MagicOrb>().orbType == MagicOrb.OrbType.Moon) {
-			Debug.Log("DO MOON MAGIC !!!");
+			// Debug.Log("DO MOON MAGIC !!!");
 			DoMoon(orb);
 		} else {
-			Debug.Log("DO SUN MAGIC !!!");
+			// Debug.Log("DO SUN MAGIC !!!");
 			DoSun(orb);
 		}
 		Destroy(orb.gameObject);

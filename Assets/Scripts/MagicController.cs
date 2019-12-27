@@ -86,7 +86,7 @@ public class MagicController : MonoBehaviour
 		yield return null;
 	}
 }
-public static class Extensions
+public static partial class Extensions
 {
 	public static Activable Last(this List<Activable> list) {
 		return list[list.Count - 1];

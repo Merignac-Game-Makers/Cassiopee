@@ -257,7 +257,7 @@ public class PlayerManager : MonoBehaviour
 	}
 	public void Activate(Activable obj) {
 		if (obj.IsInteractable) {
-			Debug.Log("Item activated");
+			// Debug.Log("Item activated");
 			m_TargetCollider = obj.GetComponentInChildren<Collider>();
 			m_TargetInteractable = obj;
 			if (obj.IsInteractable)

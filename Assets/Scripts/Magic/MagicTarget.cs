@@ -19,8 +19,8 @@ public class MagicTarget : InteractableObject
 	}
 
 	public void MakeMagicalStuff(MagicOrb orb) {
-		GetComponentInChildren<MagicEffectBase>()?.Act(orb);
-		if (oneShot)
-			enabled = false;
+		Destroy(GetComponentInChildren<Loot>()?.gameObject);	//détruire le cube
+		GetComponentInChildren<MagicEffectBase>()?.Act(orb);	// générer l'eau
+		enabled = false;
 	}
 }

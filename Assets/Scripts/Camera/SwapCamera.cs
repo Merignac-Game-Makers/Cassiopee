@@ -11,35 +11,42 @@ public class SwapCamera : MonoBehaviour
 	/// </summary>
 	/// 
 	CinemachineBrain cinemachineBrain;      // cinemachine
-	CinemachineVirtualCamera mainCam;       // la caméra active AVANT d'entrer dans la zone
 	CinemachineVirtualCamera localCam;      // la caméra locale à activer pour la zone
 	Collider m_Collider;                    // la zone à surveiller
 	GameObject player;                      // l'objet à surveiller
 
 
 	CinemachineVirtualCamera cam;
+	bool inside;
+
+	List<CinemachineVirtualCamera> vCams => CameraController.Instance.vCams;
+	
 
 	// initialisation des variables
 	void Start() {
 		cinemachineBrain = CameraController.Instance.gameObject.GetComponentInChildren<CinemachineBrain>();
 		localCam = gameObject.GetComponentInChildren<CinemachineVirtualCamera>();
 		m_Collider = gameObject.GetComponentInChildren<Collider>();
+		localCam.gameObject.SetActive(false);
 		player = PlayerManager.Instance.gameObject;
 	}
 
 	void Update() {
+		m_Collider.enabled = true;
+		inside = m_Collider.bounds.Contains(player.transform.position);
+		m_Collider.enabled = false;
 		// si on est à l'intérieur du volume surveillé
-		if (m_Collider.bounds.Contains(player.transform.position)) {		
-			// récupérer la caméra active
-			cam = cinemachineBrain.ActiveVirtualCamera as CinemachineVirtualCamera;
-			// si ce n'est pas la caméra locale => basculer sur la caméra locale
-			if (cam != localCam) mainCam = cam;
+		if (inside && localCam != vCams.Contains(localCam)) {
 			localCam.gameObject.SetActive(true);
-			mainCam?.gameObject.SetActive(false);
+			vCams.Last().gameObject.SetActive(false);
+			vCams.Add(localCam);
 		// si on est à l'extérieur et que la caméra locale est active => restaurer la caméra active avant d'entrer
-		} else if (cam == localCam) {
+		}  
+		if (!inside && localCam == vCams.Contains(localCam)) {
+			int idx = vCams.IndexOf(localCam);
+			vCams.RemoveRange(idx, vCams.Count - idx);
 			localCam.gameObject.SetActive(false);
-			mainCam?.gameObject.SetActive(true);
+			vCams.Last().gameObject.SetActive(true);
 		}
 	}
 }
