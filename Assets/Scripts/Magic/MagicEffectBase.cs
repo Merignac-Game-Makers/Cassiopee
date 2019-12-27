@@ -4,7 +4,7 @@ using UnityEngine.AI;
 public abstract class MagicEffectBase : MonoBehaviour
 {
 	public virtual bool isAvailable() {
-		return BookUI.Instance.IsOpen;
+		return MagicUI.Instance.isFullScreen;
 	}
 
 

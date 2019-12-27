@@ -7,9 +7,6 @@ public class QuestsUI : UIBase
 	public static QuestsUI Instance;
 	public QuestSystem questSystem;
 
-	public UIButton bookButton;
-	public GameObject bookPanel;
-
 	public GameObject pending;
 	public GameObject over;
 	public GameObject questPrefab;
@@ -47,13 +44,13 @@ public class QuestsUI : UIBase
 			var questBox = Instantiate(questPrefab, over.transform);
 			questBox.GetComponent<SetQuestPanel>().Init(quest);
 		}
-		
 	}
 
 	public void AddQuest(QuestBase quest) {
 		var questBox = Instantiate(questPrefab, pending.transform);
 		questBox.GetComponent<SetQuestPanel>().Init(quest);
 	}
+
 	public void TerminateQuest(QuestBase quest) {
 		for (int i = 0; i < pending.transform.childCount; i++) {
 			var questBox = pending.transform.GetChild(i);

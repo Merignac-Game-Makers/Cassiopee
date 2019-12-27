@@ -16,7 +16,7 @@ public class MagicController : MonoBehaviour
 	public List<Activable> magicActivatedItems;
 
 	public static MagicController Instance;
-	MagicSystem.SelectedArtefact activeArtfact => MagicSystem.Instance.m_SelectedArtefact;
+	MagicUI.SelectedArtefact activeArtfact => MagicUI.Instance.selectedArtefact;
 
 	[HideInInspector]
 	public MagicOrb dragging;
@@ -42,7 +42,7 @@ public class MagicController : MonoBehaviour
 			//Debug.Log("add " + item.name);
 			if (magicActivatedItems.Count > 0) {
 				LineRenderer lr = Instantiate(lineRendered, item.transform);
-				lr.GetComponent<LineRenderer>().material = activeArtfact == MagicSystem.SelectedArtefact.Moon ? moonRay : sunRay;
+				lr.GetComponent<LineRenderer>().material = activeArtfact == MagicUI.SelectedArtefact.Moon ? moonRay : sunRay;
 
 				Electric electicScript = item.gameObject.AddComponent<Electric>();
 				electicScript.transformPointA = magicActivatedItems.Last().transform;
@@ -63,8 +63,8 @@ public class MagicController : MonoBehaviour
 		}
 		if (TestSuccess()) {
 			//Debug.Log("DONE !!!");
-			var orb = activeArtfact == MagicSystem.SelectedArtefact.Moon ?moonOrb : sunOrb;
-			Instantiate(orb, PlayerControl.Instance.gameObject.transform);
+			var orb = activeArtfact == MagicUI.SelectedArtefact.Moon ?moonOrb : sunOrb;
+			Instantiate(orb, PlayerManager.Instance.gameObject.transform);
 			StartCoroutine(ResetConstellation(2));
 		}
 	}
@@ -73,8 +73,8 @@ public class MagicController : MonoBehaviour
 		return magicActivatedItems.IsLke(cassiopee);
 	}
 
-	public void UpdateArtefact(MagicSystem.SelectedArtefact artefact) {
-		Material mat = activeArtfact == MagicSystem.SelectedArtefact.Moon ? moonRay : sunRay;
+	public void UpdateArtefact(MagicUI.SelectedArtefact artefact) {
+		Material mat = activeArtfact == MagicUI.SelectedArtefact.Moon ? moonRay : sunRay;
 		for (int i = 1; i < magicActivatedItems.Count; i++) {
 			magicActivatedItems[i].GetComponentInChildren<LineRenderer>().material = mat;
 		}

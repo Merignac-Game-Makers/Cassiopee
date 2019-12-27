@@ -140,8 +140,8 @@ public class InventoryUI : UIBase
 				if (rh.collider != null) {
 					Target data = rh.collider.GetComponentInParent<Target>();
 					if (data != null && data.isFree) {
-						Debug.Log("Drop Item");
-						DropItem(data, PlayerControl.Instance.m_InvItemDragging);
+						//Debug.Log("Drop Item");
+						DropItem(data, PlayerManager.Instance.m_InvItemDragging);
 						break;
 					}
 				}
