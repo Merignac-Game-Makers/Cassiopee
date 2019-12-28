@@ -6,6 +6,11 @@ using UnityEngine;
 public class WaterInWell : QuestBase
 {
 
+	/// <summary>
+	/// bien qu'apparement inutiles les méthodes 'Quest...'
+	/// sont nécessaires ici pour que le VIDE_Dialogue Editor puisse les utiliser
+	/// (il ne gère pas les classes héritées)
+	/// </summary>
 	public override void RefuseQuest() {
 		base.RefuseQuest();
 	}
@@ -22,8 +27,13 @@ public class WaterInWell : QuestBase
 		base.QuestPassed();
 	}
 
+
+	/// <summary>
+	/// Conditions de succès de cette quête
+	/// </summary>
+	/// <returns></returns>
 	public override bool TestSuccess() {
-		// mis à jour par MagicWater.cs
+		// QuestStatus.Done est mis à jour par MagicWater.cs
 		return status == QuestStatus.Done;
 	}
 

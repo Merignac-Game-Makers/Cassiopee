@@ -15,10 +15,6 @@ public class Target : InteractableObject
 		base.Start();
 	}
 
-
-	public override void InteractWith(HighlightableObject target) {
-
-	}
 }
 
 /// <summary>

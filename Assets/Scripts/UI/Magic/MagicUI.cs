@@ -1,4 +1,7 @@
-﻿using UnityEditor;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,8 +13,9 @@ public class MagicUI : UIBase
 {
 	// Définition du contenu du grimoire
 	[HideInInspector]
-	public int MaxPage => pages.Length;
-	public Page[] pages;
+	public int MaxPage => pages.Count;
+	public GameObject magicBookContent;
+	List<Page> pages;
 
 	// objets d'interface
 	public GameObject fullScreenPanel;  // livre ouvert (plein écran)
@@ -45,6 +49,11 @@ public class MagicUI : UIBase
 
 		gameObject.SetActive(true);     // Book UI actif
 		panel.SetActive(false);         // panneau latéral masqué
+
+		pages = new List<Page>();		// récupération des pages dans 'MagicBookContent'
+		foreach (PageTemplate page in magicBookContent.GetComponentsInChildren<PageTemplate>()) {
+			pages.Add(page.page);
+		}
 
 		currentPageIdx = 0;             // page courante = 1ère page
 		ShowPage(currentPageIdx);       // afficher la page courante
@@ -139,37 +148,38 @@ public class BookUIEditor : Editor
 	MagicUI ui;
 	public void OnEnable() {
 		//serializedObject.ApplyModifiedProperties();
-		ui = (MagicUI)target;
+		ui = (MagicUI) target;
 	}
 
+
 	public override void OnInspectorGUI() {
+
 		EditorStyles.textField.wordWrap = true;
 
-		EditorGUILayout.PropertyField(serializedObject.FindProperty("pages"), true);
+		EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(ui.magicBookContent)), true);
 
 		GUILayout.Label("\nPanels", EditorStyles.boldLabel);
-		EditorGUILayout.PropertyField(serializedObject.FindProperty("panel"));
-		EditorGUILayout.PropertyField(serializedObject.FindProperty("fullScreenPanel"));
-		EditorGUILayout.PropertyField(serializedObject.FindProperty("leftPage"));
-		EditorGUILayout.PropertyField(serializedObject.FindProperty("rightPage"));
-		EditorGUILayout.PropertyField(serializedObject.FindProperty("sidePanel"));
+		EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(ui.panel)));
+		EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(ui.fullScreenPanel)));
+		EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(ui.leftPage)));
+		EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(ui.rightPage)));
+		EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(ui.sidePanel)));
 
 		GUILayout.Label("\nButtons", EditorStyles.boldLabel);
-		EditorGUILayout.PropertyField(serializedObject.FindProperty("bookButton"));
-		EditorGUILayout.PropertyField(serializedObject.FindProperty("fullScreenButton"));
-		EditorGUILayout.PropertyField(serializedObject.FindProperty("nextPage"));
-		EditorGUILayout.PropertyField(serializedObject.FindProperty("prevPage"));
-		EditorGUILayout.PropertyField(serializedObject.FindProperty("sunButton"));
-		EditorGUILayout.PropertyField(serializedObject.FindProperty("moonButton"));
+		EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(ui.bookButton)));
+		EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(ui.fullScreenButton)));
+		EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(ui.nextPage)));
+		EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(ui.prevPage)));
+		EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(ui.sunButton)));
+		EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(ui.moonButton)));
 
 		GUILayout.Label("\nContenu", EditorStyles.boldLabel);
-		EditorGUILayout.PropertyField(serializedObject.FindProperty("m_Title"));
-		EditorGUILayout.PropertyField(serializedObject.FindProperty("m_Text"));
-		EditorGUILayout.PropertyField(serializedObject.FindProperty("m_Picture"));
+		EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(ui.m_Title)));
+		EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(ui.m_Text)));
+		EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(ui.m_Picture)));
 
 		serializedObject.ApplyModifiedProperties();
 	}
-
 
 }
 #endif

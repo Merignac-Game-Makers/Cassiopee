@@ -5,12 +5,14 @@ using UnityEngine.AI;
 
 public class MagicWater : MagicEffectBase
 {
-	public QuestBase quest;
+	public QuestBase quest;     // accomplir cette magie est une quête : indiquer laquelle
 
 	public override void DoMoon(MagicOrb orb) {
-		var ps = gameObject.GetComponent<ParticleSystem>();
+		Destroy(GetComponentInChildren<Loot>()?.gameObject);    // détruire le cube
+		var ps = gameObject.GetComponent<ParticleSystem>();     // activer l'animation
 		ps.Play();
-		quest.QuestDone();
+		quest.QuestDone();                                      // renseigner la quête => 'terminée'
+
 	}
 
 	public override void DoSun(MagicOrb orb) {

@@ -62,6 +62,7 @@ public class Loot : InteractableObject
 	}
 
 	public override void InteractWith(HighlightableObject target) {
+		base.InteractWith(target);
 		InventorySystem.Instance.AddItem(Item);
 		SFXManager.PlaySound(SFXManager.Use.Sound2D, new SFXManager.PlayData(){Clip = SFXManager.PickupSound});
 

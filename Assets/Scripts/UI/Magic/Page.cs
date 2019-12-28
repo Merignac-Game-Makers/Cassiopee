@@ -1,4 +1,6 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
+using System;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -10,8 +12,8 @@ public class Page : ScriptableObject
 	public string Title;
 	public Sprite Picture;
 	public string Text;
+	public string constellation;
 }
-
 
 #if UNITY_EDITOR
 [CustomEditor(typeof(Page))]
@@ -20,6 +22,7 @@ public class PageEditor : Editor
 	SerializedProperty m_TitleProperty;
 	SerializedProperty m_PictureProperty;
 	SerializedProperty m_TextProperty;
+	SerializedProperty m_ConstellationProperty;
 
 	Page m_Page;
 
@@ -27,8 +30,8 @@ public class PageEditor : Editor
 		m_TitleProperty = serializedObject.FindProperty("Title");
 		m_PictureProperty = serializedObject.FindProperty("Picture");
 		m_TextProperty = serializedObject.FindProperty("Text");
+		m_ConstellationProperty = serializedObject.FindProperty("constellation");
 
-		//serializedObject.ApplyModifiedProperties();
 		m_Page = (Page)target;
 	}
 
@@ -39,11 +42,11 @@ public class PageEditor : Editor
 		EditorGUILayout.PropertyField(m_TitleProperty);
 		EditorGUILayout.PropertyField(m_PictureProperty);
 
-		//EditorGUILayout.PropertyField(m_TextProperty, GUILayout.MinHeight(128));
-		var options = new GUILayoutOption[] { GUILayout.MinHeight(128), GUILayout.ExpandHeight(true)};
+		var options = new GUILayoutOption[] { GUILayout.MinHeight(128), GUILayout.ExpandHeight(true)};	
 		m_TextProperty.stringValue = GUILayout.TextArea(m_TextProperty.stringValue, options);
-		//m_TextProperty.stringValue = CreateEditor(m_Page).target.ToString();
-		//m_TextProperty.stringValue.Replace("\\n", "\n");
+
+		EditorGUILayout.PropertyField(m_ConstellationProperty);
+
 		serializedObject.ApplyModifiedProperties();
 	}
 }
