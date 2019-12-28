@@ -15,6 +15,6 @@ MonoBehaviour:
   ItemName: Moon Orb
   ItemSprite: {fileID: 0}
   Description: MOON orb
-  WorldObjectPrefab: {fileID: 708512745193857573, guid: b3d7ea6f2518833469289ba6fe49f978,
+  WorldObjectPrefab: {fileID: 708512745193857573, guid: 0a42c6dbb118963419463f46c50cf3c6,
     type: 3}
   UsageEffects: []

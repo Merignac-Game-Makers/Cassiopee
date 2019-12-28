@@ -13,17 +13,19 @@ using UnityEngine;
 public abstract class InteractableObject : HighlightableObject
 {
 
-	public enum mode { onClick, onTheFly, onTheFlyOnce }
+	public enum Mode { onClick, onTheFly, onTheFlyOnce }
 
-	//public QuestBase Quest;
-	public mode m_Mode;
+	public Mode mode;
 
 	public abstract bool IsInteractable { get; }
 
 	[HideInInspector]
 	public bool Clicked;
 
-	public abstract void InteractWith(HighlightableObject target);
+	public virtual void InteractWith(HighlightableObject target) {
+		if (mode == Mode.onTheFlyOnce)
+			mode = Mode.onClick;
+	}
 
 }
 

@@ -108,7 +108,7 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
-  m_Radius: 1
+  m_Radius: 0.75
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
@@ -121,10 +121,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 6979171350877497172}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 362c295dfd59a464ba31c0a9e0ff9b2a, type: 3}
+  m_Script: {fileID: 11500000, guid: 9a41ec12fc86c104081ae01775aa9f57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Agent: {fileID: 0}
+  m_MagicOrb: {fileID: 0}
   m_CharacterData: {fileID: 0}
 --- !u!81 &8904770161356852779
 AudioListener:

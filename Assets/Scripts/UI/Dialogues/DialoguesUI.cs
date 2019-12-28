@@ -46,7 +46,7 @@ public class DialoguesUI : MonoBehaviour
 	}
 
 	public void Begin(VIDE_Assign dialog) {
-		PlayerControl.Instance.StopAgent();
+		PlayerManager.Instance.StopAgent();
 		VD.OnNodeChange += UpdateUI;
 		VD.OnEnd += End;
 		if (VD.isActive)

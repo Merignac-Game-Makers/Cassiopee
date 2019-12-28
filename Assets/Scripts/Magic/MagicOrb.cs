@@ -7,43 +7,57 @@ using UnityEngine.UI;
 
 public class MagicOrb : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
+	/// <summary>
+	/// Types d'orbe (LUNE / SOLEIL)
+	/// </summary>
 	public enum OrbType { Moon, Sun}
 
-	public OrbType orbType;
+	public OrbType orbType;                     // type d'orbe
+	[HideInInspector]
+	public string constellation;				// nom de la constellation grâce à laquelle a été obtenu cet orbe
 
-	private MagicTarget mTarget;
-	private MagicController magicController;
-	private int m_Layer;
-	private RaycastHit[] m_RaycastHitCache = new RaycastHit[4];
+	private MagicTarget mTarget;				// cible sur laquelle est déposé l'orbe
+	private MagicController magicController;	// le gestionnaire de magie
+	private int m_Layer;						// layer contenant les orbes (pour sélection et drag & drop)
+	private RaycastHit[] m_RaycastHitCache = new RaycastHit[4]; // pour sélection des orbes
 
-	// Start is called before the first frame update
 	void Start() {
-		magicController = MagicController.Instance;
-		m_Layer = ~(1 << LayerMask.NameToLayer("Magic"));
+		magicController = MagicController.Instance;			// créer l'instance statique
+		m_Layer = ~(1 << LayerMask.NameToLayer("Magic"));	// créer le masque de layer
 	}
 
-
+	/// <summary>
+	/// début de drag & drop
+	/// </summary>
+	/// <param name="eventData"></param>
 	public void OnBeginDrag(PointerEventData eventData) {
-		magicController.dragging = this;
-		transform.SetParent(null, true);
+		magicController.dragging = this;	// liaison avec le contrôleur de magie
+		transform.SetParent(null, true);	// détacher du player
 	}
 
+	/// <summary>
+	/// détecter un glissement de pointeur sur l'orbe
+	/// </summary>
+	/// <param name="eventData"></param>
 	public void OnDrag(PointerEventData eventData) {
-		Ray screenRay = CameraController.Instance.GameplayCamera.ScreenPointToRay(Input.mousePosition);
-		int count = Physics.SphereCastNonAlloc(screenRay, .2f, m_RaycastHitCache, 1000.0f);
+		Ray screenRay = CameraController.Instance.GameplayCamera.ScreenPointToRay(Input.mousePosition);		// lancer de rayon
+		int count = Physics.SphereCastNonAlloc(screenRay, .2f, m_RaycastHitCache, 1000.0f);					// combien d'objets dans le layer 'Magic' ?
 		if (count > 0) {
-			GameObject obj = m_RaycastHitCache[0].collider.gameObject;
-			var rch = RayCast();
-			if (rch.collider != null) {
-				transform.localPosition = rch.point + Vector3.up;
+			var rch = RayCast();										// trouver l'objet sous le pointeur de souris
+			if (rch.collider != null) {									// s'il a un collider
+				transform.localPosition = rch.point + Vector3.up;		// déplacer l'orbe au dessus de ce point
 			}
 		}
 	}
 
+	/// <summary>
+	/// fin du Drag & Drop
+	/// </summary>
+	/// <param name="eventData"></param>
 	public void OnEndDrag(PointerEventData eventData) {
-		magicController.dragging = null;
-		if (mTarget!=null && mTarget.isFree) {
-			mTarget.MakeMagicalStuff(this);
+		magicController.dragging = null;			// informer le contrôleur de magie
+		if (mTarget!=null && mTarget.isFree) {		// si on lâche l'orbe sur une cible de magie
+			mTarget.MakeMagicalStuff(this);			// déclencher la magie
 		}
 	}
 
