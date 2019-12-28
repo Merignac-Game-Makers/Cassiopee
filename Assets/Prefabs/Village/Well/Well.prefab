@@ -4767,7 +4767,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fc5a9745b9e7ae4a8583aaee0360206, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Mode: 0
+  mode: 0
   Clicked: 0
   oneShot: 1
 --- !u!114 &7371270773597785381
@@ -4782,6 +4782,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52e08903f1fd98d48845317178564022, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  page: {fileID: 0}
+  quest: {fileID: 0}
 --- !u!1 &1174205456259649103
 GameObject:
   m_ObjectHideFlags: 0
@@ -4798,7 +4800,6 @@ GameObject:
   - component: {fileID: 4571813454446743563}
   - component: {fileID: 2212441915805132942}
   - component: {fileID: 954831209}
-  - component: {fileID: 954831215}
   m_Layer: 8
   m_Name: Well
   m_TagString: Untagged
@@ -4909,7 +4910,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c7ba2e822fea3046bccb8d6345b56ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Mode: 0
+  mode: 0
   Clicked: 0
   m_IsActive: 0
 --- !u!114 &2212441915805132942
@@ -4947,25 +4948,10 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1174205456259649103}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 288414cdaae9f3a44aa6012a3086c5ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Mode: 0
+  mode: 0
   Clicked: 0
---- !u!114 &954831215
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1174205456259649103}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5fc5a9745b9e7ae4a8583aaee0360206, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Mode: 0
-  Clicked: 0
-  oneShot: 1
