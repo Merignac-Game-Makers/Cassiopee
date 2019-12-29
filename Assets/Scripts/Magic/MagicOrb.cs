@@ -16,7 +16,7 @@ public class MagicOrb : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 	[HideInInspector]
 	public string constellation;				// nom de la constellation grâce à laquelle a été obtenu cet orbe
 
-	private MagicTarget mTarget;				// cible sur laquelle est déposé l'orbe
+	private MagicEffectBase mTarget;				// cible sur laquelle est déposé l'orbe
 	private MagicController magicController;	// le gestionnaire de magie
 	private int m_Layer;						// layer contenant les orbes (pour sélection et drag & drop)
 	private RaycastHit[] m_RaycastHitCache = new RaycastHit[4]; // pour sélection des orbes
@@ -67,8 +67,8 @@ public class MagicOrb : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 		int count = Physics.SphereCastNonAlloc(ray, .2f, m_RaycastHitCache, 1000.0f, m_Layer);
 		if (count > 0) {
 			foreach(RaycastHit r in m_RaycastHitCache) {
-				if (r.collider!=null && r.collider.gameObject.GetComponentInChildren<MagicTarget>() != null) {
-					mTarget = r.collider.gameObject.GetComponentInChildren<MagicTarget>();
+				if (r.collider!=null && r.collider.gameObject.GetComponentInChildren<MagicEffectBase>() != null) {
+					mTarget = r.collider.gameObject.GetComponentInChildren<MagicEffectBase>();
 					break;
 				} else {
 					mTarget = null;
