@@ -357,6 +357,7 @@ public class VIDE_AssignC : Editor
 
 	//Refresh dialogue list
 	public void loadFiles() {
+
 		AssetDatabase.Refresh();
 		d = (VIDE_Assign)target;
 

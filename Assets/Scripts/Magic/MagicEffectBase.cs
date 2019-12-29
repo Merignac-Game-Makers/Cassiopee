@@ -16,24 +16,24 @@ public abstract class MagicEffectBase : InteractableObject
 	public void MakeMagicalStuff(MagicOrb orb) {
 		if (enabled && orb.constellation == page.constellation) {              // l'action n'est déclenchée que si l'orbe a été acquis avec la bonne constellation
 			Act(orb);                                               // générer l'action magique
-			if (oneShot)                                            // si la cible est 'oneShot'
-				enabled = false;                                    //		=> désactiver la cible magique
 		}
 	}
 
 	public void Act(MagicOrb orb) {
 		if (orb.orbType == MagicOrb.OrbType.Moon) {
 			// Debug.Log("DO MOON MAGIC !!!");
-			DoMoon(orb);
+			if (DoMoon(orb) && oneShot)								// si la magie fonctionne et si la cible est 'oneShot'
+				enabled = false;                                    //		=> désactiver la cible magique
 		} else {
 			// Debug.Log("DO SUN MAGIC !!!");
-			DoSun(orb);
+			if (DoSun(orb) && oneShot)								// si la magie fonctionne et si la cible est 'oneShot'
+				enabled = false;                                    //		=> désactiver la cible magique
 		}
 		Destroy(orb.gameObject);
 	}
 
 
-	public abstract void DoMoon(MagicOrb orb);
-	public abstract void DoSun(MagicOrb orb);
+	public abstract bool DoMoon(MagicOrb orb);
+	public abstract bool DoSun(MagicOrb orb);
 
 }

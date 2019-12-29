@@ -5,6 +5,7 @@ using System.IO;
 using System;
 using MiniJSON_VIDE;
 using VIDE_Data;
+using UnityEditor;
 
 public class VIDE_Assign : MonoBehaviour, ISerializationCallbackReceiver
 {
@@ -81,7 +82,13 @@ public class VIDE_Assign : MonoBehaviour, ISerializationCallbackReceiver
 
         foreach (TextAsset f in files)
         {
+#if Editor
+            if (AssetDatabase.GetAssetPath(f).EndsWith("json")) {          // added by @Robeen 20191229
+                diags.Add(f.name);
+            }
+#else
             diags.Add(f.name);
+#endif
         }
 
         diags.Sort();

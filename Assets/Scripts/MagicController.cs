@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -90,7 +91,8 @@ public class MagicController : MonoBehaviour
 	bool TestConstellation() {
 		foreach (PageTemplate page in pages) {
 			foreach (Constellation constellation in page.constellations) {
-				if (magicActivatedItems.IsLike(constellation.objects)) {
+				if (magicActivatedItems.IsLike(constellation.objects) ||							// tester dans un sens
+					magicActivatedItems.Reverse<Activable>().IsLike(constellation.objects)) {		// et dans l'autre
 					orbConstellation = page.page.constellation;
 					return true;
 				}
@@ -126,25 +128,26 @@ public class MagicController : MonoBehaviour
 /// <summary>
 /// extensions de 'List<Activable>' pour commodité
 /// </summary>
-public static partial class Extensions
-{
-	public static Activable Last(this List<Activable> list) {
-		return list[list.Count - 1];
-	}
-	public static void AddItem(this List<Activable> list, GameObject item) {
-		if (item.GetComponentInChildren<Activable>() != null)
-			list.Add(item.GetComponentInChildren<Activable>());
-	}
-	public static bool IsLike(this List<Activable> list, List<Activable> other) {
-		if (list.Count != other.Count)
-			return false;
-		else {
-			for (int i = 0; i < list.Count; i++) {
-				if (list[i] != other[i])
-					return false;
-			}
-			return true;
-		}
+//public static class Extensions
+//{
+//	public static bool IsLike(this List<Activable> list, List<Activable> other) {
+//		if (list.Count != other.Count)
+//			return false;
+//		else {
+//			for (int i = 0; i < list.Count; i++) {
+//				if (list[i] != other[i])
+//					return false;
+//			}
+//			return true;
+//		}
 
-	}
-}
+//	}
+
+//	public static T Last<T>(this List<T> list) where T : class {
+//		return list.Count > 0 ? list[list.Count - 1] : null;
+//	}
+//	public static void AddItem<T>(this List<T> list, GameObject item) {
+//		if (item.GetComponentInChildren<Activable>() != null)
+//			list.Add(item.GetComponentInChildren<T>());
+//	}
+//}

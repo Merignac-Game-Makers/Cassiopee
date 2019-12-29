@@ -32,5 +32,4 @@ public class KubDialogValidation : DialogValidation
 		}
 		return true;
 	}
-
 }

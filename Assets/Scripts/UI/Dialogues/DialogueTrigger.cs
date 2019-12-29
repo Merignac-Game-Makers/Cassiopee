@@ -10,15 +10,14 @@ public class DialogueTrigger : MonoBehaviour
 
 
 	DialoguesUI dialoguesUI;
-	VIDE_Assign dialog;
-	DialogValidation QC;
+	VIDE_Assign dialogue;
+	DialogValidation dialogueValidation;
 
 	// Start is called before the first frame update
 	void Start() {
-		dialoguesUI = DialoguesUI.Instance;
-		dialog = GetComponent<VIDE_Assign>();
-
-		QC = GetComponentInChildren<DialogValidation>();
+		dialoguesUI = DialoguesUI.Instance;									// le gestionnaire d'interface de dialogues
+		dialogue = GetComponent<VIDE_Assign>();								// le dialogue
+		dialogueValidation = GetComponentInChildren<DialogValidation>();	// le script de validation de dialogue (points d'entrée en fonction du statut de la quête [si elle existe])
 	}
 
 	// Update is called once per frame
@@ -30,20 +29,9 @@ public class DialogueTrigger : MonoBehaviour
 	}
 
 	public void Run() {
-		//if (dialogManager.PreConditions(dialog))
-		//if (QC != null && dialog.assignedID != 0 && QC.QuestConditions(dialog))
-		if ((QC != null && QC.QuestConditions(dialog)) || QC==null)
-			dialoguesUI.Begin(dialog);
+		if ((dialogueValidation != null && dialogueValidation.QuestConditions(dialogue)) || dialogueValidation == null)
+			dialoguesUI.Begin(dialogue);
 	}
-
-	//private void OnTriggerEnter(Collider other) {
-	//	//Debug.Log(other);
-	//	PlayerControl.Instance.StopAgent();
-	//	Run();
-	//}
-
-
-
 }
 
 #if UNITY_EDITOR
@@ -53,7 +41,11 @@ public class DialogTriggerEditor : Editor
 
 	public override void OnInspectorGUI() {
 
-		GUILayout.Label("Attention !\nIl est impératif d'ajouter les scripts : \n  - VIDE_Assign\n  - DialogValidation spécifique du dialogue");
+		GUILayout.Label(
+@"Attention !
+Pour personnaliser le dialogue : 
+     - affecter un dialoque dans le composant VIDE_Assign
+     - ajouter un DialogValidation spécifique du dialogue");
 
 	}
 }

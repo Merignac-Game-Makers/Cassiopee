@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class WaterInWell : QuestBase
 {
-
 	/// <summary>
 	/// bien qu'apparement inutiles les méthodes 'Quest...'
 	/// sont nécessaires ici pour que le VIDE_Dialogue Editor puisse les utiliser

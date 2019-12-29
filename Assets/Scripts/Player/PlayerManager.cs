@@ -71,6 +71,12 @@ public class PlayerManager : MonoBehaviour
 
 	// Update is called once per frame
 	void Update() {
+		// quitter le jeu par la touche escape
+		if (Input.GetKeyDown(KeyCode.Escape)) {
+			Application.Quit();
+		}
+
+
 		// Lancer de rayon
 		Ray screenRay = CameraController.Instance.GameplayCamera.ScreenPointToRay(Input.mousePosition);
 
