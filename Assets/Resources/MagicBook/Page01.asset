@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a948409defe1da4cb7e439372106d60, type: 3}
   m_Name: Page01
   m_EditorClassIdentifier: 
-  Title: La MAGIE
+  Title: Apprentissage
   Picture: {fileID: 21300000, guid: baf655fa497bd354089d6783973a7a23, type: 3}
-  Text: "Pour utiliser la magie :\n\n- Ouvre ce livre\n- Active un m\xE9daillon  :
-    SOLEIL ou LUNE\n- Dans le paysage, active les objets magiques pour tracer une
-    constellation\n\nTu obtiendras un ORBE magique\n\nD\xE9pose l'orbe \xE0 l'endroit
-    o\xF9 tu veux appliquer la magie"
+  Text: "Voici ta qu\xEAte : \n\nTrouve les objets pour tracer la constellation de
+    la TABLE\n\n   - une fois avec le SOLEIL\n   - une fois avec la LUNE\n\n\nD\xE9pose
+    l'ORBE MAGIQUE sur la cible dans l'eau"
+  constellation: Table

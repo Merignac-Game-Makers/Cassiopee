@@ -17,7 +17,7 @@ public class CameraController : MonoBehaviour
 	public GameObject CameraTarget;
 
 	[HideInInspector]
-	public List<CinemachineVirtualCamera> vCams { get; set; }
+	public Stack<CinemachineVirtualCamera> vCams { get; set; }
 
 	/// <summary>
 	/// Angle in degree (down compared to horizon) the camera will look at when at the closest of the character
@@ -43,7 +43,8 @@ public class CameraController : MonoBehaviour
 	}
 
 	void Start() {
-		vCams = new List<CinemachineVirtualCamera> { vCam };			
+		vCams = new Stack<CinemachineVirtualCamera>();
+		vCams.Push(vCam);
 		Zoom(0);
 	}
 

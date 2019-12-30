@@ -33,16 +33,19 @@ public class PageTemplateEditor : Editor
 	public void OnEnable() {
 		m_Page = (PageTemplate)target;
 		pageProperty = serializedObject.FindProperty(nameof(m_Page.page));
-		cName = m_Page.page.constellation;
-		constellationsProperty = serializedObject.FindProperty(nameof(m_Page.constellations));
 	}
 
 	public override void OnInspectorGUI() {
 		EditorStyles.textField.wordWrap = true;
 		serializedObject.Update();
 
+		if (m_Page.page != null) {
+			cName = m_Page.page.constellation;
+			constellationsProperty = serializedObject.FindProperty(nameof(m_Page.constellations));
+		}
+
 		EditorGUILayout.PropertyField(pageProperty);
-		if (cName != "") {
+		if (cName!=null && cName!="") {
 			EditorGUILayout.LabelField(cName, EditorStyles.boldLabel);
 			EditorGUILayout.PropertyField(constellationsProperty, true);
 		}

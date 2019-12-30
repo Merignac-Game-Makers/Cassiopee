@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class CubeInWell : QuestBase
@@ -63,3 +64,33 @@ public class CubeInWell : QuestBase
 		AcceptQuest();
 	}
 }
+
+#if UNITY_EDITOR
+[CustomEditor(typeof(CubeInWell)), CanEditMultipleObjects]
+public class CubeInWellEditor : QuestBaseEditor
+{
+	SerializedProperty p_holder;
+	SerializedProperty p_item;
+	SerializedProperty p_nextQuest;
+
+	CubeInWell thisQuest;
+
+	public override void OnEnable() {
+		base.OnEnable();
+		thisQuest = (CubeInWell)target;
+		p_holder = serializedObject.FindProperty(nameof(thisQuest.holder));
+		p_item = serializedObject.FindProperty(nameof(thisQuest.item));
+		p_nextQuest = serializedObject.FindProperty(nameof(thisQuest.nextQuest));
+	}
+
+	public override void OnInspectorGUI() {
+		base.OnInspectorGUI();
+		EditorGUILayout.PropertyField(p_holder);
+		EditorGUILayout.PropertyField(p_item);
+		EditorGUILayout.PropertyField(p_nextQuest);
+
+		serializedObject.ApplyModifiedProperties();
+	}
+
+}
+#endif

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class WaterInWell : QuestBase
@@ -40,3 +41,18 @@ public class WaterInWell : QuestBase
 		// no reset
 	}
 }
+
+#if UNITY_EDITOR
+[CustomEditor(typeof(WaterInWell)), CanEditMultipleObjects]
+public class WaterInWellEditor : QuestBaseEditor
+{
+	public override void OnEnable() {
+		base.OnEnable();
+	}
+
+	public override void OnInspectorGUI() {
+		base.OnInspectorGUI();
+	}
+
+}
+#endif

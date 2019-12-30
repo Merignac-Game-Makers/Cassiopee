@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using static QuestBase.QuestStatus;
 
@@ -53,3 +54,40 @@ public abstract class QuestBase : MonoBehaviour
 
 
 }
+
+#if UNITY_EDITOR
+[CustomEditor(typeof(QuestBase))]
+[CanEditMultipleObjects]
+public class QuestBaseEditor : Editor
+{
+	SerializedProperty p_picture;
+	SerializedProperty p_title;
+	SerializedProperty p_text;
+
+	QuestBase quest;
+
+	public virtual void OnEnable() {
+		quest = (QuestBase) target;
+		p_picture = serializedObject.FindProperty(nameof(quest.picture));
+		p_title = serializedObject.FindProperty(nameof(quest.title));
+		p_text = serializedObject.FindProperty(nameof(quest.shortText));
+	}
+
+
+	public override void OnInspectorGUI() {
+		EditorStyles.textField.wordWrap = true;
+		serializedObject.Update();
+
+		EditorGUILayout.PropertyField(p_picture);
+		p_picture.objectReferenceValue = (Sprite)EditorGUILayout.ObjectField(new GUIContent("Vignette", "Vignette pour cette quête"), quest.picture, typeof(Sprite), false);
+
+		EditorGUILayout.PropertyField(p_title);
+		EditorGUILayout.PropertyField(p_text, GUILayout.MinHeight(128));
+
+		serializedObject.ApplyModifiedProperties();
+	}
+	void OnInspectorUpdate() {
+		Repaint();
+	}
+}
+#endif
