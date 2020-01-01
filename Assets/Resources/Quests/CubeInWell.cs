@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using static DialogueEntryNode.QuestStatus;
 
 public class CubeInWell : QuestBase
 {
@@ -39,12 +40,21 @@ public class CubeInWell : QuestBase
 	/// </summary>
 	/// <returns></returns>
 	public override bool TestSuccess() {
-		if (status == QuestStatus.Accepted) {
+		if (status == Accepted) {
 			var loots = holder.GetComponentsInChildren<Loot>();		// le puits (holder) doit contenir un objet d'inventaire
 			foreach (Loot loot in loots) {
 				if (loot.name.StartsWith("Cube")) {					// qui doit être un cube
-					QuestDone();                            // quête au statut 'Done'			
-					nextQuest?.QuestAvailable();            // s'il existe une quête liée => elle devient accessible
+					QuestDone();                            // quête au statut 'Done'	
+					if (nextQuest) {						// s'il existe une quête liée
+						nextQuest.QuestAvailable();         //	 => elle devient accessible
+						List<PNJ> owners = questManager.getOwners(nextQuest);
+						foreach (PNJ owner in owners) {
+							var ddd = owner.gameObject.GetComponentInChildren<DefaultDialogDispatcher>();
+							if (ddd!=null) {
+								ddd.currentQuest = nextQuest;
+							}
+						}
+					}
 					return true;							// SUCCES
 				}
 			}

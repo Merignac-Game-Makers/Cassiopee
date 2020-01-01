@@ -7,7 +7,7 @@ public class MagicWater : MagicEffectBase
 {
 	public QuestBase quest;     // accomplir cette magie est une quête : indiquer laquelle
 	public PNJ Kub;
-	DialogValidation kubDialogueValidation;
+	DefaultDialogDispatcher kubDialogueValidation;
 
 
 
@@ -16,9 +16,9 @@ public class MagicWater : MagicEffectBase
 		Destroy(loot);											// détruire le cube
 		var ps = gameObject.GetComponent<ParticleSystem>();     // activer l'animation
 		ps.Play();
-		kubDialogueValidation = Kub.gameObject.GetComponentInChildren<DialogValidation>();
-		kubDialogueValidation.PassedQuestNode = 17;				// modifier le point d'entrée du dialogue de Kub
-		quest.QuestDone();                                      // renseigner la quête => 'terminée'
+		kubDialogueValidation = Kub.gameObject.GetComponentInChildren<DefaultDialogDispatcher>();
+		kubDialogueValidation.GetCurrent(quest).PassedQuestNode = 17;	// modifier le point d'entrée du dialogue de Kub
+		quest.QuestDone();												// renseigner la quête => 'terminée'
 		return true;
 	}
 

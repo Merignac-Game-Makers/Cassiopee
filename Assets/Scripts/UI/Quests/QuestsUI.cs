@@ -5,7 +5,7 @@ using UnityEngine;
 public class QuestsUI : UIBase
 {
 	public static QuestsUI Instance;
-	public QuestSystem questSystem;
+	public QuestManager questSystem;
 
 	public GameObject pending;
 	public GameObject over;

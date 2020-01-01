@@ -7,19 +7,25 @@ using UnityEngine;
 /// </summary>
 public class UIManager : MonoBehaviour
 {
-	public DialoguesUI dialoguesUI;		// interface Dialogues
-	public InventoryUI inventoryUI;		// interface Inventaire
-	public MagicUI magicUI;				// interface Magie
-	public QuestsUI questsUI;			// interface Quêtes
+	public static UIManager Instance;
 
-	public UIButton magicButton;		// bouton du grimoire		
+	public DialoguesUI dialoguesUI;     // interface Dialogues
+	public InventoryUI inventoryUI;     // interface Inventaire
+	public MagicUI magicUI;             // interface Magie
+	public QuestsUI questsUI;           // interface Quêtes
 
+	public UIButton magicButton;        // bouton du grimoire		
+
+	void Awake() {
+		Instance = this;
+	}
 
 	void OnEnable() {
 		dialoguesUI.Init(this);
 		inventoryUI.Init(this);
-		magicUI.Init(this);				
+		magicUI.Init(this);
 		questsUI.Init(this);
+
 	}
 
 	/// <summary>
@@ -27,7 +33,9 @@ public class UIManager : MonoBehaviour
 	/// (masquer le bouton grimoire quand on affiche l'inventaire ou les quêtes)
 	/// </summary>
 	public void ManageButtons() {
-		magicUI.Show(!inventoryUI.isOn && !questsUI.isOn);
-		magicButton.gameObject.SetActive(!inventoryUI.isOn && !questsUI.isOn);
+		if (PlayerManager.Instance.gameObject.GetComponentInChildren<CharacterData>().isMagicEquiped) {
+			magicUI.Show(!inventoryUI.isOn && !questsUI.isOn);
+			magicButton.gameObject.SetActive(!inventoryUI.isOn && !questsUI.isOn);
+		}
 	}
 }

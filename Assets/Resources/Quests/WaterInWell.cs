@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using static DialogueEntryNode.QuestStatus;
 
 public class WaterInWell : QuestBase
 {
@@ -34,7 +35,7 @@ public class WaterInWell : QuestBase
 	/// <returns></returns>
 	public override bool TestSuccess() {
 		// QuestStatus.Done est mis à jour par MagicWater.cs
-		return status == QuestStatus.Done;
+		return status == Done;
 	}
 
 	public override void Reset() {

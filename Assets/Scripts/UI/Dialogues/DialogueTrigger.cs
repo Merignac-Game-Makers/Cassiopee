@@ -11,13 +11,13 @@ public class DialogueTrigger : MonoBehaviour
 
 	DialoguesUI dialoguesUI;
 	VIDE_Assign dialogue;
-	DialogValidation dialogueValidation;
+	DValid dialogueValidation;
 
 	// Start is called before the first frame update
 	void Start() {
 		dialoguesUI = DialoguesUI.Instance;									// le gestionnaire d'interface de dialogues
 		dialogue = GetComponent<VIDE_Assign>();								// le dialogue
-		dialogueValidation = GetComponentInChildren<DialogValidation>();	// le script de validation de dialogue (points d'entrée en fonction du statut de la quête [si elle existe])
+		dialogueValidation = GetComponentInChildren<DValid>();	// le script de validation de dialogue (points d'entrée en fonction du statut de la quête [si elle existe])
 	}
 
 	// Update is called once per frame

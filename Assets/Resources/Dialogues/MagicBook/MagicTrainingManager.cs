@@ -2,45 +2,44 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Gestion de la quête "apprentissage de la magie"
+/// </summary>
 public class MagicTrainingManager : MonoBehaviour
-{
-	public QuestBase quest;
-	DialoguesUI dialoguesUI;
-	VIDE_Assign dialogue;
-	DialogValidation dialogueValidation;
+{													// déclarations :
+	public QuestBase quest;							// la quête
+	DialoguesUI dialoguesUI;						// le gestionnaire de dialogues
+	VIDE_Assign dialogue;							// le dialogue du grimoire
+	DefaultDialogDispatcher dialogueValidation;		// le dispatcher pour changer le point d'entrée du dialogue en fonction de l'avancement de la quête
 
 	bool firstUse = true;
 
-	void Start() {
-		dialoguesUI = DialoguesUI.Instance;
-		dialogue = GetComponent<VIDE_Assign>();                             // le dialogue
-		dialogueValidation = GetComponentInChildren<DialogValidation>();    // le script de validation de dialogue (points d'entrée en fonction du statut de la quête [si elle existe])
+	void Start() {																	// initialisations:
+		dialoguesUI = DialoguesUI.Instance;											// le gestionnaire de dialogues
+		dialogue = GetComponent<VIDE_Assign>();										// le dialogue
+		dialogueValidation = GetComponentInChildren<DefaultDialogDispatcher>();		// le dispatcher pour changer le point d'entrée du dialogue en fonction de l'avancement de la quête
 	}
 
-	// Update is called once per frame
-	void Update() {
-
-	}
-
+	// à la 1ère utilisation du grimoire
 	public void FirtsUse() {
 		if (firstUse) {
 			firstUse = false;
-			Run();
+			Run();					// déclencher le dialogue
 		}
 	}
 
 
 	public void Run() {
 		if ((dialogueValidation != null && dialogueValidation.QuestConditions(dialogue)) || dialogueValidation == null)
-			dialoguesUI.Begin(dialogue);
-		quest.AcceptQuest();
+			dialoguesUI.Begin(dialogue);		// débuter le dialogue
+		quest.AcceptQuest();					// mettre la quête au statut 'acceptée'
 	}
 
 	public void QuestPassed() {
-		dialogueValidation.PassedQuestNode = 5;
-		quest.QuestPassed();
+		//dialogueValidation.PassedQuestNode = 5;
+		quest.QuestPassed();					// mettre la quête au statut 'terminée'
 		if ((dialogueValidation != null && dialogueValidation.QuestConditions(dialogue)) || dialogueValidation == null) {
-			dialoguesUI.Begin(dialogue);
+			dialoguesUI.Begin(dialogue);		// démarrer le dialogue au point d'entrée correspondant
 		}
 	}
 }

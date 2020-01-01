@@ -8,6 +8,8 @@ using UnityEditor;
 /// Classe générique pour les PNJ
 /// => Intéraction par défaut = interrompre le déplacement + lancer le dialogue
 /// </summary>
+/// 
+[Serializable]
 public class PNJ : InteractableObject
 {
 	public string PNJName;          // nom du PNJ (pour les dialogues)

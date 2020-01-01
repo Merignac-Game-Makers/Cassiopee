@@ -2,16 +2,17 @@
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
-using static QuestBase.QuestStatus;
+using static DialogueEntryNode.QuestStatus;
 
 public abstract class QuestBase : MonoBehaviour
 {
-	public enum QuestStatus { NonAvailable, Available, Accepted, Refused, Done, Failed, Passed }
+
+	//public enum QuestStatus { NonAvailable, Available, Accepted, Refused, Done, Failed, Passed }
 	[HideInInspector]
-	public QuestStatus status = QuestStatus.Available;
+	public DialogueEntryNode.QuestStatus status = Available;
 
 	public static QuestsUI questsUI;
-	public static QuestSystem questSystem;
+	public static QuestManager questManager;
 
 	public Sprite picture;
 	public string title;
@@ -19,34 +20,34 @@ public abstract class QuestBase : MonoBehaviour
 
 	private void Start() {
 		questsUI = QuestsUI.Instance;
-		questSystem = QuestSystem.Instance;
+		questManager = QuestManager.Instance;
 	}
 
 
 
 	public virtual void QuestAvailable() {
 		status = Available;
-		questSystem.SetStatus(this, Available);
+		questManager.SetStatus(this, Available);
 	}
 	public virtual void RefuseQuest() {
 		status = Refused;
-		questSystem.SetStatus(this, Refused);
+		questManager.SetStatus(this, Refused);
 	}
 	public virtual void AcceptQuest() {
 		status = Accepted;
-		questSystem.SetStatus(this, Accepted);
+		questManager.SetStatus(this, Accepted);
 	}
 	public virtual void QuestDone() {
 		status = Done;
-		questSystem.SetStatus(this, Done);
+		questManager.SetStatus(this, Done);
 	}
 	public virtual void QuestFailed() {
 		status = Failed;
-		questSystem.SetStatus(this, Failed);
+		questManager.SetStatus(this, Failed);
 	}
 	public virtual void QuestPassed() {
 		status = Passed;
-		questSystem.SetStatus(this, Passed);
+		questManager.SetStatus(this, Passed);
 	}
 	public abstract bool TestSuccess();
 	public abstract void Reset();
