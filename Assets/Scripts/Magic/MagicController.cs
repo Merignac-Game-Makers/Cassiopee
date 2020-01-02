@@ -9,7 +9,7 @@ using UnityEngine;
 /// </summary>
 public class MagicController : MonoBehaviour
 {
-	public static MagicController Instance;         // instance statique
+	public static MagicController Instance; // instance statique
 
 	public LineRenderer lineRendered;       // pour tracer les éclairs
 	public MagicOrb moonOrb;                // orbe magique LUNE
@@ -68,8 +68,8 @@ public class MagicController : MonoBehaviour
 				//Debug.Log("DONE !!!");
 				var orb = activeArtfact == MagicUI.SelectedArtefact.Moon ? moonOrb : sunOrb;    // quel orbe ?
 				orb.constellation = orbConstellation;
-				Instantiate(orb, PlayerManager.Instance.gameObject.transform);                  // générer l'orbe
-				StartCoroutine(ResetConstellation(2));                                          // effacer la constellation
+				Instantiate(orb, PlayerManager.Instance.gameObject.transform);          // générer l'orbe
+				StartResetConstellation(2);												// effacer la constellation
 			}
 		} else {
 			//Debug.Log("remove " + item.name);
@@ -117,11 +117,16 @@ public class MagicController : MonoBehaviour
 	/// désélectionner toute une constellation
 	/// </summary>
 	/// <param name="s"></param>
-	/// <returns></returns>
+	void StartResetConstellation(float s) {
+		StartCoroutine(ResetConstellation(s));		// effacer la constellation
+	}
 	IEnumerator ResetConstellation(float s) {
 		yield return new WaitForSeconds(s);
 		AddOrRemove(magicActivatedItems[0]);
 		yield return null;
+	}
+	public void ResetConstellation() {
+		StartResetConstellation(0);
 	}
 }
 

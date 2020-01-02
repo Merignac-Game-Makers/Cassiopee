@@ -65,7 +65,6 @@ public class InventoryUI : UIBase
 
 		m_TargetLayer = 1 << LayerMask.NameToLayer("Interactable");
 
-
 	}
 
 	void OnEnable() {
@@ -152,6 +151,7 @@ public class InventoryUI : UIBase
 	private void DropItem(Target target, InventoryUI.DragData dragData) {
 		var EntryIndex = dragData.DraggedEntry.InventoryEntry;
 		CreateWorldRepresentation(InventorySystem.Instance.Entries[EntryIndex].Item, target);
+		//target.DoQuests();
 		InventorySystem.Instance.RemoveItem(EntryIndex);
 	}
 

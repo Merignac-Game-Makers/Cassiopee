@@ -18,18 +18,21 @@ public class MagicUI : UIBase
 	List<Page> pages;
 
 	// objets d'interface
+	[Header("Panels")]
 	public GameObject fullScreenPanel;  // livre ouvert (plein écran)
 	public GameObject leftPage;         // livre ouvert - âge gauche
 	public GameObject rightPage;        // livre ouvert - âge droite
+	public GameObject sidePanel;        // panneau latéral contenant les artefacts
+	[Header("Boutons")]
 	public GameObject bookButton;       // activer/désactiver le grimoire
 	public GameObject fullScreenButton; // bascule d'affichage du mode 'plein écran'
-	public GameObject sidePanel;        // panneau latéral contenant les artefacts
 	public GameObject nextPage;			// coin 'page suivante'
 	public GameObject prevPage;			// coin 'page précédente'
 	public GameObject sunButton;		// bouton artefact SUN
 	public GameObject moonButton;       // bouton artefact MOON
 
 	// zones de contenu
+	[Header("Zones de contenu")]
 	public Text m_Title;                // titre de la page 
 	public Text m_Text;                 // texte
 	public Image m_Picture;             // image
@@ -67,7 +70,9 @@ public class MagicUI : UIBase
 	/// </summary>
 	public override void Toggle() {
 		panel.SetActive(!panel.activeInHierarchy);      // panneau principal
-														//sidePanel.SetActive(isOn);						// panneau latéral
+		if (!isOn) {
+			MagicController.Instance.ResetConstellation();
+		}
 	}
 
 	/// <summary>
@@ -140,46 +145,46 @@ public class MagicUI : UIBase
 
 }
 
-#if UNITY_EDITOR
-[CustomEditor(typeof(MagicUI))]
-[CanEditMultipleObjects]
-public class BookUIEditor : Editor
-{
-	MagicUI ui;
-	public void OnEnable() {
-		//serializedObject.ApplyModifiedProperties();
-		ui = (MagicUI) target;
-	}
+//#if UNITY_EDITOR
+//[CustomEditor(typeof(MagicUI))]
+//[CanEditMultipleObjects]
+//public class BookUIEditor : Editor
+//{
+//	MagicUI ui;
+//	public void OnEnable() {
+//		//serializedObject.ApplyModifiedProperties();
+//		ui = (MagicUI) target;
+//	}
 
 
-	public override void OnInspectorGUI() {
+//	public override void OnInspectorGUI() {
 
-		EditorStyles.textField.wordWrap = true;
+//		EditorStyles.textField.wordWrap = true;
 
-		EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(ui.magicBookContent)), true);
+//		EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(ui.magicBookContent)), true);
 
-		GUILayout.Label("\nPanels", EditorStyles.boldLabel);
-		EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(ui.panel)));
-		EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(ui.fullScreenPanel)));
-		EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(ui.leftPage)));
-		EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(ui.rightPage)));
-		EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(ui.sidePanel)));
+//		GUILayout.Label("\nPanels", EditorStyles.boldLabel);
+//		EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(ui.panel)));
+//		EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(ui.fullScreenPanel)));
+//		EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(ui.leftPage)));
+//		EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(ui.rightPage)));
+//		EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(ui.sidePanel)));
 
-		GUILayout.Label("\nButtons", EditorStyles.boldLabel);
-		EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(ui.bookButton)));
-		EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(ui.fullScreenButton)));
-		EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(ui.nextPage)));
-		EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(ui.prevPage)));
-		EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(ui.sunButton)));
-		EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(ui.moonButton)));
+//		GUILayout.Label("\nButtons", EditorStyles.boldLabel);
+//		EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(ui.bookButton)));
+//		EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(ui.fullScreenButton)));
+//		EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(ui.nextPage)));
+//		EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(ui.prevPage)));
+//		EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(ui.sunButton)));
+//		EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(ui.moonButton)));
 
-		GUILayout.Label("\nContenu", EditorStyles.boldLabel);
-		EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(ui.m_Title)));
-		EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(ui.m_Text)));
-		EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(ui.m_Picture)));
+//		GUILayout.Label("\nContenu", EditorStyles.boldLabel);
+//		EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(ui.m_Title)));
+//		EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(ui.m_Text)));
+//		EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(ui.m_Picture)));
 
-		serializedObject.ApplyModifiedProperties();
-	}
+//		serializedObject.ApplyModifiedProperties();
+//	}
 
-}
-#endif
+//}
+//#endif

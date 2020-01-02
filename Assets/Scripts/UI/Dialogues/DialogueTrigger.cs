@@ -8,16 +8,14 @@ using VIDE_Data;
 public class DialogueTrigger : MonoBehaviour
 {
 
-
 	DialoguesUI dialoguesUI;
 	VIDE_Assign dialogue;
-	DValid dialogueValidation;
+	DialogueDispatcher dispatcher;
 
-	// Start is called before the first frame update
 	void Start() {
-		dialoguesUI = DialoguesUI.Instance;									// le gestionnaire d'interface de dialogues
-		dialogue = GetComponent<VIDE_Assign>();								// le dialogue
-		dialogueValidation = GetComponentInChildren<DValid>();	// le script de validation de dialogue (points d'entrée en fonction du statut de la quête [si elle existe])
+		dialoguesUI = DialoguesUI.Instance;                                     // le gestionnaire d'interface de dialogues
+		dialogue = gameObject.GetComponent<VIDE_Assign>();                                 // le dialogue
+		dispatcher = gameObject.GetComponent<DialogueDispatcher>();             // le script de validation de dialogue (points d'entrée en fonction du statut de la quête [si elle existe])
 	}
 
 	// Update is called once per frame
@@ -25,12 +23,15 @@ public class DialogueTrigger : MonoBehaviour
 		if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject()) {
 			dialoguesUI.End(null);
 		}
-
 	}
 
 	public void Run() {
-		if ((dialogueValidation != null && dialogueValidation.QuestConditions(dialogue)) || dialogueValidation == null)
+		if (!VD.isActive) {
+			if (dispatcher != null) {
+				dispatcher.SetStartNode();
+			}
 			dialoguesUI.Begin(dialogue);
+		} 
 	}
 }
 

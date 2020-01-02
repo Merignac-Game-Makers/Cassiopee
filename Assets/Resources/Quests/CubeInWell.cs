@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
-using static DialogueEntryNode.QuestStatus;
+using static QuestBase.QuestStatus;
 
 public class CubeInWell : QuestBase
 {
-	public GameObject holder;		// le puits
-	public Loot item;				// un cube
-	public QuestBase nextQuest;		// une quête suivante qui ne sera accessible qu'après celle-ci
+	public GameObject holder;       // le puits
+	public Loot item;               // un cube
+	public QuestBase nextQuest;     // une quête suivante qui ne sera accessible qu'après celle-ci
 
 	/// <summary>
 	/// bien qu'apparement inutiles les méthodes 'Quest...'
@@ -27,6 +25,16 @@ public class CubeInWell : QuestBase
 	}
 	public override void QuestDone() {
 		base.QuestDone();
+		//if (nextQuest) {                                // s'il existe une quête liée
+		//	List<PNJ> owners = questManager.getOwners(nextQuest);   // trouver les peNJ qui donnent cette quête
+		//	foreach (PNJ owner in owners) {                         // pour chacun d'eux
+		//		var ddd = owner.gameObject.GetComponentInChildren<DefaultDialogDispatcher>();
+		//		if (ddd != null) {
+		//			ddd.currentQuest = nextQuest;
+		//		}
+		//	}
+		//	nextQuest.QuestAvailable();                 //	 elle devient accessible
+		//}
 	}
 	public override void QuestFailed() {
 		base.QuestFailed();
@@ -39,31 +47,17 @@ public class CubeInWell : QuestBase
 	/// Conditions de succès de cette quête
 	/// </summary>
 	/// <returns></returns>
-	public override bool TestSuccess() {
+	public override void UpdateStatus() {
 		if (status == Accepted) {
-			var loots = holder.GetComponentsInChildren<Loot>();		// le puits (holder) doit contenir un objet d'inventaire
-			foreach (Loot loot in loots) {
-				if (loot.name.StartsWith("Cube")) {					// qui doit être un cube
-					QuestDone();                            // quête au statut 'Done'	
-					if (nextQuest) {						// s'il existe une quête liée
-						nextQuest.QuestAvailable();         //	 => elle devient accessible
-						List<PNJ> owners = questManager.getOwners(nextQuest);
-						foreach (PNJ owner in owners) {
-							var ddd = owner.gameObject.GetComponentInChildren<DefaultDialogDispatcher>();
-							if (ddd!=null) {
-								ddd.currentQuest = nextQuest;
-							}
-						}
-					}
-					return true;							// SUCCES
+			var loot = holder.GetComponentInChildren<Loot>();
+			if (loot != null) {                         // le puits (holder) doit contenir un objet d'inventaire
+				if (loot.name.StartsWith("Cube")) {		// qui doit être un cube
+					QuestDone();						//	quête au statut 'Done'	
+				} else {                                // si le puits contient autre chose qu'un cube
+					QuestFailed();                      //	quête au statut 'Failed'		
 				}
 			}
-			if (loots.Length > 0) {									// si le puits contient autre chose qu'un cube
-				QuestFailed();								// quête au statut 'Failed'		
-				return false;								// ECHEC
-			}
 		}
-		return false;	// si la quête n'était pas en cours : ECHEC
 	}
 
 	public override void Reset() {

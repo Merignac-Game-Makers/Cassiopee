@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using UnityEditor;
-using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
-using static DialogueEntryNode.QuestStatus;
-
+using static QuestBase;
+using static QuestBase.QuestStatus;
+#if UNITY_EDITOR
+using UnityEditor;
+using UnityEditor.UIElements;
+#endif
 
 
 public class QuestManager : MonoBehaviour
@@ -17,25 +19,27 @@ public class QuestManager : MonoBehaviour
 
 	[HideInInspector]
 	public List<QuestBase> quests;
+
+	[Serializable]
+	public struct Affectation : IEquatable<Affectation>
+	{
+		public PNJ pnj;
+		public QuestBase quest;
+
+		public Affectation(PNJ pnj, QuestBase quest) {
+			this.pnj = pnj;
+			this.quest = quest;
+		}
+
+		public bool Equals(Affectation other) {
+			return pnj == other.pnj && quest == other.quest;
+		}
+	}
+
 	public void Init() {
 		Instance = this;
 	}
 
-[Serializable]
-public struct Affectation : IEquatable<Affectation>
-{
-	public PNJ pnj;
-	public QuestBase quest;
-
-	public Affectation(PNJ pnj, QuestBase quest) {
-		this.pnj = pnj;
-		this.quest = quest;
-	}
-
-	public bool Equals(Affectation other) {
-		return pnj == other.pnj && quest == other.quest;
-	}
-}
 	private void Start() {
 		quests = new List<QuestBase>(GetComponentsInChildren<QuestBase>());
 	}
@@ -46,7 +50,7 @@ public struct Affectation : IEquatable<Affectation>
 
 	public List<PNJ> getOwners(QuestBase quest) {
 		List<PNJ> result = new List<PNJ>();
-		foreach(Affectation affectation in affectations) {
+		foreach (Affectation affectation in affectations) {
 			if (affectation.quest == quest)
 				result.Add(affectation.pnj);
 		}
@@ -69,10 +73,17 @@ public struct Affectation : IEquatable<Affectation>
 		return list;
 	}
 
-	public void SetStatus(QuestBase quest, DialogueEntryNode.QuestStatus status) {
+	public void SetStatus(QuestBase quest, QuestStatus status) {
 		int idx = quests.IndexOf(quest);
-		if (idx != -1) {
-			quests[idx].status = status;
+		if (idx != -1) {								// si la quête est dans la liste
+			quests[idx].status = status;				// actualiser son statut
+			//foreach (PNJ owner in getOwners(quest)) {   // pour chacun edes PNJ qui donne cette quête
+			//	var ddd = owner.GetComponentInChildren<DefaultDialogDispatcher>();  // -> dialogue dispatcher
+			//	var dialogue = owner.GetComponentInChildren<VIDE_Assign>();			// -> dialogue
+			//	if (ddd && dialogue) {
+			//		ddd.SetStartNode(dialogue);			// mettre à jour le point de départ du dialogue
+			//	}
+			//}
 		}
 	}
 }
@@ -98,13 +109,10 @@ public class AffectationDrawerUIE : PropertyDrawer
 
 	public override void OnGUI(Rect position, SerializedProperty property, GUIContent label) {
 
-
 		EditorGUI.BeginProperty(position, label, property);
 
-
-
 		//label
-	    position = EditorGUI.PrefixLabel(position, GUIUtility.GetControlID(FocusType.Passive), label);
+		position = EditorGUI.PrefixLabel(position, GUIUtility.GetControlID(FocusType.Passive), label);
 		// Don't make child fields be indented
 		var indent = EditorGUI.indentLevel;
 		EditorGUI.indentLevel = 0;
@@ -117,75 +125,7 @@ public class AffectationDrawerUIE : PropertyDrawer
 		new Rect(position.x + fieldWidth, position.y, fieldWidth, position.height),
 			property.FindPropertyRelative("quest"), GUIContent.none);
 
-
-		//EditorGUILayout.LabelField(label);
-		//EditorGUILayout.PropertyField(property.FindPropertyRelative("pnj"), GUIContent.none);
-		//EditorGUILayout.PropertyField(property.FindPropertyRelative("quest"), GUIContent.none);
-
-		//// Calculate rects
-		//var pnjRect = new Rect(position.x, position.y, 30, position.height);
-		//var questRect = new Rect(position.x + 35, position.y, 50, position.height);
-
-		//// Draw fields - passs GUIContent.none to each so they are drawn without labels
-		//EditorGUI.PropertyField(pnjRect, property.FindPropertyRelative("pnj"), GUIContent.none);
-		//EditorGUI.PropertyField(questRect, property.FindPropertyRelative("quest"), GUIContent.none);
-
-		// Set indent back to what it was
-		//EditorGUI.indentLevel = indent;
-
 		EditorGUI.EndProperty();
 	}
 }
 #endif
-
-//#if UNITY_EDITOR
-//[CustomEditor(typeof(QuestManager)), CanEditMultipleObjects]
-//public class QuestManagerEditor : Editor
-//{
-//	SerializedProperty pAffectations;
-//	SerializedProperty ps;
-
-//	QuestManager m_target;
-
-//	List<QuestManager.Affectation> affectations;
-//	int size;
-
-//	public void OnEnable() {
-//		m_target = (QuestManager)target;
-//		pAffectations = serializedObject.FindProperty(nameof(m_target.affectations));
-//		ps = serializedObject.FindProperty(nameof(m_target.s));
-//		size = pAffectations.arraySize;
-//		affectations = new List<QuestManager.Affectation>(m_target.affectations);
-
-//	}
-
-//	public override void OnInspectorGUI() {
-//		EditorStyles.textField.wordWrap = true;
-//		serializedObject.Update();
-
-
-//		size = EditorGUILayout.IntField("Size", size);
-
-//		EditorGUI.BeginChangeCheck();
-//		for (int i = 0; i < pAffectations.arraySize; i++) {
-//			GUILayout.BeginHorizontal();
-//			GUILayout.BeginVertical();
-//			pAffectations.GetArrayElementAtIndex(i).FindPropertyRelative("pnj").objectReferenceValue =
-//				EditorGUILayout.ObjectField(pAffectations.GetArrayElementAtIndex(i).FindPropertyRelative("pnj").objectReferenceValue, typeof(PNJ), true);
-//			//EditorGUILayout.ObjectField(pAffectations.GetArrayElementAtIndex(i).FindPropertyRelative("pnj").objectReferenceValue, typeof(PNJ), true);
-//			GUILayout.EndVertical();
-//			GUILayout.EndHorizontal();
-//		}
-//		EditorGUI.EndChangeCheck();
-
-
-
-//		if (Event.current.isKey && Event.current.keyCode == KeyCode.Return) { //&& Event.current.isKey && Event.current.keyCode == KeyCode.Return   && 
-//			var enter = Event.current.isKey && Event.current.keyCode == KeyCode.Return;
-//			var ev = Event.current.type;
-//			EditorGUI.BeginChangeCheck();
-//			pAffectations.arraySize = size;
-//		}
-//		serializedObject.ApplyModifiedProperties();
-//	}
-//}

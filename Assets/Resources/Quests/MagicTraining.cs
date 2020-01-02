@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
 
 public class MagicTraining : QuestBase
@@ -36,8 +33,9 @@ public class MagicTraining : QuestBase
 	/// Conditions de succès de cette quête
 	/// </summary>
 	/// <returns></returns>
-	public override bool TestSuccess() {
-		return step1 && step2;              // la quête est accomplie lorsque toutes les étapes sont franchies
+	public override void UpdateStatus() {
+		if (step1 && step2)
+			QuestDone(); // la quête est accomplie lorsque toutes les étapes sont franchies
 	}
 
 	public override void Reset() {

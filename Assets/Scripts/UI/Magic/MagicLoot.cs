@@ -4,6 +4,7 @@ using System.Data;
 using System.Timers;
 using UnityEngine;
 using UnityEngine.AI;
+using static QuestBase.QuestStatus;
 
 
 /// <summary>
@@ -16,8 +17,6 @@ using UnityEngine.AI;
 /// </summary>
 public class MagicLoot : InteractableObject
 {
-	static float AnimationTime = 0.1f;
-
 	public static GameObject magicButton;
 	public QuestBase nextQuest;
 
@@ -39,15 +38,8 @@ public class MagicLoot : InteractableObject
 		magicButton.SetActive(true);
 		PlayerManager.Instance.gameObject.GetComponentInChildren<CharacterData>().isMagicEquiped = true;
 
-		if (nextQuest) {                        // s'il existe une quête liée
-			nextQuest.QuestAvailable();         //	 => elle devient accessible
-			List<PNJ> owners = QuestManager.Instance.getOwners(nextQuest);
-			foreach (PNJ owner in owners) {
-				var ddd = owner.gameObject.GetComponentInChildren<DefaultDialogDispatcher>();
-				if (ddd != null) {
-					ddd.currentQuest = nextQuest;
-				}
-			}
+		if (nextQuest) {                    // s'il existe une quête liée
+			nextQuest.QuestAvailable();		//	 => elle est accessible
 		}
 	}
 

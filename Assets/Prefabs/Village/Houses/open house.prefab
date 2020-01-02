@@ -533,7 +533,7 @@ MonoBehaviour:
   m_AgentTypeID: 0
   m_StartPoint: {x: 3.4022014, y: 0, z: 1.8401923}
   m_EndPoint: {x: 1.1489044, y: 0, z: 1.7299962}
-  m_Width: 1.6222907
+  m_Width: 0.9446409
   m_CostModifier: 1
   m_Bidirectional: 1
   m_AutoUpdatePosition: 1

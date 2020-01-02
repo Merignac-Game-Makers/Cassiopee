@@ -2,14 +2,15 @@
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
-using static DialogueEntryNode.QuestStatus;
+using static QuestBase.QuestStatus;
 
-public abstract class QuestBase : MonoBehaviour
+public abstract class QuestBase : MonoBehaviour, IQuest
 {
+	[SerializeField]
+	public enum QuestStatus { Unavailable, Available, Refused, Accepted, Done, Failed, Passed }
 
-	//public enum QuestStatus { NonAvailable, Available, Accepted, Refused, Done, Failed, Passed }
 	[HideInInspector]
-	public DialogueEntryNode.QuestStatus status = Available;
+	public QuestStatus status = Unavailable;
 
 	public static QuestsUI questsUI;
 	public static QuestManager questManager;
@@ -18,6 +19,10 @@ public abstract class QuestBase : MonoBehaviour
 	public string title;
 	public string shortText;
 
+	public QuestBase[] nextQuests;     // quêtes suivantes qui ne seront accessible qu'après celle-ci
+	[HideInInspector]
+	public QuestBase[] previousQuests; // quêtes précédentes 
+
 	private void Start() {
 		questsUI = QuestsUI.Instance;
 		questManager = QuestManager.Instance;
@@ -25,42 +30,57 @@ public abstract class QuestBase : MonoBehaviour
 
 
 
+	public virtual void QuestUnavailable() {
+		//status = Available;
+		questManager.SetStatus(this, Unavailable);
+	}
 	public virtual void QuestAvailable() {
-		status = Available;
+		//status = Available;
 		questManager.SetStatus(this, Available);
 	}
 	public virtual void RefuseQuest() {
-		status = Refused;
+		//status = Refused;
 		questManager.SetStatus(this, Refused);
 	}
 	public virtual void AcceptQuest() {
-		status = Accepted;
+		//status = Accepted;
 		questManager.SetStatus(this, Accepted);
 	}
 	public virtual void QuestDone() {
-		status = Done;
+		//status = Done;
 		questManager.SetStatus(this, Done);
 	}
 	public virtual void QuestFailed() {
-		status = Failed;
+		//status = Failed;
 		questManager.SetStatus(this, Failed);
 	}
 	public virtual void QuestPassed() {
-		status = Passed;
+		//status = Passed;
 		questManager.SetStatus(this, Passed);
 	}
-	public abstract bool TestSuccess();
+	public abstract void UpdateStatus();
 	public abstract void Reset();
 
+	public void QuestStep(QuestBase quest, QuestStatus status) {
+		questManager.SetStatus(quest, status);
+	}
 
-
+	public bool IsPending() {
+		return status == Accepted || status == Failed;
+	}
+	public bool IsDone() {
+		return status == Done || status == Passed;
+	}
 }
+
+
 
 #if UNITY_EDITOR
 [CustomEditor(typeof(QuestBase))]
 [CanEditMultipleObjects]
 public class QuestBaseEditor : Editor
 {
+	SerializedProperty p_status;
 	SerializedProperty p_picture;
 	SerializedProperty p_title;
 	SerializedProperty p_text;
@@ -68,7 +88,9 @@ public class QuestBaseEditor : Editor
 	QuestBase quest;
 
 	public virtual void OnEnable() {
-		quest = (QuestBase) target;
+		quest = (QuestBase)target;
+
+		p_status = serializedObject.FindProperty(nameof(quest.status));
 		p_picture = serializedObject.FindProperty(nameof(quest.picture));
 		p_title = serializedObject.FindProperty(nameof(quest.title));
 		p_text = serializedObject.FindProperty(nameof(quest.shortText));
@@ -78,6 +100,8 @@ public class QuestBaseEditor : Editor
 	public override void OnInspectorGUI() {
 		EditorStyles.textField.wordWrap = true;
 		serializedObject.Update();
+		//var status = p_status.objectReferenceValue as QuestBase.QuestStatus;
+		EditorGUILayout.PropertyField(p_status);
 
 		EditorGUILayout.PropertyField(p_picture);
 		p_picture.objectReferenceValue = (Sprite)EditorGUILayout.ObjectField(new GUIContent("Vignette", "Vignette pour cette quête"), quest.picture, typeof(Sprite), false);
@@ -86,9 +110,6 @@ public class QuestBaseEditor : Editor
 		EditorGUILayout.PropertyField(p_text, GUILayout.MinHeight(128));
 
 		serializedObject.ApplyModifiedProperties();
-	}
-	void OnInspectorUpdate() {
-		Repaint();
 	}
 }
 #endif

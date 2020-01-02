@@ -238,7 +238,7 @@ public class PlayerManager : MonoBehaviour
 		if ((m_TargetInteractable.mode!=InteractableObject.Mode.onClick || m_TargetInteractable.Clicked)	 
 			&& distance.sqrMagnitude < defaultInteractionDistance * defaultInteractionDistance) {
 			m_TargetInteractable.InteractWith(m_CharacterData);			// déclencher l'intéraction
-			m_TargetInteractable = null;								// supprimer la détection pour éviter de redoubler l'intéraction
+			m_TargetInteractable = null;                                // supprimer la détection pour éviter de redoubler l'intéraction
 		}
 	}
 

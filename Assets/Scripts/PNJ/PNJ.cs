@@ -49,6 +49,11 @@ public class PNJ : InteractableObject
 		SetColliderRadius(initialRadius);
 	}
 
+	public void resetToOnClickMode() {
+		ResetColliderRadius();
+		mode = Mode.onClick;
+	}
+
 	public void DisableCollider() {
 		cCollider.enabled = false;
 		cCollider.isTrigger = false;

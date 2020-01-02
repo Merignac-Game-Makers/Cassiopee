@@ -23,6 +23,7 @@ public abstract class InteractableObject : HighlightableObject
 	public bool Clicked;
 
 	public virtual void InteractWith(HighlightableObject target) {
+		Clicked = false;
 		if (mode == Mode.onTheFlyOnce)
 			mode = Mode.onClick;
 	}

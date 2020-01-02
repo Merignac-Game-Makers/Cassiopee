@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
-using UnityEngine;
-using static DialogueEntryNode.QuestStatus;
+﻿using UnityEditor;
 
 public class WaterInWell : QuestBase
 {
@@ -33,9 +28,8 @@ public class WaterInWell : QuestBase
 	/// Conditions de succès de cette quête
 	/// </summary>
 	/// <returns></returns>
-	public override bool TestSuccess() {
+	public override void UpdateStatus() {
 		// QuestStatus.Done est mis à jour par MagicWater.cs
-		return status == Done;
 	}
 
 	public override void Reset() {

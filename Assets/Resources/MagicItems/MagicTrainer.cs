@@ -8,19 +8,10 @@ public class MagicTrainer : MagicEffectBase
 {
 	public MagicTraining quest;     // accomplir cette magie est une quête : indiquer laquelle
 	public PNJ PNJ;
-	VIDE_Assign dialogue;
-	DialogValidation dialogueValidation;
-
-
 
 	public override bool DoMoon(MagicOrb orb) {
 		var ps = gameObject.GetComponent<ParticleSystem>();     // activer l'animation
 		ps.Play();
-		dialogue = PNJ.gameObject.GetComponentInChildren<VIDE_Assign>();
-		dialogueValidation = PNJ.gameObject.GetComponentInChildren<DialogValidation>();
-
-		if (dialogue != null && dialogueValidation != null)
-			dialogue.overrideStartNode = dialogueValidation.AvailableQuestNode; // modifier le point d'entrée du dialogue
 		
 		quest.step1 = true;                                      // renseigner l'étape 1 de la quête => 'terminée'
 		if (quest.step1 && quest.step2)
@@ -32,11 +23,6 @@ public class MagicTrainer : MagicEffectBase
 	public override bool DoSun(MagicOrb orb) {
 		var ps = gameObject.GetComponent<ParticleSystem>();     // activer l'animation
 		ps.Play();
-		dialogue = PNJ.gameObject.GetComponentInChildren<VIDE_Assign>();
-		dialogueValidation = PNJ.gameObject.GetComponentInChildren<DialogValidation>();
-
-		if (dialogue != null && dialogueValidation != null)
-			dialogue.overrideStartNode = dialogueValidation.AvailableQuestNode; // modifier le point d'entrée du dialogue
 		
 		quest.step2 = true;                                      // renseigner l'étape 1 de la quête => 'terminée'
 		if (quest.step1 && quest.step2)

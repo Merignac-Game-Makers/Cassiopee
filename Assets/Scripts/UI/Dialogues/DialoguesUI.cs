@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using VIDE_Data;
 using TMPro;
 
-public class DialoguesUI : MonoBehaviour
+public class DialoguesUI : UIBase
 {
 
 	public static DialoguesUI Instance;
@@ -24,11 +24,13 @@ public class DialoguesUI : MonoBehaviour
 
 	UIManager uiManager;
 
-	public void Init(UIManager uiManager) {
+	public override void Init(UIManager uiManager) {
 		Instance = this;
 		this.uiManager = uiManager;
 
 		gameObject.SetActive(true);
+		panel.SetActive(false);
+
 	}
 
 	// Start is called before the first frame update
@@ -47,6 +49,7 @@ public class DialoguesUI : MonoBehaviour
 
 	public void Begin(VIDE_Assign dialog) {
 		PlayerManager.Instance.StopAgent();
+		panel.SetActive(true);
 		VD.OnNodeChange += UpdateUI;
 		VD.OnEnd += End;
 		if (VD.isActive)
@@ -55,6 +58,11 @@ public class DialoguesUI : MonoBehaviour
 			VD.BeginDialogue(dialog);
 		}
 	}
+
+	public override void Toggle() {
+		panel.SetActive(!isOn);
+	}
+
 
 	void UpdateUI(VD.NodeData data) {
 		container_NPC.SetActive(false);
@@ -113,6 +121,7 @@ public class DialoguesUI : MonoBehaviour
 	
 
 	public void End(VD.NodeData data) {
+		panel.SetActive(false);
 		container_NPC.SetActive(false);
 		container_PLAYER.SetActive(false);
 		VD.OnNodeChange -= UpdateUI;
