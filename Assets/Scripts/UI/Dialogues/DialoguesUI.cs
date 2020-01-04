@@ -139,6 +139,11 @@ public class DialoguesUI : UIBase
 			VD.Next();
 	}
 
+	public void nextNPC() {
+		if (container_NPC.activeInHierarchy)
+			VD.Next();
+	}
+
 	public void Next() {
 		VD.Next();
 	}

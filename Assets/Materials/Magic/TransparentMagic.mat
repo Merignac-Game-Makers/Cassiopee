@@ -12,7 +12,7 @@ Material:
     type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
+  m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
@@ -127,7 +127,7 @@ Material:
     - _BaseColor: {r: 1, g: 0.6320754, b: 0.7767606, a: 1}
     - _Color: {r: 1, g: 0, b: 0.8534627, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 0.007843138}
-    - _RimColor: {r: 0.58039236, g: 0, b: 1, a: 1}
+    - _RimColor: {r: 0.92502785, g: 0, b: 1, a: 1}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
     - _UvOffset: {r: 0, g: 0, b: 0, a: 0}
     - _UvTiling: {r: 1, g: 1, b: 0, a: 0}

@@ -20,10 +20,11 @@ public class SwapCamera : MonoBehaviour
 	bool inside;
 
 	Stack<CinemachineVirtualCamera> vCams => CameraController.Instance.vCams;
-
+	CameraController camController;
 
 	// initialisation des variables
 	void Start() {
+		camController = CameraController.Instance;
 		cinemachineBrain = CameraController.Instance.gameObject.GetComponentInChildren<CinemachineBrain>();
 		localCam = gameObject.GetComponentInChildren<CinemachineVirtualCamera>();
 		colliders = gameObject.GetComponentsInChildren<Collider>();
@@ -45,14 +46,19 @@ public class SwapCamera : MonoBehaviour
 		if (inside && !vCams.Contains(localCam)) {							// si la caméra localde n'est pas dans la pile des caméras
 			localCam.gameObject.SetActive(true);							// activer la caméra locale
 			vCams.Peek().gameObject.SetActive(false);						// désactiver la caméra précédente
-			vCams.Push(localCam);											// ajouter la caméra locale à la pile
+			vCams.Push(localCam);                                           // ajouter la caméra locale à la pile
+			CameraController.Instance.m_CurrentDistance = Dist(vCams.Peek().m_Lens.FieldOfView); // restaurer facteur de zoom
 
-		// si on est à l'extérieur et que la caméra locale est active => restaurer la caméra précédente
+			// si on est à l'extérieur et que la caméra locale est active => restaurer la caméra précédente
 		}
 		if (!inside && vCams.Contains(localCam)) {                          // si la caméra locale est dans la pile
-			vCams.Pop();													// retirer la caméra locale de la pile
+			vCams.Pop();                                                    // retirer la caméra locale de la pile
 			localCam.gameObject.SetActive(false);							// désactiver la caméra locale
 			vCams.Peek().gameObject.SetActive(true);						// réactiver la caméra précédente
+			CameraController.Instance.m_CurrentDistance = Dist(vCams.Peek().m_Lens.FieldOfView); // restaurer facteur de zoom
 		}
+	}
+	float Dist(float fov) {
+		return ((fov - camController.MinAngle) / (camController.MaxAngle - camController.MinAngle));
 	}
 }

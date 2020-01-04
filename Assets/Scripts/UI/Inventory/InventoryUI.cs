@@ -21,7 +21,7 @@ public class InventoryUI : UIBase
 	public ItemEntryUI ItemEntryPrefab;
 	public ItemTooltip Tooltip;
 
-	public EquipmentUI EquipementUI;
+	//public EquipmentUI EquipementUI;
 
 	public Canvas DragCanvas;
 
@@ -72,21 +72,26 @@ public class InventoryUI : UIBase
 		Tooltip.gameObject.SetActive(false);
 	}
 
-
+	/// <summary>
+	/// bascule d'affichage
+	/// </summary>
 	public override void Toggle() {
-		panel.SetActive(!isOn);
-		uiManager.ManageButtons();
+		panel.SetActive(!isOn);			// monter /cacher le panneau d'inventaire
+		uiManager.ManageButtons();		// adapter l'affichage des autres boutons
 	}
 
 	public void Load(HighlightableObject item) {
 		m_Item = item;
-		//EquipementUI.UpdateEquipment(m_Data.Equipment, m_Data.Stats);
-
 		for (int i = 0; i < m_ItemEntries.Length; ++i) {
 			m_ItemEntries[i].UpdateEntry();
 		}
 	}
 
+	/// <summary>
+	/// utiliser un objet (ex: boire une potion...)
+	/// (inutilisé pour l'instant)
+	/// </summary>
+	/// <param name="usedItem"></param>
 	public void ObjectDoubleClicked(InventorySystem.InventoryEntry usedItem) {
 		//if(m_Data.Inventory.UseItem(usedItem))
 		//    SFXManager.PlaySound(SFXManager.Use.Sound2D, new SFXManager.PlayData() {Clip = usedItem.Item is EquipmentItem ? SFXManager.ItemEquippedSound : SFXManager.ItemUsedSound} );

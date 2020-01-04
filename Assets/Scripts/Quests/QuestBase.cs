@@ -44,10 +44,12 @@ public abstract class QuestBase : MonoBehaviour, IQuest
 	}
 	public virtual void AcceptQuest() {
 		//status = Accepted;
+		UIManager.Instance.questButton?.gameObject.GetComponentInParent<Animator>()?.SetTrigger("startColor");
 		questManager.SetStatus(this, Accepted);
 	}
 	public virtual void QuestDone() {
 		//status = Done;
+		UIManager.Instance.questButton?.gameObject.GetComponentInParent<Animator>()?.SetTrigger("startColor");
 		questManager.SetStatus(this, Done);
 	}
 	public virtual void QuestFailed() {

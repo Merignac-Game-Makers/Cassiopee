@@ -15,6 +15,8 @@ public class UIManager : MonoBehaviour
 	public QuestsUI questsUI;           // interface Quêtes
 
 	public UIButton magicButton;        // bouton du grimoire		
+	public UIButton questButton;        // bouton des quêtes		
+	public UIButton inventoryButton;    // bouton due l'inventaire		
 
 	void Awake() {
 		Instance = this;

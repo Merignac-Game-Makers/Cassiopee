@@ -35,7 +35,8 @@ public class CameraController : MonoBehaviour
 	/// Distance at which the camera is from the character when at the max zoom level
 	/// </summary>
 	public float MaxDistance = 45.0f;
-	protected float m_CurrentDistance = 1.0f;
+	[HideInInspector]
+	public float m_CurrentDistance = 1.0f;
 
 	void Awake() {
 		Instance = this;
@@ -54,11 +55,7 @@ public class CameraController : MonoBehaviour
 	/// <param name="distance">The distance to zoom, need to be in range [0..1] (will be clamped) </param>
 	public void Zoom(float distance) {
 		m_CurrentDistance = Mathf.Clamp01(m_CurrentDistance + distance);
-
-		Vector3 rotation = transform.rotation.eulerAngles;
-		rotation.x = Mathf.LerpAngle(MinAngle, MaxAngle, m_CurrentDistance);
-		transform.rotation = Quaternion.Euler(rotation);
-		if (vCam!=null) vCam.m_Lens.FieldOfView = MinAngle + (MaxAngle - MinAngle) * m_CurrentDistance;
+		vCams.Peek().m_Lens.FieldOfView = MinAngle + (MaxAngle - MinAngle) * m_CurrentDistance;
 	}
 }
 

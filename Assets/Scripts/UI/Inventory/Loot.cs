@@ -61,6 +61,10 @@ public class Loot : InteractableObject
 		Debug.DrawLine(m_TargetPoint, m_TargetPoint + new Vector3(0, 2, 0), Color.magenta);
 	}
 
+	/// <summary>
+	/// Ramasser un objet
+	/// </summary>
+	/// <param name="target"></param>
 	public override void InteractWith(HighlightableObject target) {
 		base.InteractWith(target);
 		InventorySystem.Instance.AddItem(Item);

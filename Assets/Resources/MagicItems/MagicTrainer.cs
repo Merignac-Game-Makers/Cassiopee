@@ -8,12 +8,14 @@ public class MagicTrainer : MagicEffectBase
 {
 	public MagicTraining quest;     // accomplir cette magie est une quête : indiquer laquelle
 	public PNJ PNJ;
+	public ParticleSystem Moon;
+	public ParticleSystem Sun;
+
 
 	public override bool DoMoon(MagicOrb orb) {
-		var ps = gameObject.GetComponent<ParticleSystem>();     // activer l'animation
-		ps.Play();
+		Moon.Play();											// activer l'animation
 		
-		quest.step1 = true;                                      // renseigner l'étape 1 de la quête => 'terminée'
+		quest.step1 = true;                                     // renseigner l'étape 1 de la quête => 'terminée'
 		if (quest.step1 && quest.step2)
 			Success();
 
@@ -21,10 +23,9 @@ public class MagicTrainer : MagicEffectBase
 	}
 
 	public override bool DoSun(MagicOrb orb) {
-		var ps = gameObject.GetComponent<ParticleSystem>();     // activer l'animation
-		ps.Play();
+		Sun.Play();												// activer l'animation
 		
-		quest.step2 = true;                                      // renseigner l'étape 1 de la quête => 'terminée'
+		quest.step2 = true;                                     // renseigner l'étape 1 de la quête => 'terminée'
 		if (quest.step1 && quest.step2)
 			Success();
 

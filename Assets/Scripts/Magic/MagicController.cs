@@ -122,7 +122,8 @@ public class MagicController : MonoBehaviour
 	}
 	IEnumerator ResetConstellation(float s) {
 		yield return new WaitForSeconds(s);
-		AddOrRemove(magicActivatedItems[0]);
+		if (magicActivatedItems.Count>0)
+			AddOrRemove(magicActivatedItems[0]);
 		yield return null;
 	}
 	public void ResetConstellation() {
