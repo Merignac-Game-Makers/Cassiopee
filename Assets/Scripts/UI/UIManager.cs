@@ -18,6 +18,7 @@ public class UIManager : MonoBehaviour
 	public UIButton magicButton;        // bouton du grimoire		
 	public Button artifactButton;		// bouton des artefacts		
 	public UIButton inventoryButton;    // bouton due l'inventaire		
+	public Button exitButton;			// bouton exit
 
 	void Awake() {
 		Instance = this;
