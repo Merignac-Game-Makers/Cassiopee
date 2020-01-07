@@ -7,15 +7,17 @@ using UnityEngine;
 /// Classe destinée au contrôle de la magie :
 ///		- 
 /// </summary>
-public class MagicController : MonoBehaviour
+public class MagicManager : MonoBehaviour
 {
-	public static MagicController Instance; // instance statique
+	public static MagicManager Instance; // instance statique
 
 	public LineRenderer lineRendered;       // pour tracer les éclairs
 	public MagicOrb moonOrb;                // orbe magique LUNE
 	public MagicOrb sunOrb;                 // orbe magique SOLEIL
 	public Material moonRay;                // éclairs couleur LUNE
 	public Material sunRay;                 // éclairs couleur SOLEIL
+
+	public bool isOn => MagicUI.Instance.artefactButton.gameObject.activeInHierarchy;	// la magie n'est active que si le médaillon est visible
 
 	List<Activable> magicActivatedItems;    // liste des items magiques activés
 	string orbConstellation;                // la constellation qui a généré l'orbe

@@ -14,7 +14,7 @@ public class PlayerManager : MonoBehaviour
 	float defaultInteractionDistance = 1.5f;						// distance en deça de laquelle on déclenche les intéractions
 
 	InventoryUI m_InventoryUI;										// gestionnaire d'inventaire
-	MagicController m_MagicController;								// gestionnaire de magie
+	MagicManager m_MagicController;								// gestionnaire de magie
 
 	public static PlayerManager Instance { get; protected set; }	// instance statique de cette classe
 
@@ -56,7 +56,7 @@ public class PlayerManager : MonoBehaviour
 	// Start is called before the first frame update
 	void Start() {
 		m_InventoryUI = InventoryUI.Instance;						// gestionnaire d'inventaire
-		m_MagicController = MagicController.Instance;				// gestionnaire de magie
+		m_MagicController = MagicManager.Instance;				// gestionnaire de magie
 
 		m_CharacterData = GetComponent<CharacterData>();			// caractéristiques du joueur
 		m_CharacterData.Init();										// ... initialisation

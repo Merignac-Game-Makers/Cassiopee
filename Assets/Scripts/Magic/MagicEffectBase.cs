@@ -6,7 +6,7 @@ public abstract class MagicEffectBase : InteractableObject
 	public Page page;                       // la page qui décrit la constellation utilisée pour cet effet magique
 	public bool oneShot = true;             // par défaut, l'action est activable une seule fois
 
-	public override bool IsInteractable => MagicUI.Instance.isFullScreen && enabled;      // actif seulement si le grimoire est actif
+	public override bool IsInteractable => MagicManager.Instance.isOn;			// actif seulement si le grimoire est actif
 	public bool isFree => !GetComponentInChildren<MagicOrb>();                  // la cible est 'libre' si elle ne contient pas déjà un orbe
 
 	/// <summary>

@@ -80,7 +80,7 @@ public class InventoryUI : UIBase
 		uiManager.ManageButtons();		// adapter l'affichage des autres boutons
 		if (!isOn) {
 			uiManager.questsUI.SetOff();
-		}
+		} 
 	}
 
 	public void Load(HighlightableObject item) {

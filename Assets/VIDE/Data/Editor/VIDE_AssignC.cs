@@ -120,14 +120,14 @@ public class VIDE_AssignC : Editor
 			if (d != null)
 				loadFiles();
 		}
-
+ 
 		GUILayout.BeginHorizontal();
 
 		GUILayout.Label(new GUIContent("Assigned dialogue", "Which dialogue is this NPC going to own?"));
 		if (d.diags.Count > 0) {
 			EditorGUI.BeginChangeCheck();
 			Undo.RecordObject(d, "Changed dialogue index");
-			d.assignedIndex = EditorGUILayout.Popup(d.assignedIndex, d.diags.ToArray());
+			d.assignedIndex = EditorGUILayout.Popup(d.assignedIndex, d.diags.ToArray()); 
 
 			if (EditorGUI.EndChangeCheck()) {
 				PreloadDialogue(false);
@@ -361,7 +361,7 @@ public class VIDE_AssignC : Editor
 		AssetDatabase.Refresh();
 		d = (VIDE_Assign)target;
 
-		TextAsset[] files = Resources.LoadAll<TextAsset>("Dialogues");
+		TextAsset[] files = Resources.LoadAll<TextAsset>("Dialogues"); 
 		d.diags = new List<string>();
 		fullPaths = new List<string>();
 

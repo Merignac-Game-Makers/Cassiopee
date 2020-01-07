@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 /// <summary>
 /// Gestionnaire général des interfaces (Dialogues, Inventaire, Magie ou QUêtes)
@@ -15,7 +16,7 @@ public class UIManager : MonoBehaviour
 	public QuestsUI questsUI;           // interface Quêtes
 
 	public UIButton magicButton;        // bouton du grimoire		
-	public UIButton questButton;        // bouton des quêtes		
+	public Button artifactButton;		// bouton des artefacts		
 	public UIButton inventoryButton;    // bouton due l'inventaire		
 
 	void Awake() {
@@ -36,8 +37,7 @@ public class UIManager : MonoBehaviour
 	/// </summary>
 	public void ManageButtons() {
 		if (PlayerManager.Instance.gameObject.GetComponentInChildren<CharacterData>().isMagicEquiped) {
-			magicUI.Show(!inventoryUI.isOn && !questsUI.isOn);
-			magicButton.gameObject.SetActive(!inventoryUI.isOn && !questsUI.isOn);
+			magicUI.SetState();
 		}
 	}
 }

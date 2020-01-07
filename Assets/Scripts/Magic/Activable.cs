@@ -17,7 +17,7 @@ using UnityEngine.EventSystems;
 public class Activable : InteractableObject
 {
 
-	public override bool IsInteractable => MagicUI.Instance.isFullScreen;
+	public override bool IsInteractable => UIManager.Instance.artifactButton.gameObject.activeInHierarchy;
 
 	Vector3 m_TargetPoint;
 
@@ -53,7 +53,7 @@ public class Activable : InteractableObject
 
 	public void Toggle() {
 		m_IsActive = !m_IsActive;
-		MagicController.Instance.AddOrRemove(this);
+		MagicManager.Instance.AddOrRemove(this);
 	}
 
 }

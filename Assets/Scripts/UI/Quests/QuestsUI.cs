@@ -27,7 +27,7 @@ public class QuestsUI : UIBase
 		panel.SetActive(!isOn);
 		if (isOn)
 			SetQuests();
-		uiManager.ManageButtons();
+		//uiManager.ManageButtons();
 	}
 
 	public void SetOff() {
