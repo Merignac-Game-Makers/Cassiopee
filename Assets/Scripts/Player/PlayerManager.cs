@@ -113,6 +113,8 @@ public class PlayerManager : MonoBehaviour
 				// si le bouton de la souris est appuyé
 				if (Input.GetMouseButton(0)) {
 					if (m_TargetInteractable == null && m_CurrentTargetCharacterData == null) {		// s'il n'y a pas d'intéraction en cours
+								if (m_InventoryUI.isOn)												// refermer automatiquement l'inventaire
+									UIManager.Instance.inventoryButton.Toggle();
 						
 						InteractableObject obj = m_Highlighted as InteractableObject;				
 						if (obj) {                                                                  // si on a cliqué sur un objet intéractible
