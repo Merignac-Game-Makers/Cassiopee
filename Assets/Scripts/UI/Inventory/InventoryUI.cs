@@ -78,6 +78,9 @@ public class InventoryUI : UIBase
 	public override void Toggle() {
 		panel.SetActive(!isOn);			// monter /cacher le panneau d'inventaire
 		uiManager.ManageButtons();		// adapter l'affichage des autres boutons
+		if (!isOn) {
+			uiManager.questsUI.SetOff();
+		}
 	}
 
 	public void Load(HighlightableObject item) {

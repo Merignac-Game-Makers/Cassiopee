@@ -30,6 +30,11 @@ public class QuestsUI : UIBase
 		uiManager.ManageButtons();
 	}
 
+	public void SetOff() {
+		if (isOn)
+			Toggle();
+	}
+
 	private void SetQuests() {
 		// update pending quests list
 		pending.transform.DetachChildren();                         // pending quests : remove all existing children
