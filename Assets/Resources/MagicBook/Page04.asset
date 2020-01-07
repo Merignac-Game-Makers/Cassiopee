@@ -12,6 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a948409defe1da4cb7e439372106d60, type: 3}
   m_Name: Page04
   m_EditorClassIdentifier: 
-  Title: Page 4
-  Picture: {fileID: 0}
-  Text: "Derni\xE8re page"
+  title: Page 4
+  picture: {fileID: 0}
+  text: "Derni\xE8re page"
+  constellation: 
+  hasHelp: 0
+  helpPicture: {fileID: 0}

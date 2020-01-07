@@ -14,6 +14,8 @@ public class TurnCenterPage : MonoBehaviour
 	public Text nextPageText;
 	public Image nextPagePicture;
 
+
+
 	Animator animator;
 
 	void Start() {
@@ -25,10 +27,11 @@ public class TurnCenterPage : MonoBehaviour
 	public void TurnRight() {
 		var currentPage = MagicUI.Instance.GetPage();
 		var newPage = MagicUI.Instance.GetPage(MagicUI.Instance.currentPageIdx + 1);
-		title.text = newPage.Title;
-		text.text = newPage.Text;
-		picture.sprite = currentPage.Picture;
-		nextPagePicture.sprite = newPage.Picture;
+		title.text = newPage.title;
+		text.text = newPage.text;
+		picture.sprite = currentPage.picture;
+		nextPagePicture.sprite = newPage.picture;
+		MagicUI.Instance.helpButton.gameObject.SetActive(false);
 		gameObject.SetActive(true);
 		animator.Play("TurnCenterPage");
 	}
@@ -36,11 +39,12 @@ public class TurnCenterPage : MonoBehaviour
 	public void TurnLeft() {
 		var currentPage = MagicUI.Instance.GetPage();
 		var newPage = MagicUI.Instance.GetPage(MagicUI.Instance.currentPageIdx - 1);
-		title.text = currentPage.Title;
-		text.text = currentPage.Text;
-		picture.sprite = newPage.Picture;
-		nextPageTitle.text = newPage.Title;
-		nextPageText.text = newPage.Text;
+		title.text = currentPage.title;
+		text.text = currentPage.text;
+		picture.sprite = newPage.picture;
+		nextPageTitle.text = newPage.title;
+		nextPageText.text = newPage.text;
+		MagicUI.Instance.helpButton.gameObject.SetActive(false);
 		gameObject.SetActive(true);
 		animator.Play("TurnCenterPageReverse");
 	}

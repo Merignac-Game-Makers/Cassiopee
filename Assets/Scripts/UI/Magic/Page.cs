@@ -9,43 +9,56 @@ using UnityEditor;
 [CreateAssetMenu(fileName = "Page", menuName = "Custom/Spell book page", order = -999)]
 public class Page : ScriptableObject
 {
-	public string Title;
-	public Sprite Picture;
-	public string Text;
+	public string title;
+	public Sprite picture;
+	public string text;
 	public string constellation;
+
+	public bool hasHelp;
+	public Sprite helpPicture;
 }
 
 #if UNITY_EDITOR
 [CustomEditor(typeof(Page))]
 public class PageEditor : Editor
 {
-	SerializedProperty m_TitleProperty;
-	SerializedProperty m_PictureProperty;
-	SerializedProperty m_TextProperty;
-	SerializedProperty m_ConstellationProperty;
+	SerializedProperty pTitle;
+	SerializedProperty pPicture;
+	SerializedProperty pText;
+	SerializedProperty pConstellation;
+	SerializedProperty pHasHelp;
+	SerializedProperty pHelpPicture;
 
 	Page m_Page;
 
 	public void OnEnable() {
-		m_TitleProperty = serializedObject.FindProperty("Title");
-		m_PictureProperty = serializedObject.FindProperty("Picture");
-		m_TextProperty = serializedObject.FindProperty("Text");
-		m_ConstellationProperty = serializedObject.FindProperty("constellation");
-
 		m_Page = (Page)target;
+
+		pTitle = serializedObject.FindProperty(nameof(m_Page.title));
+		pPicture = serializedObject.FindProperty(nameof(m_Page.picture));
+		pText = serializedObject.FindProperty(nameof(m_Page.text));
+		pConstellation = serializedObject.FindProperty(nameof(m_Page.constellation));
+		pHasHelp = serializedObject.FindProperty(nameof(m_Page.hasHelp));
+		pHelpPicture = serializedObject.FindProperty(nameof(m_Page.helpPicture));
+
 	}
 
 	public override void OnInspectorGUI() {
 		EditorStyles.textField.wordWrap = true;
 		serializedObject.Update();
 
-		EditorGUILayout.PropertyField(m_TitleProperty);
-		EditorGUILayout.PropertyField(m_PictureProperty);
+		EditorGUILayout.PropertyField(pTitle);
+		pPicture.objectReferenceValue = (Sprite)EditorGUILayout.ObjectField(new GUIContent("Constellation", "Constellation"), m_Page.picture, typeof(Sprite), false);
+
+		EditorGUILayout.PropertyField(pHasHelp);
+		if (m_Page.hasHelp)
+			pHelpPicture.objectReferenceValue = (Sprite)EditorGUILayout.ObjectField(new GUIContent("Aide", "Aide"), m_Page.helpPicture, typeof(Sprite), false);
+
 
 		var options = new GUILayoutOption[] { GUILayout.MinHeight(128), GUILayout.ExpandHeight(true)};	
-		m_TextProperty.stringValue = GUILayout.TextArea(m_TextProperty.stringValue, options);
+		pText.stringValue = GUILayout.TextArea(pText.stringValue, options);
 
-		EditorGUILayout.PropertyField(m_ConstellationProperty);
+		EditorGUILayout.PropertyField(pConstellation);
 
 		serializedObject.ApplyModifiedProperties();
 	}

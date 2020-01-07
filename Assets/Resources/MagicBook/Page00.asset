@@ -12,10 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a948409defe1da4cb7e439372106d60, type: 3}
   m_Name: Page00
   m_EditorClassIdentifier: 
-  Title: La MAGIE
-  Picture: {fileID: 21300000, guid: baf655fa497bd354089d6783973a7a23, type: 3}
-  Text: "Pour utiliser la magie :\n\n- Ouvre ce livre\n- Active un m\xE9daillon  :
+  title: La MAGIE
+  picture: {fileID: 21300000, guid: baf655fa497bd354089d6783973a7a23, type: 3}
+  text: "Pour utiliser la magie :\n\n- ouvre ce livre\n- Active un m\xE9daillon :
     SOLEIL ou LUNE\n- Dans le paysage, active les objets magiques pour tracer une
-    constellation\n\nTu obtiendras un ORBE magique\n\nD\xE9pose l'orbe \xE0 l'endroit
-    o\xF9 tu veux appliquer la magie"
+    qonstellation\n\nTu obitendras un ORBE magique\n\nD\xE9pose l'orbe \xE0 l'endroit
+    o\xF9 tu veux apliquer la magie"
   constellation: 
+  hasHelp: 0
+  helpPicture: {fileID: 0}

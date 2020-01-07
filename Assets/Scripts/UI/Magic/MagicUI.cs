@@ -26,16 +26,17 @@ public class MagicUI : UIBase
 	[Header("Boutons")]
 	public GameObject bookButton;       // activer/désactiver le grimoire
 	public GameObject fullScreenButton; // bascule d'affichage du mode 'plein écran'
-	public GameObject nextPage;			// coin 'page suivante'
-	public GameObject prevPage;			// coin 'page précédente'
+	public GameObject nextPage;         // coin 'page suivante'
+	public GameObject prevPage;         // coin 'page précédente'
+	public GameObject helpButton;       // bouton aide
 	public GameObject sunButton;		// bouton artefact SUN
 	public GameObject moonButton;       // bouton artefact MOON
 
 	// zones de contenu
 	[Header("Zones de contenu")]
-	public Text m_Title;                // titre de la page 
-	public Text m_Text;                 // texte
-	public Image m_Picture;             // image
+	public Text title;					// titre de la page 
+	public Text text;					// texte
+	public Image picture;				// image
 
 	// autres
 	public static MagicUI Instance;      // instance statique
@@ -87,9 +88,10 @@ public class MagicUI : UIBase
 	/// </summary>
 	/// <param name="idx">#page à afficher</param>
 	void ShowPage(int idx) {
-		m_Title.text = pages[idx].Title;
-		m_Text.text = pages[idx].Text;
-		m_Picture.sprite = pages[idx].Picture;
+		title.text = pages[idx].title;
+		text.text = pages[idx].text;
+		picture.sprite = pages[idx].picture;
+		helpButton.SetActive(pages[idx].hasHelp);
 		prevPage.SetActive(idx > 0);
 		nextPage.SetActive(idx < MaxPage - 1);
 		currentPageIdx = idx;

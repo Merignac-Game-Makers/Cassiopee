@@ -12,6 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a948409defe1da4cb7e439372106d60, type: 3}
   m_Name: Page03
   m_EditorClassIdentifier: 
-  Title: Page 3
-  Picture: {fileID: 21300000, guid: c8af64381bedd4b46b7c30d0fbe3ae1d, type: 3}
-  Text: Et voici la page 3
+  title: Page 3
+  picture: {fileID: 0}
+  text: 
+  constellation: 
+  hasHelp: 0
+  helpPicture: {fileID: 0}
