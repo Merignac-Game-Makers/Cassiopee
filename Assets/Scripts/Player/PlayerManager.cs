@@ -44,8 +44,8 @@ public class PlayerManager : MonoBehaviour
 	RaycastHit[] m_RaycastHitCache = new RaycastHit[16];            // cache des résultats de lancer de rayon
 	RaycastHit m_HitInfo = new RaycastHit();                        // résultat unitaire du lancer de rayon
 	int m_InteractableLayer;                                        // layer des objets intéractibles
-	int m_PlayerLayer;												// layer du personnage
-
+	int m_PlayerLayer;                                              // layer du personnage
+	int layersExceptPostProcessing;									// tous les layers sauf postProcessing
 
 	#region Initialisation
 	void Awake() {
@@ -64,7 +64,8 @@ public class PlayerManager : MonoBehaviour
 		m_Agent = GetComponent<NavMeshAgent>();                     // préparation de la navigation
 
 		m_InteractableLayer = 1 << LayerMask.NameToLayer("Interactable");       // layer des objets intéractibles
-		m_PlayerLayer = 1 << LayerMask.NameToLayer("Player");					// layer des objets intéractibles
+		m_PlayerLayer = 1 << LayerMask.NameToLayer("Player");                   // layer des objets intéractibles
+		layersExceptPostProcessing = ~(1 << LayerMask.NameToLayer("PostProcess"));
 	}
 	#endregion
 
@@ -131,9 +132,10 @@ public class PlayerManager : MonoBehaviour
 							if (data) {																// si on a cliqué sur le personnage
 								m_CurrentTargetCharacterData = data;								// pour l'instant on ne fait rien mais l'événement est détecté
 																									// il pourrait être utilisé pour afficher un panneau de statistiques ou tout autre chose
-							} else {								// sinon => navigation
-								if (Physics.Raycast(screenRay.origin, screenRay.direction, out m_HitInfo))
-									m_Agent.destination = m_HitInfo.point;
+							} else {                                // sinon => navigation
+								//if (Physics.Raycast(screenRay.origin, screenRay.direction, out m_HitInfo))
+								if (Physics.Raycast(screenRay, out m_HitInfo, 5000, layersExceptPostProcessing))
+										m_Agent.destination = m_HitInfo.point;
 							}
 						}
 					}

@@ -23,7 +23,7 @@ public class MagicOrb : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 
 	void Start() {
 		magicController = MagicManager.Instance;			// créer l'instance statique
-		m_Layer = ~(1 << LayerMask.NameToLayer("Magic"));	// créer le masque de layer
+		m_Layer = ~(1 << LayerMask.NameToLayer("Magic"));	// créer le masque de layer (tout sauf 'Magic')
 	}
 
 	/// <summary>
