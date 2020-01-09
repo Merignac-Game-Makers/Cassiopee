@@ -30,6 +30,7 @@ public class ItemEntryUI : MonoBehaviour, IPointerClickHandler, IPointerEnterHan
         }
     }
 
+
     public void OnPointerEnter(PointerEventData eventData)
     {
         Owner.ObjectHoveredEnter(this);

@@ -1,16 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
-using UnityEngine;
-using UnityEngine.Analytics;
-using UnityEngine.EventSystems;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 
 /// <summary>
 /// Handle all the UI code related to the inventory (drag'n'drop of object, using objects, equipping object etc.)
 /// </summary>
-public class InventoryUI : MonoBehaviour
+public class InventoryUI : UIBase
 {
 	public class DragData
 	{
@@ -18,24 +13,22 @@ public class InventoryUI : MonoBehaviour
 		public RectTransform OriginalParent;
 	}
 
-	public GameObject InvPanel;
-	public GameObject openButton;
-	public GameObject closeButton;
+	public UIButton bookButton;
+	public GameObject bookPanel;
 
 	public RectTransform[] ItemSlots;
 
 	public ItemEntryUI ItemEntryPrefab;
 	public ItemTooltip Tooltip;
 
-	public EquipmentUI EquipementUI;
-
+	//public EquipmentUI EquipementUI;
 
 	public Canvas DragCanvas;
 
 	public static InventoryUI Instance;
 
 	// Raycast
-	RaycastHit[] m_RaycastHitCache = new RaycastHit[16];
+	readonly RaycastHit[] m_RaycastHitCache = new RaycastHit[16];
 	int m_TargetLayer;
 
 
@@ -44,37 +37,19 @@ public class InventoryUI : MonoBehaviour
 
 	[HideInInspector]
 	public ItemEntryUI[] m_ItemEntries;
+
 	ItemEntryUI m_HoveredItem;
 	HighlightableObject m_Item;
+	UIManager uiManager;
 
-	private void Awake() {
+
+	public override void Init(UIManager uiManager) {
 		Instance = this;
+		this.uiManager = uiManager;
 
-		//CurrentlyDragged = null;
+		gameObject.SetActive(true);
+		panel.SetActive(false);
 
-		//DragCanvasScaler = DragCanvas.GetComponentInParent<CanvasScaler>();
-
-		//m_ItemEntries = new ItemEntryUI[ItemSlots.Length];
-
-		//for (int i = 0; i < m_ItemEntries.Length; ++i) {
-		//	m_ItemEntries[i] = Instantiate(ItemEntryPrefab, ItemSlots[i]);
-		//	m_ItemEntries[i].gameObject.SetActive(false);
-		//	m_ItemEntries[i].Owner = this;
-		//	m_ItemEntries[i].InventoryEntry = i;
-		//}
-
-		//m_TargetLayer = 1 << LayerMask.NameToLayer("Interactable");
-
-		//EquipementUI.Init(this);
-	}
-
-	//private void Start() {
-	//	InvPanel.SetActive(false);
-	//	closeButton.SetActive(false);
-	//	openButton.SetActive(true);
-	//}
-
-	public void Init() {
 		CurrentlyDragged = null;
 
 		DragCanvasScaler = DragCanvas.GetComponentInParent<CanvasScaler>();
@@ -90,10 +65,6 @@ public class InventoryUI : MonoBehaviour
 
 		m_TargetLayer = 1 << LayerMask.NameToLayer("Interactable");
 
-		InvPanel.SetActive(false);
-		closeButton.SetActive(false);
-		openButton.SetActive(true);
-
 	}
 
 	void OnEnable() {
@@ -101,32 +72,29 @@ public class InventoryUI : MonoBehaviour
 		Tooltip.gameObject.SetActive(false);
 	}
 
-	private void Update() {
-		//Keyboard shortcut
-		if (Input.GetKeyUp(KeyCode.I))
-			Toggle();
-	}
-
-	public void Toggle() {
-		InvPanel.SetActive(!InvPanel.activeInHierarchy);
-		closeButton.SetActive(InvPanel.activeInHierarchy);
-		openButton.SetActive(!closeButton.activeInHierarchy);
-		BookUI.Instance.Show(!InvPanel.activeInHierarchy);
-	}
-
-	public void Show(bool on) {
-			gameObject.SetActive(on);
+	/// <summary>
+	/// bascule d'affichage
+	/// </summary>
+	public override void Toggle() {
+		panel.SetActive(!isOn);			// monter /cacher le panneau d'inventaire
+		uiManager.ManageButtons();		// adapter l'affichage des autres boutons
+		if (!isOn) {
+			uiManager.questsUI.SetOff();
+		} 
 	}
 
 	public void Load(HighlightableObject item) {
 		m_Item = item;
-		//EquipementUI.UpdateEquipment(m_Data.Equipment, m_Data.Stats);
-
 		for (int i = 0; i < m_ItemEntries.Length; ++i) {
 			m_ItemEntries[i].UpdateEntry();
 		}
 	}
 
+	/// <summary>
+	/// utiliser un objet (ex: boire une potion...)
+	/// (inutilisé pour l'instant)
+	/// </summary>
+	/// <param name="usedItem"></param>
 	public void ObjectDoubleClicked(InventorySystem.InventoryEntry usedItem) {
 		//if(m_Data.Inventory.UseItem(usedItem))
 		//    SFXManager.PlaySound(SFXManager.Use.Sound2D, new SFXManager.PlayData() {Clip = usedItem.Item is EquipmentItem ? SFXManager.ItemEquippedSound : SFXManager.ItemUsedSound} );
@@ -175,18 +143,23 @@ public class InventoryUI : MonoBehaviour
 		Ray screenRay = CameraController.Instance.GameplayCamera.ScreenPointToRay(Input.mousePosition);
 		int count = Physics.SphereCastNonAlloc(screenRay, 1.0f, m_RaycastHitCache, 1000.0f, m_TargetLayer);
 		if (count > 0) {
-			Target data = m_RaycastHitCache[0].collider.GetComponentInParent<Target>();
-			if (data.isFree) {
-				Debug.Log("Drp Item");
-				DropItem(data, PlayerControl.Instance.m_CurrentlyDragged);
+			foreach (RaycastHit rh in m_RaycastHitCache) {
+				if (rh.collider != null) {
+					Target data = rh.collider.GetComponentInParent<Target>();
+					if (data != null && data.isFree) {
+						//Debug.Log("Drop Item");
+						DropItem(data, PlayerManager.Instance.m_InvItemDragging);
+						break;
+					}
+				}
 			}
 		}
-
 	}
 
 	private void DropItem(Target target, InventoryUI.DragData dragData) {
 		var EntryIndex = dragData.DraggedEntry.InventoryEntry;
 		CreateWorldRepresentation(InventorySystem.Instance.Entries[EntryIndex].Item, target);
+		//target.DoQuests();
 		InventorySystem.Instance.RemoveItem(EntryIndex);
 	}
 
@@ -201,7 +174,7 @@ public class InventoryUI : MonoBehaviour
 				obj.transform.localScale.z / target.transform.localScale.z
 				);
 			obj.layer = LayerMask.NameToLayer("Interactable");
-		} 
+		}
 		//else {//...otherwise, we create a billboard using the item sprite
 		//	GameObject billboard = new GameObject("ItemBillboard");
 		//	billboard.transform.SetParent(transform, false);

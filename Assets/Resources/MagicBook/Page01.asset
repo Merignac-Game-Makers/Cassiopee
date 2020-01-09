@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a948409defe1da4cb7e439372106d60, type: 3}
+  m_Name: Page01
+  m_EditorClassIdentifier: 
+  title: Apprentissage
+  picture: {fileID: 21300000, guid: baf655fa497bd354089d6783973a7a23, type: 3}
+  text: "Voici ta qu\xEAte :\n\nTrouve les objets pour tracer la constellation de
+    la TABLE\n\n- une fois avec le SOLEIL\n- une fois avec la LUNE\n\nD\xE9pose l'ORBE
+    MAGIQUE sur la cible dans l'eau"
+  constellation: Table
+  hasHelp: 1
+  helpPicture: {fileID: 21300000, guid: 74d403013a19b3a4698c1b7afe288765, type: 3}

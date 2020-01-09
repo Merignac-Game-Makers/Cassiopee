@@ -56,6 +56,9 @@ public class InventorySystem
 
 			Entries[firstEmpty] = entry;
 		}
+
+		//UIManager.Instance.inventoryButton.gameObject.GetComponentInChildren<Animator>()?.Play("color");
+		UIManager.Instance.inventoryButton.gameObject.GetComponentInParent<Animator>()?.SetTrigger("startColor");
 	}
 
 	/// <summary>
