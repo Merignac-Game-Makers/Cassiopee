@@ -13,14 +13,22 @@ public class HighlightableObject : MonoBehaviour
 
 	public bool isOn = false;               // flag allumé ?
 
+	// pour les projecteurs
 	Projector projector;
 	Animator animator;
+	// pour les systèmes de particules
 	ParticleSystem[] particlesList;
 	ParticleSystem particles;
+	// pour les tores
+	SelectionRing ring;
 
 	protected virtual void Start() {
+		// pour les projecteurs
 		projector = GetComponentInChildren<Projector>();
 		animator = GetComponentInChildren<Animator>();
+		if (projector)
+			projector.material = new Material(projector.material);
+		// pour les systèmes de particules
 		particlesList = GetComponentsInChildren<ParticleSystem>();
 		foreach( ParticleSystem ps in particlesList) {
 			if (ps.name == "MagicParticles") {
@@ -28,9 +36,10 @@ public class HighlightableObject : MonoBehaviour
 				break;
 			}
 		}
+		// pour les tores
+		ring = GetComponentInChildren<SelectionRing>();
+
 		Highlight(false);
-		if (projector)
-			projector.material = new Material(projector.material);
 	}
 
 	/// <summary>
@@ -50,6 +59,10 @@ public class HighlightableObject : MonoBehaviour
 			else
 				particles.Stop();
 		}
+		// pour les tores
+		if (ring)
+			ring.Highlight(on);
+
 		isOn = on;
 	}
 
@@ -62,6 +75,9 @@ public class HighlightableObject : MonoBehaviour
 			var psMain = particles.main;
 			psMain.startColor = color;
 		}
+		// pour les tores
+		if (ring)
+			ring.SetColor(color);
 	}
 
 }
