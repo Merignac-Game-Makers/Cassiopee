@@ -25,6 +25,9 @@ public class Activable : InteractableObject
 	[HideInInspector]
 	public bool m_IsActive;
 
+	public Color activeColor = Color.magenta;
+	public Color inactiveColor = Color.white;
+
 	void Awake() {
 		m_TargetPoint = transform.position;
 		m_IsActive = false;
@@ -53,7 +56,18 @@ public class Activable : InteractableObject
 
 	public void Toggle() {
 		m_IsActive = !m_IsActive;
+		SetColor(IsActive ? activeColor : inactiveColor) ;
 		MagicManager.Instance.AddOrRemove(this);
 	}
+
+	/// <summary>
+	/// true  : allumer le projecteur
+	/// false : éteindre le projecteur
+	/// </summary>
+	public override void Highlight(bool on) {
+		base.Highlight(on);
+		SetColor(IsActive ? activeColor : inactiveColor);
+	}
+
 
 }

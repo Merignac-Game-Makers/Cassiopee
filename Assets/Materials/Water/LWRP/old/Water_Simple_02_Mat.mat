@@ -8,8 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Water_Simple_02_Mat
-  m_Shader: {fileID: -6465566751694194690, guid: 1ca6436dc09e65d449941a4132a1a2d7,
-    type: 3}
+  m_Shader: {fileID: 4800000, guid: 5ec34e1fc87e376408a89057c19ab5a5, type: 3}
   m_ShaderKeywords: _ALPHABLEND_ON _DETAIL_MULX2 _NORMALMAP _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -21,12 +20,28 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - Texture2D_63DB6ED:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _BaseMap:
         m_Texture: {fileID: 2800000, guid: 28000922bad6c524491064afe31e4388, type: 3}
         m_Scale: {x: 4, y: 2}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
+        m_Texture: {fileID: 2800000, guid: 09e350b54acf68c4ca8b3f46a5a64977, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _BumpMapDetail:
+        m_Texture: {fileID: 2800000, guid: 114b40810568bb14382fe003c4f290ef, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Cube:
         m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Detail:
+        m_Texture: {fileID: 2800000, guid: 8c79750780c88174ab322e9084520cda, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DetailAlbedoMap:
@@ -54,7 +69,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 28000922bad6c524491064afe31e4388, type: 3}
+        m_Texture: {fileID: 2800000, guid: 29b073a0522333d45bd8685816b2dbd6, type: 3}
         m_Scale: {x: 4, y: 2}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -78,7 +93,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ParallaxMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 84f18770439fb0d48af8066ac8c0bdf6, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ReflectionTex:
@@ -114,6 +129,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - Vector1_10470CA3: 1
     - Vector1_1AEB5AB0: 8
     - Vector1_2AC7257D: 0.008
     - Vector1_7D622CB4: 0.0016
@@ -125,6 +141,7 @@ Material:
     - _Blend: 0
     - _Blur: 0.25
     - _BumpScale: 1
+    - _ContrastMt: 1
     - _Cull: 2
     - _Cutoff: 0.5
     - _Depth: 1
@@ -145,15 +162,26 @@ Material:
     - _GlossMapScale: 0.876
     - _Glossiness: 0.577
     - _GlossyReflections: 1
+    - _IntensityMicrowave: 0.5
+    - _IntensityMt: 1
+    - _IntensityNm: 1
+    - _IntensityRef: 0.15
     - _InvertY: 0
+    - _MainDetailFlow: 1
+    - _MainDetailScale: 1
     - _Metallic: 1
+    - _MicrowaveScale: 1
     - _Mode: 2
     - _MossDistortion: 0.5
+    - _NormalmapDetailScale: 0.5
+    - _NormalmapDetailSpeed: 0.5
     - _OcclusionStrength: 1
     - _Parallax: 0.02
+    - _ParallaxScale: 1
     - _Power: 2
     - _QueueOffset: 0
     - _ReceiveShadows: 1
+    - _ReverseFlow: 1
     - _Scale: 1
     - _ScumFalloff: 5
     - _ScumNoiseContrast: 1
@@ -161,10 +189,12 @@ Material:
     - _ScumScale: 0.2
     - _ScumTexScale: 0.3
     - _ShadowFade: 0.621
+    - _Shininess: 0.15
     - _ShoreFade: 0
     - _ShowBuffers: 0
     - _Smoothness: 0.577
     - _SmoothnessTextureChannel: 1
+    - _SoftFactor: 0.5
     - _Specular: 0.3760684
     - _SpecularHighlights: 1
     - _Speed: 0.01
@@ -180,6 +210,8 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 0
     m_Colors:
+    - Color_36F0B551: {r: 0, g: 0.2862745, b: 0.2156863, a: 0}
+    - Color_6B1641FE: {r: 0.3960784, g: 0.7490196, b: 0.9529412, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 0.11764706}
     - _Color: {r: 1, g: 1, b: 1, a: 0.11764706}
     - _ColorA: {r: 1, g: 1, b: 1, a: 1}
@@ -190,6 +222,7 @@ Material:
     - _MieScatteringColor: {r: 1, g: 1, b: 1, a: 1}
     - _MossColor: {r: 1, g: 1, b: 1, a: 1}
     - _MossShadowParams: {r: 1, g: 1, b: 1, a: 1}
+    - _ReflectColor: {r: 0.28, g: 0.29, b: 0.25, a: 0.5}
     - _ShadowColor: {r: 0.11681203, g: 0.1981132, b: 0.14789777, a: 1}
     - _ShoreColor: {r: 1, g: 1, b: 1, a: 1}
     - _SpecColor: {r: 0.021387678, g: 0.022058845, b: 0.00989404, a: 1}

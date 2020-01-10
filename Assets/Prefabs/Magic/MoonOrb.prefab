@@ -59,9 +59,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c7ba2e822fea3046bccb8d6345b56ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isOn: 0
   mode: 0
   Clicked: 0
   m_IsActive: 0
+  activeColor: {r: 1, g: 0, b: 1, a: 1}
+  inactiveColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!114 &8882288825721271739
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -75,7 +78,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   orbType: 0
-  constellation: 
+  constellation: "Cassiop\xE9e"
 --- !u!1 &708512746778720358
 GameObject:
   m_ObjectHideFlags: 0

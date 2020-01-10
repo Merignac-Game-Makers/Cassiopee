@@ -132,30 +132,3 @@ public class MagicManager : MonoBehaviour
 		StartResetConstellation(0);
 	}
 }
-
-/// <summary>
-/// extensions de 'List<Activable>' pour commodité
-/// </summary>
-//public static class Extensions
-//{
-//	public static bool IsLike(this List<Activable> list, List<Activable> other) {
-//		if (list.Count != other.Count)
-//			return false;
-//		else {
-//			for (int i = 0; i < list.Count; i++) {
-//				if (list[i] != other[i])
-//					return false;
-//			}
-//			return true;
-//		}
-
-//	}
-
-//	public static T Last<T>(this List<T> list) where T : class {
-//		return list.Count > 0 ? list[list.Count - 1] : null;
-//	}
-//	public static void AddItem<T>(this List<T> list, GameObject item) {
-//		if (item.GetComponentInChildren<Activable>() != null)
-//			list.Add(item.GetComponentInChildren<T>());
-//	}
-//}
