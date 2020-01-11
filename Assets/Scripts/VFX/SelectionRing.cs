@@ -19,11 +19,14 @@ public class SelectionRing : MonoBehaviour
 	/// false : éteindre 
 	/// </summary>
 	public virtual void Highlight(bool on) {
-		renderer.enabled = on;
-		light.gameObject.SetActive(on);
+		if (renderer)
+			renderer.enabled = on;
+		if (light)
+			light.gameObject.SetActive(on);
 	}
 
 	public void SetColor(Color color) {
-		renderer.material.SetColor("_EmissionColor", color);
+		if (renderer)
+			renderer.material.SetColor("_EmissionColor", color);
 	}
 }

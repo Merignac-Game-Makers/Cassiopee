@@ -14,28 +14,17 @@ public class HighlightableObject : MonoBehaviour
 	public bool isOn = false;               // flag allumé ?
 
 	// pour les projecteurs
-	Projector projector;
-	Animator animator;
+	ProjectorDriver projector;
 	// pour les systèmes de particules
-	ParticleSystem[] particlesList;
-	ParticleSystem particles;
+	MagicParticles particles;
 	// pour les tores
 	SelectionRing ring;
 
 	protected virtual void Start() {
 		// pour les projecteurs
-		projector = GetComponentInChildren<Projector>();
-		animator = GetComponentInChildren<Animator>();
-		if (projector)
-			projector.material = new Material(projector.material);
+		projector = GetComponentInChildren<ProjectorDriver>();
 		// pour les systèmes de particules
-		particlesList = GetComponentsInChildren<ParticleSystem>();
-		foreach( ParticleSystem ps in particlesList) {
-			if (ps.name == "MagicParticles") {
-				particles = ps;
-				break;
-			}
-		}
+		particles = GetComponentInChildren<MagicParticles>();
 		// pour les tores
 		ring = GetComponentInChildren<SelectionRing>();
 
@@ -48,17 +37,11 @@ public class HighlightableObject : MonoBehaviour
 	/// </summary>
 	public virtual void Highlight(bool on) {
 		// pour les projecteurs
-		if (animator)
-			animator.enabled = on;
 		if (projector)
-			projector.enabled = on;
+			projector.Highlight(on);
 		// pour les systèmes de particules
-		if (particles) {
-			if (on)
-				particles.Play();
-			else
-				particles.Stop();
-		}
+		if (particles)
+			particles.Highlight(on);
 		// pour les tores
 		if (ring)
 			ring.Highlight(on);
@@ -69,12 +52,10 @@ public class HighlightableObject : MonoBehaviour
 	public void SetColor(Color color) {
 		// pour les projecteurs
 		if (projector)
-			projector.material.color = color;
+			projector.SetColor(color);
 		// pour les systèmes de particules
-		if (particles) {
-			var psMain = particles.main;
-			psMain.startColor = color;
-		}
+		if (particles)
+			particles.SetColor(color);
 		// pour les tores
 		if (ring)
 			ring.SetColor(color);
