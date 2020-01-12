@@ -19,7 +19,11 @@ public class MagicUI : UIBase
 
 	// objets d'interface
 	[Header("Panels")]
-	public GameObject bookPanel;		// livre ouvert (plein écran)
+	public GameObject bookPanel;        // panneau livre ouvert (plein écran)
+	public Book book;                   // livre
+
+
+
 	public GameObject leftPage;         // livre ouvert - âge gauche
 	public GameObject rightPage;        // livre ouvert - âge droite
 	[Header("Boutons")]
@@ -31,18 +35,18 @@ public class MagicUI : UIBase
 
 	// zones de contenu
 	[Header("Zones de contenu")]
-	public Text title;					// titre de la page 
-	public Text text;					// texte
+	public Text title;                  // titre de la page 
+	public Text text;                   // texte
 	public Image picture;               // image
 
-	public Sprite moon;					// image médaillon lune
-	public Sprite sun;					// image médaillon soleil
+	public Sprite moon;                 // image médaillon lune
+	public Sprite sun;                  // image médaillon soleil
 
 	// autres
 	public static MagicUI Instance;      // instance statique
-	public enum SelectedArtefact { Moon, Sun }						// artefact sélectionnable
-	public SelectedArtefact selectedArtefact { get; private set; }	// artefact sélectionné
-	public int currentPageIdx { get; private set; }					// index de la page courante
+	public enum SelectedArtefact { Moon, Sun }                      // artefact sélectionnable
+	public SelectedArtefact selectedArtefact { get; private set; }  // artefact sélectionné
+	public int currentPageIdx { get; private set; }                 // index de la page courante
 
 	public enum State { inactive, active, open }
 	private State state;
@@ -56,13 +60,8 @@ public class MagicUI : UIBase
 		gameObject.SetActive(true);     // Book UI actif
 		panel.SetActive(false);         // panneau masqué
 
-		pages = new List<Page>();		// récupération des pages dans 'MagicBookContent'
-		foreach (PageTemplate page in magicBookContent.GetComponentsInChildren<PageTemplate>()) {
-			pages.Add(page.page);
-		}
-
-		currentPageIdx = 0;             // page courante = 1ère page
-		ShowPage(currentPageIdx);       // afficher la page courante
+		//book.Init();
+		//ShowPage(currentPageIdx);       // afficher la page courante
 
 		selectedArtefact = SelectedArtefact.Sun;    // artefact sélectionné par défaut = SUN
 
@@ -70,18 +69,14 @@ public class MagicUI : UIBase
 		state = State.open;
 		bookButton.GetComponent<Image>().color = new Color(1, 1, 1, .6f);   // grimoire transparent
 		bookButton.gameObject.SetActive(false);                             // grimoire masqué
-		artefactButton.gameObject.SetActive(false);							// artefact masqué
+		artefactButton.gameObject.SetActive(false);                         // artefact masqué
+
 	}
 
 	/// <summary>
 	/// bascule actif/inactif
 	/// </summary>
-	public override void Toggle() {
-		//panel.SetActive(!panel.activeInHierarchy);      // panneau principal
-		//if (!isOn) {
-		//	MagicManager.Instance.ResetConstellation();
-		//}
-	}
+	public override void Toggle() { }
 
 	/// <summary>
 	/// bascule affichage plein écran
@@ -182,52 +177,8 @@ public class MagicUI : UIBase
 	/// <param name="button">bouton de l'artefact à sélectionner</param>
 	public void selectArtefact() {
 		selectedArtefact = selectedArtefact == SelectedArtefact.Sun ? SelectedArtefact.Moon : SelectedArtefact.Sun;
-		artefactButton.GetComponent<Image>().sprite =selectedArtefact == SelectedArtefact.Sun ? sun : moon;
+		artefactButton.GetComponent<Image>().sprite = selectedArtefact == SelectedArtefact.Sun ? sun : moon;
 		MagicManager.Instance.UpdateArtefact(selectedArtefact);
 	}
 
 }
-
-//#if UNITY_EDITOR
-//[CustomEditor(typeof(MagicUI))]
-//[CanEditMultipleObjects]
-//public class BookUIEditor : Editor
-//{
-//	MagicUI ui;
-//	public void OnEnable() {
-//		//serializedObject.ApplyModifiedProperties();
-//		ui = (MagicUI) target;
-//	}
-
-
-//	public override void OnInspectorGUI() {
-
-//		EditorStyles.textField.wordWrap = true;
-
-//		EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(ui.magicBookContent)), true);
-
-//		GUILayout.Label("\nPanels", EditorStyles.boldLabel);
-//		EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(ui.panel)));
-//		EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(ui.fullScreenPanel)));
-//		EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(ui.leftPage)));
-//		EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(ui.rightPage)));
-//		EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(ui.sidePanel)));
-
-//		GUILayout.Label("\nButtons", EditorStyles.boldLabel);
-//		EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(ui.bookButton)));
-//		EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(ui.fullScreenButton)));
-//		EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(ui.nextPage)));
-//		EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(ui.prevPage)));
-//		EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(ui.sunButton)));
-//		EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(ui.moonButton)));
-
-//		GUILayout.Label("\nContenu", EditorStyles.boldLabel);
-//		EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(ui.m_Title)));
-//		EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(ui.m_Text)));
-//		EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(ui.m_Picture)));
-
-//		serializedObject.ApplyModifiedProperties();
-//	}
-
-//}
-//#endif
