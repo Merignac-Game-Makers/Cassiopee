@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using static PageMaker.Side;
@@ -9,16 +10,14 @@ public class PageMaker : MonoBehaviour
 	public enum Side { left, right }
 
 	public Image picture;
-	public Text title;
-	public Text text;
+	public TMP_Text title;
+	public TMP_Text text;
 
+	Page page;
 
-	// Start is called before the first frame update
-	void Start() {
-
-	}
 
 	public void Make(Page page, Side side) {
+		this.page = page;
 		if (side == left) {
 			title.text = page.title;
 			text.text = page.text;
@@ -31,15 +30,22 @@ public class PageMaker : MonoBehaviour
 		}
 	}
 	public void Make(PageMaker other) {
+		page = other.page;
 		title.text = other.title.text;
 		text.text = other.text.text;
 		picture.enabled = other.picture.enabled;
 		picture.sprite = other.picture.sprite;
 	}
 
+	public void ToggleHelp(bool on) {
+		if (picture.enabled) {
+			picture.sprite = on ? page.helpPicture : page.picture; 
+		}
+	}
+
 	public Sprite GetSprite() {
-		Texture2D tex = new Texture2D(210, 297);
 		RenderTexture rTex = GetComponentInChildren<Camera>().targetTexture;
+		Texture2D tex = new Texture2D(rTex.width, rTex.height);
 		RenderTexture.active = rTex;
 		tex.ReadPixels(new Rect(0, 0, rTex.width, rTex.height), 0, 0);
 		tex.Apply();

@@ -60,7 +60,7 @@ public class MagicUI : UIBase
 		gameObject.SetActive(true);     // Book UI actif
 		panel.SetActive(false);         // panneau masqué
 
-		//book.Init();
+		book.Init();
 		//ShowPage(currentPageIdx);       // afficher la page courante
 
 		selectedArtefact = SelectedArtefact.Sun;    // artefact sélectionné par défaut = SUN

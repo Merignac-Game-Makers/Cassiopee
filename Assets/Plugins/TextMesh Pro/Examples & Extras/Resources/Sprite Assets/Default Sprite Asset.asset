@@ -330,7 +330,7 @@ MonoBehaviour:
       m_Width: 128
       m_Height: 128
     m_Scale: 1
-    m_AtlasIndex: 0
+    m_AtlasIndex: 1
     sprite: {fileID: 0}
   - m_Index: 13
     m_Metrics:
