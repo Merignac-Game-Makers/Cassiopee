@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
-
+using DanielLochner.Assets.SimpleScrollSnap;
 
 /// <summary>
 /// Code relatif à l'interface utilisateur du grimoire
@@ -42,6 +42,9 @@ public class MagicUI : UIBase
 	public enum State { inactive, active, open }
 	private State state;
 
+	SimpleScrollSnap bookButtonSelector;
+	MagicTrainingManager magicTrainingManager;
+
 	/// <summary>
 	/// initialisation
 	/// </summary>
@@ -58,10 +61,12 @@ public class MagicUI : UIBase
 
 		// au démarrage du jeu
 		state = State.open;
-		bookButton.GetComponent<Image>().color = new Color(1, 1, 1, .6f);   // grimoire transparent
+		//bookButton.GetComponent<Image>().color = new Color(1, 1, 1, .6f);   // grimoire transparent
 		bookButton.gameObject.SetActive(false);                             // grimoire masqué
 		artefactButton.gameObject.SetActive(false);                         // artefact masqué
 
+		bookButtonSelector = bookButton.GetComponentInChildren<SimpleScrollSnap>();
+		magicTrainingManager = bookButton.GetComponentInChildren<MagicTrainingManager>();
 	}
 
 	/// <summary>
@@ -73,9 +78,9 @@ public class MagicUI : UIBase
 	/// bascule affichage plein écran
 	/// </summary>
 	public void ToggleFullScreen() {
-		if (state == State.inactive) {
+		if (bookButtonSelector.targetPanel == 1) {
 			SetState(State.active);
-		} else if (state == State.active) {
+		} else if (bookButtonSelector.targetPanel == 2) {
 			SetState(State.open);
 		} else {
 			SetState(State.inactive);
@@ -89,15 +94,16 @@ public class MagicUI : UIBase
 
 	public void SetState(State state) {
 		this.state = state;
-		if (state == State.inactive) {
-			bookButton.GetComponent<Image>().color = new Color(1, 1, 1, 1);     // grimoire opaque
+		if (state == State.active) {
+			magicTrainingManager.FirtsUse();									// à la 1ère activation => déclencher le dialogue
 			artefactButton.gameObject.SetActive(true);                          // médaillon visible
-		} else if (state == State.active) {
+			bookPanel.gameObject.SetActive(false);                              // livre ouvert invisible
+		} else if (state == State.open) {
+			artefactButton.gameObject.SetActive(true);                          // médaillon visible
 			bookPanel.gameObject.SetActive(true);                               // livre ouvert visible
 		} else {
 			artefactButton.gameObject.SetActive(false);                         // médaillon invisible
 			bookPanel.gameObject.SetActive(false);                              // livre ouvert invisible
-			bookButton.GetComponent<Image>().color = new Color(1, 1, 1, .6f);   // grimoire transparent
 		}
 
 	}

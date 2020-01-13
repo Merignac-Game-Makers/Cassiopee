@@ -127,7 +127,7 @@ namespace DanielLochner.Assets.SimpleScrollSnap
                     EditorGUILayout.PropertyField(size, new GUIContent("Size", "The size (in pixels) that panels will be when automatically laid out."));
                     EditorGUI.indentLevel--;
                 }
-                EditorGUILayout.Slider(automaticLayoutSpacing, 0, 1, new GUIContent("Spacing", "The spacing between panels, calculated using a fraction of the panel’s width (if the movement axis is horizontal) or height (if the movement axis is vertical)."));
+                EditorGUILayout.Slider(automaticLayoutSpacing, -1, 1, new GUIContent("Spacing", "The spacing between panels, calculated using a fraction of the panel’s width (if the movement axis is horizontal) or height (if the movement axis is vertical)."));
                 showMargin = EditorGUILayout.Foldout(showMargin, new GUIContent("Margin", "The size of border (in pixels) for each panel."), true);
                 if (showMargin)
                 {

@@ -17,7 +17,7 @@ namespace DanielLochner.Assets.SimpleScrollSnap
 	public class SimpleScrollSnap : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler, IPointerDownHandler, IPointerUpHandler
 	{
 		#region Fields
-		private int nearestPanel, targetPanel, currentPanel, numberOfToggles;
+		public int nearestPanel, targetPanel, currentPanel, numberOfToggles;
 		private bool dragging, pressing, selected;
 		private float releaseSpeed, planeDistance;
 		private Vector2 contentSize, previousPosition;

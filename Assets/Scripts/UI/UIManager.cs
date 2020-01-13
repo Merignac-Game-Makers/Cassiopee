@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using DanielLochner.Assets.SimpleScrollSnap;
 
 /// <summary>
 /// Gestionnaire général des interfaces (Dialogues, Inventaire, Magie ou QUêtes)
@@ -15,7 +16,7 @@ public class UIManager : MonoBehaviour
 	public MagicUI magicUI;             // interface Magie
 	public QuestsUI questsUI;           // interface Quêtes
 
-	public UIButton magicButton;        // bouton du grimoire		
+	public GameObject magicButton;		// bouton du grimoire		
 	public Button artifactButton;		// bouton des artefacts		
 	public UIButton inventoryButton;    // bouton due l'inventaire		
 	public Button exitButton;			// bouton exit
