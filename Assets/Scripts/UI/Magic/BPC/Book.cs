@@ -28,9 +28,6 @@ public class Book : MonoBehaviour
 	public GameObject magicBookContent;
 	List<Page> pages;
 
-	public Sprite[] bookPages;
-
-
 	public bool interactable = true;
 	public bool enableShadowEffect = true;
 	//represent the index of the sprite shown in the right page
@@ -250,7 +247,7 @@ public class Book : MonoBehaviour
 		return c;
 	}
 	public void DragRightPageToPoint(Vector3 point) {
-		if (currentPage >= bookPages.Length) return;
+		if (currentPage >= TotalPageCount-1) return;
 		pageDragging = true;
 		mode = FlipMode.RightToLeft;
 		f = point;
@@ -310,7 +307,7 @@ public class Book : MonoBehaviour
 		//Left.sprite = (currentPage >= 2) ? bookPages[currentPage - 2] : background;
 		Left.sprite = P2.GetSprite();
 
-		LeftNext.sprite = (currentPage >= 3) ? bookPages[currentPage - 3] : background;
+		//LeftNext.sprite = (currentPage >= 3) ? bookPages[currentPage - 3] : background;
 		LeftNext.sprite = P1.GetSprite();
 
 		RightNext.transform.SetAsFirstSibling();

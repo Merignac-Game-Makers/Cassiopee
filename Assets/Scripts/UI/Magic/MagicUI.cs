@@ -23,22 +23,13 @@ public class MagicUI : UIBase
 	public Book book;                   // livre
 
 
-
-	public GameObject leftPage;         // livre ouvert - âge gauche
-	public GameObject rightPage;        // livre ouvert - âge droite
 	[Header("Boutons")]
 	public GameObject bookButton;       // activer/désactiver le grimoire
-	public GameObject nextPage;         // coin 'page suivante'
-	public GameObject prevPage;         // coin 'page précédente'
-	public GameObject helpButton;       // bouton aide
 	public GameObject artefactButton;   // bouton artefact 
+	public GameObject helpButton;       // bouton aide
 
 	// zones de contenu
 	[Header("Zones de contenu")]
-	public Text title;                  // titre de la page 
-	public Text text;                   // texte
-	public Image picture;               // image
-
 	public Sprite moon;                 // image médaillon lune
 	public Sprite sun;                  // image médaillon soleil
 
@@ -116,38 +107,6 @@ public class MagicUI : UIBase
 
 	public void ShowButtons(bool on) {
 
-	}
-
-	/// <summary>
-	/// Afficher une page
-	/// </summary>
-	/// <param name="idx">#page à afficher</param>
-	void ShowPage(int idx) {
-		title.text = pages[idx].title;
-		text.text = pages[idx].text;
-		picture.sprite = pages[idx].picture;
-		helpButton.SetActive(pages[idx].hasHelp);
-		prevPage.SetActive(idx > 0);
-		nextPage.SetActive(idx < MaxPage - 1);
-		currentPageIdx = idx;
-	}
-
-	/// <summary>
-	/// page suivante
-	/// </summary>
-	public void NextPage() {
-		if (currentPageIdx < MaxPage - 1) {
-			ShowPage(currentPageIdx + 1);
-		}
-	}
-
-	/// <summary>
-	/// page précédente
-	/// </summary>
-	public void PrevPage() {
-		if (currentPageIdx > 0) {
-			ShowPage(currentPageIdx - 1);
-		}
 	}
 
 	/// <summary>
