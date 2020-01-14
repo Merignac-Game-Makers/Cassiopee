@@ -13,7 +13,6 @@ public class InventoryUI : UIBase
 		public RectTransform OriginalParent;
 	}
 
-	public UIButton bookButton;
 	public GameObject bookPanel;
 
 	public RectTransform[] ItemSlots;

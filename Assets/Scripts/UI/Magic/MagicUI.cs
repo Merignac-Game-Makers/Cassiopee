@@ -4,7 +4,8 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
-using DanielLochner.Assets.SimpleScrollSnap;
+using static MagicButtonStates;
+using static MagicButtonStates.State;
 
 /// <summary>
 /// Code relatif à l'interface utilisateur du grimoire
@@ -39,12 +40,8 @@ public class MagicUI : UIBase
 	public SelectedArtefact selectedArtefact { get; private set; }  // artefact sélectionné
 	public int currentPageIdx { get; private set; }                 // index de la page courante
 
-	public enum State { inactive, active, open }
-	private State state;
-
-	SimpleScrollSnap bookButtonSelector;
-	MagicTrainingManager magicTrainingManager;
-
+	private MagicTrainingManager magicTrainingManager;
+	private MagicButtonStates magicButtonStates;
 	/// <summary>
 	/// initialisation
 	/// </summary>
@@ -59,57 +56,18 @@ public class MagicUI : UIBase
 
 		selectedArtefact = SelectedArtefact.Sun;    // artefact sélectionné par défaut = SUN
 
-		// au démarrage du jeu
-		state = State.open;
 		//bookButton.GetComponent<Image>().color = new Color(1, 1, 1, .6f);   // grimoire transparent
 		bookButton.gameObject.SetActive(false);                             // grimoire masqué
 		artefactButton.gameObject.SetActive(false);                         // artefact masqué
 
-		bookButtonSelector = bookButton.GetComponentInChildren<SimpleScrollSnap>();
-		magicTrainingManager = bookButton.GetComponentInChildren<MagicTrainingManager>();
+		magicTrainingManager = GetComponentInChildren<MagicTrainingManager>();
+		magicButtonStates = bookButton.GetComponentInChildren<MagicButtonStates>();
 	}
 
 	/// <summary>
 	/// bascule actif/inactif
 	/// </summary>
 	public override void Toggle() { }
-
-	/// <summary>
-	/// bascule affichage plein écran
-	/// </summary>
-	public void ToggleFullScreen() {
-		if (bookButtonSelector.targetPanel == 1) {
-			SetState(State.active);
-		} else if (bookButtonSelector.targetPanel == 2) {
-			SetState(State.open);
-		} else {
-			SetState(State.inactive);
-		}
-
-		//bookPanel.SetActive(!bookPanel.activeInHierarchy);
-		if (isOn && InventoryUI.Instance.isOn) {
-			InventoryUI.Instance.Toggle();
-		}
-	}
-
-	public void SetState(State state) {
-		this.state = state;
-		if (state == State.active) {
-			magicTrainingManager.FirtsUse();									// à la 1ère activation => déclencher le dialogue
-			artefactButton.gameObject.SetActive(true);                          // médaillon visible
-			bookPanel.gameObject.SetActive(false);                              // livre ouvert invisible
-		} else if (state == State.open) {
-			artefactButton.gameObject.SetActive(true);                          // médaillon visible
-			bookPanel.gameObject.SetActive(true);                               // livre ouvert visible
-		} else {
-			artefactButton.gameObject.SetActive(false);                         // médaillon invisible
-			bookPanel.gameObject.SetActive(false);                              // livre ouvert invisible
-		}
-
-	}
-	public void SetState() {
-		SetState(state);
-	}
 
 	public void ShowButtons(bool on) {
 
@@ -144,6 +102,24 @@ public class MagicUI : UIBase
 		selectedArtefact = selectedArtefact == SelectedArtefact.Sun ? SelectedArtefact.Moon : SelectedArtefact.Sun;
 		artefactButton.GetComponent<Image>().sprite = selectedArtefact == SelectedArtefact.Sun ? sun : moon;
 		MagicManager.Instance.UpdateArtefact(selectedArtefact);
+	}
+
+	public void SetState(State state) {
+		if (state == active) {
+			artefactButton.gameObject.SetActive(true);                          // médaillon visible
+			bookPanel.gameObject.SetActive(false);                              // livre ouvert invisible
+		} else if (state == open) {
+			artefactButton.gameObject.SetActive(true);                          // médaillon visible
+			bookPanel.gameObject.SetActive(true);                               // livre ouvert visible
+		} else {
+			artefactButton.gameObject.SetActive(false);                         // médaillon invisible
+			bookPanel.gameObject.SetActive(false);                              // livre ouvert invisible
+		}
+	}
+
+
+	public void SetState() {
+		SetState(magicButtonStates.state);
 	}
 
 }
