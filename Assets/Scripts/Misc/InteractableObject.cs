@@ -15,9 +15,9 @@ public abstract class InteractableObject : HighlightableObject
 
 	public enum Mode { onClick, onTheFly, onTheFlyOnce }	// modes d'intéraction possibles
 
-	public Mode mode;										// le mode d'intéraction de cet objet
+	public Mode mode;                                       // le mode d'intéraction de cet objet
 
-	public abstract bool IsInteractable { get; }			// m'objet est-il actif pour l'intéraction ?
+	public abstract bool IsInteractable();					// m'objet est-il actif pour l'intéraction ?
 
 	[HideInInspector]
 	public bool Clicked;									// flag clic sur l'objet ?

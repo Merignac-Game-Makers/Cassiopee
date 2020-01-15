@@ -6,8 +6,12 @@ public abstract class MagicEffectBase : InteractableObject
 	public Page page;                       // la page qui décrit la constellation utilisée pour cet effet magique
 	public bool oneShot = true;             // par défaut, l'action est activable une seule fois
 
-	public override bool IsInteractable => MagicManager.Instance.isOn;			// actif seulement si le grimoire est actif
+	//public override bool IsInteractable => MagicManager.Instance.isOn;			// actif seulement si le grimoire est actif
 	public bool isFree => !GetComponentInChildren<MagicOrb>();                  // la cible est 'libre' si elle ne contient pas déjà un orbe
+
+	public override bool IsInteractable() {
+		return MagicManager.Instance.isOn;         // actif seulement si le grimoire est actif
+	}
 
 	/// <summary>
 	/// action magique
@@ -29,11 +33,13 @@ public abstract class MagicEffectBase : InteractableObject
 			if (DoSun(orb) && oneShot)								// si la magie fonctionne et si la cible est 'oneShot'
 				enabled = false;                                    //		=> désactiver la cible magique
 		}
-		Destroy(orb.gameObject);
+
+		MagicManager.Instance.DestroyOrb();
 	}
 
 
 	public abstract bool DoMoon(MagicOrb orb);
 	public abstract bool DoSun(MagicOrb orb);
+
 
 }

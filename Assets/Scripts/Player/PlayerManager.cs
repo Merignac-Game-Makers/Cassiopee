@@ -25,6 +25,9 @@ public class PlayerManager : MonoBehaviour
 	[HideInInspector]
 	public NavMeshAgent m_Agent;                                    // agent de navigation
 	bool MoveAcrossNavMeshesStarted = false;                        // flag : est-on sur un nav mesh link ? (pour gérer la vitesse)
+	[HideInInspector]
+	public bool inTransit;                                          // l'agent est-il dans un transit (chagement de zone assisté)
+	public bool canInterruptTransit;								// un transit peut-il être interrompu ?
 
 	// Interactions
 	InteractableObject m_TargetInteractable = null;                 // objet avec lequel le joueur intéragit
@@ -45,7 +48,11 @@ public class PlayerManager : MonoBehaviour
 	RaycastHit m_HitInfo = new RaycastHit();                        // résultat unitaire du lancer de rayon
 	int m_InteractableLayer;                                        // layer des objets intéractibles
 	int m_PlayerLayer;                                              // layer du personnage
-	int layersExceptPostProcessing;                                 // tous les layers sauf postProcessing
+	//int layersExceptPostProcessing;                                 // tous les layers sauf postProcessing
+	//int layersExceptIgnoreRaycast;                                  // tous les layers sauf ignoreRaycast
+	int raycastableLayers;											// tous les layers à tester pour le Raycast
+
+
 
 	#region Initialisation
 	void Awake() {
@@ -65,7 +72,12 @@ public class PlayerManager : MonoBehaviour
 
 		m_InteractableLayer = 1 << LayerMask.NameToLayer("Interactable");       // layer des objets intéractibles
 		m_PlayerLayer = 1 << LayerMask.NameToLayer("Player");                   // layer des objets intéractibles
-		layersExceptPostProcessing = ~(1 << LayerMask.NameToLayer("PostProcess"));
+		//layersExceptPostProcessing = ~(1 << LayerMask.NameToLayer("PostProcess"));
+		//layersExceptIgnoreRaycast = ~(1 << LayerMask.NameToLayer("IgnoreRaycast"));
+
+		var postProcessingMask = 1 << LayerMask.NameToLayer("PostProcess");
+		var ignoreRaycastMask = 1 << LayerMask.NameToLayer("Ignore Raycast");
+		raycastableLayers = ~(postProcessingMask | ignoreRaycastMask);
 	}
 	#endregion
 
@@ -134,8 +146,10 @@ public class PlayerManager : MonoBehaviour
 																									// il pourrait être utilisé pour afficher un panneau de statistiques ou tout autre chose
 							} else {                                // sinon => navigation
 																	//if (Physics.Raycast(screenRay.origin, screenRay.direction, out m_HitInfo))
-								if (Physics.Raycast(screenRay, out m_HitInfo, 5000, layersExceptPostProcessing))
-									m_Agent.destination = m_HitInfo.point;
+								if (Physics.Raycast(screenRay, out m_HitInfo, 5000, raycastableLayers) && (!inTransit)) {
+									m_Agent.destination = m_HitInfo.point;			// aller vers le point sélectionné
+									//inTransit = false;							//	ce déplacement n'est pas un transit
+								}
 							}
 						}
 					}
@@ -143,12 +157,14 @@ public class PlayerManager : MonoBehaviour
 			}
 		}
 
+		//if (!m_Agent.hasPath)
+		//	inTransit = false;				// fin d'un déplacement => on n'est plus en transit
+
 		// controler la vitesse sur les NavMesh Links (par défaut elle est trop rapide)
 		if (m_Agent.isOnOffMeshLink && !MoveAcrossNavMeshesStarted) {
 			MoveAcrossNavMeshesStarted = true;
 			StartCoroutine(MoveAcrossNavMeshLink(m_Agent.destination));
 		}
-
 	}
 
 	/// <summary>
@@ -164,7 +180,7 @@ public class PlayerManager : MonoBehaviour
 		if (count > 0) {
 			for (int i = 0; i < count; ++i) {                                                                                   // pour chacun d'entre eux
 				InteractableObject obj = m_RaycastHitCache[i].collider.gameObject.GetComponentInParent<InteractableObject>();   // si c'est bien un intéractible => dans obj
-				if (obj != null && obj.IsInteractable) {                                                                        // et s'il est au statut 'actif'
+				if (obj != null && obj.IsInteractable()) {                                                                      // et s'il est au statut 'actif'
 					SwitchHighlightedObject(obj);                                                                               // mettre en surbrillance
 					somethingFound = true;                                                                                      // flag : on a trouvé quelque chose
 					break;                                                                                                      // on s'arrête au 1er objet trouvé
@@ -221,7 +237,7 @@ public class PlayerManager : MonoBehaviour
 	private void OnTriggerEnter(Collider other) {
 		m_TargetInteractable = other.gameObject.GetComponent<InteractableObject>();
 		if (m_TargetInteractable != null) {                 // si l'objet rencontré est un 'intéractible'
-			if (!m_TargetInteractable.IsInteractable) {     //		si son statut est 'inactif'
+			if (!m_TargetInteractable.IsInteractable()) {   //		si son statut est 'inactif'
 				m_TargetInteractable = null;                //			on annule la détection
 			} else {                                        //		si son statut est 'actif'
 				m_TargetCollider = m_TargetInteractable.GetComponentInChildren<Collider>(); // on mémorise son collider
@@ -249,22 +265,32 @@ public class PlayerManager : MonoBehaviour
 	}
 
 	public void InteractWith(InteractableObject obj) {
-		if (obj.IsInteractable) {
+		if (obj.IsInteractable()) {
 			m_TargetCollider = obj.GetComponentInChildren<Collider>();
 			m_TargetInteractable = obj;
 			m_Agent.SetDestination(obj.transform.position);
 		}
 	}
 	public void Activate(Activable obj) {
-		if (obj.IsInteractable) {
+		if (obj.IsInteractable()) {
 			// Debug.Log("Item activated");
 			m_TargetCollider = obj.GetComponentInChildren<Collider>();
 			m_TargetInteractable = obj;
-			if (obj.IsInteractable)
+			if (obj.IsInteractable())
 				obj.Toggle();
 		}
 	}
 	#endregion
+
+	#region Navigation
+
+	public void StartTransitTo(Vector3 pos) {
+		m_Agent.destination = pos;
+		inTransit = true;
+	}
+	public void EndTransit() {
+		inTransit = false;
+	}
 
 	/// <summary>
 	/// interrompre la navigation
@@ -302,4 +328,6 @@ public class PlayerManager : MonoBehaviour
 		MoveAcrossNavMeshesStarted = false;
 		m_Agent.destination = destination;                                  // continuer vers la destination initiale
 	}
+	#endregion
+
 }
