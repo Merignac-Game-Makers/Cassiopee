@@ -8,6 +8,6 @@ public class Exit : MonoBehaviour
 	public Vector3 outPoint;
 
 	public void GetOut() {
-		PlayerManager.Instance.m_Agent.destination = outPoint;
+		PlayerManager.Instance.m_Agent.SetDestination(outPoint);
 	}
 }

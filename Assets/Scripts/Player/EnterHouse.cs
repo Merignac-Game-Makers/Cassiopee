@@ -17,7 +17,7 @@ public class EnterHouse : MonoBehaviour
 
 	public void Enter() {
 		if (!isInside())
-			player.m_Agent.destination = enterZone.transform.position;
+			player.m_Agent.SetDestination(enterZone.transform.position);
 	}
 
 	bool isInside() {
