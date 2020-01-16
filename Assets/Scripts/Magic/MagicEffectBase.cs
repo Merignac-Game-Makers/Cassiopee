@@ -1,12 +1,14 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
+using System;
 
 public abstract class MagicEffectBase : InteractableObject
 {
 	public Page page;                       // la page qui décrit la constellation utilisée pour cet effet magique
-	public bool oneShot = true;             // par défaut, l'action est activable une seule fois
+											// un orbe obtenu avec une autre constellation ne déclenchera pas la magie
 
-	//public override bool IsInteractable => MagicManager.Instance.isOn;			// actif seulement si le grimoire est actif
+	public bool oneShot = true;             // par défaut, l'action n'est activable qu'une seule fois
+
 	public bool isFree => !GetComponentInChildren<MagicOrb>();                  // la cible est 'libre' si elle ne contient pas déjà un orbe
 
 	public override bool IsInteractable() {
@@ -18,7 +20,7 @@ public abstract class MagicEffectBase : InteractableObject
 	/// </summary>
 	/// <param name="orb">l'orbe déposé sur la cible</param>
 	public void MakeMagicalStuff(MagicOrb orb) {
-		if (enabled && orb.constellation == page.constellation) {              // l'action n'est déclenchée que si l'orbe a été acquis avec la bonne constellation
+		if (enabled && orb.constellation == page.constellation) {   // l'action n'est déclenchée que si l'orbe a été acquis avec la bonne constellation
 			Act(orb);                                               // générer l'action magique
 		}
 	}

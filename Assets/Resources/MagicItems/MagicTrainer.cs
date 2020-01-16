@@ -6,17 +6,20 @@ using UnityEngine.UI;
 
 public class MagicTrainer : MagicEffectBase
 {
-	public MagicTraining quest;     // accomplir cette magie est une quête : indiquer laquelle
-	public PNJ PNJ;
-	public ParticleSystem Moon;
-	public ParticleSystem Sun;
+	public MagicTraining quest;				// accomplir cette magie est une quête : indiquer laquelle
+	public PNJ PNJ;							// le PNJ qui donne la quête (le grimoire)
+	public ParticleSystem Moon;				// l'effet activé par l'orbe LUNE
+	public ParticleSystem Sun;				// l'effet activé par l'orbe SOLEIL
 
-
+	/// <summary>
+	/// Effet LUNE
+	/// </summary>
+	/// <param name="orb"></param>
+	/// <returns></returns>
 	public override bool DoMoon(MagicOrb orb) {
 		Moon.Play();											// activer l'animation
-		
 		quest.step1 = true;                                     // renseigner l'étape 1 de la quête => 'terminée'
-		if (quest.step1 && quest.step2)
+		if (quest.step1 && quest.step2)							// si les 2 étapes sont réalisées => succès
 			Success();
 
 		return true;
@@ -24,9 +27,8 @@ public class MagicTrainer : MagicEffectBase
 
 	public override bool DoSun(MagicOrb orb) {
 		Sun.Play();												// activer l'animation
-		
 		quest.step2 = true;                                     // renseigner l'étape 1 de la quête => 'terminée'
-		if (quest.step1 && quest.step2)
+		if (quest.step1 && quest.step2)							// si les 2 étapes sont réalisées => succès	
 			Success();
 
 		return true;
