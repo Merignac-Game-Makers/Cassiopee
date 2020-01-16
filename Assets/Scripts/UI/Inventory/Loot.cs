@@ -21,7 +21,9 @@ public class Loot : InteractableObject
 	public Item Item;
 	public static InventoryUI m_inventoryUI;
 
-	public override bool IsInteractable => m_AnimationTimer >= AnimationTime;
+	public override bool IsInteractable() {
+		return m_AnimationTimer >= AnimationTime;
+	}
 
 	Vector3 m_OriginalPosition;
 	Vector3 m_TargetPoint;

@@ -52,5 +52,8 @@ public class MagicButtonStates : MonoBehaviour
 		}
 	}
 
+	public void Close() {
+		bookButtonSelector.GoToPanel(1);
+	}
 
 }

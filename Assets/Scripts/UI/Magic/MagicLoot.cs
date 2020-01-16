@@ -21,7 +21,7 @@ public class MagicLoot : InteractableObject
 	public QuestBase nextQuest;
 
 
-	public override bool IsInteractable => true;
+	public override bool IsInteractable() => true;
 
 
 

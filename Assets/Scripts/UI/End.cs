@@ -6,6 +6,7 @@ public class End : MonoBehaviour
 {
 	Animator anim;
 	public GameObject magicButton;
+	public GameObject artefactButton;
 	public GameObject inventoryButton;
 	public GameObject questButton;
 	public GameObject inventory;
@@ -19,6 +20,7 @@ public class End : MonoBehaviour
 
 	public void animEnd() {
 		magicButton.SetActive(false);
+		artefactButton.SetActive(false);
 		inventoryButton.SetActive(false);
 		questButton.SetActive(false);
 		inventory.SetActive(false);

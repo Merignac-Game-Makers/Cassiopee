@@ -7,7 +7,7 @@ using static QuestBase.QuestStatus;
 /// </summary>
 public class Target : InteractableObject
 {
-	public override bool IsInteractable => true;				// toujours actif
+	public override bool IsInteractable() => true;				// toujours actif
 
 	public bool isFree => !GetComponentInChildren<Loot>();      // ne peut contenir qu'un seul objet d'inventaire
 

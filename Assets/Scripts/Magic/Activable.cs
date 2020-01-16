@@ -17,7 +17,9 @@ using UnityEngine.EventSystems;
 public class Activable : InteractableObject
 {
 
-	public override bool IsInteractable => UIManager.Instance.artifactButton.gameObject.activeInHierarchy;
+	public override bool IsInteractable() {
+		return MagicManager.Instance.isOn && MagicManager.Instance.currentOrb == null;
+	}
 
 	Vector3 m_TargetPoint;
 
@@ -33,15 +35,6 @@ public class Activable : InteractableObject
 		m_IsActive = false;
 	}
 
-	protected override void Start() {
-		base.Start();
-		//EventTrigger trigger = GetComponent<EventTrigger>();
-		//EventTrigger.Entry entry = new EventTrigger.Entry();
-		//entry.eventID = EventTriggerType.PointerClick;
-		//entry.callback.AddListener((data) => { OnPointerDownDelegate((PointerEventData)data); });
-		//trigger.triggers.Add(entry);
-	}
-
 	void Update() {
 		Debug.DrawLine(m_TargetPoint, m_TargetPoint + new Vector3(0, 2, 0), Color.magenta);
 	}
@@ -50,19 +43,38 @@ public class Activable : InteractableObject
 
 	}
 
-	public void OnPointerDownDelegate(PointerEventData data) {
-		Debug.Log("OnPointerDownDelegate called.");
-	}
+	//public void OnPointerDownDelegate(PointerEventData data) {
+	//	Debug.Log("OnPointerDownDelegate called.");
+	//}
 
+	/// <summary>
+	/// Ajouter/ retirer d'une constellation en cours :
+	///		- ajouter => allumé
+	///		- retirer => éteint
+	/// </summary>
 	public void Toggle() {
 		m_IsActive = !m_IsActive;
 		SetColor(IsActive ? activeColor : inactiveColor) ;
 		MagicManager.Instance.AddOrRemove(this);
 	}
 
+	///// <summary>
+	///// Forcer un statut
+	///// </summary>
+	///// <param name="on">allumé ou éteint</param>
+	//public void Set(bool on) {
+	//	if (on) {
+	//		m_IsActive = true;                          // visuel
+	//		Highlight(true);                            // 'sélectionné'
+	//	} else {
+	//		m_IsActive = false;                         // visuel
+	//		Highlight(false);                           // 'désélectionné'
+	//	}
+	//}
+
 	/// <summary>
-	/// true  : allumer le projecteur
-	/// false : éteindre le projecteur
+	/// true  : allumer
+	/// false : éteindre
 	/// </summary>
 	public override void Highlight(bool on) {
 		base.Highlight(on);

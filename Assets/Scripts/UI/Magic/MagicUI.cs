@@ -114,6 +114,7 @@ public class MagicUI : UIBase
 		} else {
 			artefactButton.gameObject.SetActive(false);                         // médaillon invisible
 			bookPanel.gameObject.SetActive(false);                              // livre ouvert invisible
+			MagicManager.Instance.SetMagicOff();								// désactiver toute magie en cours
 		}
 	}
 
