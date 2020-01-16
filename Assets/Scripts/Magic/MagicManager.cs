@@ -22,6 +22,7 @@ public class MagicManager : MonoBehaviour
 
 	List<Activable> magicActivatedItems;    // liste des items magiques activés
 	string orbConstellation;                // la constellation qui a généré l'orbe
+	public bool isClosed { get; private set; } = false;    // flag : la constellation est elle fermée (faux par défaut)
 
 	MagicUI.SelectedArtefact activeArtfact => MagicUI.Instance.selectedArtefact;    // artefact sélectionné (LUNE ou SOLEIL)
 	/// <summary>
@@ -63,37 +64,94 @@ public class MagicManager : MonoBehaviour
 		}
 	}
 
+	/// <summary>
+	/// ajouter un objet à la liste 
+	/// </summary>
+	/// <param name="item"></param>
 	public void Add(Activable item) {
-		if (!magicActivatedItems.Contains(item)) {										// on ne peut pas ajouter un objet déjà dans la liste
+		if (!magicActivatedItems.Contains(item)) {                                      // on ne peut pas ajouter un objet déjà dans la liste
 			if (magicActivatedItems.Count > 0) {
-				LineRenderer lr = Instantiate(lineRendered, item.transform);			// ajouter un 'lineRenderer' pour pouvoir tracer les éclairs
-				lr.GetComponent<LineRenderer>().material = 
-					activeArtfact == MagicUI.SelectedArtefact.Moon ? moonRay : sunRay;	// définir la couleur des éclairs
+				LineRenderer lr = Instantiate(lineRendered, item.transform);            // ajouter un 'lineRenderer' pour pouvoir tracer les éclairs
+				lr.GetComponent<LineRenderer>().material =
+					activeArtfact == MagicUI.SelectedArtefact.Moon ? moonRay : sunRay;  // définir la couleur des éclairs
 
 				Electric electicScript = item.gameObject.AddComponent<Electric>();      // tracer l'éclair
 				electicScript.transformPointA = magicActivatedItems.Last().transform;   // entre les 
 				electicScript.transformPointB = item.transform;                         // 2 derniers items
 			}
 			magicActivatedItems.Add(item);
-			if (TestConstellation()) {													// si la constellation est complète et correcte
-				CreateOrb();															// créer un orbe
+			if (TestConstellation()) {                                                  // si la constellation est complète et correcte
+				CreateOrb();                                                            // créer un orbe
 				StartResetConstellation(2);                                             // effacer la constellation (timer 2 secondes)
 			}
 		}
 	}
 
+	/// <summary>
+	///  annuler l'activation d'un objet...
+	///  ... et gérer la 'troncature' de la constellation en cours
+	/// </summary>
+	/// <param name="item"></param>
 	public void Remove(Activable item) {
-		int idx = magicActivatedItems.IndexOf(item);									// pour l'item à retirer
-		if (idx != -1) {
-			//Debug.Log("remove " + item.name);
-			for (int i = magicActivatedItems.Count - 1; i >= idx; i--) {				// et les suivants
-				Activable obj = magicActivatedItems[i];
-				Destroy(obj.GetComponent<Electric>());                                  // effacer
-				Destroy(obj.GetComponentInChildren<LineRenderer>()?.gameObject);        // les éclairs
-				magicActivatedItems.RemoveAt(i);                                        // retirer l'item de la liste
-				obj.Inactivate();														// retour au visuel 'désélectionné'
+		int idx = magicActivatedItems.IndexOf(item);                                    // soit idx l'index de l'item à retirer
+		if (idx != -1) {                                                                // si l'item est dans la liste
+
+			if (idx != 0 && idx == magicActivatedItems.Count - 1) {                     // si c'est le dernier
+				Inactivate(idx);                                                        //	- désactiver celui-là seulement
+			} else if (idx != 0) {                                                      // s'il est 'dans le milieu'
+				for (int i = magicActivatedItems.Count - 1; i > idx; i--)               //	- désactiver tous les suivants
+					Inactivate(i);
+			} else {                                                                    // si c'est le 1er... 
+				if (magicActivatedItems.Count > 2) {                                    // et qu'il y a au moins 3 points
+					item.Activate();                                                    //	- ne pas revenir au visuel 'désactivé'
+					CloseConstellation();                                               //	- fermer la constellation
+				} else {																// sinon
+					ResetConstellation();												//	- effacer tout
+				}
 			}
 		}
+	}
+
+	private void Inactivate(int idx) {
+		Destroy(magicActivatedItems[idx].GetComponent<Electric>());                                 // effacer
+		Destroy(magicActivatedItems[idx].GetComponentInChildren<LineRenderer>()?.gameObject);       // les éclairs
+		magicActivatedItems[idx].Inactivate();                                                      // retour au visuel 'désélectionné'
+		OpenConstellation();                                                                        // la constellation n'est pas fermée							
+		magicActivatedItems.RemoveAt(idx);                                                          // retirer l'item de la liste
+	}
+
+	private void CloseConstellation() {
+		if (isClosed) return;                                                   // on ne peut pas cloturer une constellation déjà close
+
+		var item = magicActivatedItems[0];                                      // on travaille sur le 1er objet
+		LineRenderer lr = Instantiate(lineRendered, item.transform);            // ajouter un 'lineRenderer' pour pouvoir tracer les éclairs
+		lr.GetComponent<LineRenderer>().material =
+			activeArtfact == MagicUI.SelectedArtefact.Moon ? moonRay : sunRay;  // définir la couleur des éclairs
+		Electric electicScript = item.gameObject.AddComponent<Electric>();      // tracer l'éclair
+		electicScript.transformPointA = item.transform;                         // entre le 1er 
+		electicScript.transformPointB = magicActivatedItems.Last().transform;   // et le dernier
+		isClosed = true;
+
+
+		foreach(Activable obj in magicActivatedItems) {
+			var lRend = obj.GetComponentInChildren<LineRenderer>();
+			var mats = lRend.materials;
+			mats[0] = moonRay;
+			mats[1] = sunRay;
+			lRend.materials = mats;
+		}
+
+		StartResetConstellation(2);			// effacer la constellation après 2 secondes
+		/**
+		 * Ajouter ici
+		 * l'effet magique de la fermeture
+		 */
+	}
+
+	private void OpenConstellation() {
+		Destroy(magicActivatedItems[0].GetComponent<Electric>());                                 // effacer
+		Destroy(magicActivatedItems[0].GetComponentInChildren<LineRenderer>()?.gameObject);       // les éclairs
+		isClosed = false;
 	}
 
 	/// <summary>
@@ -101,7 +159,7 @@ public class MagicManager : MonoBehaviour
 	/// </summary>
 	private void CreateOrb() {
 		var orb = activeArtfact == MagicUI.SelectedArtefact.Moon ? moonOrb : sunOrb;    // quel orbe (LUNE/SOLEIL)?
-		orb.constellation = orbConstellation;											// quelle constellation ?
+		orb.constellation = orbConstellation;                                           // quelle constellation ?
 		currentOrb = Instantiate(orb, PlayerManager.Instance.gameObject.transform);     // générer l'orbe
 	}
 
@@ -155,16 +213,16 @@ public class MagicManager : MonoBehaviour
 	}
 	IEnumerator ResetConstellation(float s) {
 		yield return new WaitForSeconds(s);
-		if (magicActivatedItems.Count > 0)
-			Remove(magicActivatedItems[0]);
-		yield return null;
+		for (int i = magicActivatedItems.Count - 1; i >= 0; i--) {
+			Inactivate(i);
+		}
 	}
 
 	/// <summary>
 	/// Actions à mener lorsqu'on désactive le grimoire
 	/// </summary>
 	public void SetMagicOff() {
-		DestroyOrb();				// détruire l'orebe si on en possède un
-		ResetConstellation();		// effacer la constellation en cours
+		DestroyOrb();               // détruire l'orebe si on en possède un
+		ResetConstellation();       // effacer la constellation en cours
 	}
 }
