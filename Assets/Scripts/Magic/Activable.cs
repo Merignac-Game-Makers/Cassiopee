@@ -41,9 +41,12 @@ public class Activable : InteractableObject
 		MagicManager.Instance.AddOrRemove(this);
 	}
 
+	/// <summary>
+	/// Désactiver et éteindre
+	/// </summary>
 	public void Inactivate() {
 		m_IsActive = false;
-		Highlight(false);                                                   // 
+		Highlight(false);                                                   
 	}
 
 	/// <summary>

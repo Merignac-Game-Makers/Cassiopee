@@ -64,21 +64,20 @@ public class MagicManager : MonoBehaviour
 	}
 
 	public void Add(Activable item) {
-		if (!magicActivatedItems.Contains(item)) {      // on ne peut pas ajouter une objet déjà dans la liste
-														//Debug.Log("add " + item.name);
+		if (!magicActivatedItems.Contains(item)) {										// on ne peut pas ajouter un objet déjà dans la liste
 			if (magicActivatedItems.Count > 0) {
-				LineRenderer lr = Instantiate(lineRendered, item.transform);
-				lr.GetComponent<LineRenderer>().material = activeArtfact == MagicUI.SelectedArtefact.Moon ? moonRay : sunRay;
+				LineRenderer lr = Instantiate(lineRendered, item.transform);			// ajouter un 'lineRenderer' pour pouvoir tracer les éclairs
+				lr.GetComponent<LineRenderer>().material = 
+					activeArtfact == MagicUI.SelectedArtefact.Moon ? moonRay : sunRay;	// définir la couleur des éclairs
 
 				Electric electicScript = item.gameObject.AddComponent<Electric>();      // tracer l'éclair
 				electicScript.transformPointA = magicActivatedItems.Last().transform;   // entre les 
 				electicScript.transformPointB = item.transform;                         // 2 derniers items
 			}
 			magicActivatedItems.Add(item);
-			if (TestConstellation()) {
-				//Debug.Log("DONE !!!");
-				CreateOrb();
-				StartResetConstellation(2);                                             // effacer la constellation
+			if (TestConstellation()) {													// si la constellation est complète et correcte
+				CreateOrb();															// créer un orbe
+				StartResetConstellation(2);                                             // effacer la constellation (timer 2 secondes)
 			}
 		}
 	}
