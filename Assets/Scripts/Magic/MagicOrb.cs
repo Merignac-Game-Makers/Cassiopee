@@ -16,14 +16,16 @@ public class MagicOrb : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 	[HideInInspector]
 	public string constellation;				// nom de la constellation grâce à laquelle a été obtenu cet orbe
 
-	private MagicEffectBase mTarget;				// cible sur laquelle est déposé l'orbe
-	private MagicManager magicController;	// le gestionnaire de magie
+	private MagicEffectBase mTarget;			// cible sur laquelle est déposé l'orbe
+	private MagicManager magicManager;			// le gestionnaire de magie
 	private int m_Layer;						// layer contenant les orbes (pour sélection et drag & drop)
 	private RaycastHit[] m_RaycastHitCache = new RaycastHit[4]; // pour sélection des orbes
 
+	private PlayerManager player;				// le joueur pour pouvoir reprendre l'orbe
+
 	void Start() {
-		magicController = MagicManager.Instance;			// créer l'instance statique
-		m_Layer = ~(1 << LayerMask.NameToLayer("Magic"));	// créer le masque de layer
+		magicManager = MagicManager.Instance;				// créer l'instance statique
+		m_Layer = ~(1 << LayerMask.NameToLayer("Magic"));	// créer le masque de layer (tout sauf 'Magic')
 	}
 
 	/// <summary>
@@ -31,7 +33,7 @@ public class MagicOrb : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 	/// </summary>
 	/// <param name="eventData"></param>
 	public void OnBeginDrag(PointerEventData eventData) {
-		magicController.dragging = this;	// liaison avec le contrôleur de magie
+		magicManager.dragging = this;		// liaison avec le contrôleur de magie
 		transform.SetParent(null, true);	// détacher du player
 	}
 
@@ -55,9 +57,13 @@ public class MagicOrb : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 	/// </summary>
 	/// <param name="eventData"></param>
 	public void OnEndDrag(PointerEventData eventData) {
-		magicController.dragging = null;			// informer le contrôleur de magie
+		magicManager.dragging = null;				// informer le contrôleur de magie
 		if (mTarget!=null && mTarget.isFree) {		// si on lâche l'orbe sur une cible de magie
 			mTarget.MakeMagicalStuff(this);			// déclencher la magie
+		}
+		if (player != null) {                       // si on reprend l'orbe
+			transform.SetParent(player.transform, true);
+			transform.localPosition = new Vector3(0, 2, 0);
 		}
 	}
 
@@ -65,14 +71,22 @@ public class MagicOrb : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 		var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
 		int count = Physics.SphereCastNonAlloc(ray, .2f, m_RaycastHitCache, 1000.0f, m_Layer);
+		mTarget = null;
+		player = null;
 		if (count > 0) {
-			foreach(RaycastHit r in m_RaycastHitCache) {
+			for (int i=0; i<count; i++) {
+				var r = m_RaycastHitCache[i];
+				// recherche d'une cible de magie (pour appliquer la magie)
 				if (r.collider!=null && r.collider.gameObject.GetComponentInChildren<MagicEffectBase>() != null) {
 					mTarget = r.collider.gameObject.GetComponentInChildren<MagicEffectBase>();
 					break;
-				} else {
-					mTarget = null;
-				}
+				} 
+				// recherche du joueur (pour reprendre l'orbe)
+				if (r.collider != null && r.collider.gameObject.GetComponentInChildren<PlayerManager>() != null) {
+					player = r.collider.gameObject.GetComponentInChildren<PlayerManager>();
+					break;
+				} 
+
 			}
 			return m_RaycastHitCache[0];
 		}

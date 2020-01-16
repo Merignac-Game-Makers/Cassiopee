@@ -13,7 +13,6 @@ public class InventoryUI : UIBase
 		public RectTransform OriginalParent;
 	}
 
-	public UIButton bookButton;
 	public GameObject bookPanel;
 
 	public RectTransform[] ItemSlots;
@@ -165,14 +164,16 @@ public class InventoryUI : UIBase
 
 	void CreateWorldRepresentation(Item item, Target target) {
 		var pos = target.gameObject.transform.position + Vector3.up * item.WorldObjectPrefab.gameObject.transform.localScale.y / 2;
-		//if the item have a world object prefab set use that...
+		// if the item have a world object prefab set use that...
 		if (item.WorldObjectPrefab != null) {
-			var obj = Instantiate(item.WorldObjectPrefab, pos, new Quaternion(), target.transform);
-			obj.transform.localScale = new Vector3(
-				obj.transform.localScale.x / target.transform.localScale.x,
-				obj.transform.localScale.y / target.transform.localScale.y,
-				obj.transform.localScale.z / target.transform.localScale.z
-				);
+			//var obj = Instantiate(item.WorldObjectPrefab, pos, new Quaternion(), target.transform);
+			//obj.transform.localScale = new Vector3(
+			//	obj.transform.localScale.x / target.transform.localScale.x,
+			//	obj.transform.localScale.y / target.transform.localScale.y,
+			//	obj.transform.localScale.z / target.transform.localScale.z
+			//	); 
+			var obj = Instantiate(item.WorldObjectPrefab, pos, new Quaternion());
+			obj.transform.parent = target.gameObject.transform;
 			obj.layer = LayerMask.NameToLayer("Interactable");
 		}
 		//else {//...otherwise, we create a billboard using the item sprite

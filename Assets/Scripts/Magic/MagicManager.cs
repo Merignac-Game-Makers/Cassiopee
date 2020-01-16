@@ -17,7 +17,8 @@ public class MagicManager : MonoBehaviour
 	public Material moonRay;                // éclairs couleur LUNE
 	public Material sunRay;                 // éclairs couleur SOLEIL
 
-	public bool isOn => MagicUI.Instance.artefactButton.gameObject.activeInHierarchy;	// la magie n'est active que si le médaillon est visible
+	public bool isOn => MagicUI.Instance.artefactButton.gameObject.activeInHierarchy;   // la magie n'est active que si le médaillon est visible
+	public MagicOrb currentOrb { get; private set; }        // l'orbe existante
 
 	List<Activable> magicActivatedItems;    // liste des items magiques activés
 	string orbConstellation;                // la constellation qui a généré l'orbe
@@ -55,8 +56,16 @@ public class MagicManager : MonoBehaviour
 	/// </summary>
 	/// <param name="item">l'item à ajouter ou à retirer</param>
 	public void AddOrRemove(Activable item) {
-		if (!magicActivatedItems.Contains(item)) {
-			//Debug.Log("add " + item.name);
+		if (!magicActivatedItems.Contains(item)) {      // on ne peut pas ajouter une objet déjà dans la liste
+			Add(item);
+		} else {
+			Remove(item);
+		}
+	}
+
+	public void Add(Activable item) {
+		if (!magicActivatedItems.Contains(item)) {      // on ne peut pas ajouter une objet déjà dans la liste
+														//Debug.Log("add " + item.name);
 			if (magicActivatedItems.Count > 0) {
 				LineRenderer lr = Instantiate(lineRendered, item.transform);
 				lr.GetComponent<LineRenderer>().material = activeArtfact == MagicUI.SelectedArtefact.Moon ? moonRay : sunRay;
@@ -68,14 +77,16 @@ public class MagicManager : MonoBehaviour
 			magicActivatedItems.Add(item);
 			if (TestConstellation()) {
 				//Debug.Log("DONE !!!");
-				var orb = activeArtfact == MagicUI.SelectedArtefact.Moon ? moonOrb : sunOrb;    // quel orbe ?
-				orb.constellation = orbConstellation;
-				Instantiate(orb, PlayerManager.Instance.gameObject.transform);          // générer l'orbe
-				StartResetConstellation(2);												// effacer la constellation
+				CreateOrb();
+				StartResetConstellation(2);                                             // effacer la constellation
 			}
-		} else {
+		}
+	}
+
+	public void Remove(Activable item) {
+		int idx = magicActivatedItems.IndexOf(item);                    // pour l'item à retirer
+		if (idx != -1) {
 			//Debug.Log("remove " + item.name);
-			int idx = magicActivatedItems.IndexOf(item);                    // pour l'item à retirer
 			for (int i = magicActivatedItems.Count - 1; i >= idx; i--) {    // et les suivants
 				Activable obj = magicActivatedItems[i];
 				Destroy(obj.GetComponent<Electric>());                                  // effacer
@@ -88,13 +99,32 @@ public class MagicManager : MonoBehaviour
 	}
 
 	/// <summary>
+	/// Créer un orbe en fonction du médaillon et de la constellation
+	/// </summary>
+	private void CreateOrb() {
+		var orb = activeArtfact == MagicUI.SelectedArtefact.Moon ? moonOrb : sunOrb;    // quel orbe ?
+		orb.constellation = orbConstellation;
+		currentOrb = Instantiate(orb, PlayerManager.Instance.gameObject.transform);          // générer l'orbe
+	}
+
+	/// <summary>
+	/// détruire un orbe
+	/// </summary>
+	/// <param name="orb"></param>
+	public void DestroyOrb() {
+		if (currentOrb)
+			Destroy(currentOrb.gameObject);
+		currentOrb = null;
+	}
+
+	/// <summary>
 	/// Vérifier si une constellation est dans la liste des constellations valides
 	/// </summary>
 	bool TestConstellation() {
 		foreach (PageTemplate page in pages) {
 			foreach (Constellation constellation in page.constellations) {
-				if (magicActivatedItems.IsLike(constellation.objects) ||							// tester dans un sens
-					magicActivatedItems.Reverse<Activable>().IsLike(constellation.objects)) {		// et dans l'autre
+				if (magicActivatedItems.IsLike(constellation.objects) ||                            // tester dans un sens
+					magicActivatedItems.Reverse<Activable>().IsLike(constellation.objects)) {       // et dans l'autre
 					orbConstellation = page.page.constellation;
 					return true;
 				}
@@ -119,43 +149,24 @@ public class MagicManager : MonoBehaviour
 	/// désélectionner toute une constellation
 	/// </summary>
 	/// <param name="s"></param>
-	void StartResetConstellation(float s) {
-		StartCoroutine(ResetConstellation(s));		// effacer la constellation
-	}
-	IEnumerator ResetConstellation(float s) {
-		yield return new WaitForSeconds(s);
-		if (magicActivatedItems.Count>0)
-			AddOrRemove(magicActivatedItems[0]);
-		yield return null;
-	}
 	public void ResetConstellation() {
 		StartResetConstellation(0);
 	}
+	void StartResetConstellation(float s) {
+		StartCoroutine(ResetConstellation(s));      // effacer la constellation
+	}
+	IEnumerator ResetConstellation(float s) {
+		yield return new WaitForSeconds(s);
+		if (magicActivatedItems.Count > 0)
+			Remove(magicActivatedItems[0]);
+		yield return null;
+	}
+
+	/// <summary>
+	/// Actions à mener lorsqu'on désactive le grimoire
+	/// </summary>
+	public void SetMagicOff() {
+		DestroyOrb();				// détruire l'orebe si on en possède un
+		ResetConstellation();		// effacer la constellation en cours
+	}
 }
-
-/// <summary>
-/// extensions de 'List<Activable>' pour commodité
-/// </summary>
-//public static class Extensions
-//{
-//	public static bool IsLike(this List<Activable> list, List<Activable> other) {
-//		if (list.Count != other.Count)
-//			return false;
-//		else {
-//			for (int i = 0; i < list.Count; i++) {
-//				if (list[i] != other[i])
-//					return false;
-//			}
-//			return true;
-//		}
-
-//	}
-
-//	public static T Last<T>(this List<T> list) where T : class {
-//		return list.Count > 0 ? list[list.Count - 1] : null;
-//	}
-//	public static void AddItem<T>(this List<T> list, GameObject item) {
-//		if (item.GetComponentInChildren<Activable>() != null)
-//			list.Add(item.GetComponentInChildren<T>());
-//	}
-//}

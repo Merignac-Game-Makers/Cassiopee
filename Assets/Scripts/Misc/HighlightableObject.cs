@@ -10,86 +10,55 @@ using UnityEngine;
 /// </summary>
 public class HighlightableObject : MonoBehaviour
 {
-	protected Renderer[] m_Renderers;
 
-	int m_RimColorID;
-	int m_RimPowID;
-	int m_RimIntensityID;
+	public bool isOn = false;               // flag allumé ?
 
-	float m_on, m_off;
-
-
-	Color[] m_OriginalRimColor;
-	float[] m_SavedRimIntensity;
-
-	MaterialPropertyBlock m_PropertyBlock;
-
-	Color transparent = new Color(0, 0, 0, 0);
+	// pour les projecteurs
+	ProjectorDriver projector;
+	// pour les systèmes de particules
+	MagicParticles particles;
+	// pour les tores
+	SelectionRing ring;
 
 	protected virtual void Start() {
-		m_Renderers = GetComponents<Renderer>();
+		// pour les projecteurs
+		projector = GetComponentInChildren<ProjectorDriver>();
+		// pour les systèmes de particules
+		particles = GetComponentInChildren<MagicParticles>();
+		// pour les tores
+		ring = GetComponentInChildren<SelectionRing>();
 
-		m_RimColorID = Shader.PropertyToID("_RimColor");
-		m_RimPowID = Shader.PropertyToID("_RimPower");
-		m_RimIntensityID = Shader.PropertyToID("_RimIntensity");
-
-		m_PropertyBlock = new MaterialPropertyBlock();
-
-		m_OriginalRimColor = new Color[m_Renderers.Length];
-		m_SavedRimIntensity = new float[m_Renderers.Length];
-
-		for (int i = 0; i < m_Renderers.Length; ++i) {
-			var rend = m_Renderers[i];
-			var mat = rend.sharedMaterial;
-
-			//it's not a rim colored material, just set that entry to null to skip it on setting
-			if (!mat.HasProperty(m_RimColorID)) {
-				m_Renderers[i] = null;
-				continue;
-			}
-
-			m_OriginalRimColor[i] = mat.GetColor(m_RimColorID);
-
-			//"init" the property block with the property we want to retrieve
-			m_PropertyBlock.SetColor(m_RimColorID, transparent);
-			m_PropertyBlock.SetFloat(m_RimPowID, mat.GetFloat(m_RimPowID));
-			m_PropertyBlock.SetFloat(m_RimIntensityID, mat.GetFloat(m_RimIntensityID));
-
-			rend.SetPropertyBlock(m_PropertyBlock);
-
-			m_on = m_PropertyBlock.GetFloat(m_RimPowID) * .25f;
-			m_off = m_PropertyBlock.GetFloat(m_RimPowID) * 4.0f;
-
-		}
+		Highlight(false);
 	}
 
 	/// <summary>
-	/// true  : this will switch all the material parameters to make it glow
-	/// false : this will switch all the material parameters to make it back to normal
+	/// true  : allumer le projecteur
+	/// false : éteindre le projecteur
 	/// </summary>
-	public void Highlight(bool on) {
-		for (int i = 0; i < m_Renderers?.Length; ++i) {
-			var rend = m_Renderers[i];
+	public virtual void Highlight(bool on) {
+		// pour les projecteurs
+		if (projector)
+			projector.Highlight(on);
+		// pour les systèmes de particules
+		if (particles)
+			particles.Highlight(on);
+		// pour les tores
+		if (ring)
+			ring.Highlight(on);
 
-			if (rend == null)
-				continue;
-
-			rend.GetPropertyBlock(m_PropertyBlock);
-
-			if (on) {
-				m_PropertyBlock.SetColor(m_RimColorID, m_OriginalRimColor[i]);
-				m_PropertyBlock.SetFloat(m_RimPowID, m_on);
-
-				m_SavedRimIntensity[i] = m_PropertyBlock.GetFloat(m_RimIntensityID);
-				m_PropertyBlock.SetFloat(m_RimIntensityID, 1.0f);
-			} else {
-				m_PropertyBlock.SetColor(m_RimColorID, transparent);
-				m_PropertyBlock.SetFloat(m_RimPowID, m_off);
-				m_PropertyBlock.SetFloat(m_RimIntensityID, m_SavedRimIntensity[i]);
-			}
-
-			rend.SetPropertyBlock(m_PropertyBlock);
-		}
-
+		isOn = on;
 	}
+
+	public void SetColor(Color color) {
+		// pour les projecteurs
+		if (projector)
+			projector.SetColor(color);
+		// pour les systèmes de particules
+		if (particles)
+			particles.SetColor(color);
+		// pour les tores
+		if (ring)
+			ring.SetColor(color);
+	}
+
 }

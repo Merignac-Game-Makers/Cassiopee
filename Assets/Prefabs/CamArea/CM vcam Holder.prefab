@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4078818899284029011}
   - component: {fileID: 4078818899284029012}
   - component: {fileID: 4078818899284029013}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: CM vcam Holder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fe8736b5a97d4441bdb0c268c15b7b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  outPoint: {fileID: 0}
 --- !u!65 &4078818899284029013
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -53,7 +54,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4078818899284029010}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 4.5, y: 3, z: 7.5}
@@ -68,7 +69,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4078818899363470665}
   - component: {fileID: 4078818899363470666}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: CM vcam2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -137,7 +138,7 @@ GameObject:
   - component: {fileID: 4078818899661736615}
   - component: {fileID: 4078818899661736614}
   - component: {fileID: 4078818899661736613}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: cm
   m_TagString: Untagged
   m_Icon: {fileID: 0}

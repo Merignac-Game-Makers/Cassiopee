@@ -306,7 +306,7 @@ GameObject:
   - component: {fileID: 2718684116543824545}
   - component: {fileID: 840172946642520398}
   - component: {fileID: 6247237761232216561}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: sol
   m_TagString: Untagged
   m_Icon: {fileID: 0}

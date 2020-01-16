@@ -4,16 +4,20 @@ using UnityEngine;
 
 public class Help : MonoBehaviour
 {
-    MagicUI ui;
+	public Book controlledBook;
+	bool isOn = false;
+	MagicUI ui;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        ui = MagicUI.Instance;
-    }
+	// Start is called before the first frame update
+	void Start() {
+		ui = MagicUI.Instance;
+	}
 
-    public void SetHelp() {
-        ui.picture.sprite = ui.GetPage().helpPicture;
-    }
+	public void SetHelp() {
+		isOn = !isOn;
+		controlledBook.C2.ToggleHelp(isOn);
+		controlledBook.StartUpdateSprites2();
+		//ui.picture.sprite = ui.GetPage().helpPicture;
+	}
 
 }

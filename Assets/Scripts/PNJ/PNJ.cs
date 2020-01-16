@@ -19,7 +19,7 @@ public class PNJ : InteractableObject
 	float initialRadius = 1.5f;
 	CapsuleCollider cCollider;
 
-	public override bool IsInteractable => true;
+	public override bool IsInteractable() => true;
 
 	protected override void Start() {
 		base.Start();

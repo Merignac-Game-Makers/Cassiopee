@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   title: Page 3
   picture: {fileID: 0}
-  text: 
+  text: "La 3\xE8me page"
   constellation: 
   hasHelp: 0
   helpPicture: {fileID: 0}

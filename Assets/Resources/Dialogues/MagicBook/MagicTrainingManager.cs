@@ -12,23 +12,27 @@ public class MagicTrainingManager : MonoBehaviour
 	VIDE_Assign dialogue;                           // le dialogue du grimoire
 	DialogueDispatcher dialogueValidation;			// le dispatcher pour changer le point d'entrée du dialogue en fonction de l'avancement de la quête
 
-	bool firstUse = true;
+	//bool firstUse = true;
 
 	void Start() {																	// initialisations:
 		dialoguesUI = DialoguesUI.Instance;											// le gestionnaire de dialogues
 		dialogue = GetComponent<VIDE_Assign>();										// le dialogue
-		dialogueValidation = GetComponentInChildren<DialogueDispatcher>();		// le dispatcher pour changer le point d'entrée du dialogue en fonction de l'avancement de la quête
+		dialogueValidation = GetComponentInChildren<DialogueDispatcher>();      // le dispatcher pour changer le point d'entrée du dialogue en fonction de l'avancement de la quête
+		StartCoroutine(FirstDialogue());   // à la 1ère activation => déclencher le dialogue
 	}
 
-	// à la 1ère utilisation du grimoire
-	public void FirtsUse() {
-		if (firstUse) {
-			firstUse = false;
-			Run();					// déclencher le dialogue
-		}
+	//// à la 1ère utilisation du grimoire
+	//public void FirtsUse() {
+	//	if (firstUse) {
+	//		firstUse = false;
+	//		Run();					// déclencher le dialogue
+	//	}
+	//}
+
+	IEnumerator FirstDialogue() {
+		yield return new WaitForSeconds(.025f); // attendre la fin des 'Start'
+		Run();
 	}
-
-
 	public void Run() {
 		if (dialogueValidation!=null)
 			dialogueValidation.SetStartNode();

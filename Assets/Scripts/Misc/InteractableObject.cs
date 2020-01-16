@@ -13,14 +13,15 @@ using UnityEngine;
 public abstract class InteractableObject : HighlightableObject
 {
 
-	public enum Mode { onClick, onTheFly, onTheFlyOnce }
+	public enum Mode { onClick, onTheFly, onTheFlyOnce }	// modes d'intéraction possibles
 
-	public Mode mode;
+	public Mode mode;                                       // le mode d'intéraction de cet objet
 
-	public abstract bool IsInteractable { get; }
+	public abstract bool IsInteractable();					// m'objet est-il actif pour l'intéraction ?
 
 	[HideInInspector]
-	public bool Clicked;
+	public bool Clicked;									// flag clic sur l'objet ?
+
 
 	public virtual void InteractWith(HighlightableObject target) {
 		Clicked = false;
@@ -29,35 +30,3 @@ public abstract class InteractableObject : HighlightableObject
 	}
 
 }
-
-//#if UNITY_EDITOR
-//[CustomEditor(typeof(InteractableObject))]
-//public class InteractableObjectEditor : Editor
-//{
-//	SerializedProperty m_IsQuest;
-//	SerializedProperty m_Quest;
-//	SerializedProperty m_Mode;
-
-//	void OnEnable() {
-//		m_IsQuest = serializedObject.FindProperty("IsQuest");
-//		m_Quest = serializedObject.FindProperty("Quest");
-//		m_Mode = serializedObject.FindProperty("m_Mode");
-
-//		serializedObject.ApplyModifiedProperties();
-//	}
-
-//	public override void OnInspectorGUI() {
-//		serializedObject.Update();
-
-//		EditorGUILayout.PropertyField(m_Mode);
-//		EditorGUILayout.PropertyField(m_IsQuest);
-
-//		if (m_IsQuest.boolValue) {
-//			EditorGUILayout.PropertyField(m_Quest);
-//		}
-
-//		serializedObject.ApplyModifiedProperties();
-
-//	}
-//}
-//#endif
