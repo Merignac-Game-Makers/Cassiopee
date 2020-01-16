@@ -84,16 +84,15 @@ public class MagicManager : MonoBehaviour
 	}
 
 	public void Remove(Activable item) {
-		int idx = magicActivatedItems.IndexOf(item);                    // pour l'item à retirer
+		int idx = magicActivatedItems.IndexOf(item);									// pour l'item à retirer
 		if (idx != -1) {
 			//Debug.Log("remove " + item.name);
-			for (int i = magicActivatedItems.Count - 1; i >= idx; i--) {    // et les suivants
+			for (int i = magicActivatedItems.Count - 1; i >= idx; i--) {				// et les suivants
 				Activable obj = magicActivatedItems[i];
 				Destroy(obj.GetComponent<Electric>());                                  // effacer
 				Destroy(obj.GetComponentInChildren<LineRenderer>()?.gameObject);        // les éclairs
 				magicActivatedItems.RemoveAt(i);                                        // retirer l'item de la liste
-				obj.m_IsActive = false;                         // retour au visuel
-				obj.Highlight(false);                           // 'désélectionné'
+				obj.Inactivate();														// retour au visuel 'désélectionné'
 			}
 		}
 	}
@@ -102,9 +101,9 @@ public class MagicManager : MonoBehaviour
 	/// Créer un orbe en fonction du médaillon et de la constellation
 	/// </summary>
 	private void CreateOrb() {
-		var orb = activeArtfact == MagicUI.SelectedArtefact.Moon ? moonOrb : sunOrb;    // quel orbe ?
-		orb.constellation = orbConstellation;
-		currentOrb = Instantiate(orb, PlayerManager.Instance.gameObject.transform);          // générer l'orbe
+		var orb = activeArtfact == MagicUI.SelectedArtefact.Moon ? moonOrb : sunOrb;    // quel orbe (LUNE/SOLEIL)?
+		orb.constellation = orbConstellation;											// quelle constellation ?
+		currentOrb = Instantiate(orb, PlayerManager.Instance.gameObject.transform);     // générer l'orbe
 	}
 
 	/// <summary>

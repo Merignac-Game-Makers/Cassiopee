@@ -182,6 +182,11 @@ PrefabInstance:
       propertyPath: cookie
       value: 
       objectReference: {fileID: 2800000, guid: d50ded77296bcc541b3bbe2f5c01290a, type: 3}
+    - target: {fileID: 5905822892967812634, guid: 80e082e46de9d034ab8e34c7c8a6f1a8,
+        type: 3}
+      propertyPath: m_CullingMask.m_Bits
+      value: 2048
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 80e082e46de9d034ab8e34c7c8a6f1a8, type: 3}
 --- !u!4 &8531794159536174849 stripped

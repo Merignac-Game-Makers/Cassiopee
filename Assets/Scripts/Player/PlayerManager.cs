@@ -11,10 +11,11 @@ using UnityEngine.EventSystems;
 public class PlayerManager : MonoBehaviour
 {
 
-	float defaultInteractionDistance = 1.5f;                        // distance en deça de laquelle on déclenche les intéractions
+	float sqrInteractionDistance = 2.25f;							// carré de la distance en deça de laquelle on déclenche les intéractions (1.5² = 2.25)
+																	// (on utilise le carré pour gagner du temps de calcul en évitant une racine carrée pour la distance)
 
 	InventoryUI m_InventoryUI;                                      // gestionnaire d'inventaire
-	MagicManager m_MagicController;                             // gestionnaire de magie
+	MagicManager m_MagicController;									// gestionnaire de magie
 
 	public static PlayerManager Instance { get; protected set; }    // instance statique de cette classe
 
@@ -31,8 +32,8 @@ public class PlayerManager : MonoBehaviour
 
 	// Interactions
 	InteractableObject m_TargetInteractable = null;                 // objet avec lequel le joueur intéragit
-	HighlightableObject m_Highlighted;                              // objet en surbrillance  sous le pointeur de la souris
 	Collider m_TargetCollider;                                      // collider de l'objet en cours d'intéraction
+	HighlightableObject m_Highlighted;                              // objet en surbrillance  sous le pointeur de la souris
 	CharacterData m_CurrentTargetCharacterData = null;              // caractéristiques du PNJ en intéraction
 	[HideInInspector]
 	public InventoryUI.DragData m_InvItemDragging = null;           // objet d'inventaire en cours de drag & drop
@@ -90,10 +91,15 @@ public class PlayerManager : MonoBehaviour
 		}
 
 
-		// Lancer de rayon
+		// Préparation du lancer de rayon de la caméra vers le pointeur de souris
 		Ray screenRay = CameraController.Instance.GameplayCamera.ScreenPointToRay(Input.mousePosition);
 
-		// le collider a-t-il détecté un objet intéractible ?
+		/**
+		Si une intéraction a été demandée, sommes nous arrivés 'AU CONTACT' ?
+		Rem : une intéraction peut être demandée soit :
+			- par un clic sur un objet intéractible
+			- par la collision avec un intéractible (<see cref="OnTriggerEnter">)
+		*/
 		if (m_TargetInteractable != null) {
 			CheckInteractableRange();
 		}
@@ -131,14 +137,8 @@ public class PlayerManager : MonoBehaviour
 
 						InteractableObject obj = m_Highlighted as InteractableObject;
 						if (obj) {                                                                  // si on a cliqué sur un objet intéractible
-							if (obj.GetComponentInChildren<Activable>()) {
-								Activate((Activable)obj);                                           //		si c'est un 'activable' => activer
-							} else {
-								obj.Clicked = true;                                                 //		sinon, c'est un 'intéractible' => intéragir
-								InteractWith(obj);
-							}
-
-
+							obj.Clicked = true;                                                 //	- l'objet a été cliqué
+							RequestInteraction(obj);                                            //	- demander l'intéraction
 						} else {
 							CharacterData data = m_Highlighted as CharacterData;
 							if (data) {                                                             // si on a cliqué sur le personnage
@@ -147,7 +147,7 @@ public class PlayerManager : MonoBehaviour
 							} else {                                // sinon => navigation
 																	//if (Physics.Raycast(screenRay.origin, screenRay.direction, out m_HitInfo))
 								if (Physics.Raycast(screenRay, out m_HitInfo, 5000, raycastableLayers) && (!inTransit)) {
-									m_Agent.destination = m_HitInfo.point;			// aller vers le point sélectionné
+									m_Agent.SetDestination(m_HitInfo.point);		// aller vers le point sélectionné
 									//inTransit = false;							//	ce déplacement n'est pas un transit
 								}
 							}
@@ -156,9 +156,6 @@ public class PlayerManager : MonoBehaviour
 				}
 			}
 		}
-
-		//if (!m_Agent.hasPath)
-		//	inTransit = false;				// fin d'un déplacement => on n'est plus en transit
 
 		// controler la vitesse sur les NavMesh Links (par défaut elle est trop rapide)
 		if (m_Agent.isOnOffMeshLink && !MoveAcrossNavMeshesStarted) {
@@ -234,7 +231,7 @@ public class PlayerManager : MonoBehaviour
 	///		=> m_TargetCollider contient son collider
 	/// </summary>
 	/// <param name="other">objet rencontré</param>
-	private void OnTriggerEnter(Collider other) {
+	public void OnTriggerEnter(Collider other) {
 		m_TargetInteractable = other.gameObject.GetComponent<InteractableObject>();
 		if (m_TargetInteractable != null) {                 // si l'objet rencontré est un 'intéractible'
 			if (!m_TargetInteractable.IsInteractable()) {   //		si son statut est 'inactif'
@@ -247,45 +244,45 @@ public class PlayerManager : MonoBehaviour
 
 	/// <summary>
 	/// Comparaison de la distance d'un objet intéractible avec la distance de déclenchement des intéractions
+	/// 
+	/// on déclenche l'intéraction 'AU CONTACT', c'est à dire si
+	///		la distance est inférieure à la distance de déclenchement
+	///	ET
+	///		l'objet est en mode 'onClick' ET il a été cliqué
+	///		OU
+	///		l'objet est en mode 'onTheFly'
 	/// </summary>
 	void CheckInteractableRange() {
 		Vector3 distance = m_TargetCollider.ClosestPointOnBounds(transform.position) - transform.position;  // calcul de la distance
 
-		// on déclenche l'intéraction si
-		//		la distance est inférieure à la distance de déclenchement
-		//	ET
-		//		l'objet est en mode 'onClick' ET il a été cliqué
-		//		OU
-		//		l'objet est en mode 'onTheFly'
 		if ((m_TargetInteractable.mode != InteractableObject.Mode.onClick || m_TargetInteractable.Clicked)
-			&& distance.sqrMagnitude < defaultInteractionDistance * defaultInteractionDistance) {
+			&& distance.sqrMagnitude < sqrInteractionDistance) {
 			m_TargetInteractable.InteractWith(m_CharacterData);         // déclencher l'intéraction
 			m_TargetInteractable = null;                                // supprimer la détection pour éviter de redoubler l'intéraction
 		}
 	}
 
-	public void InteractWith(InteractableObject obj) {
-		if (obj.IsInteractable()) {
-			m_TargetCollider = obj.GetComponentInChildren<Collider>();
-			m_TargetInteractable = obj;
-			m_Agent.SetDestination(obj.transform.position);
+	/// <summary>
+	/// Demander une intéraction :
+	/// On dirige le joueur vers l'objet, l'intéraction sera déclenchée 'AU CONTACT'
+	/// </summary>
+	/// <param name="obj">l'objet avec lequel intéragir</param>
+	public void RequestInteraction(InteractableObject obj) {
+		if (obj.IsInteractable()) {											// si l'objet est au statut 'actif'
+			m_TargetCollider = obj.GetComponentInChildren<Collider>();		// mémoriser le collider
+			m_TargetInteractable = obj;										// mémoriser l'intéractible (il sera testé dans le prochain update pour déclencher l'intéraction 'AU CONTACT')
+			if (obj.GetComponentInChildren<Activable>())					// si l'objet est un objet magique activable
+				((Activable)obj).Toggle();                                  //	- basculer l'état de l'objet (activé/désactivé)
+			else 															// sinon 
+				m_Agent.SetDestination(obj.transform.position);				//	- diriger le joueur vers l'objet
 		}
 	}
-	public void Activate(Activable obj) {
-		if (obj.IsInteractable()) {
-			// Debug.Log("Item activated");
-			m_TargetCollider = obj.GetComponentInChildren<Collider>();
-			m_TargetInteractable = obj;
-			if (obj.IsInteractable())
-				obj.Toggle();
-		}
-	}
+
 	#endregion
 
 	#region Navigation
-
 	public void StartTransitTo(Vector3 pos) {
-		m_Agent.destination = pos;
+		m_Agent.SetDestination(pos);
 		inTransit = true;
 	}
 	public void EndTransit() {
@@ -296,12 +293,14 @@ public class PlayerManager : MonoBehaviour
 	/// interrompre la navigation
 	/// </summary>
 	public void StopAgent() {
-		m_Agent.ResetPath();                    // znnulztion de la navigation en cours
+		m_Agent.ResetPath();                    // annulation de la navigation en cours
 		m_Agent.velocity = Vector3.zero;        // vitesse nulle
 	}
 
 	/// <summary>
 	/// contrôler la vitesse sur les NavMesh Links
+	/// (par défaut, dans UNITY,  les déplacements sont plus rapides sur les NavLinks... BUG ?)
+	/// cette coroutine corrige le phénomène
 	/// </summary>
 	/// <param name="destination">destination</param>
 	/// <returns></returns>
@@ -317,7 +316,7 @@ public class PlayerManager : MonoBehaviour
 
 		while (t < 1.0f) {                                                  // tant qu'on est pas arrivé
 			transform.position = Vector3.Lerp(startPos, endPos, t);         // calculer le point de passage
-			m_Agent.destination = transform.position;                       // aller au point de passage
+			m_Agent.SetDestination(transform.position);                     // aller au point de passage
 			t += tStep * Time.deltaTime;                                    // incrémenter le timer
 			yield return null;
 		}
@@ -326,7 +325,7 @@ public class PlayerManager : MonoBehaviour
 		m_Agent.updateRotation = true;                                      // orienter le personnage
 		m_Agent.CompleteOffMeshLink();                                      // quitter le mode 'NavMesh Link'
 		MoveAcrossNavMeshesStarted = false;
-		m_Agent.destination = destination;                                  // continuer vers la destination initiale
+		m_Agent.SetDestination(destination);                                // continuer vers la destination initiale
 	}
 	#endregion
 
