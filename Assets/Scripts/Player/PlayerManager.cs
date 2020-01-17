@@ -50,10 +50,8 @@ public class PlayerManager : MonoBehaviour
 	RaycastHit m_HitInfo = new RaycastHit();                        // résultat unitaire du lancer de rayon
 	int m_InteractableLayer;                                        // layer des objets intéractibles
 	int m_PlayerLayer;                                              // layer du personnage
-																	//int layersExceptPostProcessing;                                 // tous les layers sauf postProcessing
-																	//int layersExceptIgnoreRaycast;                                  // tous les layers sauf ignoreRaycast
 	int raycastableLayers;                                          // tous les layers à tester pour le Raycast
-
+	bool isClicOnUI;												// le clic en cours a-t-il débuté sur un élément d'interface ?
 
 
 	#region Initialisation
@@ -122,10 +120,11 @@ public class PlayerManager : MonoBehaviour
 			m_CurrentTargetCharacterData = null;
 			m_TargetInteractable = null;
 			m_TargetActivable = null;
+			isClicOnUI = !EventSystem.current.IsPointerOverGameObject();
 		}
 
 		// Gestion de la souris (mouseHover et clic)
-		if (!EventSystem.current.IsPointerOverGameObject()) {       // éviter de déplacer le personnage si on pointe sur un objet d'interface
+		if (isClicOnUI) {											// éviter de déplacer le personnage si on pointe sur un objet d'interface
 
 			ObjectsRaycasts(screenRay);                             // Mettre en surbrillance les objets intéractibles lorsqu'ils sont sous le pointeur de souris
 
