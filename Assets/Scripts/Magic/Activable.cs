@@ -16,7 +16,8 @@ public class Activable : InteractableObject
 		// un objet magique n'est 'activable' que si
 		//	- la magie est active
 		//	- il n'y a pas d'orbe existante
-		return MagicManager.Instance.isOn && MagicManager.Instance.currentOrb == null;
+		//	- la constellation en cours n'est pas fermée
+		return MagicManager.Instance.isOn && MagicManager.Instance.currentOrb == null && ! MagicManager.Instance.isClosed;
 	}
 
 	public bool IsActive => m_IsActive;
@@ -47,6 +48,14 @@ public class Activable : InteractableObject
 	public void Inactivate() {
 		m_IsActive = false;
 		Highlight(false);                                                   
+	}
+
+	/// <summary>
+	/// Activer et alumer
+	/// </summary>
+	public void Activate() {
+		m_IsActive = true;
+		Highlight(true);
 	}
 
 	/// <summary>
