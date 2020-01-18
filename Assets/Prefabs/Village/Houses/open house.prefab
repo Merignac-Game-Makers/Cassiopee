@@ -104,7 +104,7 @@ GameObject:
   - component: {fileID: 712321673985274349}
   - component: {fileID: 705457439874101335}
   - component: {fileID: 7200576387113640435}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: sas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -163,7 +163,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3840590681063844051}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: enterZone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -531,9 +531,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AgentTypeID: 0
-  m_StartPoint: {x: 3.4022014, y: 0, z: 1.8401923}
-  m_EndPoint: {x: 1.1489044, y: 0, z: 1.7299962}
-  m_Width: 0.9446409
+  m_StartPoint: {x: 3.4022017, y: 0, z: 1.9425448}
+  m_EndPoint: {x: 0.548191, y: 0, z: 1.7299962}
+  m_Width: 0.5
   m_CostModifier: 1
   m_Bidirectional: 1
   m_AutoUpdatePosition: 1
