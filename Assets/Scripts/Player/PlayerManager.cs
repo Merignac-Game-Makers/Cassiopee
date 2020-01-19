@@ -104,8 +104,8 @@ public class PlayerManager : MonoBehaviour
 		}
 
 		// récupération des objets en cours de drag & drop 
-		m_InvItemDragging = m_InventoryUI.CurrentlyDragged;         // objet d'inventaire
-		m_MagicOrb = m_MagicController.dragging;                    // orbe magique
+		m_InvItemDragging = m_InventoryUI?.CurrentlyDragged;         // objet d'inventaire
+		m_MagicOrb = m_MagicController?.dragging;                    // orbe magique
 
 		// zoom
 		float mouseWheel = Input.GetAxis("Mouse ScrollWheel");
@@ -128,12 +128,12 @@ public class PlayerManager : MonoBehaviour
 
 			ObjectsRaycasts(screenRay);                             // Mettre en surbrillance les objets intéractibles lorsqu'ils sont sous le pointeur de souris
 
-			if (m_InvItemDragging == null && m_MagicController.dragging == null) { // éviter de déplacer le personnage si on est en cours de drag & drop
+			if (m_InvItemDragging == null && m_MagicController?.dragging == null) { // éviter de déplacer le personnage si on est en cours de drag & drop
 
 				// si le bouton de la souris est appuyé
 				if (Input.GetMouseButton(0)) {
 					if (m_TargetInteractable == null && m_TargetActivable == null && m_CurrentTargetCharacterData == null) {     // s'il n'y a pas d'intéraction en cours
-						if (m_InventoryUI.isOn)                                                     // refermer automatiquement l'inventaire
+						if (m_InventoryUI!=null && m_InventoryUI.isOn)                                                     // refermer automatiquement l'inventaire
 							UIManager.Instance.inventoryButton.Toggle();
 
 						InteractableObject obj = m_Highlighted as InteractableObject;
