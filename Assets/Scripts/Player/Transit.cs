@@ -31,12 +31,7 @@ public class Transit : MonoBehaviour
 					vCams.Peek().gameObject.SetActive(false);                       //		désactiver la caméra précédente
 				}
 				player.StartTransitTo(destinationPoint.position);					// diriger le joueur vers le point de destination du transit
-			} else {
-				// TODO: revoir la fin de transit
-				// (ce n'est pas une entrée "dans le mauvais sens" qui doit déclarer un transit terminé)
-				player.EndTransit();
-
-			}
+			} 
 		}
 	}
 
