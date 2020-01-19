@@ -441,5 +441,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Agent: {fileID: 0}
+  inTransit: 0
+  canInterruptTransit: 0
   m_MagicOrb: {fileID: 0}
   m_CharacterData: {fileID: 0}
+  body: {fileID: 95785325123566174}
+  standardColor: {r: 0.37304202, g: 0.71869236, b: 0.7830189, a: 0}
+  magicColor: {r: 0.99215686, g: 0.78039217, b: 0.14901961, a: 0}

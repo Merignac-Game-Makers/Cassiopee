@@ -35,6 +35,7 @@ public class MagicUI : UIBase
 	public Sprite sun;                  // image médaillon soleil
 
 	// autres
+	public GameObject playerBody;
 	public static MagicUI Instance;      // instance statique
 	public enum SelectedArtefact { Moon, Sun }                      // artefact sélectionnable
 	public SelectedArtefact selectedArtefact { get; private set; }  // artefact sélectionné
@@ -42,6 +43,7 @@ public class MagicUI : UIBase
 
 	private MagicTrainingManager magicTrainingManager;
 	private MagicButtonStates magicButtonStates;
+	private Material playerMaterial;
 	/// <summary>
 	/// initialisation
 	/// </summary>
@@ -62,6 +64,7 @@ public class MagicUI : UIBase
 
 		magicTrainingManager = GetComponentInChildren<MagicTrainingManager>();
 		magicButtonStates = bookButton.GetComponentInChildren<MagicButtonStates>();
+		playerMaterial = playerBody.GetComponent<Renderer>().material;
 	}
 
 	/// <summary>
@@ -108,13 +111,16 @@ public class MagicUI : UIBase
 		if (state == active) {
 			artefactButton.gameObject.SetActive(true);                          // médaillon visible
 			bookPanel.gameObject.SetActive(false);                              // livre ouvert invisible
+			PlayerManager.Instance.VisualMagicMode(true);
 		} else if (state == open) {
 			artefactButton.gameObject.SetActive(true);                          // médaillon visible
 			bookPanel.gameObject.SetActive(true);                               // livre ouvert visible
+			PlayerManager.Instance.VisualMagicMode(true);
 		} else {
 			artefactButton.gameObject.SetActive(false);                         // médaillon invisible
 			bookPanel.gameObject.SetActive(false);                              // livre ouvert invisible
-			MagicManager.Instance.SetMagicOff();								// désactiver toute magie en cours
+			MagicManager.Instance.SetMagicOff();                                // désactiver toute magie en cours
+			PlayerManager.Instance.VisualMagicMode(false);
 		}
 	}
 

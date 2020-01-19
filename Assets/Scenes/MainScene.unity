@@ -3556,7 +3556,7 @@ MonoBehaviour:
   inventoryUI: {fileID: 2104745285}
   magicUI: {fileID: 1717899594}
   questsUI: {fileID: 1251303622}
-  magicButton: {fileID: 306566495}
+  magicButton: {fileID: 1036043488}
   artifactButton: {fileID: 1137616324}
   inventoryButton: {fileID: 872982909}
   exitButton: {fileID: 9296071}
@@ -5599,6 +5599,12 @@ WindZone:
   m_WindTurbulence: 1
   m_WindPulseMagnitude: 0.5
   m_WindPulseFrequency: 0.01
+--- !u!1 &526841708 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 95785325123566169, guid: 4eb0b1734dc9a6d4482d02260ee0ea5a,
+    type: 3}
+  m_PrefabInstance: {fileID: 8972243177139013991}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &527589399
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -25840,6 +25846,7 @@ MonoBehaviour:
   helpButton: {fileID: 1564236417}
   moon: {fileID: 21300000, guid: 9fc1cb96bf0c60343be3c0eb434c1954, type: 3}
   sun: {fileID: 21300000, guid: c8af64381bedd4b46b7c30d0fbe3ae1d, type: 3}
+  playerBody: {fileID: 526841708}
 --- !u!1 &1732579174
 GameObject:
   m_ObjectHideFlags: 0
