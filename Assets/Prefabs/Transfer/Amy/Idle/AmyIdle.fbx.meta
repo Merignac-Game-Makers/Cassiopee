@@ -8,30 +8,35 @@ ModelImporter:
     second: Idle
   externalObjects:
   - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Ch46_body
+    second: {fileID: 2100000, guid: e8177bc525dc55f4dadc4813309e9239, type: 2}
+  - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
       name: Ch46_1001_Diffuse
-    second: {fileID: 2800000, guid: 56a11c7a88f3abc4c92483ff0d164739, type: 3}
+    second: {fileID: 2800000, guid: efbea624289299249a0d7d7d3f73e35f, type: 3}
   - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
       name: Ch46_1001_Glossiness
-    second: {fileID: 2800000, guid: c6351dbe5761ede4a94316989c53a405, type: 3}
+    second: {fileID: 2800000, guid: 8fa9de0aa5b896342afe979ce7095f91, type: 3}
   - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
       name: Ch46_1001_Normal
-    second: {fileID: 2800000, guid: 6cbd78ebace3d0043b934632a3127d78, type: 3}
+    second: {fileID: 2800000, guid: ecc608cb8366172418c552a26151b736, type: 3}
   - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
       name: Ch46_1001_Specular
-    second: {fileID: 2800000, guid: 502dfa5b71f95c4418f8859e4a35a7b2, type: 3}
+    second: {fileID: 2800000, guid: ed6ed3fe848a534449340c305f5b03dd, type: 3}
   materials:
     importMaterials: 1
     materialName: 0
     materialSearch: 1
-    materialLocation: 1
+    materialLocation: 0
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0

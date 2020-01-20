@@ -56,8 +56,8 @@ public class PlayerManager : MonoBehaviour
 
 	// Visuel
 	public Renderer body;                                           // Mesh renderer du corps
-	public Color standardColor;                                     // couleur en mode 'standard'
-	public Color magicColor;                                        // couleur en mode 'magie active'
+	public Texture2D standardTex;                                   // texture en mode 'standard'
+	public Texture2D magicTex;                                      // texture en mode 'magie active'
 
 
 	#region Initialisation
@@ -176,10 +176,11 @@ public class PlayerManager : MonoBehaviour
 	public void VisualMagicMode(bool on) {
 		if (on) {
 			body.material.EnableKeyword("_EMISSION");                                       // activer la texture émissive
-			body.material.color = magicColor;
+			body.material.SetTexture("_MainTex", magicTex);
+;
 		} else {
 			body.material.DisableKeyword("_EMISSION");                                      // désactiver la texture émissive
-			body.material.color = standardColor;
+			body.material.SetTexture("_MainTex", standardTex);
 		}
 	}
 	#endregion
