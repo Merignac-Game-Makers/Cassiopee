@@ -162,8 +162,8 @@ public class PlayerManager : MonoBehaviour
 			}
 		}
 
-		if (inTransit && m_Agent.velocity.magnitude < m_Agent.radius)			// à la fin d'un déplacement 'en transit'
-			EndTransit();														// on n'est plus en transit
+		if (inTransit && !m_Agent.hasPath)			// à la fin d'un déplacement 'en transit'
+			EndTransit();							// on n'est plus en transit
 
 		// controler la vitesse sur les NavMesh Links (par défaut elle est trop rapide)
 		if (m_Agent.isOnOffMeshLink && !MoveAcrossNavMeshesStarted) {
