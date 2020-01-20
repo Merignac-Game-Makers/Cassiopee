@@ -304,11 +304,12 @@ public class PlayerManager : MonoBehaviour
 
 	#region Navigation
 	public void StartTransitTo(Vector3 pos) {
-		m_Agent.SetDestination(pos);
-		inTransit = true;
+		m_Agent.SetDestination(pos);                    // diriger le joueur vers la destination
+		inTransit = true;                               // on est en transit
+		MagicManager.Instance.ResetConstellation();     // désactiver les objets magiques en quittant le lieu actuel
 	}
 	public void EndTransit() {
-		inTransit = false;
+		inTransit = false;                              // on n'est plus en transit
 	}
 
 	/// <summary>
