@@ -14,7 +14,7 @@ public class DialogueTrigger : MonoBehaviour
 
 	void Start() {
 		dialoguesUI = DialoguesUI.Instance;                                     // le gestionnaire d'interface de dialogues
-		dialogue = gameObject.GetComponent<VIDE_Assign>();                                 // le dialogue
+		dialogue = gameObject.GetComponent<VIDE_Assign>();                      // le dialogue
 		dispatcher = gameObject.GetComponent<DialogueDispatcher>();             // le script de validation de dialogue (points d'entrée en fonction du statut de la quête [si elle existe])
 	}
 
