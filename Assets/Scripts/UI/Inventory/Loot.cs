@@ -53,14 +53,9 @@ public class Loot : InteractableObject
 			currentPos.y = currentPos.y + Mathf.Sin(ratio * Mathf.PI) * 2.0f;
 
 			transform.position = currentPos;
-
-			// ajouter 1 étiquette
-			//if (m_AnimationTimer >= AnimationTime) {
-			//	LootUI.Instance.NewLoot(this);
-			//}
 		}
 
-		Debug.DrawLine(m_TargetPoint, m_TargetPoint + new Vector3(0, 2, 0), Color.magenta);
+		//Debug.DrawLine(m_TargetPoint, m_TargetPoint + new Vector3(0, 2, 0), Color.magenta);
 	}
 
 	/// <summary>
@@ -72,7 +67,7 @@ public class Loot : InteractableObject
 		InventorySystem.Instance.AddItem(Item);
 		SFXManager.PlaySound(SFXManager.Use.Sound2D, new SFXManager.PlayData(){Clip = SFXManager.PickupSound});
 
-		m_inventoryUI.Load(target);
+		m_inventoryUI.UpdateEntries(target);
 		Destroy(gameObject);
 	}
 

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 /// <summary>
 /// This handles the inventory of our character. The inventory has a maximum of 12 slot, each slot can hold one
@@ -15,18 +16,18 @@ public class InventorySystem
 	/// </summary>
 	public class InventoryEntry
 	{
-		public int Count;
-		public Item Item;
+		public int count;
+		public Item item;
 	}
 
-	//Only 12 slots in inventory
-	private const int numSlots = 12;
-	public InventoryEntry[] Entries = new InventoryEntry[numSlots];
+	// Pas de limite au nombre d'objets en inventaire
+	private const int numSlots = 0;
+	public List<InventoryEntry> Entries = new List<InventoryEntry>();
 
-	CharacterData m_Owner;
+	CharacterData owner;
 
 	public void Init(CharacterData owner) {
-		m_Owner = owner;
+		this.owner = owner;
 		Instance = this;
 	}
 
@@ -37,28 +38,27 @@ public class InventorySystem
 	/// <param name="item">The item to add to the inventory</param>
 	public void AddItem(Item item) {
 		bool found = false;
-		int firstEmpty = -1;
-		for (int i = 0; i < numSlots; ++i) {
-			if (Entries[i] == null) {
-				if (firstEmpty == -1)
-					firstEmpty = i;
-			} else if (Entries[i].Item == item) {
-				Entries[i].Count += 1;
-				found = true;
+		for (int i = 0; i < Entries.Count; ++i) {		// pour chaque slot existant
+			//if (Entries[i] == null) {					
+			//	if (firstEmpty == -1)
+			//		firstEmpty = i;
+			//} else 
+			if (Entries[i].item == item) {				// si l'objet contenu dans le slot est identique
+				Entries[i].count += 1;					// ajouter 1 à la quantité
+				found = true;							// trouvé
 				break;
 			}
 		}
 
-		if (!found && firstEmpty != -1) {
-			InventoryEntry entry = new InventoryEntry();
-			entry.Item = item;
-			entry.Count = 1;
-
-			Entries[firstEmpty] = entry;
+		if (!found) {									// si on n'a pas trouvé
+			InventoryEntry entry = new InventoryEntry();// créer un nouveau slot
+			entry.item = item;							// contenant l'objet
+			entry.count = 1;							// quantité = 1
+			InventoryUI.Instance.AddItemEntry(Entries.Count);
+			Entries.Add(entry);
 		}
 
-		//UIManager.Instance.inventoryButton.gameObject.GetComponentInChildren<Animator>()?.Play("color");
-		UIManager.Instance.inventoryButton.gameObject.GetComponentInParent<Animator>()?.SetTrigger("startColor");
+		// UIManager.Instance.inventoryButton.gameObject.GetComponentInParent<Animator>()?.SetTrigger("startColor");
 	}
 
 	/// <summary>
@@ -72,14 +72,13 @@ public class InventorySystem
 		//true mean it get consumed and so would be removed from inventory.
 		//(note "consumed" is a loose sense here, e.g. armor get consumed to be removed from inventory and added to
 		//equipement by their subclass, and de-equiping will re-add the equipement to the inventory 
-		if (item.Item.UsedBy(m_Owner)) {
-			item.Count -= 1;
+		if (item.item.UsedBy(owner)) {
+			item.count -= 1;							// retirer 1 à la quantité
 
-			if (item.Count <= 0) {
-				//maybe store the index in the InventoryEntry to avoid having to find it again here
-				for (int i = 0; i < numSlots; ++i) {
-					if (Entries[i] == item) {
-						Entries[i] = null;
+			if (item.count <= 0) {						// si la quantité est nulle
+				for (int i = 0; i < numSlots; ++i) {	// rechercher le slot
+					if (Entries[i] == item) {			
+						Entries.RemoveAt(i);			// retirer le slot de l'inventaire
 						break;
 					}
 				}
@@ -94,12 +93,14 @@ public class InventorySystem
 		//it get consumed and so would be removed from inventory.
 		//(note "consumed" is a loose sense here, e.g. armor get consumed to be removed from inventory and added to
 		//equipement by their subclass, and de-equiping will re-add the equipement to the inventory 
-		InventoryEntry Entry = Entries[EntryIndex];
-		Entry.Count -= 1;
-
-		if (Entry.Count <= 0) {
-			Entries[EntryIndex] = null;
+		InventoryEntry entry = Entries[EntryIndex];						// trouver le slot
+		entry.count -= 1;												// retirer 1 à la quantité
+		if (entry.count <= 0) {                                         // si la quantité est nulle
+			InventoryUI.Instance.RemoveItemEntry(EntryIndex);
+			Entries.RemoveAt(EntryIndex);                               // retirer le slot de l'inventaire
+		} else {
+			InventoryUI.Instance.itemEntries[EntryIndex].UpdateEntry();
 		}
-		InventoryUI.Instance.m_ItemEntries[EntryIndex].UpdateEntry();
+
 	}
 }
