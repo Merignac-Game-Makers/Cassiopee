@@ -70,13 +70,13 @@ public class DialoguesUI : UIBase
 	}
 	public void Show() {
 		panel.SetActive(true);
-		questsButton.SetActive(true);
-		inventory.SetActive(true);
+		questsButton.SetActive(false);
+		inventory.SetActive(false);
 	}
 	public void Hide() {
 		panel.SetActive(false);
-		questsButton.SetActive(false);
-		inventory.SetActive(false);
+		questsButton.SetActive(true);
+		inventory.SetActive(true);
 	}
 
 

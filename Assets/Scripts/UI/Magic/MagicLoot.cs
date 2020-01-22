@@ -17,7 +17,7 @@ using static QuestBase.QuestStatus;
 /// </summary>
 public class MagicLoot : InteractableObject
 {
-	public static GameObject magicButton;
+	public GameObject magicButton;
 	public QuestBase nextQuest;
 
 
@@ -27,7 +27,6 @@ public class MagicLoot : InteractableObject
 
 	protected override void Start() {
 		base.Start();
-		magicButton = UIManager.Instance.magicButton.gameObject;
 	}
 
 
