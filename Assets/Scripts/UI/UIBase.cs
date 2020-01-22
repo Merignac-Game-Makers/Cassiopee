@@ -14,7 +14,7 @@ public abstract class UIBase : MonoBehaviour
 {
 
 	public GameObject panel;
-	public bool isOn => (panel==null && gameObject.activeInHierarchy) || panel.activeInHierarchy;
+	public virtual bool isOn => (panel==null && gameObject.activeInHierarchy) || panel.activeInHierarchy;
 
 
 	public abstract void Init(UIManager uiManager);

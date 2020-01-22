@@ -20,7 +20,7 @@ public class CharacterData : HighlightableObject
 	/// The starting weapon equipped when the Character is created. Set through the Unity Editor.
 	/// </summary>
 	//public Weapon StartingWeapon;
-	public InventorySystem Inventory = new InventorySystem();
+	public InventoryManager Inventory = new InventoryManager();
 	//public EquipmentSystem Equipment = new EquipmentSystem();
 
 	public AudioClip[] HitClip;
