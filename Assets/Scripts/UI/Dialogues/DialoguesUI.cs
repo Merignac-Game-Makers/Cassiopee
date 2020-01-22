@@ -69,14 +69,14 @@ public class DialoguesUI : UIBase
 		inventory.SetActive(!isOn);
 	}
 	public void Show() {
-		panel.SetActive(!isOn);
-		questsButton.SetActive(!isOn);
-		inventory.SetActive(!isOn);
+		panel.SetActive(true);
+		questsButton.SetActive(true);
+		inventory.SetActive(true);
 	}
 	public void Hide() {
-		panel.SetActive(!isOn);
-		questsButton.SetActive(!isOn);
-		inventory.SetActive(!isOn);
+		panel.SetActive(false);
+		questsButton.SetActive(false);
+		inventory.SetActive(false);
 	}
 
 
@@ -88,12 +88,14 @@ public class DialoguesUI : UIBase
 		if (data.isPlayer) {
 			container_PLAYER.SetActive(true);
 			// set sprite
-			if (data.creferences[data.commentIndex].sprites != null)
-				PLAYER_Sprite.sprite = data.creferences[data.commentIndex].sprites;    // specific for comment i exists
-			else if (data.sprite != null)
-				PLAYER_Sprite.sprite = data.sprite;
-			else if (VD.assigned.defaultPlayerSprite != null)
-				PLAYER_Sprite.sprite = VD.assigned.defaultPlayerSprite;
+			// TODO: revoir la mise en place de sprite spécifique
+
+			//if (data.creferences[data.commentIndex].sprites != null)
+			//	PLAYER_Sprite.sprite = data.creferences[data.commentIndex].sprites;    // specific for comment i exists
+			//else if (data.sprite != null)
+			//	PLAYER_Sprite.sprite = data.sprite;
+			//else if (VD.assigned.defaultPlayerSprite != null)
+			//	PLAYER_Sprite.sprite = VD.assigned.defaultPlayerSprite;
 
 			// set name
 			//If it has a tag, show it, otherwise let's use the alias we set in the VIDE Assign
