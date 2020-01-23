@@ -4,124 +4,123 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using static InventoryManager;
 
+public class ItemEntryUI : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler,
+	IBeginDragHandler, IDragHandler, IEndDragHandler
+{
+	public Image iconeImage;
+	public Text itemCount;
+	public InventoryEntry inventoryEntry;
 
-public class ItemEntryUI : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler, 
-    IBeginDragHandler, IDragHandler, IEndDragHandler
-{    
-    public Image IconeImage;
-    public Text ItemCount;
+	//public EquipmentItem equipmentItem { get; private set; }
 
-    public int InventoryEntry { get; set; } = -1;
-    public EquipmentItem EquipmentItem { get; private set; }
-    
-    public InventoryUI Owner { get; set; }
-    public int Index { get; set; }
+	public InventoryUI inventoryUI { get; set; }
+	public int Index { get; set; }
 
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        if (eventData.clickCount % 2 == 0)
-        {
-            if (InventoryEntry != -1)
-            {
-                if(InventorySystem.Instance.Entries[InventoryEntry] != null)
-                    InventoryUI.Instance.ObjectDoubleClicked(InventorySystem.Instance.Entries[InventoryEntry]);
-            }
-        }
-    }
+	public void Init(InventoryUI inventoryUI, InventoryEntry entry) {
+		this.inventoryUI = inventoryUI;
+		inventoryEntry = entry;
+		iconeImage.sprite = entry.item.ItemSprite;
+		itemCount.text = "";
+	}
 
+	/// <summary>
+	/// double clic pour 'consommer' un objet
+	/// </summary>
+	/// <param name="eventData"></param>
+	public void OnPointerClick(PointerEventData eventData) {
+		if (eventData.clickCount % 2 == 0) {
+			if (inventoryEntry != null)
+				InventoryUI.Instance.ObjectDoubleClicked(inventoryEntry);
+		}
+	}
 
-    public void OnPointerEnter(PointerEventData eventData)
-    {
-        Owner.ObjectHoveredEnter(this);
-    }
+	/// <summary>
+	/// début de survol
+	/// </summary>
+	/// <param name="eventData"></param>
+	public void OnPointerEnter(PointerEventData eventData) {
+		inventoryUI.ObjectHoveredEnter(this);
+	}
 
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        Owner.ObjectHoverExited(this);
-    }
+	/// <summary>
+	/// fin de survol
+	/// </summary>
+	/// <param name="eventData"></param>
+	public void OnPointerExit(PointerEventData eventData) {
+		inventoryUI.ObjectHoverExited(this);
+	}
 
-    public void UpdateEntry()
-    {
-        var entry = InventorySystem.Instance.Entries[InventoryEntry];
-        bool isEnabled = entry != null;
-        
-        gameObject.SetActive(isEnabled);
-        
-        if (isEnabled)
-        {
-            IconeImage.sprite = entry.Item.ItemSprite;
+	/// <summary>
+	/// mise à jour
+	/// </summary>
+	public void UpdateEntry() {
+		bool isEnabled = inventoryEntry != null && inventoryEntry.count > 0;
+		//gameObject.SetActive(isEnabled);
 
-            if (entry.Count > 1)
-            {
-                ItemCount.gameObject.SetActive(true);
-                ItemCount.text = entry.Count.ToString();
-            }
-            else
-            {
-                ItemCount.gameObject.SetActive(false);
-            }
-        }
-    }
+		if (isEnabled) {
+			iconeImage.sprite = inventoryEntry.item.ItemSprite;
+			if (inventoryEntry.count > 1) {
+				itemCount.gameObject.SetActive(true);
+				itemCount.text = inventoryEntry.count.ToString();
+			} else {
+				itemCount.gameObject.SetActive(false);
+			}
+		} else {
+			inventoryUI.RemoveEntry(this);
+		}
+	}
 
-    public void SetupEquipment(EquipmentItem itm)
-    {
-        EquipmentItem = itm;
+	//public void SetupEquipment(EquipmentItem itm) {
+	//	equipmentItem = itm;
+	//	enabled = itm != null;
+	//	iconeImage.enabled = enabled;
+	//	if (enabled)
+	//		iconeImage.sprite = itm.ItemSprite;
+	//}
 
-        enabled = itm != null;
-        IconeImage.enabled = enabled;
-        if (enabled)
-            IconeImage.sprite = itm.ItemSprite;
-    }
+	/// <summary>
+	/// début de glisser-déposer
+	/// </summary>
+	/// <param name="eventData"></param>
+	public void OnBeginDrag(PointerEventData eventData) {
+		inventoryUI.currentlyDragged = new InventoryUI.DragData();                                  // créer un 'dragData'
+		inventoryUI.currentlyDragged.DraggedEntry = this;                                           // qui contient cette entrée
+		inventoryUI.currentlyDragged.OriginalParent = (RectTransform)transform.parent;              // dont on mémorise le parent actuel
+		transform.SetParent(inventoryUI.DragCanvas.transform, true);                                // puis qu'on rattaceha au canvas 'DragCanvas'
+	}
 
-    public void OnBeginDrag(PointerEventData eventData)
-    {
-        if(EquipmentItem != null)
-            return;
-        
-        Owner.CurrentlyDragged = new InventoryUI.DragData();
-        Owner.CurrentlyDragged.DraggedEntry = this;
-        Owner.CurrentlyDragged.OriginalParent = (RectTransform)transform.parent;
-        
-        transform.SetParent(Owner.DragCanvas.transform, true);
-    }
-    
-    public void OnDrag(PointerEventData eventData)
-    {
-        if(EquipmentItem != null)
-            return;
-        
-        transform.localPosition = transform.localPosition + UnscaleEventDelta(eventData.delta);
-    }
-    
-    
-    Vector3 UnscaleEventDelta(Vector3 vec)
-    {
-        Vector2 referenceResolution = Owner.DragCanvasScaler.referenceResolution;
-        Vector2 currentResolution = new Vector2(Screen.width, Screen.height);
- 
-        //float widthRatio = currentResolution.x / referenceResolution.x;
-        float heightRatio = currentResolution.y / referenceResolution.y;
-        //float ratio = Mathf.Lerp(widthRatio, heightRatio,  Owner.DragCanvasScaler.matchWidthOrHeight);
+	/// <summary>
+	/// pendant le glisser-déposer
+	/// </summary>
+	/// <param name="eventData"></param>
+	public void OnDrag(PointerEventData eventData) {
+		transform.localPosition = transform.localPosition + UnscaleEventDelta(eventData.delta);     // tenir compte de l'échelle du DragCanvas
+	}
 
-        return vec / heightRatio;
+	/// <summary>
+	/// tenir compte de l'échelle du DragCanvas
+	/// </summary>
+	/// <param name="vec"></param>
+	/// <returns></returns>
+	Vector3 UnscaleEventDelta(Vector3 vec) {
+		Vector2 referenceResolution = inventoryUI.DragCanvasScaler.referenceResolution;
+		Vector2 currentResolution = new Vector2(Screen.width, Screen.height);
+		float heightRatio = currentResolution.y / referenceResolution.y;
+		return vec / heightRatio;
+	}
 
-        //return new Vector3(vec.x / heightRatio, vec.y / heightRatio, vec.z);
-    }
-
-    public void OnEndDrag(PointerEventData eventData)
-    {
-        if(EquipmentItem != null)
-            return;
-        
-        Owner.HandledDroppedEntry(eventData.position);
-        
-        RectTransform t = transform as RectTransform;
-        
-        transform.SetParent(Owner.CurrentlyDragged.OriginalParent, true);
-        Owner.CurrentlyDragged = null;
-
-        t.offsetMax = -Vector2.one * 4;
-        t.offsetMin = Vector2.one * 4;
-    }
+	/// <summary>
+	/// fin de glisser-déposer
+	/// </summary>
+	/// <param name="eventData"></param>
+	public void OnEndDrag(PointerEventData eventData) {
+		inventoryUI.HandledDroppedEntry(eventData.position);                            // gérer le 'drop'
+		RectTransform t = transform as RectTransform;
+		transform.SetParent(inventoryUI.currentlyDragged.OriginalParent, true);         // rattacher au parent original
+		inventoryUI.currentlyDragged = null;                                            // supprimer le 'dragData'
+		t.offsetMax = -Vector2.one * 4;
+		t.offsetMin = Vector2.one * 4;
+	}
 }

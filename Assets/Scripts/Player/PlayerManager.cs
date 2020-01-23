@@ -110,7 +110,7 @@ public class PlayerManager : MonoBehaviour
 		}
 
 		// récupération des objets en cours de drag & drop 
-		m_InvItemDragging = m_InventoryUI.CurrentlyDragged;         // objet d'inventaire
+		m_InvItemDragging = m_InventoryUI.currentlyDragged;         // objet d'inventaire
 		m_MagicOrb = m_MagicController.dragging;                    // orbe magique
 
 		// zoom
@@ -126,11 +126,11 @@ public class PlayerManager : MonoBehaviour
 			m_CurrentTargetCharacterData = null;
 			m_TargetInteractable = null;
 			m_TargetActivable = null;
-			isClicOnUI = !EventSystem.current.IsPointerOverGameObject();
+			isClicOnUI = EventSystem.current.IsPointerOverGameObject();
 		}
 
 		// Gestion de la souris (mouseHover et clic)
-		if (isClicOnUI) {                                           // éviter de déplacer le personnage si on pointe sur un objet d'interface
+		if (!isClicOnUI) {                                           // éviter de déplacer le personnage si on pointe sur un objet d'interface
 
 			ObjectsRaycasts(screenRay);                             // Mettre en surbrillance les objets intéractibles lorsqu'ils sont sous le pointeur de souris
 
@@ -139,8 +139,8 @@ public class PlayerManager : MonoBehaviour
 				// si le bouton de la souris est appuyé
 				if (Input.GetMouseButton(0)) {
 					if (m_TargetInteractable == null && m_TargetActivable == null && m_CurrentTargetCharacterData == null) {     // s'il n'y a pas d'intéraction en cours
-						if (m_InventoryUI.isOn)                                                     // refermer automatiquement l'inventaire
-							UIManager.Instance.inventoryButton.Toggle();
+						//if (m_InventoryUI.isOn)                                                     // refermer automatiquement l'inventaire
+						//	UIManager.Instance.inventoryButton.Toggle();
 
 						InteractableObject obj = m_Highlighted as InteractableObject;
 						if (obj) {                                                                  // si on a cliqué sur un objet intéractible

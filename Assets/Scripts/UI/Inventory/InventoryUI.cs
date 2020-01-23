@@ -1,6 +1,7 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.UI;
-
+using static InventoryManager;
 
 /// <summary>
 /// Handle all the UI code related to the inventory (drag'n'drop of object, using objects, equipping object etc.)
@@ -14,12 +15,14 @@ public class InventoryUI : UIBase
 	}
 
 	public GameObject bookPanel;
+	public GameObject content;
 
-	public RectTransform[] ItemSlots;
+	float size;
 
-	public ItemEntryUI ItemEntryPrefab;
-	public ItemTooltip Tooltip;
 
+	public ItemEntryUI itemEntryPrefab;
+	public RectTransform slotPrefab;
+	//public ItemTooltip Tooltip;
 	//public EquipmentUI EquipementUI;
 
 	public Canvas DragCanvas;
@@ -31,14 +34,14 @@ public class InventoryUI : UIBase
 	int m_TargetLayer;
 
 
-	public DragData CurrentlyDragged { get; set; }
+	public DragData currentlyDragged { get; set; }
 	public CanvasScaler DragCanvasScaler { get; private set; }
 
-	[HideInInspector]
-	public ItemEntryUI[] m_ItemEntries;
+	public List<ItemEntryUI> entries { get; private set; } = new List<ItemEntryUI>();
+	//public List<RectTransform> slots { get; private set; } = new List<RectTransform>();
 
-	ItemEntryUI m_HoveredItem;
-	HighlightableObject m_Item;
+	ItemEntryUI hoveredItem;
+	HighlightableObject item;
 	UIManager uiManager;
 
 
@@ -47,45 +50,77 @@ public class InventoryUI : UIBase
 		this.uiManager = uiManager;
 
 		gameObject.SetActive(true);
-		panel.SetActive(false);
 
-		CurrentlyDragged = null;
+		currentlyDragged = null;
 
 		DragCanvasScaler = DragCanvas.GetComponentInParent<CanvasScaler>();
 
-		m_ItemEntries = new ItemEntryUI[ItemSlots.Length];
-
-		for (int i = 0; i < m_ItemEntries.Length; ++i) {
-			m_ItemEntries[i] = Instantiate(ItemEntryPrefab, ItemSlots[i]);
-			m_ItemEntries[i].gameObject.SetActive(false);
-			m_ItemEntries[i].Owner = this;
-			m_ItemEntries[i].InventoryEntry = i;
-		}
-
 		m_TargetLayer = 1 << LayerMask.NameToLayer("Interactable");
 
+		size = content.GetComponent<RectTransform>().rect.height;       // slot
+		var rect = GetComponent<RectTransform>().rect;                  // carré
+		rect.height = size;                                             //
 	}
 
 	void OnEnable() {
-		m_HoveredItem = null;
-		Tooltip.gameObject.SetActive(false);
+		hoveredItem = null;
+		//Tooltip.gameObject.SetActive(false);
+	}
+
+	public ItemEntryUI AddItemEntry(int idx, InventoryEntry inventoryEntry) {
+		RectTransform slot = Instantiate(slotPrefab, content.transform);        // créer un nouvel emplacement
+		ItemEntryUI itemEntry = Instantiate(itemEntryPrefab, slot);             // créer une nouvelle entrée d'inventaire dans cet emplacement																				//itemEntry.gameObject.SetActive(true);
+		itemEntry.Init(this, inventoryEntry);
+		if (entries.Count == 0)													// si c'est le 1er objet
+			Show();																// montrer l'inventaire
+		entries.Add(itemEntry);
+		return itemEntry;
+	}
+
+	/// <summary>
+	/// détruire une entrée
+	/// </summary>
+	/// <param name="entryUi"></param>
+	public void RemoveEntry(ItemEntryUI entryUi) {
+		Destroy(entryUi.transform.parent.gameObject);       // détruire le slot qui contient l'entrée
+		entries.Remove(entryUi);
+		if (entries.Count == 0)													// si l'inventaire est vide
+			Hide();																// cacher l'inventaire
 	}
 
 	/// <summary>
 	/// bascule d'affichage
 	/// </summary>
 	public override void Toggle() {
-		panel.SetActive(!isOn);			// monter /cacher le panneau d'inventaire
-		uiManager.ManageButtons();		// adapter l'affichage des autres boutons
-		if (!isOn) {
-			uiManager.questsUI.SetOff();
-		} 
+		if (panel.transform.position.y >= 0)
+			panel.GetComponentInChildren<Animator>().SetTrigger("Down");
+		else
+			panel.GetComponentInChildren<Animator>().SetTrigger("Up");
 	}
 
-	public void Load(HighlightableObject item) {
-		m_Item = item;
-		for (int i = 0; i < m_ItemEntries.Length; ++i) {
-			m_ItemEntries[i].UpdateEntry();
+	public void Hide() {
+		if (panel.transform.position.y >= 0)
+			panel.GetComponentInChildren<Animator>().SetTrigger("Down");
+	}
+
+	public void Show() {
+		if (panel.transform.position.y < 0)
+			panel.GetComponentInChildren<Animator>().SetTrigger("Up");
+	}
+
+	/// <summary>
+	/// Actualiser l'affichage de toutes les entrés d'iventaire
+	/// </summary>
+	/// <param name="item"></param>
+	public void UpdateEntries(HighlightableObject item) {
+		this.item = item;
+		for (int i = entries.Count - 1; i > 0; i--) {
+			if (entries[i].inventoryEntry.count <= 0) {
+				Destroy(entries[i].gameObject);
+				entries.RemoveAt(i);
+			} else {
+				entries[i].UpdateEntry();
+			}
 		}
 	}
 
@@ -94,46 +129,42 @@ public class InventoryUI : UIBase
 	/// (inutilisé pour l'instant)
 	/// </summary>
 	/// <param name="usedItem"></param>
-	public void ObjectDoubleClicked(InventorySystem.InventoryEntry usedItem) {
-		//if(m_Data.Inventory.UseItem(usedItem))
-		//    SFXManager.PlaySound(SFXManager.Use.Sound2D, new SFXManager.PlayData() {Clip = usedItem.Item is EquipmentItem ? SFXManager.ItemEquippedSound : SFXManager.ItemUsedSound} );
-		InventorySystem.Instance.UseItem(usedItem);
-		ObjectHoverExited(m_HoveredItem);
-		Load(m_Item);
+	public void ObjectDoubleClicked(InventoryEntry usedItem) {
+		InventoryManager.Instance.UseItem(usedItem);
+		ObjectHoverExited(hoveredItem);
+		//UpdateEntries(item);
 	}
 
 
 	public void ObjectHoveredEnter(ItemEntryUI hovered) {
-		m_HoveredItem = hovered;
+		hoveredItem = hovered;
 
-		Tooltip.gameObject.SetActive(true);
+		//Tooltip.gameObject.SetActive(true);
 
-		Item itemUsed = m_HoveredItem.InventoryEntry != -1 ? InventorySystem.Instance.Entries[m_HoveredItem.InventoryEntry].Item : m_HoveredItem.EquipmentItem;
+		// Item itemUsed = hoveredItem.inventoryEntry.item;
 
-		Tooltip.Name.text = itemUsed.ItemName;
-		Tooltip.DescriptionText.text = itemUsed.GetDescription();
+		//Tooltip.Name.text = itemUsed.ItemName;
+		//Tooltip.DescriptionText.text = itemUsed.GetDescription();
 	}
 
 	public void ObjectHoverExited(ItemEntryUI exited) {
-		if (m_HoveredItem == exited) {
-			m_HoveredItem = null;
-			Tooltip.gameObject.SetActive(false);
+		if (hoveredItem == exited) {
+			hoveredItem = null;
+			//Tooltip.gameObject.SetActive(false);
 		}
 	}
 
 	public void HandledDroppedEntry(Vector3 position) {
 		// check for drop on ItemSlots
-		for (int i = 0; i < ItemSlots.Length; ++i) {
-			RectTransform t = ItemSlots[i];
-
-			if (RectTransformUtility.RectangleContainsScreenPoint(t, position)) {
-				if (m_ItemEntries[i] != CurrentlyDragged.DraggedEntry) {
-					var prevItem = InventorySystem.Instance.Entries[CurrentlyDragged.DraggedEntry.InventoryEntry];
-					InventorySystem.Instance.Entries[CurrentlyDragged.DraggedEntry.InventoryEntry] = InventorySystem.Instance.Entries[i];
-					InventorySystem.Instance.Entries[i] = prevItem;
-
-					CurrentlyDragged.DraggedEntry.UpdateEntry();
-					m_ItemEntries[i].UpdateEntry();
+		for (int i = 0; i < content.transform.childCount; ++i) {								// pour chaque slot
+			var slot = content.transform.GetChild(i).GetComponent<RectTransform>();
+			if (RectTransformUtility.RectangleContainsScreenPoint(slot, position)) {            // si on lache sur ce slot
+				var entryUi = slot.GetComponentInChildren<ItemEntryUI>();						// récuperer l'entrée contenue dans ce slot
+				if (entryUi != null) {                                                          // s'il y a déjà une entrée => déplacer l'entrée
+					var prevParent = entryUi.transform.parent;
+					entryUi.transform.SetParent(currentlyDragged.OriginalParent, false);        // vers le slot vide
+					currentlyDragged.OriginalParent = prevParent as RectTransform;
+					currentlyDragged.DraggedEntry.UpdateEntry();								// mettre l'entrée déposée à jour
 					return;
 				}
 			}
@@ -156,46 +187,20 @@ public class InventoryUI : UIBase
 	}
 
 	private void DropItem(Target target, InventoryUI.DragData dragData) {
-		var EntryIndex = dragData.DraggedEntry.InventoryEntry;
-		CreateWorldRepresentation(InventorySystem.Instance.Entries[EntryIndex].Item, target);
-		//target.DoQuests();
-		InventorySystem.Instance.RemoveItem(EntryIndex);
+		var EntryIndex = dragData.DraggedEntry.inventoryEntry;
+		CreateWorldRepresentation(dragData.DraggedEntry.inventoryEntry.item, target);
+		currentlyDragged.DraggedEntry.transform.SetParent(currentlyDragged.OriginalParent);
+		InventoryManager.Instance.RemoveItem(EntryIndex);
 	}
 
 	void CreateWorldRepresentation(Item item, Target target) {
 		var pos = target.gameObject.transform.position + Vector3.up * item.WorldObjectPrefab.gameObject.transform.localScale.y / 2;
 		// if the item have a world object prefab set use that...
 		if (item.WorldObjectPrefab != null) {
-			//var obj = Instantiate(item.WorldObjectPrefab, pos, new Quaternion(), target.transform);
-			//obj.transform.localScale = new Vector3(
-			//	obj.transform.localScale.x / target.transform.localScale.x,
-			//	obj.transform.localScale.y / target.transform.localScale.y,
-			//	obj.transform.localScale.z / target.transform.localScale.z
-			//	); 
 			var obj = Instantiate(item.WorldObjectPrefab, pos, new Quaternion());
 			obj.transform.parent = target.gameObject.transform;
 			obj.layer = LayerMask.NameToLayer("Interactable");
 		}
-		//else {//...otherwise, we create a billboard using the item sprite
-		//	GameObject billboard = new GameObject("ItemBillboard");
-		//	billboard.transform.SetParent(transform, false);
-		//	billboard.transform.localPosition = Vector3.up * 0.3f;
-		//	billboard.layer = LayerMask.NameToLayer("Interactable");
-
-		//	var renderer = billboard.AddComponent<SpriteRenderer>();
-		//	renderer.sharedMaterial = ResourceManager.Instance.BillboardMaterial;
-		//	renderer.sprite = item.ItemSprite;
-
-		//	var rect = item.ItemSprite.rect;
-		//	float maxSize = rect.width > rect.height ? rect.width : rect.height;
-		//	float scale = item.ItemSprite.pixelsPerUnit / maxSize;
-
-		//	billboard.transform.localScale = scale * Vector3.one * 0.5f;
-
-
-		//	var bc = billboard.AddComponent<BoxCollider>();
-		//	bc.size = new Vector3(0.5f, 0.5f, 0.5f) * (1.0f / scale);
-		//}
 	}
 
 }

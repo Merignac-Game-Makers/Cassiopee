@@ -19,7 +19,7 @@ public class Loot : InteractableObject
 	static float AnimationTime = 0.1f;
 
 	public Item Item;
-	public static InventoryUI m_inventoryUI;
+	public static InventoryUI inventoryUI;
 
 	public override bool IsInteractable() {
 		return m_AnimationTimer >= AnimationTime;
@@ -38,7 +38,7 @@ public class Loot : InteractableObject
 
 	protected override void Start() {
 		base.Start();
-		m_inventoryUI = InventoryUI.Instance;
+		inventoryUI = InventoryUI.Instance;
 	}
 
 
@@ -53,14 +53,9 @@ public class Loot : InteractableObject
 			currentPos.y = currentPos.y + Mathf.Sin(ratio * Mathf.PI) * 2.0f;
 
 			transform.position = currentPos;
-
-			// ajouter 1 étiquette
-			//if (m_AnimationTimer >= AnimationTime) {
-			//	LootUI.Instance.NewLoot(this);
-			//}
 		}
 
-		Debug.DrawLine(m_TargetPoint, m_TargetPoint + new Vector3(0, 2, 0), Color.magenta);
+		//Debug.DrawLine(m_TargetPoint, m_TargetPoint + new Vector3(0, 2, 0), Color.magenta);
 	}
 
 	/// <summary>
@@ -69,10 +64,11 @@ public class Loot : InteractableObject
 	/// <param name="target"></param>
 	public override void InteractWith(HighlightableObject target) {
 		base.InteractWith(target);
-		InventorySystem.Instance.AddItem(Item);
 		SFXManager.PlaySound(SFXManager.Use.Sound2D, new SFXManager.PlayData(){Clip = SFXManager.PickupSound});
 
-		m_inventoryUI.Load(target);
+		InventoryManager.Instance.AddItem(Item);
+
+		inventoryUI.UpdateEntries(target);
 		Destroy(gameObject);
 	}
 

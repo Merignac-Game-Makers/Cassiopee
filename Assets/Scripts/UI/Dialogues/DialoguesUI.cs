@@ -10,6 +10,9 @@ public class DialoguesUI : UIBase
 
 	public static DialoguesUI Instance;
 
+	public GameObject questsButton;
+	public GameObject inventory;
+
 	public GameObject container_NPC;
 	public Image NPC_Sprite;
 	public Text NPC_label;
@@ -49,7 +52,8 @@ public class DialoguesUI : UIBase
 
 	public void Begin(VIDE_Assign dialog) {
 		PlayerManager.Instance.StopAgent();
-		panel.SetActive(true);
+		//panel.SetActive(true);
+		Show();
 		VD.OnNodeChange += UpdateUI;
 		VD.OnEnd += End;
 		if (VD.isActive)
@@ -61,6 +65,18 @@ public class DialoguesUI : UIBase
 
 	public override void Toggle() {
 		panel.SetActive(!isOn);
+		questsButton.SetActive(!isOn);
+		inventory.SetActive(!isOn);
+	}
+	public void Show() {
+		panel.SetActive(true);
+		questsButton.SetActive(false);
+		inventory.SetActive(false);
+	}
+	public void Hide() {
+		panel.SetActive(false);
+		questsButton.SetActive(true);
+		inventory.SetActive(true);
 	}
 
 
@@ -72,12 +88,14 @@ public class DialoguesUI : UIBase
 		if (data.isPlayer) {
 			container_PLAYER.SetActive(true);
 			// set sprite
-			if (data.creferences[data.commentIndex].sprites != null)
-				PLAYER_Sprite.sprite = data.creferences[data.commentIndex].sprites;    // specific for comment i exists
-			else if (data.sprite != null)
-				PLAYER_Sprite.sprite = data.sprite;
-			else if (VD.assigned.defaultPlayerSprite != null)
-				PLAYER_Sprite.sprite = VD.assigned.defaultPlayerSprite;
+			// TODO: revoir la mise en place de sprite spécifique
+
+			//if (data.creferences[data.commentIndex].sprites != null)
+			//	PLAYER_Sprite.sprite = data.creferences[data.commentIndex].sprites;    // specific for comment i exists
+			//else if (data.sprite != null)
+			//	PLAYER_Sprite.sprite = data.sprite;
+			//else if (VD.assigned.defaultPlayerSprite != null)
+			//	PLAYER_Sprite.sprite = VD.assigned.defaultPlayerSprite;
 
 			// set name
 			//If it has a tag, show it, otherwise let's use the alias we set in the VIDE Assign
@@ -121,7 +139,7 @@ public class DialoguesUI : UIBase
 	
 
 	public void End(VD.NodeData data) {
-		panel.SetActive(false);
+		Hide();
 		container_NPC.SetActive(false);
 		container_PLAYER.SetActive(false);
 		VD.OnNodeChange -= UpdateUI;
