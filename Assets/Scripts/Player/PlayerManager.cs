@@ -56,8 +56,8 @@ public class PlayerManager : MonoBehaviour
 
 	// Visuel
 	public Renderer body;                                           // Mesh renderer du corps
-	public Color standardColor;                                     // couleur en mode 'standard'
-	public Color magicColor;                                        // couleur en mode 'magie active'
+	public Texture2D standardTex;                                   // texture en mode 'standard'
+	public Texture2D magicTex;                                      // texture en mode 'magie active'
 
 
 	#region Initialisation
@@ -134,7 +134,7 @@ public class PlayerManager : MonoBehaviour
 
 			ObjectsRaycasts(screenRay);                             // Mettre en surbrillance les objets intéractibles lorsqu'ils sont sous le pointeur de souris
 
-			if (m_InvItemDragging == null && m_MagicController.dragging == null) { // éviter de déplacer le personnage si on est en cours de drag & drop
+			if (m_InvItemDragging == null && m_MagicController?.dragging == null) { // éviter de déplacer le personnage si on est en cours de drag & drop
 
 				// si le bouton de la souris est appuyé
 				if (Input.GetMouseButton(0)) {
@@ -162,8 +162,8 @@ public class PlayerManager : MonoBehaviour
 			}
 		}
 
-		if (inTransit && m_Agent.velocity.magnitude < m_Agent.radius)			// à la fin d'un déplacement 'en transit'
-			EndTransit();														// on n'est plus en transit
+		if (inTransit && !m_Agent.hasPath)			// à la fin d'un déplacement 'en transit'
+			EndTransit();							// on n'est plus en transit
 
 		// controler la vitesse sur les NavMesh Links (par défaut elle est trop rapide)
 		if (m_Agent.isOnOffMeshLink && !MoveAcrossNavMeshesStarted) {
@@ -176,10 +176,11 @@ public class PlayerManager : MonoBehaviour
 	public void VisualMagicMode(bool on) {
 		if (on) {
 			body.material.EnableKeyword("_EMISSION");                                       // activer la texture émissive
-			body.material.color = magicColor;
+			body.material.SetTexture("_MainTex", magicTex);
+;
 		} else {
 			body.material.DisableKeyword("_EMISSION");                                      // désactiver la texture émissive
-			body.material.color = standardColor;
+			body.material.SetTexture("_MainTex", standardTex);
 		}
 	}
 	#endregion
