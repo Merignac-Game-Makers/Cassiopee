@@ -23,9 +23,12 @@ public abstract class QuestBase : MonoBehaviour, IQuest
 	[HideInInspector]
 	public QuestBase[] previousQuests; // quêtes précédentes 
 
+	public InfoPanel infopanel { get; private set; }
+
 	private void Start() {
 		questsUI = QuestsUI.Instance;
 		questManager = QuestManager.Instance;
+		infopanel = UIManager.Instance.GetComponentInChildren<InfoPanel>();
 	}
 
 
@@ -44,12 +47,16 @@ public abstract class QuestBase : MonoBehaviour, IQuest
 	}
 	public virtual void AcceptQuest() {
 		//status = Accepted;
-		UIManager.Instance.inventoryButton?.gameObject.GetComponentInParent<Animator>()?.SetTrigger("startColor");
+		//UIManager.Instance.inventoryButton?.gameObject.GetComponentInParent<Animator>()?.SetTrigger("startColor");
+		infopanel.Set("Nouvel objectif", shortText);
+		infopanel.Show(3);
 		questManager.SetStatus(this, Accepted);
 	}
 	public virtual void QuestDone() {
 		//status = Done;
-		UIManager.Instance.inventoryButton?.gameObject.GetComponentInParent<Animator>()?.SetTrigger("startColor");
+		//UIManager.Instance.inventoryButton?.gameObject.GetComponentInParent<Animator>()?.SetTrigger("startColor");
+		infopanel.Set("Objectif atteint", shortText);
+		infopanel.Show(3);
 		questManager.SetStatus(this, Done);
 	}
 	public virtual void QuestFailed() {
