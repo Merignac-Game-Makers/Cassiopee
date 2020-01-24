@@ -27,7 +27,9 @@ public class AutoFlip : MonoBehaviour
 		StartCoroutine(FlipToEnd());
 	}
 	public void FlipRightPage() {
-		if (ControledBook.currentPage < ControledBook.TotalPageCount - 1) {
+		//if (ControledBook.currentPage < ControledBook.TotalPageCount - 1 && ControledBook.currentPage < ControledBook.lastAvailablePage) {
+
+		if (ControledBook.magicBookContent.GetNextAvailablePage(ControledBook.currentPage)) { 
 			if (isFlipping) return;
 			if (ControledBook.currentPage >= ControledBook.TotalPageCount) return;
 			isFlipping = true;

@@ -19,5 +19,6 @@ MonoBehaviour:
     constellation\n\nTu obitendras un ORBE magique\n\nD\xE9pose l'orbe \xE0 l'endroit
     o\xF9 tu veux appliquer la magie"
   constellation: 
+  isAvailable: 1
   hasHelp: 0
   helpPicture: {fileID: 0}

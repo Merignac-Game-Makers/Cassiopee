@@ -229,6 +229,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 19857929}
+  - component: {fileID: 19857935}
   - component: {fileID: 19857934}
   - component: {fileID: 19857933}
   - component: {fileID: 19857932}
@@ -336,6 +337,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   page: {fileID: 11400000, guid: e0b98a547b0cca441bd8a3b791866faa, type: 2}
   constellations: []
+--- !u!114 &19857935
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 19857928}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0c642bed4b6eab41ad734e8bbb1f7f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  content: []
 --- !u!1 &23496706
 GameObject:
   m_ObjectHideFlags: 0
@@ -9206,7 +9220,7 @@ PrefabInstance:
     - target: {fileID: 11415212, guid: fe9bfb5044c0cc646baba1ad7d354100, type: 3}
       propertyPath: magicBookContent
       value: 
-      objectReference: {fileID: 19857928}
+      objectReference: {fileID: 19857935}
     - target: {fileID: 11415212, guid: fe9bfb5044c0cc646baba1ad7d354100, type: 3}
       propertyPath: P1
       value: 
@@ -9217,6 +9231,18 @@ PrefabInstance:
       objectReference: {fileID: 1241268505}
     - target: {fileID: 11415212, guid: fe9bfb5044c0cc646baba1ad7d354100, type: 3}
       propertyPath: enableShadowEffect
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11415212, guid: fe9bfb5044c0cc646baba1ad7d354100, type: 3}
+      propertyPath: bookPanel
+      value: 
+      objectReference: {fileID: 599687047}
+    - target: {fileID: 11415212, guid: fe9bfb5044c0cc646baba1ad7d354100, type: 3}
+      propertyPath: lastAvailablePage
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11415212, guid: fe9bfb5044c0cc646baba1ad7d354100, type: 3}
+      propertyPath: currentPage
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 22488492, guid: fe9bfb5044c0cc646baba1ad7d354100, type: 3}
@@ -26504,12 +26530,12 @@ PrefabInstance:
     - target: {fileID: 4078818899363470665, guid: 9fdffd9dce66e6a4480460d1ebaac4f1,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.08543663
+      value: -0.08543659
       objectReference: {fileID: 0}
     - target: {fileID: 4078818899363470665, guid: 9fdffd9dce66e6a4480460d1ebaac4f1,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.13842164
+      value: 0.13842158
       objectReference: {fileID: 0}
     - target: {fileID: 4078818899363470665, guid: 9fdffd9dce66e6a4480460d1ebaac4f1,
         type: 3}
