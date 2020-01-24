@@ -17,7 +17,7 @@ MonoBehaviour:
   text: "Pour utiliser la magie :\n- active ce livre (m\xE9daillon visible)\n- Choisis
     SOLEIL ou LUNE\n- Dans le paysage, active les objets magiques pour tracer une
     constellation\n\nTu obitendras un ORBE magique\n\nD\xE9pose l'orbe \xE0 l'endroit
-    o\xF9 tu veux apliquer la magie"
+    o\xF9 tu veux appliquer la magie"
   constellation: 
   hasHelp: 0
   helpPicture: {fileID: 0}

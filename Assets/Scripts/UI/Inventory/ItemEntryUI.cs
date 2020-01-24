@@ -5,12 +5,14 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using static InventoryManager;
+using TMPro;
 
 public class ItemEntryUI : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler,
 	IBeginDragHandler, IDragHandler, IEndDragHandler
 {
 	public Image iconeImage;
 	public Text itemCount;
+	TMP_Text label;
 	public InventoryEntry inventoryEntry;
 
 	//public EquipmentItem equipmentItem { get; private set; }
@@ -18,11 +20,16 @@ public class ItemEntryUI : MonoBehaviour, IPointerClickHandler, IPointerEnterHan
 	public InventoryUI inventoryUI { get; set; }
 	public int Index { get; set; }
 
+	bool selected = false;
+	ItemEntryUI[] all;
+
 	public void Init(InventoryUI inventoryUI, InventoryEntry entry) {
 		this.inventoryUI = inventoryUI;
 		inventoryEntry = entry;
 		iconeImage.sprite = entry.item.ItemSprite;
 		itemCount.text = "";
+		label = GetComponentInChildren<TMP_Text>();
+		label.text = entry.item.ItemName;
 	}
 
 	/// <summary>
@@ -122,5 +129,28 @@ public class ItemEntryUI : MonoBehaviour, IPointerClickHandler, IPointerEnterHan
 		inventoryUI.currentlyDragged = null;                                            // supprimer le 'dragData'
 		t.offsetMax = -Vector2.one * 4;
 		t.offsetMin = Vector2.one * 4;
+	}
+
+	public void Toggle() {
+		all = inventoryUI.GetComponentsInChildren<ItemEntryUI>();
+		foreach(ItemEntryUI entry in all) {
+			if (entry!=this)
+				entry.Select(false);
+		}
+		Select(!selected);
+	}
+
+	void Select(bool on) {
+		if (on) {
+			transform.localPosition = new Vector2(0, 10);
+			transform.localScale = new Vector3(1, 1, 1);
+			inventoryUI.selectedEntry = this;
+		} else {
+			transform.localPosition = new Vector2(0, 0);
+			transform.localScale = new Vector3(.9f, .9f, .9f);
+			inventoryUI.selectedEntry = null;
+		}
+		label.enabled = on;
+		selected = on;
 	}
 }

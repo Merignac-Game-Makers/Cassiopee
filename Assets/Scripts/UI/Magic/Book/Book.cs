@@ -163,6 +163,7 @@ public class Book : MonoBehaviour
 		Right.transform.SetParent(ClippingPlane.transform, true);
 		Right.transform.SetAsFirstSibling();
 
+		//???
 		ShadowLTR.rectTransform.SetParent(Left.rectTransform, true);
 	}
 	public void UpdateBookRTLToPoint(Vector3 followLocation) {
@@ -197,6 +198,7 @@ public class Book : MonoBehaviour
 		Left.transform.SetParent(ClippingPlane.transform, true);
 		Left.transform.SetAsFirstSibling();
 
+		//???
 		Shadow.rectTransform.SetParent(Right.rectTransform, true);
 	}
 	private float Calc_T0_T1_Angle(Vector3 c, Vector3 bookCorner, out Vector3 t1) {
@@ -377,8 +379,8 @@ public class Book : MonoBehaviour
 		Right.gameObject.SetActive(false);
 		Right.transform.SetParent(BookPanel.transform, true);
 		RightNext.transform.SetParent(BookPanel.transform, true);
-		Shadow.gameObject.SetActive(false);
-		ShadowLTR.gameObject.SetActive(false);
+		//Shadow.gameObject.SetActive(false);
+		//ShadowLTR.gameObject.SetActive(false);
 
 		StartUpdateSprites2();
 

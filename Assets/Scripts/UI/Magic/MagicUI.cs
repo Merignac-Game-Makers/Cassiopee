@@ -22,6 +22,7 @@ public class MagicUI : UIBase
 	[Header("Panels")]
 	public GameObject bookPanel;        // panneau livre ouvert (plein écran)
 	public Book book;                   // livre
+	public InventoryUI inventory;       // livre
 
 
 	[Header("Boutons")]
@@ -111,10 +112,12 @@ public class MagicUI : UIBase
 		if (state == active) {
 			artefactButton.gameObject.SetActive(true);                          // médaillon visible
 			bookPanel.gameObject.SetActive(false);                              // livre ouvert invisible
+			inventory.Restore();
 			PlayerManager.Instance.VisualMagicMode(true);
 		} else if (state == open) {
 			artefactButton.gameObject.SetActive(true);                          // médaillon visible
 			bookPanel.gameObject.SetActive(true);                               // livre ouvert visible
+			inventory.SaveAndHide();
 			PlayerManager.Instance.VisualMagicMode(true);
 		} else {
 			artefactButton.gameObject.SetActive(false);                         // médaillon invisible
