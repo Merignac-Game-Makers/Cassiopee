@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -9,46 +10,66 @@ public class PageMaker : MonoBehaviour
 {
 	public enum Side { left, right }
 
-	public Image picture;
+	public GameObject leftPage;
 	public TMP_Text title;
 	public TMP_Text text;
 
+	public GameObject rightPage;
+	public Image picture;
+
 	Page page;
+	RenderTexture rt;
+	Camera cam;
+	Texture2D tex;
+
+	public void Awake() {
+		cam = GetComponentInChildren<Camera>();
+		rt = new RenderTexture(Screen.width, Screen.height, 24, RenderTextureFormat.ARGB32) {
+			useMipMap = false,
+			antiAliasing = 1,
+			height = 297,
+			width = 210
+		};
+		cam.targetTexture = rt;
+		tex = new Texture2D(rt.width, rt.height);
+	}
 
 
-	public void Make(Page page, Side side) {
-		this.page = page;
-		if (side == left) {
-			title.text = page.title;
-			text.text = page.text;
-			picture.enabled = false;
-		} else {
-			title.text = "";
-			text.text = "";
-			picture.enabled = true;
-			picture.sprite = page.picture;
-		}
-	}
-	public void Make(PageMaker other) {
-		page = other.page;
-		title.text = other.title.text;
-		text.text = other.text.text;
-		picture.enabled = other.picture.enabled;
-		picture.sprite = other.picture.sprite;
-	}
+	//public void Make(PageMaker other) {
+	//	page = other.page;
+	//	title.text = other.title.text;
+	//	text.text = other.text.text;
+	//	picture.enabled = other.picture.enabled;
+	//	picture.sprite = other.picture.sprite;
+	//}
 
 	public void ToggleHelp(bool on) {
-		if (picture.enabled) {
-			picture.sprite = on ? page.helpPicture : page.picture; 
-		}
+		picture.sprite = on ? page.helpPicture : page.picture;
 	}
 
-	public Sprite GetSprite() {
-		RenderTexture rTex = GetComponentInChildren<Camera>().targetTexture;
-		Texture2D tex = new Texture2D(rTex.width, rTex.height);
-		RenderTexture.active = rTex;
-		tex.ReadPixels(new Rect(0, 0, rTex.width, rTex.height), 0, 0);
+	public IEnumerator IGetSprite(Page page, Side side) {
+		// make page
+		this.page = page;
+		if (side == left) {
+			leftPage.SetActive(true);
+			rightPage.SetActive(false);
+			title.text = page.title;
+			text.text = page.text;
+		} else {
+			leftPage.SetActive(false);
+			rightPage.SetActive(true);
+			picture.sprite = page.picture;
+		}
+		yield return new WaitForEndOfFrame();
+		// get sprite from renderTexture
+		RenderTexture.active = rt;
+		tex.ReadPixels(new Rect(0, 0, rt.width, rt.height), 0, 0);
 		tex.Apply();
-		return Sprite.Create(tex, new Rect(0, 0, rTex.width, rTex.height), new Vector2(.5f, .5f));
+		Sprite s = Sprite.Create(tex, new Rect(0, 0, rt.width, rt.height), new Vector2(.5f, .5f));
+		RenderTexture.active = null;
+		yield return s;
 	}
+
+
+
 }
