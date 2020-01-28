@@ -15,6 +15,8 @@ public abstract class PageMaker : MonoBehaviour
 
 	public abstract void Make();
 
-	public abstract void SetSide(Side side);
-
+	public virtual void SetSide(Side side) {
+		leftPage.SetActive(side == Side.left);
+		rightPage.SetActive(side == Side.right);
+	}
 }

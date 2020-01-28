@@ -9,13 +9,14 @@ using UnityEngine;
 /// </summary>
 public class MagicManager : MonoBehaviour
 {
-	public static MagicManager Instance; // instance statique
+	public static MagicManager Instance;		// instance statique
 
-	public LineRenderer lineRendered;       // pour tracer les éclairs
-	public MagicOrb moonOrb;                // orbe magique LUNE
-	public MagicOrb sunOrb;                 // orbe magique SOLEIL
-	public Material moonRay;                // éclairs couleur LUNE
-	public Material sunRay;                 // éclairs couleur SOLEIL
+	public MagicBookContent magicBookContent;	// les pages de magie
+	public LineRenderer lineRendered;			// pour tracer les éclairs
+	public MagicOrb moonOrb;					// orbe magique LUNE
+	public MagicOrb sunOrb;						// orbe magique SOLEIL
+	public Material moonRay;					// éclairs couleur LUNE
+	public Material sunRay;						// éclairs couleur SOLEIL
 
 	public bool isOn => MagicUI.Instance.artefactButton.gameObject.activeInHierarchy;   // la magie n'est active que si le médaillon est visible
 	public MagicOrb currentOrb { get; private set; }        // l'orbe existante
@@ -45,7 +46,7 @@ public class MagicManager : MonoBehaviour
 		magicActivatedItems = new List<Activable>();
 		// récupération des pages portés par 'MagicBookContent'
 		pages = new List<PageTemplate>();
-		foreach (PageTemplate page in gameObject.GetComponentsInChildren<PageTemplate>()) {
+		foreach (PageTemplate page in magicBookContent.gameObject.GetComponentsInChildren<PageTemplate>()) {
 			pages.Add(page);
 		}
 	}

@@ -28,8 +28,4 @@ public class MagicPageMaker : PageMaker
 		picture.sprite = helpIsOn ? page.helpPicture : page.picture;
 	}
 
-	public override void SetSide(Side side) {
-		leftPage.SetActive(side == Side.left);
-		rightPage.SetActive(side == Side.right);
-	}
 }

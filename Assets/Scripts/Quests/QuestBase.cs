@@ -50,6 +50,7 @@ public abstract class QuestBase : MonoBehaviour, IQuest
 		//UIManager.Instance.inventoryButton?.gameObject.GetComponentInParent<Animator>()?.SetTrigger("startColor");
 		infopanel.Set("Nouvel objectif", shortText);
 		infopanel.Show(3);
+		QuestBookContent.Instance.AddQuest(this);
 		questManager.SetStatus(this, Accepted);
 	}
 	public virtual void QuestDone() {

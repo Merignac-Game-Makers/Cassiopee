@@ -7,11 +7,27 @@ using TMPro;
 public class SetQuestPanel : MonoBehaviour
 {
 	public Image picture;
-	public Text title;
+	public TMP_Text title;
 	public TMP_Text text;
+	public Image checkBox;
+
+	[HideInInspector]
+	public QuestBase quest;
+
 	public void Init(QuestBase quest) {
-		picture.sprite = quest.picture;
-		title.text = quest.title;
-		text.text = quest.shortText;
+		SetQuest(quest);
 	}
+
+	public void SetQuest(QuestBase quest) {
+		this.quest = quest;
+		gameObject.SetActive(quest != null);
+		if (quest != null) {
+			picture.sprite = quest.picture;
+			title.text = quest.title;
+			text.text = quest.shortText;
+			checkBox.enabled = quest.IsDone();
+		}
+	}
+
+
 }

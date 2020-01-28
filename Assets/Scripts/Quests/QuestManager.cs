@@ -80,13 +80,7 @@ public class QuestManager : MonoBehaviour
 		int idx = quests.IndexOf(quest);
 		if (idx != -1) {                                // si la quête est dans la liste
 			quests[idx].status = status;                // actualiser son statut
-														//foreach (PNJ owner in getOwners(quest)) {   // pour chacun edes PNJ qui donne cette quête
-														//	var ddd = owner.GetComponentInChildren<DefaultDialogDispatcher>();  // -> dialogue dispatcher
-														//	var dialogue = owner.GetComponentInChildren<VIDE_Assign>();			// -> dialogue
-														//	if (ddd && dialogue) {
-														//		ddd.SetStartNode(dialogue);			// mettre à jour le point de départ du dialogue
-														//	}
-														//}
+			QuestBookContent.Instance.UpdateQuestList();// mettre l'affichage à jour dans le grimoire
 		}
 	}
 }
