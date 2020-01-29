@@ -34,7 +34,7 @@ public class MagicTraining : QuestBase
 	/// </summary>
 	/// <returns></returns>
 	public override void UpdateStatus() {
-		if (step1 && step2)
+		if (!IsDone() &&  step1 && step2)
 			QuestDone(); // la quête est accomplie lorsque toutes les étapes sont franchies
 	}
 

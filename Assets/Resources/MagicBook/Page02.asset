@@ -17,5 +17,6 @@ MonoBehaviour:
   text: "Alli\xE9e \xE0 la LUNE, Cassiop\xE9e peut cr\xE9er de l'eau\n\nAlli\xE9e
     au SOLEIL, Cassiop\xE9e peut remonter en surface des objets engloutis"
   constellation: "Cassiop\xE9e"
+  isAvailable: 0
   hasHelp: 0
   helpPicture: {fileID: 0}

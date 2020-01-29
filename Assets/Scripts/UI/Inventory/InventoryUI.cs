@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using static InventoryManager;
@@ -14,16 +16,14 @@ public class InventoryUI : UIBase
 		public RectTransform OriginalParent;
 	}
 
+	public GameObject messageLabel;
 	public GameObject bookPanel;
 	public GameObject content;
 
 	float size;
 
-
 	public ItemEntryUI itemEntryPrefab;
 	public RectTransform slotPrefab;
-	//public ItemTooltip Tooltip;
-	//public EquipmentUI EquipementUI;
 
 	public Canvas DragCanvas;
 
@@ -38,12 +38,15 @@ public class InventoryUI : UIBase
 	public CanvasScaler DragCanvasScaler { get; private set; }
 
 	public List<ItemEntryUI> entries { get; private set; } = new List<ItemEntryUI>();
-	//public List<RectTransform> slots { get; private set; } = new List<RectTransform>();
 
 	ItemEntryUI hoveredItem;
 	HighlightableObject item;
 	UIManager uiManager;
 
+	bool? prevStatus = false;
+
+	[HideInInspector]
+	public ItemEntryUI selectedEntry;
 
 	public override void Init(UIManager uiManager) {
 		Instance = this;
@@ -170,27 +173,32 @@ public class InventoryUI : UIBase
 			}
 		}
 		// check for drop on 3D target
-		Ray screenRay = CameraController.Instance.GameplayCamera.ScreenPointToRay(Input.mousePosition);
-		int count = Physics.SphereCastNonAlloc(screenRay, 1.0f, m_RaycastHitCache, 1000.0f, m_TargetLayer);
-		if (count > 0) {
-			foreach (RaycastHit rh in m_RaycastHitCache) {
-				if (rh.collider != null) {
-					Target data = rh.collider.GetComponentInParent<Target>();
-					if (data != null && data.isFree) {
-						//Debug.Log("Drop Item");
-						DropItem(data, PlayerManager.Instance.m_InvItemDragging);
+		DropOn3D(PlayerManager.Instance.m_InvItemDragging.DraggedEntry.inventoryEntry);
+	}
+
+	public void DropOn3D(InventoryEntry inventoryEntry) {
+		Ray screenRay = CameraController.Instance.GameplayCamera.ScreenPointToRay(Input.mousePosition);			// lancer de rayon
+		int count = Physics.SphereCastNonAlloc(screenRay, 1.0f, m_RaycastHitCache, 1000.0f, m_TargetLayer);		// combien d'objets sous le pointeur ?
+		if (count > 0) {															// s'il y a des objets sous le pointeur
+			foreach (RaycastHit rh in m_RaycastHitCache) {							// pour chacun d'eux
+				if (rh.collider != null) {											// si l'objet a un collider
+					Target data = rh.collider.GetComponentInParent<Target>();		// si l'objet est une 'target' (lieu de dépôt d'objet d'inventaire autorisé)
+					if (data != null && data.isFree) {								// et que cet emplacement est libre
+						DropItem(data, inventoryEntry);								// déposer l'objet d'inventaire
 						break;
+					} else {
+						ShowLabel("Impossible d'utiliser cet objet ici", Input.mousePosition);
 					}
 				}
 			}
 		}
 	}
 
-	private void DropItem(Target target, InventoryUI.DragData dragData) {
-		var EntryIndex = dragData.DraggedEntry.inventoryEntry;
-		CreateWorldRepresentation(dragData.DraggedEntry.inventoryEntry.item, target);
-		currentlyDragged.DraggedEntry.transform.SetParent(currentlyDragged.OriginalParent);
-		InventoryManager.Instance.RemoveItem(EntryIndex);
+	private void DropItem(Target target, InventoryEntry inventoryEntry) {
+		CreateWorldRepresentation(inventoryEntry.item, target);									// créer l'objet 3D
+		if (currentlyDragged!=null)																// si on es dans un 'drag & drop'
+			currentlyDragged.DraggedEntry.transform.SetParent(currentlyDragged.OriginalParent);	// rattacher le 'drag & drop' à son parent original
+		InventoryManager.Instance.RemoveItem(inventoryEntry);									// retirer l'objet déposé de l'inventaire
 	}
 
 	void CreateWorldRepresentation(Item item, Target target) {
@@ -203,4 +211,26 @@ public class InventoryUI : UIBase
 		}
 	}
 
+	void ShowLabel(string text, Vector2 position) {
+		messageLabel.GetComponentInChildren<TMP_Text>().text = text;
+		messageLabel.transform.position = position;
+		StartCoroutine(IShow(messageLabel, 2));
+	}
+
+	IEnumerator IShow(GameObject obj, float s) {
+		obj.SetActive(true);
+		yield return new WaitForSeconds(s);
+		obj.SetActive(false);
+	}
+
+	public void SaveAndHide() {
+		prevStatus = panel.transform.position.y >= 0;
+		Hide();
+	}
+
+	public void Restore() {
+		if (prevStatus !=null && prevStatus != panel.transform.position.y >= 0)
+			Toggle();
+		prevStatus = null;
+	}
 }

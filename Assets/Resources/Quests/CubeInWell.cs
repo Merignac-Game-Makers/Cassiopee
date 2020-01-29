@@ -25,16 +25,6 @@ public class CubeInWell : QuestBase
 	}
 	public override void QuestDone() {
 		base.QuestDone();
-		//if (nextQuest) {                                // s'il existe une quête liée
-		//	List<PNJ> owners = questManager.getOwners(nextQuest);   // trouver les peNJ qui donnent cette quête
-		//	foreach (PNJ owner in owners) {                         // pour chacun d'eux
-		//		var ddd = owner.gameObject.GetComponentInChildren<DefaultDialogDispatcher>();
-		//		if (ddd != null) {
-		//			ddd.currentQuest = nextQuest;
-		//		}
-		//	}
-		//	nextQuest.QuestAvailable();                 //	 elle devient accessible
-		//}
 	}
 	public override void QuestFailed() {
 		base.QuestFailed();
