@@ -14,12 +14,11 @@ public class UIManager : MonoBehaviour
 	public DialoguesUI dialoguesUI;     // interface Dialogues
 	public InventoryUI inventoryUI;     // interface Inventaire
 	public MagicUI magicUI;             // interface Magie
-	public QuestsUI questsUI;           // interface Quêtes
 
-	public GameObject magicButton;		// bouton du grimoire		
+	public GameObject magicButton;      // bouton du grimoire		
 	public Button artifactButton;		// bouton des artefacts		
-	public UIButton inventoryButton;    // bouton due l'inventaire		
 	public Button exitButton;			// bouton exit
+	public GameObject questButton;      // bouton des quêtes		
 
 	void Awake() {
 		Instance = this;
@@ -29,7 +28,7 @@ public class UIManager : MonoBehaviour
 		dialoguesUI.Init(this);
 		inventoryUI.Init(this);
 		magicUI.Init(this);
-		questsUI.Init(this);
+		questButton.SetActive(false);
 
 	}
 

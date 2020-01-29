@@ -56,8 +56,8 @@ public class PlayerManager : MonoBehaviour
 
 	// Visuel
 	public Renderer body;                                           // Mesh renderer du corps
-	public Color standardColor;                                     // couleur en mode 'standard'
-	public Color magicColor;                                        // couleur en mode 'magie active'
+	public Texture2D standardTex;                                   // texture en mode 'standard'
+	public Texture2D magicTex;                                      // texture en mode 'magie active'
 
 
 	#region Initialisation
@@ -134,36 +134,35 @@ public class PlayerManager : MonoBehaviour
 
 			ObjectsRaycasts(screenRay);                             // Mettre en surbrillance les objets intéractibles lorsqu'ils sont sous le pointeur de souris
 
-			if (m_InvItemDragging == null && m_MagicController.dragging == null) { // éviter de déplacer le personnage si on est en cours de drag & drop
-
-				// si le bouton de la souris est appuyé
-				if (Input.GetMouseButton(0)) {
-					if (m_TargetInteractable == null && m_TargetActivable == null && m_CurrentTargetCharacterData == null) {     // s'il n'y a pas d'intéraction en cours
-						//if (m_InventoryUI.isOn)                                                     // refermer automatiquement l'inventaire
-						//	UIManager.Instance.inventoryButton.Toggle();
-
-						InteractableObject obj = m_Highlighted as InteractableObject;
-						if (obj) {                                                                  // si on a cliqué sur un objet intéractible
-							obj.Clicked = true;                                                     //	- l'objet a été cliqué
-							RequestInteraction(obj);                                                //	- demander l'intéraction
-						} else {
-							CharacterData data = m_Highlighted as CharacterData;
-							if (data) {                                                             // si on a cliqué sur le personnage
-								m_CurrentTargetCharacterData = data;                                // pour l'instant on ne fait rien mais l'événement est détecté
-																									// il pourrait être utilisé pour afficher un panneau de statistiques ou tout autre chose
-							} else {                                                                // sinon => navigation
-								if (Physics.Raycast(screenRay, out m_HitInfo, 5000, raycastableLayers) && (!inTransit)) {
-									m_Agent.SetDestination(m_HitInfo.point);                        // aller vers le point sélectionné
+			if (m_InvItemDragging == null && m_MagicController?.dragging == null) { // éviter de déplacer le personnage si on est en cours de drag & drop
+				if (Input.GetMouseButton(0)) {                                  // si le bouton de la souris est appuyé
+					if (m_InventoryUI.selectedEntry == null) {                          // si aucun objet d'inventaire n'est sélectionné
+						if (m_TargetInteractable == null && m_TargetActivable == null && m_CurrentTargetCharacterData == null) {     // s'il n'y a pas d'intéraction en cours
+							InteractableObject obj = m_Highlighted as InteractableObject;
+							if (obj) {                                                                  // si on a cliqué sur un objet intéractible
+								obj.Clicked = true;                                                     //	- l'objet a été cliqué
+								RequestInteraction(obj);                                                //	- demander l'intéraction
+							} else {
+								CharacterData data = m_Highlighted as CharacterData;
+								if (data) {                                                             // si on a cliqué sur le personnage
+									m_CurrentTargetCharacterData = data;                                // pour l'instant on ne fait rien mais l'événement est détecté
+																										// il pourrait être utilisé pour afficher un panneau de statistiques ou tout autre chose
+								} else {                                                                // sinon => navigation
+									if (Physics.Raycast(screenRay, out m_HitInfo, 5000, raycastableLayers) && (!inTransit)) {
+										m_Agent.SetDestination(m_HitInfo.point);                    // aller vers le point sélectionné
+									}
 								}
 							}
 						}
+					} else {
+						m_InventoryUI.DropOn3D(m_InventoryUI.selectedEntry.inventoryEntry);
 					}
 				}
 			}
 		}
 
-		if (inTransit && m_Agent.velocity.magnitude < m_Agent.radius)			// à la fin d'un déplacement 'en transit'
-			EndTransit();														// on n'est plus en transit
+		if (inTransit && !m_Agent.hasPath)          // à la fin d'un déplacement 'en transit'
+			EndTransit();                           // on n'est plus en transit
 
 		// controler la vitesse sur les NavMesh Links (par défaut elle est trop rapide)
 		if (m_Agent.isOnOffMeshLink && !MoveAcrossNavMeshesStarted) {
@@ -176,10 +175,11 @@ public class PlayerManager : MonoBehaviour
 	public void VisualMagicMode(bool on) {
 		if (on) {
 			body.material.EnableKeyword("_EMISSION");                                       // activer la texture émissive
-			body.material.color = magicColor;
+			body.material.SetTexture("_MainTex", magicTex);
+			;
 		} else {
 			body.material.DisableKeyword("_EMISSION");                                      // désactiver la texture émissive
-			body.material.color = standardColor;
+			body.material.SetTexture("_MainTex", standardTex);
 		}
 	}
 	#endregion

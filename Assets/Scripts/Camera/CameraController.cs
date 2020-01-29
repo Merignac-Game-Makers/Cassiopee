@@ -58,11 +58,13 @@ public class CameraController : MonoBehaviour
 	/// <param name="distance">The distance to zoom, need to be in range [0..1] (will be clamped) </param>
 	public void Zoom(float distance) {
 		m_CurrentDistance = Mathf.Clamp01(m_CurrentDistance + distance);
-		vCams.Peek().m_Lens.FieldOfView = MinAngle + (MaxAngle - MinAngle) * m_CurrentDistance;
+		if (vCams.Peek() != null)
+			vCams.Peek().m_Lens.FieldOfView = MinAngle + (MaxAngle - MinAngle) * m_CurrentDistance;
 	}
 
 	private void Update() {
-		DOF();
+		if (ppv)
+			DOF();
 	}
 
 	void DOF() {

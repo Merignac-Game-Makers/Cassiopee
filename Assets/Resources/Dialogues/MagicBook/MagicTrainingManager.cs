@@ -30,7 +30,7 @@ public class MagicTrainingManager : MonoBehaviour
 	//}
 
 	IEnumerator FirstDialogue() {
-		yield return new WaitForSeconds(.025f); // attendre la fin des 'Start'
+		yield return new WaitForEndOfFrame(); // attendre la fin des 'Start'
 		Run();
 	}
 	public void Run() {
