@@ -371,6 +371,7 @@ public class Book : MonoBehaviour
 				baseBookContent = magicBookContent;
 				break;
 			case quests:
+				questPages = new List<PageMaker>(questBookContent.content);
 				pages = questPages;
 				currentPage = currentQuestPage;
 				baseBookContent = questBookContent;
@@ -392,7 +393,7 @@ public class Book : MonoBehaviour
 	}
 
 	Coroutine currentCoroutine;
-	void UpdateCurrentPages() {
+	public void UpdateCurrentPages() {
 		SetPage(LeftNext, currLeft);
 		SetPage(RightNext, currRight);
 	}
@@ -485,23 +486,24 @@ public class Book : MonoBehaviour
 	}
 
 	void SetPage(Transform owner, GameObject page) {
-		foreach (PageMaker child in owner.GetComponentsInChildren<PageMaker>()) {
-			Destroy(child.gameObject);
-		}
-		var p = Instantiate(page, owner, false);
+		//foreach (PageMaker child in owner.GetComponentsInChildren<PageMaker>()) {
+		//	Destroy(child.gameObject);
+		//}
+		//var p = Instantiate(page, owner, false);
+
+		page.transform.SetParent(owner, false);
 	}
 
 	void MakePages() {
 		foreach (PageMaker pm in pagesStack.GetComponentsInChildren<PageMaker>()) {
 			Destroy(pm.gameObject);
 		}
-		pagesStack.DetachChildren();
 		MakePreviousPages();
 		MakeCurrentPages();
 		MakeNextPages();
 	}
 
-	void MakeCurrentPages() {
+	public void MakeCurrentPages() {
 		if (currentPage >= 0 && currentPage < TotalPageCount) {
 			PageMaker pm = pages[currentPage];
 			pm.Make();

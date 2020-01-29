@@ -22,12 +22,14 @@ public class QuestPageMaker : PageMaker
 		title.text = "Objectifs";
 
 		foreach (SetQuestPanel qp in leftContent.GetComponentsInChildren<SetQuestPanel>()) {
-			if (qp.quest == null)
-				qp.gameObject.SetActive(false);
+			qp.gameObject.SetActive(qp.quest != null);
+			//if (qp.quest == null)
+			//	qp.gameObject.SetActive(false);
 		}
 		foreach (SetQuestPanel qp in rightContent.GetComponentsInChildren<SetQuestPanel>()) {
-			if (qp.quest == null)
-				qp.gameObject.SetActive(false);
+			qp.gameObject.SetActive(qp.quest != null);
+			//if (qp.quest == null)
+			//	qp.gameObject.SetActive(false);
 		}
 	}
 
@@ -40,13 +42,20 @@ public class QuestPageMaker : PageMaker
 		}
 		return false;
 	}
-
+	public bool UpdateQuest(QuestBase quest) {
+		SetQuestPanel qp = GetQuestPanel(quest);
+		if (qp != null) {
+			qp.SetQuest(quest);
+			return true;
+		}
+		return false;
+	}
 	public SetQuestPanel GetQuestPanel(QuestBase quest) {
-		foreach (SetQuestPanel qp in leftContent.GetComponentsInChildren<SetQuestPanel>()) {
+		foreach (SetQuestPanel qp in leftContent.GetComponentsInChildren<SetQuestPanel>(true)) {
 			if (qp.quest == quest)
 				return qp;
 		}
-		foreach (SetQuestPanel qp in rightContent.GetComponentsInChildren<SetQuestPanel>()) {
+		foreach (SetQuestPanel qp in rightContent.GetComponentsInChildren<SetQuestPanel>(true)) {
 			if (qp.quest == quest)
 				return qp;
 		}
@@ -55,11 +64,11 @@ public class QuestPageMaker : PageMaker
 	}
 
 	public SetQuestPanel GetFirtsFree() {
-		foreach (SetQuestPanel qp in leftContent.GetComponentsInChildren<SetQuestPanel>()) {
+		foreach (SetQuestPanel qp in leftContent.GetComponentsInChildren<SetQuestPanel>(true)) {
 			if (qp.quest == null)
 				return qp;
 		}
-		foreach (SetQuestPanel qp in rightContent.GetComponentsInChildren<SetQuestPanel>()) {
+		foreach (SetQuestPanel qp in rightContent.GetComponentsInChildren<SetQuestPanel>(true)) {
 			if (qp.quest == null)
 				return qp;
 		}

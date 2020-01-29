@@ -6,6 +6,7 @@ public class QuestBookContent : BaseBookContent
 {
 	public static QuestBookContent Instance;
 	public QuestPageMaker[] content;
+	public Book book;
 
 	private void Awake() {
 		Instance = this;
@@ -13,8 +14,21 @@ public class QuestBookContent : BaseBookContent
 
 	public void AddQuest(QuestBase quest) {
 		foreach (QuestPageMaker qpm in GetComponentsInChildren<QuestPageMaker>()) {
-			if (qpm.AddQuest(quest)) 
-				return;
+			if (qpm.AddQuest(quest)) {
+				book.MakeCurrentPages();
+				book.UpdateCurrentPages();
+				break;
+			}
+		}
+	}
+
+	public void UpdateQuest(QuestBase quest) {
+		foreach (QuestPageMaker qpm in GetComponentsInChildren<QuestPageMaker>()) {
+			if (qpm.UpdateQuest(quest)) {
+				book.MakeCurrentPages();
+				book.UpdateCurrentPages();
+				break;
+			}
 		}
 	}
 

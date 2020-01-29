@@ -20,12 +20,12 @@ public class SetQuestPanel : MonoBehaviour
 
 	public void SetQuest(QuestBase quest) {
 		this.quest = quest;
-		gameObject.SetActive(quest != null);
 		if (quest != null) {
 			picture.sprite = quest.picture;
 			title.text = quest.title;
 			text.text = quest.shortText;
 			checkBox.enabled = quest.IsDone();
+			gameObject.SetActive(true);
 		}
 	}
 

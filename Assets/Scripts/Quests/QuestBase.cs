@@ -12,7 +12,7 @@ public abstract class QuestBase : MonoBehaviour, IQuest
 	[HideInInspector]
 	public QuestStatus status = Unavailable;
 
-	public static QuestsUI questsUI;
+	//public static QuestsUI questsUI;
 	public static QuestManager questManager;
 
 	public Sprite picture;
@@ -26,7 +26,7 @@ public abstract class QuestBase : MonoBehaviour, IQuest
 	public InfoPanel infopanel { get; private set; }
 
 	private void Start() {
-		questsUI = QuestsUI.Instance;
+		//questsUI = QuestsUI.Instance;
 		questManager = QuestManager.Instance;
 		infopanel = UIManager.Instance.GetComponentInChildren<InfoPanel>();
 	}
@@ -58,6 +58,7 @@ public abstract class QuestBase : MonoBehaviour, IQuest
 		//UIManager.Instance.inventoryButton?.gameObject.GetComponentInParent<Animator>()?.SetTrigger("startColor");
 		infopanel.Set("Objectif atteint", shortText);
 		infopanel.Show(3);
+		QuestBookContent.Instance.UpdateQuest(this);
 		questManager.SetStatus(this, Done);
 	}
 	public virtual void QuestFailed() {
