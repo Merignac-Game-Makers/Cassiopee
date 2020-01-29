@@ -32,13 +32,13 @@ public class MagicButtonStates : MonoBehaviour
 	/// </summary>
 	public void ToggleFullScreen() {
 		if (!bookButtonSelector) bookButtonSelector = GetComponentInChildren<SimpleScrollSnap>(true);
-		if (bookButtonSelector.targetPanel == 1) {
+		if (bookButtonSelector.targetPanel == 1) {					// inactif
 			if (state == State.inactive)
 				halo.SetTrigger("startColorON");
 			state = State.active;
-		} else if (bookButtonSelector.targetPanel == 2) {
+		} else if (bookButtonSelector.targetPanel == 2) {			// actif fermé
 			state = State.open;
-		} else {
+		} else {													// actif ouvert
 			if (state == State.active)
 				halo.SetTrigger("startColorOFF");
 			state = State.inactive;
