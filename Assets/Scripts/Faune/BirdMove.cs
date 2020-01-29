@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class bird_move : MonoBehaviour
+public class BirdMove : MonoBehaviour
 {
     public Transform target;
-    public Vector3 axis;
+    
     public float moveSpeed = 5f;
     public float turnSpeed = 5f;
 
@@ -26,10 +26,10 @@ public class bird_move : MonoBehaviour
         else
         {
             
-            transform.transform.RotateAround(target.position, axis, turnSpeed);
-            transform.transform.Rotate(0, 2, 0, Space.Self);
+            transform.RotateAround(target.position, -down, turnSpeed);
+            transform.Rotate(0, 2, 0, Space.Self);
             //transform.rotation = Quaternion.Lerp(Vector3.forward, transform.up, Time.time * turnSpeed);
-            transform.transform.forward = Vector3.Cross(down, direction);
+            transform.forward = Vector3.Cross(down, direction);
         }
         //transform.Translate(Vector3.up * turnSpeed * Time.deltaTime);
     }
