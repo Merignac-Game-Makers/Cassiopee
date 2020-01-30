@@ -37,6 +37,8 @@ public abstract class MagicEffectBase : InteractableObject
 		}
 
 		MagicManager.Instance.DestroyOrb();
+		MagicUI.Instance.orbPanel.SetActive(false);
+
 	}
 
 

@@ -22,13 +22,13 @@ public class MagicUI : UIBase
 	[Header("Panels")]
 	public GameObject bookPanel;        // panneau livre ouvert (plein écran)
 	public Book book;                   // livre
-	public InventoryUI inventory;       // livre
+	public InventoryUI inventory;       // inventaire
+	public GameObject orbPanel;			// orbe
 
 
 	[Header("Boutons")]
 	public GameObject bookButton;       // activer/désactiver le grimoire
 	public GameObject artefactButton;   // bouton artefact 
-	public GameObject helpButton;       // bouton aide
 
 	// zones de contenu
 	[Header("Zones de contenu")]
@@ -53,13 +53,12 @@ public class MagicUI : UIBase
 
 		gameObject.SetActive(true);     // Book UI actif
 		panel.SetActive(false);         // panneau masqué
+		orbPanel.SetActive(false);		// panneau orbe masqué
 
 		book.Init();
-		//ShowPage(currentPageIdx);       // afficher la page courante
 
 		selectedArtefact = SelectedArtefact.Sun;    // artefact sélectionné par défaut = SUN
 
-		//bookButton.GetComponent<Image>().color = new Color(1, 1, 1, .6f);   // grimoire transparent
 		bookButton.gameObject.SetActive(false);                             // grimoire masqué
 		artefactButton.gameObject.SetActive(false);                         // artefact masqué
 

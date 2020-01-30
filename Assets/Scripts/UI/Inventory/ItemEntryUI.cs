@@ -7,150 +7,51 @@ using UnityEngine.EventSystems;
 using static InventoryManager;
 using TMPro;
 
-public class ItemEntryUI : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler,
-	IBeginDragHandler, IDragHandler, IEndDragHandler
+public class ItemEntryUI : EntryUI 
 {
 	public Image iconeImage;
-	public Text itemCount;
-	TMP_Text label;
-	public InventoryEntry inventoryEntry;
 
-	//public EquipmentItem equipmentItem { get; private set; }
-
-	public InventoryUI inventoryUI { get; set; }
-	public int Index { get; set; }
-
-	bool selected = false;
 	ItemEntryUI[] all;
 
-	public void Init(InventoryUI inventoryUI, InventoryEntry entry) {
-		this.inventoryUI = inventoryUI;
-		inventoryEntry = entry;
-		iconeImage.sprite = entry.item.ItemSprite;
-		itemCount.text = "";
-		label = GetComponentInChildren<TMP_Text>();
-		label.text = entry.item.ItemName;
+	private void Start() {
+		inventoryUI = InventoryUI.Instance;
 	}
 
-	/// <summary>
-	/// double clic pour 'consommer' un objet
-	/// </summary>
-	/// <param name="eventData"></param>
-	public void OnPointerClick(PointerEventData eventData) {
-		if (eventData.clickCount % 2 == 0) {
-			if (inventoryEntry != null)
-				InventoryUI.Instance.ObjectDoubleClicked(inventoryEntry);
-		}
+	public override void Init(Entry entry) {
+		this.entry = entry;
+		entry.ui = this;
+		iconeImage.sprite = (entry as InventoryEntry).item.ItemSprite;
+		lowerText.text = "";
+		label.text = (entry as InventoryEntry).item.ItemName;
 	}
 
-	/// <summary>
-	/// début de survol
-	/// </summary>
-	/// <param name="eventData"></param>
-	public void OnPointerEnter(PointerEventData eventData) {
-		inventoryUI.ObjectHoveredEnter(this);
-	}
-
-	/// <summary>
-	/// fin de survol
-	/// </summary>
-	/// <param name="eventData"></param>
-	public void OnPointerExit(PointerEventData eventData) {
-		inventoryUI.ObjectHoverExited(this);
-	}
 
 	/// <summary>
 	/// mise à jour
 	/// </summary>
-	public void UpdateEntry() {
-		bool isEnabled = inventoryEntry != null && inventoryEntry.count > 0;
-		//gameObject.SetActive(isEnabled);
+	public override void UpdateEntry() {
+		bool isEnabled = entry != null && (entry as InventoryEntry)?.count > 0;
 
 		if (isEnabled) {
-			iconeImage.sprite = inventoryEntry.item.ItemSprite;
-			if (inventoryEntry.count > 1) {
-				itemCount.gameObject.SetActive(true);
-				itemCount.text = inventoryEntry.count.ToString();
+			iconeImage.sprite = (entry as InventoryEntry)?.item.ItemSprite;
+			if ((entry as InventoryEntry)?.count > 1) {
+				lowerText.gameObject.SetActive(true);
+				lowerText.text = (entry as InventoryEntry)?.count.ToString();
 			} else {
-				itemCount.gameObject.SetActive(false);
+				lowerText.gameObject.SetActive(false);
 			}
 		} else {
 			inventoryUI.RemoveEntry(this);
 		}
 	}
 
-	//public void SetupEquipment(EquipmentItem itm) {
-	//	equipmentItem = itm;
-	//	enabled = itm != null;
-	//	iconeImage.enabled = enabled;
-	//	if (enabled)
-	//		iconeImage.sprite = itm.ItemSprite;
-	//}
-
-	/// <summary>
-	/// début de glisser-déposer
-	/// </summary>
-	/// <param name="eventData"></param>
-	public void OnBeginDrag(PointerEventData eventData) {
-		inventoryUI.currentlyDragged = new InventoryUI.DragData();                                  // créer un 'dragData'
-		inventoryUI.currentlyDragged.DraggedEntry = this;                                           // qui contient cette entrée
-		inventoryUI.currentlyDragged.OriginalParent = (RectTransform)transform.parent;              // dont on mémorise le parent actuel
-		transform.SetParent(inventoryUI.DragCanvas.transform, true);                                // puis qu'on rattaceha au canvas 'DragCanvas'
-	}
-
-	/// <summary>
-	/// pendant le glisser-déposer
-	/// </summary>
-	/// <param name="eventData"></param>
-	public void OnDrag(PointerEventData eventData) {
-		transform.localPosition = transform.localPosition + UnscaleEventDelta(eventData.delta);     // tenir compte de l'échelle du DragCanvas
-	}
-
-	/// <summary>
-	/// tenir compte de l'échelle du DragCanvas
-	/// </summary>
-	/// <param name="vec"></param>
-	/// <returns></returns>
-	Vector3 UnscaleEventDelta(Vector3 vec) {
-		Vector2 referenceResolution = inventoryUI.DragCanvasScaler.referenceResolution;
-		Vector2 currentResolution = new Vector2(Screen.width, Screen.height);
-		float heightRatio = currentResolution.y / referenceResolution.y;
-		return vec / heightRatio;
-	}
-
-	/// <summary>
-	/// fin de glisser-déposer
-	/// </summary>
-	/// <param name="eventData"></param>
-	public void OnEndDrag(PointerEventData eventData) {
-		inventoryUI.HandledDroppedEntry(eventData.position);                            // gérer le 'drop'
-		RectTransform t = transform as RectTransform;
-		transform.SetParent(inventoryUI.currentlyDragged.OriginalParent, true);         // rattacher au parent original
-		inventoryUI.currentlyDragged = null;                                            // supprimer le 'dragData'
-		t.offsetMax = -Vector2.one * 4;
-		t.offsetMin = Vector2.one * 4;
-	}
-
-	public void Toggle() {
+	public override void Toggle() {
+		base.Toggle();
 		all = inventoryUI.GetComponentsInChildren<ItemEntryUI>();
 		foreach(ItemEntryUI entry in all) {
 			if (entry!=this)
 				entry.Select(false);
 		}
-		Select(!selected);
 	}
 
-	void Select(bool on) {
-		if (on) {
-			transform.localPosition = new Vector2(0, 10);
-			transform.localScale = new Vector3(1, 1, 1);
-			inventoryUI.selectedEntry = this;
-		} else {
-			transform.localPosition = new Vector2(0, 0);
-			transform.localScale = new Vector3(.9f, .9f, .9f);
-			inventoryUI.selectedEntry = null;
-		}
-		label.enabled = on;
-		selected = on;
-	}
 }

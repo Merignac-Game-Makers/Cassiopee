@@ -134,8 +134,8 @@ public class PlayerManager : MonoBehaviour
 
 			ObjectsRaycasts(screenRay);                             // Mettre en surbrillance les objets intéractibles lorsqu'ils sont sous le pointeur de souris
 
-			if (m_InvItemDragging == null && m_MagicController?.dragging == null) { // éviter de déplacer le personnage si on est en cours de drag & drop
-				if (Input.GetMouseButton(0)) {                                  // si le bouton de la souris est appuyé
+			if (m_InvItemDragging == null && m_MagicController?.dragging == null) {		// éviter de déplacer le personnage si on est en cours de drag & drop
+				if (Input.GetMouseButton(0)) {											// si le bouton de la souris est appuyé
 					if (m_InventoryUI.selectedEntry == null) {                          // si aucun objet d'inventaire n'est sélectionné
 						if (m_TargetInteractable == null && m_TargetActivable == null && m_CurrentTargetCharacterData == null) {     // s'il n'y a pas d'intéraction en cours
 							InteractableObject obj = m_Highlighted as InteractableObject;
@@ -149,13 +149,13 @@ public class PlayerManager : MonoBehaviour
 																										// il pourrait être utilisé pour afficher un panneau de statistiques ou tout autre chose
 								} else {                                                                // sinon => navigation
 									if (Physics.Raycast(screenRay, out m_HitInfo, 5000, raycastableLayers) && (!inTransit)) {
-										m_Agent.SetDestination(m_HitInfo.point);                    // aller vers le point sélectionné
+										m_Agent.SetDestination(m_HitInfo.point);						// aller vers le point sélectionné
 									}
 								}
 							}
 						}
 					} else {
-						m_InventoryUI.DropOn3D(m_InventoryUI.selectedEntry.inventoryEntry);
+						m_InventoryUI.DropOn3D(m_InventoryUI.selectedEntry.entry);
 					}
 				}
 			}

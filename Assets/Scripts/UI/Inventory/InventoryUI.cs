@@ -12,8 +12,8 @@ public class InventoryUI : UIBase
 {
 	public class DragData
 	{
-		public ItemEntryUI DraggedEntry;
-		public RectTransform OriginalParent;
+		public EntryUI draggedEntry;
+		public RectTransform originalParent;
 	}
 
 	public GameObject messageLabel;
@@ -27,6 +27,10 @@ public class InventoryUI : UIBase
 
 	public Canvas DragCanvas;
 
+	public Image topButton;
+	public Sprite invUp;
+	public Sprite invDown;
+
 	public static InventoryUI Instance;
 
 	// Raycast
@@ -39,14 +43,14 @@ public class InventoryUI : UIBase
 
 	public List<ItemEntryUI> entries { get; private set; } = new List<ItemEntryUI>();
 
-	ItemEntryUI hoveredItem;
+	EntryUI hoveredItem;
 	HighlightableObject item;
 	UIManager uiManager;
 
 	bool? prevStatus = false;
 
 	[HideInInspector]
-	public ItemEntryUI selectedEntry;
+	public EntryUI selectedEntry;
 
 	public override void Init(UIManager uiManager) {
 		Instance = this;
@@ -67,15 +71,14 @@ public class InventoryUI : UIBase
 
 	void OnEnable() {
 		hoveredItem = null;
-		//Tooltip.gameObject.SetActive(false);
 	}
 
 	public ItemEntryUI AddItemEntry(int idx, InventoryEntry inventoryEntry) {
 		RectTransform slot = Instantiate(slotPrefab, content.transform);        // créer un nouvel emplacement
 		ItemEntryUI itemEntry = Instantiate(itemEntryPrefab, slot);             // créer une nouvelle entrée d'inventaire dans cet emplacement																				//itemEntry.gameObject.SetActive(true);
-		itemEntry.Init(this, inventoryEntry);
-		if (entries.Count == 0)													// si c'est le 1er objet
-			Show();																// montrer l'inventaire
+		itemEntry.Init(inventoryEntry);
+		if (entries.Count == 0)                                                 // si c'est le 1er objet
+			Show();                                                             // montrer l'inventaire
 		entries.Add(itemEntry);
 		return itemEntry;
 	}
@@ -87,28 +90,33 @@ public class InventoryUI : UIBase
 	public void RemoveEntry(ItemEntryUI entryUi) {
 		Destroy(entryUi.transform.parent.gameObject);       // détruire le slot qui contient l'entrée
 		entries.Remove(entryUi);
-		if (entries.Count == 0)													// si l'inventaire est vide
-			Hide();																// cacher l'inventaire
+		if (entries.Count == 0)                                                 // si l'inventaire est vide
+			Hide();                                                             // cacher l'inventaire
 	}
 
 	/// <summary>
 	/// bascule d'affichage
 	/// </summary>
 	public override void Toggle() {
-		if (panel.transform.position.y >= 0)
-			panel.GetComponentInChildren<Animator>().SetTrigger("Down");
-		else
-			panel.GetComponentInChildren<Animator>().SetTrigger("Up");
+		if (panel.transform.position.y >= 0) {
+			Hide();
+		} else {
+			Show();
+		}
 	}
 
 	public void Hide() {
-		if (panel.transform.position.y >= 0)
+		if (panel.transform.position.y >= 0) {
 			panel.GetComponentInChildren<Animator>().SetTrigger("Down");
+			topButton.sprite = invUp;
+		}
 	}
 
 	public void Show() {
-		if (panel.transform.position.y < 0)
+		if (panel.transform.position.y < 0) {
 			panel.GetComponentInChildren<Animator>().SetTrigger("Up");
+			topButton.sprite = invDown;
+		}
 	}
 
 	/// <summary>
@@ -118,7 +126,7 @@ public class InventoryUI : UIBase
 	public void UpdateEntries(HighlightableObject item) {
 		this.item = item;
 		for (int i = entries.Count - 1; i > 0; i--) {
-			if (entries[i].inventoryEntry.count <= 0) {
+			if ((entries[i].entry as InventoryEntry).count <= 0) {
 				Destroy(entries[i].gameObject);
 				entries.RemoveAt(i);
 			} else {
@@ -132,73 +140,87 @@ public class InventoryUI : UIBase
 	/// (inutilisé pour l'instant)
 	/// </summary>
 	/// <param name="usedItem"></param>
-	public void ObjectDoubleClicked(InventoryEntry usedItem) {
+	public void ObjectDoubleClicked(Entry usedItem) {
 		InventoryManager.Instance.UseItem(usedItem);
 		ObjectHoverExited(hoveredItem);
 		//UpdateEntries(item);
 	}
 
 
-	public void ObjectHoveredEnter(ItemEntryUI hovered) {
+	public void ObjectHoveredEnter(EntryUI hovered) {
 		hoveredItem = hovered;
-
-		//Tooltip.gameObject.SetActive(true);
-
-		// Item itemUsed = hoveredItem.inventoryEntry.item;
-
-		//Tooltip.Name.text = itemUsed.ItemName;
-		//Tooltip.DescriptionText.text = itemUsed.GetDescription();
 	}
 
-	public void ObjectHoverExited(ItemEntryUI exited) {
+	public void ObjectHoverExited(EntryUI exited) {
 		if (hoveredItem == exited) {
 			hoveredItem = null;
-			//Tooltip.gameObject.SetActive(false);
 		}
 	}
 
 	public void HandledDroppedEntry(Vector3 position) {
 		// check for drop on ItemSlots
-		for (int i = 0; i < content.transform.childCount; ++i) {								// pour chaque slot
+		for (int i = 0; i < content.transform.childCount; ++i) {                                // pour chaque slot
 			var slot = content.transform.GetChild(i).GetComponent<RectTransform>();
 			if (RectTransformUtility.RectangleContainsScreenPoint(slot, position)) {            // si on lache sur ce slot
-				var entryUi = slot.GetComponentInChildren<ItemEntryUI>();						// récuperer l'entrée contenue dans ce slot
+				var entryUi = slot.GetComponentInChildren<ItemEntryUI>();                       // récuperer l'entrée contenue dans ce slot
 				if (entryUi != null) {                                                          // s'il y a déjà une entrée => déplacer l'entrée
 					var prevParent = entryUi.transform.parent;
-					entryUi.transform.SetParent(currentlyDragged.OriginalParent, false);        // vers le slot vide
-					currentlyDragged.OriginalParent = prevParent as RectTransform;
-					currentlyDragged.DraggedEntry.UpdateEntry();								// mettre l'entrée déposée à jour
+					entryUi.transform.SetParent(currentlyDragged.originalParent, false);        // vers le slot vide
+					currentlyDragged.originalParent = prevParent as RectTransform;
+					currentlyDragged.draggedEntry.UpdateEntry();                                // mettre l'entrée déposée à jour
 					return;
 				}
 			}
 		}
 		// check for drop on 3D target
-		DropOn3D(PlayerManager.Instance.m_InvItemDragging.DraggedEntry.inventoryEntry);
+		//DropOn3D(PlayerManager.Instance.m_InvItemDragging.draggedEntry.entry);
+		DropOn3D(currentlyDragged.draggedEntry.entry);
 	}
 
-	public void DropOn3D(InventoryEntry inventoryEntry) {
-		Ray screenRay = CameraController.Instance.GameplayCamera.ScreenPointToRay(Input.mousePosition);			// lancer de rayon
-		int count = Physics.SphereCastNonAlloc(screenRay, 1.0f, m_RaycastHitCache, 1000.0f, m_TargetLayer);		// combien d'objets sous le pointeur ?
-		if (count > 0) {															// s'il y a des objets sous le pointeur
-			foreach (RaycastHit rh in m_RaycastHitCache) {							// pour chacun d'eux
-				if (rh.collider != null) {											// si l'objet a un collider
-					Target data = rh.collider.GetComponentInParent<Target>();		// si l'objet est une 'target' (lieu de dépôt d'objet d'inventaire autorisé)
-					if (data != null && data.isFree) {								// et que cet emplacement est libre
-						DropItem(data, inventoryEntry);								// déposer l'objet d'inventaire
-						break;
-					} else {
-						ShowLabel("Impossible d'utiliser cet objet ici", Input.mousePosition);
+	public void DropOn3D(Entry entry) {
+		Ray screenRay = CameraController.Instance.GameplayCamera.ScreenPointToRay(Input.mousePosition);         // lancer de rayon
+		int count = Physics.SphereCastNonAlloc(screenRay, 1.0f, m_RaycastHitCache, 1000.0f, m_TargetLayer);     // combien d'objets sous le pointeur ?
+		if (count > 0) {                                                            // s'il y a des objets sous le pointeur
+			foreach (RaycastHit rh in m_RaycastHitCache) {                          // pour chacun d'eux
+				if (rh.collider != null) {                                          // si l'objet a un collider
+					if (entry is InventoryEntry) {
+						Target data = rh.collider.GetComponentInParent<Target>();       // si l'objet est une 'target' (lieu de dépôt d'objet d'inventaire autorisé)
+						if (data != null && data.isFree) {                              // et que cet emplacement est libre
+							DropItem(data, entry as InventoryEntry);                    // déposer l'objet d'inventaire
+							break;
+						} else {
+							ShowLabel("Impossible d'utiliser cet objet ici", Input.mousePosition);
+						}
+					} else if (entry is OrbEntryUI.OrbEntry) {
+						// si l'objet est une ' magic target' (lieu de dépôt d'objet d'inventaire autorisé)
+						MagicEffectBase data = rh.collider.GetComponentInChildren<MagicEffectBase>();  
+						if (data != null && data.isFree) {                              // et que cet emplacement est libre
+							DropItem(data, entry as OrbEntryUI.OrbEntry);               // déposer l'objet d'inventaire
+							break;
+						} else {
+							ShowLabel("Impossible ici", Input.mousePosition);
+						}
 					}
 				}
 			}
 		}
 	}
 
-	private void DropItem(Target target, InventoryEntry inventoryEntry) {
-		CreateWorldRepresentation(inventoryEntry.item, target);									// créer l'objet 3D
-		if (currentlyDragged!=null)																// si on es dans un 'drag & drop'
-			currentlyDragged.DraggedEntry.transform.SetParent(currentlyDragged.OriginalParent);	// rattacher le 'drag & drop' à son parent original
-		InventoryManager.Instance.RemoveItem(inventoryEntry);									// retirer l'objet déposé de l'inventaire
+	private void DropItem(Target target, InventoryEntry entry) {
+		if (entry is InventoryEntry) {
+			CreateWorldRepresentation(entry.item, target);												// créer l'objet 3D
+			if (currentlyDragged != null)                                                               // si on es dans un 'drag & drop'
+				currentlyDragged.draggedEntry.transform.SetParent(currentlyDragged.originalParent);     // rattacher le 'drag & drop' à son parent original
+			InventoryManager.Instance.RemoveItem(entry);												// retirer l'objet déposé de l'inventaire
+		}
+	}
+
+	private void DropItem(MagicEffectBase target, OrbEntryUI.OrbEntry entry) {
+		if (target != null && target.isFree) {			// si on lâche l'orbe sur une cible de magie
+			target.MakeMagicalStuff(entry.orb);         // déclencher la magie
+			entry.ui.Select(false);
+		}
+
 	}
 
 	void CreateWorldRepresentation(Item item, Target target) {
@@ -229,7 +251,7 @@ public class InventoryUI : UIBase
 	}
 
 	public void Restore() {
-		if (prevStatus !=null && prevStatus != panel.transform.position.y >= 0)
+		if (prevStatus != null && prevStatus != panel.transform.position.y >= 0)
 			Toggle();
 		prevStatus = null;
 	}

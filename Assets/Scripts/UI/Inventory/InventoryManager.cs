@@ -15,11 +15,11 @@ public class InventoryManager
 	/// <summary>
 	/// One entry in the inventory. Hold the type of Item and how many there is in that slot.
 	/// </summary>
-	public class InventoryEntry
+	public class InventoryEntry : Entry
 	{
 		public Item item;
 		public int count = 1;
-		public ItemEntryUI ui;
+		public new ItemEntryUI ui;
 
 		public InventoryEntry(Item item) {
 			this.item = item;
@@ -47,22 +47,22 @@ public class InventoryManager
 	/// <param name="item">l'objet à ajouter</param>
 	public void AddItem(Item item) {
 		bool found = false;
-		for (int i = 0; i < entries.Count; ++i) {			// pour chaque entrée existante
-			if (entries[i].item == item) {					// si l'objet contenu est identique
-				entries[i].count += 1;						// ajouter 1 à la quantité
-				found = true;								// trouvé
-				entries[i].ui.UpdateEntry();				// mettre l'objet d'interface associé à jour	
+		for (int i = 0; i < entries.Count; ++i) {           // pour chaque entrée existante
+			if (entries[i].item == item) {                  // si l'objet contenu est identique
+				entries[i].count += 1;                      // ajouter 1 à la quantité
+				found = true;                               // trouvé
+				entries[i].ui.UpdateEntry();                // mettre l'objet d'interface associé à jour	
 				break;
 			}
 		}
 
-		if (!found) {										// si on n'a pas trouvé
+		if (!found) {                                       // si on n'a pas trouvé
 			InventoryEntry entry = new InventoryEntry(item);// créer une nouvelle entrée
 			entry.ui =                                      // créer l'ojet d'interface associé
-				inventoryUI.AddItemEntry(entries.Count-1, entry);
+				inventoryUI.AddItemEntry(entries.Count - 1, entry);
 			entries.Add(entry);
 		}
-	
+
 	}
 
 	/// <summary>
@@ -70,24 +70,29 @@ public class InventoryManager
 	/// if the stack count reach 0 this will free the slot. If it return false, it will just ignore that call.
 	/// (e.g. a potion will return false if the user is at full health, not consuming the potion in that case)
 	/// </summary>
-	/// <param name="inventoryEntry"></param>
+	/// <param name="entry"></param>
 	/// <returns></returns>
-	public bool UseItem(InventoryEntry inventoryEntry) {
-		if (inventoryEntry.item.UsedBy(owner)) {						// si l'objet est utilisable
-																		// jouer le son associé
-			SFXManager.PlaySound(SFXManager.Use.Sound2D, new SFXManager.PlayData() { Clip = inventoryEntry.item is EquipmentItem ? SFXManager.ItemEquippedSound : SFXManager.ItemUsedSound });
-			inventoryEntry.count -= 1;									// retirer 1 à la quantité
-			inventoryEntry.ui.UpdateEntry();							// mettre l'ui à jour
-			return true;
+	public bool UseItem(Entry entry) {
+		if (entry is InventoryEntry) {
+			entry = entry as InventoryEntry;
+			if ((entry as InventoryEntry).item.UsedBy(owner)) {							 // si l'objet est utilisable
+				SFXManager.PlaySound(SFXManager.Use.Sound2D, new SFXManager.PlayData() { // jouer le son associé
+					Clip = (entry as InventoryEntry).item is EquipmentItem ? SFXManager.ItemEquippedSound : SFXManager.ItemUsedSound 
+				});
+				(entry as InventoryEntry).count -= 1;                                   // retirer 1 à la quantité
+				entry.ui.UpdateEntry();													// mettre l'ui à jour
+				return true;
+			}
+
 		}
 		return false;
 	}
 
 
 	public void RemoveItem(InventoryEntry entry) {
-		entry.count -= 1;												// retirer 1 à la quantité
+		entry.count -= 1;                                               // retirer 1 à la quantité
 		if (entry.count <= 0) {                                         // si la quantité est nulle
-			entries.Remove(entry);										// retirer l'entrée de l'inventaire
+			entries.Remove(entry);                                      // retirer l'entrée de l'inventaire
 		}
 		entry.ui.UpdateEntry();
 	}
