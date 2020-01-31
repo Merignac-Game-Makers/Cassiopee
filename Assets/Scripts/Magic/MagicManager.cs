@@ -162,6 +162,9 @@ public class MagicManager : MonoBehaviour
 		var orb = activeArtfact == MagicUI.SelectedArtefact.Moon ? moonOrb : sunOrb;    // quel orbe (LUNE/SOLEIL)?
 		orb.constellation = orbConstellation;                                           // quelle constellation ?
 		currentOrb = Instantiate(orb, PlayerManager.Instance.gameObject.transform);     // générer l'orbe
+		OrbEntryUI orbEntry = MagicUI.Instance.orbPanel.GetComponentInChildren<OrbEntryUI>();
+		orbEntry.Init(new OrbEntryUI.OrbEntry(orb));
+		MagicUI.Instance.orbPanel.SetActive(true);
 	}
 
 	/// <summary>
