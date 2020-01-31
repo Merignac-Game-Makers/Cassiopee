@@ -4,7 +4,8 @@ using System.Data;
 using System.Timers;
 using UnityEngine;
 using UnityEngine.AI;
-
+using static InventoryManager;
+using static InteractableObject.Action;
 
 /// <summary>
 /// Describes an InteractableObject that can be picked up and grants a specific item when interacted with.
@@ -15,15 +16,18 @@ using UnityEngine.AI;
 /// Finally it will notify the LootUI that a new loot is available in the world so the UI displays the name.
 /// </summary>
 public class Loot : InteractableObject
-{
+{	
+
 	static float AnimationTime = 0.1f;
 
-	public Item Item;
+	public Item item;
 	public static InventoryUI inventoryUI;
 
 	public override bool IsInteractable() {
-		return m_AnimationTimer >= AnimationTime;
+		return !animate || m_AnimationTimer >= AnimationTime;
 	}
+
+	public bool animate => item.animate;
 
 	Vector3 m_OriginalPosition;
 	Vector3 m_TargetPoint;
@@ -39,12 +43,13 @@ public class Loot : InteractableObject
 	protected override void Start() {
 		base.Start();
 		inventoryUI = InventoryUI.Instance;
+		//animate = item.animate;
 	}
 
 
 	void Update() {
 		// animation de mise en place
-		if (m_AnimationTimer < AnimationTime) {
+		if (animate && m_AnimationTimer < AnimationTime) {
 			m_AnimationTimer += Time.deltaTime;
 
 			float ratio = Mathf.Clamp01(m_AnimationTimer / AnimationTime);
@@ -54,22 +59,30 @@ public class Loot : InteractableObject
 
 			transform.position = currentPos;
 		}
-
-		//Debug.DrawLine(m_TargetPoint, m_TargetPoint + new Vector3(0, 2, 0), Color.magenta);
 	}
 
 	/// <summary>
-	/// Ramasser un objet
+	/// Ramasser / déposer un objet
 	/// </summary>
 	/// <param name="target"></param>
-	public override void InteractWith(HighlightableObject target) {
-		base.InteractWith(target);
-		SFXManager.PlaySound(SFXManager.Use.Sound2D, new SFXManager.PlayData(){Clip = SFXManager.PickupSound});
+	public override void InteractWith(CharacterData character, HighlightableObject target = null, Action action = take) {
+		base.InteractWith(character , target, action);
+		// si c'est une intéraction avec le joueur : ramasser l'objet
+		if (action == take) {
+			SFXManager.PlaySound(SFXManager.Use.Sound2D, new SFXManager.PlayData() { Clip = SFXManager.PickupSound });
 
-		InventoryManager.Instance.AddItem(Item);
+			InventoryManager.Instance.AddItem(item);
 
-		inventoryUI.UpdateEntries(target);
-		Destroy(gameObject);
+			inventoryUI.UpdateEntries(target);
+			Destroy(gameObject);
+
+		} else
+		// si c'est un dépôt sur une cible => drop
+		if (action == drop && target is Target) {
+			if ((target as Target).isFree && !item.combinable) {                        // et que cet emplacement est libre et que l'objet n'est pas combinable
+				inventoryUI.DropItem(target as Target, item.entry);                     // déposer l'objet d'inventaire
+			}
+		}
 	}
 
 	/// <summary>

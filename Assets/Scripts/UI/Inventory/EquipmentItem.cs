@@ -139,7 +139,7 @@ public class EquipmentItemEditor : Editor
 	}
 
 	public override void OnInspectorGUI() {
-		m_ItemEditor.GUI();
+		m_ItemEditor.GUI(m_Target);
 
 		EditorGUILayout.PropertyField(m_SlotProperty);
 

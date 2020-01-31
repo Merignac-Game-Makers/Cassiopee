@@ -5,6 +5,7 @@ using System.Timers;
 using UnityEngine;
 using UnityEngine.AI;
 using static QuestBase.QuestStatus;
+using static InteractableObject.Action;
 
 
 /// <summary>
@@ -29,9 +30,12 @@ public class MagicLoot : InteractableObject
 		base.Start();
 	}
 
-
-	public override void InteractWith(HighlightableObject target) {
-		base.InteractWith(target);
+	/// <summary>
+	/// Ramasser les objets magiques
+	/// </summary>
+	/// <param name="target"></param>
+	public override void InteractWith(CharacterData character, HighlightableObject target = null, Action action = take) {
+		base.InteractWith(character, target, action);
 		SFXManager.PlaySound(SFXManager.Use.Sound2D, new SFXManager.PlayData(){Clip = SFXManager.PickupSound});
 		Destroy(gameObject);
 		magicButton.SetActive(true);

@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.EventSystems;
 using static InventoryManager;
-using TMPro;
 
 public class ItemEntryUI : EntryUI 
 {
 	public Image iconeImage;
+	public GameObject combine;
 
 	ItemEntryUI[] all;
+	public Item item;
 
 	private void Start() {
 		inventoryUI = InventoryUI.Instance;
@@ -20,9 +17,11 @@ public class ItemEntryUI : EntryUI
 	public override void Init(Entry entry) {
 		this.entry = entry;
 		entry.ui = this;
-		iconeImage.sprite = (entry as InventoryEntry).item.ItemSprite;
+		item = (entry as InventoryEntry).item;
+		iconeImage.sprite = item.ItemSprite;
 		lowerText.text = "";
-		label.text = (entry as InventoryEntry).item.ItemName;
+		label.text = item.ItemName;
+		combine.SetActive(item.combinable);
 	}
 
 
@@ -46,11 +45,17 @@ public class ItemEntryUI : EntryUI
 	}
 
 	public override void Toggle() {
-		base.Toggle();
 		all = inventoryUI.GetComponentsInChildren<ItemEntryUI>();
 		foreach(ItemEntryUI entry in all) {
-			if (entry!=this)
+			if (entry!=this && entry.selected)
 				entry.Select(false);
+		}
+		base.Toggle();
+		if (selected && item.combinable) {
+			inventoryUI.combinePanel.GetComponent<CombineUI>().SetObject(item);
+			inventoryUI.combinePanel.SetActive(true);
+		} else {
+			inventoryUI.combinePanel.SetActive(false);
 		}
 	}
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.EventSystems;
+using static InteractableObject.Action;
 
 /// <summary>
 /// Gestion du personnage joueur
@@ -35,7 +36,8 @@ public class PlayerManager : MonoBehaviour
 	InteractableObject m_TargetInteractable = null;                 // objet avec lequel le joueur intéragit
 	Activable m_TargetActivable = null;                             // objet magique avec lequel le joueur intéragit
 	Collider m_TargetCollider;                                      // collider de l'objet en cours d'intéraction
-	HighlightableObject m_Highlighted;                              // objet en surbrillance  sous le pointeur de la souris
+	Entry m_DropItem = null;										// objet d'inventaire que le juoeur pose
+	public HighlightableObject m_Highlighted { get; set; }			// objet en surbrillance  sous le pointeur de la souris
 	CharacterData m_CurrentTargetCharacterData = null;              // caractéristiques du PNJ en intéraction
 	[HideInInspector]
 	public InventoryUI.DragData m_InvItemDragging = null;           // objet d'inventaire en cours de drag & drop
@@ -126,6 +128,7 @@ public class PlayerManager : MonoBehaviour
 			m_CurrentTargetCharacterData = null;
 			m_TargetInteractable = null;
 			m_TargetActivable = null;
+			m_DropItem = null;
 			isClicOnUI = EventSystem.current.IsPointerOverGameObject();
 		}
 
@@ -155,7 +158,11 @@ public class PlayerManager : MonoBehaviour
 							}
 						}
 					} else {
-						m_InventoryUI.DropOn3D(m_InventoryUI.selectedEntry.entry);
+						//var itemEntry = m_InventoryUI.selectedEntry.entry as InventoryManager.InventoryEntry;
+						if (m_DropItem == null) {
+							m_DropItem = m_InventoryUI.selectedEntry.entry;
+							m_InventoryUI.DropOn3D(m_InventoryUI.selectedEntry.entry);          // DROP
+						}
 					}
 				}
 			}
@@ -274,10 +281,11 @@ public class PlayerManager : MonoBehaviour
 	/// </summary>
 	void CheckInteractableRange() {
 		Vector3 distance = m_TargetCollider.ClosestPointOnBounds(transform.position) - transform.position;  // calcul de la distance
-
-		if ((m_TargetInteractable.mode != InteractableObject.Mode.onClick || m_TargetInteractable.Clicked)
+		if (m_TargetInteractable is Target && m_InventoryUI.selectedEntry != null && distance.sqrMagnitude < sqrInteractionDistance) {
+			m_InventoryUI.DropItem(m_TargetInteractable as Target, m_InventoryUI.selectedEntry.entry);                     // déposer l'objet d'inventaire
+		} else if ((m_TargetInteractable.mode != InteractableObject.Mode.onClick || m_TargetInteractable.Clicked)
 			&& distance.sqrMagnitude < sqrInteractionDistance) {
-			m_TargetInteractable.InteractWith(m_CharacterData);         // déclencher l'intéraction
+			m_TargetInteractable.InteractWith(m_CharacterData, m_TargetInteractable);         // déclencher l'intéraction
 			m_TargetInteractable = null;                                // supprimer la détection pour éviter de redoubler l'intéraction
 		}
 	}
@@ -289,14 +297,21 @@ public class PlayerManager : MonoBehaviour
 	/// <param name="obj">l'objet avec lequel intéragir</param>
 	public void RequestInteraction(InteractableObject obj) {
 		if (obj.IsInteractable()) {                                         // si l'objet est au statut 'actif'
-			if (obj.GetComponentInChildren<Activable>()) {                  // si l'objet est un objet magique activable
-				(obj as Activable).Toggle();                                //	- basculer l'état de l'objet (activé/désactivé)
+			Activable activable = obj.GetComponentInChildren<Activable>();
+			if (activable!=null && activable.isOn) {                        // si l'objet est un objet magique activable
+				activable.Toggle();											//	- basculer l'état de l'objet (activé/désactivé)
 				m_TargetActivable = obj as Activable;                       //	- mémoriser l'objet magique (pour éviter les intéractions multiples)
 			} else {                                                        // sinon 
 				m_TargetInteractable = obj;                                 //	- mémoriser l'intéractible (il sera testé dans le prochain update pour déclencher l'intéraction 'AU CONTACT')
 				m_TargetCollider = obj.GetComponentInChildren<Collider>();  //	- mémoriser le collider
 				m_Agent.SetDestination(obj.transform.position);             //	- diriger le joueur vers l'objet
 			}
+			//Target target = obj.GetComponentInChildren<Target>();
+			//if (target != null) {
+			//	m_TargetInteractable = obj;                                 //	- mémoriser l'intéractible (il sera testé dans le prochain update pour déclencher l'intéraction 'AU CONTACT')
+			//	m_TargetCollider = obj.GetComponentInChildren<Collider>();  //	- mémoriser le collider
+			//	m_Agent.SetDestination(obj.transform.position);             //	- diriger le joueur vers l'objet
+			//}
 		}
 	}
 

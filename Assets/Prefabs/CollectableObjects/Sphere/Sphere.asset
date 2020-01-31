@@ -17,6 +17,10 @@ MonoBehaviour:
   Description: a sphere to test item picking
   WorldObjectPrefab: {fileID: 3686046410562572513, guid: 49322d76203ca0343952ac1257961d00,
     type: 3}
+  animate: 0
+  combinable: 1
+  combineWith: {fileID: 11400000, guid: 8469f0517a57dcb49b87df95e8f990f1, type: 2}
+  obtain: {fileID: 11400000, guid: 035ce6fa56ee1f847bf0164b666d48df, type: 2}
   UsageEffects:
   - {fileID: 1212676834607520628}
 --- !u!114 &1107657640091256493

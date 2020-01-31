@@ -80,7 +80,7 @@ public class UsableItemEditor : Editor
 	}
 
 	public override void OnInspectorGUI() {
-		m_ItemEditor.GUI();
+		m_ItemEditor.GUI(m_Target);
 
 		int choice = EditorGUILayout.Popup("Add new Effect", -1, m_AvailableUsageType.ToArray());
 

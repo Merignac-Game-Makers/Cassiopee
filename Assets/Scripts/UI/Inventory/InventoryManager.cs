@@ -52,6 +52,7 @@ public class InventoryManager
 				entries[i].count += 1;                      // ajouter 1 à la quantité
 				found = true;                               // trouvé
 				entries[i].ui.UpdateEntry();                // mettre l'objet d'interface associé à jour	
+				item.entry = entries[i];
 				break;
 			}
 		}
@@ -61,6 +62,7 @@ public class InventoryManager
 			entry.ui =                                      // créer l'ojet d'interface associé
 				inventoryUI.AddItemEntry(entries.Count - 1, entry);
 			entries.Add(entry);
+			item.entry = entry;
 		}
 
 	}
