@@ -1,11 +1,10 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using static InventoryManager;
 
-public class ItemEntryUI : EntryUI 
+public class ItemEntryUI : EntryUI
 {
 	public Image iconeImage;
-	public GameObject combine;
+	public Image plus;
 
 	ItemEntryUI[] all;
 	public Item item;
@@ -21,9 +20,8 @@ public class ItemEntryUI : EntryUI
 		iconeImage.sprite = item.ItemSprite;
 		lowerText.text = "";
 		label.text = item.ItemName;
-		combine.SetActive(item.combinable);
+		plus.enabled = item.combinable;
 	}
-
 
 	/// <summary>
 	/// mise à jour
@@ -45,18 +43,27 @@ public class ItemEntryUI : EntryUI
 	}
 
 	public override void Toggle() {
-		all = inventoryUI.GetComponentsInChildren<ItemEntryUI>();
-		foreach(ItemEntryUI entry in all) {
-			if (entry!=this && entry.selected)
-				entry.Select(false);
-		}
-		base.Toggle();
-		if (selected && item.combinable) {
-			inventoryUI.combinePanel.GetComponent<CombineUI>().SetObject(item);
-			inventoryUI.combinePanel.SetActive(true);
-		} else {
-			inventoryUI.combinePanel.SetActive(false);
+		var combineItem = inventoryUI.combineUI.item;
+		if (combineItem != null && item == combineItem.combineWith) {              // si une entrée combinable avec l'item est actuellement sélectionnée
+			// Debug.Log("Combine");
+			var combineEntry = inventoryUI.combineUI.entry;
+			combineEntry.item = combineItem.obtain;
+			combineEntry.count = 1;
+			combineEntry.ui.Init(combineEntry);
+			inventoryUI.combineUI.SetObject(combineEntry);
+			inventoryUI.RemoveEntry(this);
+		} else {                                                                    // sinon
+			all = inventoryUI.GetComponentsInChildren<ItemEntryUI>();
+			foreach (ItemEntryUI entry in all) {                                    // désélectionner toutes les autres entrées de l'inventaire
+				if (entry != this && entry.selected)
+					entry.Select(false);
+			}
+			base.Toggle();                                                          // sélectionner/déselectionner cette entrée
+			if (selected && item.combinable) {                                      // si on sélectionne et que l'item est combinable
+				inventoryUI.combineUI.SetObject(entry as InventoryEntry);			//		afficher le panneau 'combine'
+			} else {                                                                // sinon
+				inventoryUI.combineUI.Clear();										//		masquer le panneau combine
+			}
 		}
 	}
-
 }

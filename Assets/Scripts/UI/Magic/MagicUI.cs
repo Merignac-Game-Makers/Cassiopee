@@ -111,18 +111,18 @@ public class MagicUI : UIBase
 		if (state == active) {
 			artefactButton.gameObject.SetActive(true);                          // médaillon visible
 			bookPanel.gameObject.SetActive(false);                              // livre ouvert invisible
-			inventory.Restore();
-			PlayerManager.Instance.VisualMagicMode(true);
+			inventory.Restore();												// remettre l'inventaire comme il était lors de l'ouverture du livre
+			PlayerManager.Instance.VisualMagicMode(true);						// mise en évidence du mode 'magie activée'
 		} else if (state == open) {
 			artefactButton.gameObject.SetActive(true);                          // médaillon visible
 			bookPanel.gameObject.SetActive(true);                               // livre ouvert visible
-			inventory.SaveAndHide();
-			PlayerManager.Instance.VisualMagicMode(true);
+			inventory.SaveAndHide();											// mémoriser la position de l'inventaire puis cacher l'inventaire
+			PlayerManager.Instance.VisualMagicMode(true);                       // mise en évidence du mode 'magie activée'
 		} else {
 			artefactButton.gameObject.SetActive(false);                         // médaillon invisible
 			bookPanel.gameObject.SetActive(false);                              // livre ouvert invisible
 			MagicManager.Instance.SetMagicOff();                                // désactiver toute magie en cours
-			PlayerManager.Instance.VisualMagicMode(false);
+			PlayerManager.Instance.VisualMagicMode(false);                      // annulation de la mise en évidence du mode 'magie activée'
 		}
 	}
 

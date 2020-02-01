@@ -9,15 +9,6 @@ using TMPro;
 
 public class OrbEntryUI : EntryUI
 {
-	public class OrbEntry : Entry
-	{
-		public MagicOrb orb;
-
-		public OrbEntry(MagicOrb orb) {
-			this.orb = orb;
-		}
-	}
-
 	private void Start() {
 		inventoryUI = InventoryUI.Instance;
 	}

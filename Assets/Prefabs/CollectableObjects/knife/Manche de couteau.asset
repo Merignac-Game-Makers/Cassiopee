@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16f67a5c4af715e469a399ce6bb1de97, type: 3}
+  m_Name: Manche de couteau
+  m_EditorClassIdentifier: 
+  ItemName: Manche
+  ItemSprite: {fileID: 21300000, guid: 6e8abb652c4f9204e8ce62a0b79a873b, type: 3}
+  Description: Manche de couteau... Il faudrait une lame
+  WorldObjectPrefab: {fileID: 8081288150008935764, guid: f8aa2e71f57e5174eb4d5dc8580f0396,
+    type: 3}
+  animate: 0
+  combinable: 1
+  combineWith: {fileID: 11400000, guid: 4a30173cb22923a41ac133ae59f53b50, type: 2}
+  obtain: {fileID: 11400000, guid: 399bd5c720ccacc4ca0c7e415c18b3bf, type: 2}
+  UsageEffects: []

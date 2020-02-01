@@ -16,8 +16,7 @@ public class InventoryUI : UIBase
 		public RectTransform originalParent;
 	}
 
-	public GameObject combinePanel;
-	public GameObject messageLabel;
+	public CombineUI combineUI;
 	public GameObject bookPanel;
 	public GameObject content;
 
@@ -26,10 +25,6 @@ public class InventoryUI : UIBase
 
 	public Canvas DragCanvas;
 
-	public Image topButton;
-	public Sprite invUp;
-	public Sprite invDown;
-
 	public static InventoryUI Instance;
 
 	// Raycast
@@ -37,25 +32,29 @@ public class InventoryUI : UIBase
 	int m_TargetLayer;
 
 
+	public GameObject combinePanel { get; private set; }
 	public DragData currentlyDragged { get; set; }
 	public CanvasScaler DragCanvasScaler { get; private set; }
 
 	public List<ItemEntryUI> entries { get; private set; } = new List<ItemEntryUI>();
 
+	public EntryUI selectedEntry { get; set; }
 	EntryUI hoveredItem;
+	InventoryPanel iPanel;
 	HighlightableObject item;
 	UIManager uiManager;
 
 	bool? prevStatus = false;
 
-	[HideInInspector]
-	public EntryUI selectedEntry;
 
 	public override void Init(UIManager uiManager) {
 		Instance = this;
 		this.uiManager = uiManager;
+
+		combinePanel = combineUI.gameObject;
 		combinePanel.SetActive(false);
 
+		iPanel = panel.GetComponent<InventoryPanel>();
 		gameObject.SetActive(true);
 
 		currentlyDragged = null;
@@ -94,29 +93,13 @@ public class InventoryUI : UIBase
 	/// bascule d'affichage
 	/// </summary>
 	public override void Toggle() {
-		if (panel.transform.position.y >= 0) {
-			Hide();
-		} else {
-			Show();
-		}
+		iPanel.Toggle(combinePanel);
 	}
-
 	public void Hide() {
-		if (panel.transform.position.y >= 0) {
-			panel.GetComponentInChildren<Animator>().SetTrigger("Down");
-			topButton.sprite = invUp;
-			foreach(ItemEntryUI entry in panel.GetComponentsInChildren<ItemEntryUI>()) {
-				entry.Select(false);
-			}
-			combinePanel.SetActive(false);
-		}
+		iPanel.Hide(combinePanel);
 	}
-
 	public void Show() {
-		if (panel.transform.position.y < 0) {
-			panel.GetComponentInChildren<Animator>().SetTrigger("Up");
-			topButton.sprite = invDown;
-		}
+		iPanel.Show();	
 	}
 
 	/// <summary>
@@ -143,15 +126,17 @@ public class InventoryUI : UIBase
 	public void ObjectDoubleClicked(Entry usedItem) {
 		InventoryManager.Instance.UseItem(usedItem);
 		ObjectHoverExited(hoveredItem);
-		//UpdateEntries(item);
 	}
 
-
-	public void ObjectHoveredEnter(EntryUI hovered) {
+	/// <summary>
+	/// Survol par le pointeur de souris
+	/// TODO: pour l'instant sans effet... à conserver ???
+	/// </summary>
+	/// <param name="hovered">L'entrée sous la souris</param>
+	public void ObjectHoveredEnter(EntryUI hovered) {		// début de survol
 		hoveredItem = hovered;
 	}
-
-	public void ObjectHoverExited(EntryUI exited) {
+	public void ObjectHoverExited(EntryUI exited) {			// fin de survol
 		if (hoveredItem == exited) {
 			hoveredItem = null;
 		}
@@ -178,36 +163,40 @@ public class InventoryUI : UIBase
 		DropOn3D(currentlyDragged.draggedEntry.entry);
 	}
 
+	/// <summary>
+	/// Gérer la dépose sur un objet 3D du décor
+	/// l'entry peut être :
+	///		- un objet d'inventaire
+	///		- un orbe de magie
+	///	le lieu de dépôt doit être dans le layer "Target"
+	/// </summary>
+	/// <param name="entry">l'entrée d'inventaire contenant l'item à déposer</param>
 	public void DropOn3D(Entry entry) {
 		Ray screenRay = CameraController.Instance.GameplayCamera.ScreenPointToRay(Input.mousePosition);         // lancer de rayon
-		int count = Physics.SphereCastNonAlloc(screenRay, 1.0f, m_RaycastHitCache, 1000.0f, m_TargetLayer);     // combien d'objets sous le pointeur ?
+		int count = Physics.SphereCastNonAlloc(screenRay, 1.0f, m_RaycastHitCache, 1000.0f, m_TargetLayer);     // combien d'objets du layer 'target'sous le pointeur ?
 		if (count > 0) {                                                            // s'il y a des objets sous le pointeur
 			foreach (RaycastHit rh in m_RaycastHitCache) {                          // pour chacun d'eux
 				if (rh.collider != null) {                                          // si l'objet a un collider
-					if (entry is InventoryEntry) {
+					if (entry is InventoryEntry) {														// si on dépose un objet d'inventaire
 						bool combinable = (entry as InventoryEntry).item.combinable;
-						Target data = rh.collider.GetComponentInParent<Target>();       // si l'objet est une 'target' (lieu de dépôt d'objet d'inventaire autorisé)
-						if (data != null && data.isFree && !combinable) {               // et que cet emplacement est libre et que l'objet actuel n'est pas combinable
-							PlayerManager.Instance.RequestInteraction(data);
-							//DropItem(data, entry as InventoryEntry);                    // déposer l'objet d'inventaire
+						
+						Target data = rh.collider.GetComponentInParent<Target>();						// si l'objet est une 'target' (lieu de dépôt d'objet d'inventaire autorisé)
+						if (data != null && data.isFree && !combinable) {								// et que cet emplacement est libre et que l'objet actuel n'est pas combinable
+							PlayerManager.Instance.RequestInteraction(data);							// aller jusqu'à la cible puis déposer l'objet d'inventaire
 						} else {
-							Loot other = rh.collider.GetComponentInParent<Loot>();
-							if (other != null && combinable) {                          // si l'item actuellement sélectionné dans l'inventaire est combinable
-								Debug.Log("Combine");                                       // combiner
-							} else {
-								ShowLabel("Impossible d'utiliser cet objet ici", Input.mousePosition);
-							}
+							// REM: retiré car le décor n'est plus accessible quand le panneau 'combine' est affiché 
+							//	=> impossible de combiner avec un objet du décor
+							//Loot other = rh.collider.GetComponentInParent<Loot>();
+							//if (other != null && combinable) {											// si l'item actuellement sélectionné dans l'inventaire est combinable
+							//	Debug.Log("Combine");													// combiner
+							//} else {
+							uiManager.ShowLabel("Impossible d'utiliser cet objet ici", Input.mousePosition);
+							//}
 						}
-						break;
-					} else if (entry is OrbEntryUI.OrbEntry) {
-						// si l'objet est une ' magic target' (lieu de dépôt d'objet d'inventaire autorisé)
-						MagicEffectBase data = rh.collider.GetComponentInChildren<MagicEffectBase>();
-						if (data != null && data.isFree) {                              // et que cet emplacement est libre
-							DropItem(data, entry as OrbEntryUI.OrbEntry);               // déposer l'objet d'inventaire
-							break;
-						} else {
-							ShowLabel("Impossible ici", Input.mousePosition);
-						}
+						break;	
+					} else if (entry is OrbEntry) {														// si on dépose un orbe de magie
+						MagicEffectBase data = rh.collider.GetComponentInChildren<MagicEffectBase>();	// si l'objet est une ' magic target' (lieu de dépôt d'orbe autorisé)
+						DropItem(data, entry as OrbEntry);												// déposer l'objet d'inventaire
 						break;
 					}
 				}
@@ -215,19 +204,31 @@ public class InventoryUI : UIBase
 		}
 	}
 
+	/// <summary>
+	/// Déposer un objet d'inventaire
+	/// </summary>
+	/// <param name="target">le lieu</param>
+	/// <param name="entry">l'entrée d'inventaire </param>
 	public void DropItem(Target target, Entry entry) {
 		if (entry is InventoryEntry) {
-			CreateWorldRepresentation((entry as InventoryEntry).item, target);                                              // créer l'objet 3D
-			if (currentlyDragged != null)                                                               // si on es dans un 'drag & drop'
+			CreateWorldRepresentation((entry as InventoryEntry).item, target);                          // créer l'objet 3D
+			if (currentlyDragged != null)                                                               // si on est dans un 'drag & drop'
 				currentlyDragged.draggedEntry.transform.SetParent(currentlyDragged.originalParent);     // rattacher le 'drag & drop' à son parent original
-			InventoryManager.Instance.RemoveItem(entry as InventoryEntry);                                                // retirer l'objet déposé de l'inventaire
+			InventoryManager.Instance.RemoveItem(entry as InventoryEntry);                              // retirer l'objet déposé de l'inventaire
 		}
 	}
 
-	private void DropItem(MagicEffectBase target, OrbEntryUI.OrbEntry entry) {
+	/// <summary>
+	/// Déposer un orbe de magie 
+	/// </summary>
+	/// <param name="target">le lieu</param>
+	/// <param name="entry">l'entrée orbe</param>
+	private void DropItem(MagicEffectBase target, OrbEntry entry) {
 		if (target != null && target.isFree) {          // si on lâche l'orbe sur une cible de magie
 			target.MakeMagicalStuff(entry.orb);         // déclencher la magie
 			entry.ui.Select(false);
+		} else {
+			uiManager.ShowLabel("Impossible ici", Input.mousePosition);
 		}
 
 	}
@@ -242,26 +243,15 @@ public class InventoryUI : UIBase
 		}
 	}
 
-	void ShowLabel(string text, Vector2 position) {
-		messageLabel.GetComponentInChildren<TMP_Text>().text = text;
-		messageLabel.transform.position = position;
-		StartCoroutine(IShow(messageLabel, 2));
-	}
-
-	IEnumerator IShow(GameObject obj, float s) {
-		obj.SetActive(true);
-		yield return new WaitForSeconds(s);
-		obj.SetActive(false);
-	}
-
 	public void SaveAndHide() {
-		prevStatus = panel.transform.position.y >= 0;
+		prevStatus = iPanel.isOn;
 		Hide();
 	}
 
 	public void Restore() {
-		if (prevStatus != null && prevStatus != panel.transform.position.y >= 0)
-			Toggle();
+		//if (prevStatus != null && prevStatus != iPanel.isOn)
+		if (iPanel.isOn != prevStatus)
+				Toggle();
 		prevStatus = null;
 	}
 }

@@ -19,8 +19,11 @@ public class ProjectorDriver : MonoBehaviour
 		if (projector) {
 			projector.material = new Material(projector.material);	// duplication du material pour ne pas changer tous les projecteurs simultanément
 			projector.material.SetTexture("_ShadowTex", cookie);	// mise en place du motif
-			projector.material.SetColor("_Color", color);			// mise en place de la couleur
+			projector.material.SetColor("_Color", color);           // mise en place de la couleur
+			projector.enabled = false;
 		}
+		if (light)
+			light.enabled = false;
 	}
 
 	/// <summary>

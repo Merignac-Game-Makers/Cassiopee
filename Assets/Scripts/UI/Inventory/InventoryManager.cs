@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using UnityEngine;
 
 /// <summary>
 /// This handles the inventory of our character. Each slot can hold one
@@ -11,20 +10,6 @@ public class InventoryManager
 
 	public static InventoryManager Instance;
 	private InventoryUI inventoryUI;
-
-	/// <summary>
-	/// One entry in the inventory. Hold the type of Item and how many there is in that slot.
-	/// </summary>
-	public class InventoryEntry : Entry
-	{
-		public Item item;
-		public int count = 1;
-		public new ItemEntryUI ui;
-
-		public InventoryEntry(Item item) {
-			this.item = item;
-		}
-	}
 
 	// Pas de limite au nombre d'objets en inventaire
 	private const int numSlots = 0;

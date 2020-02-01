@@ -16,8 +16,8 @@ public class PlayerManager : MonoBehaviour
 	float sqrInteractionDistance = 2.25f;                           // carré de la distance en deça de laquelle on déclenche les intéractions (1.5² = 2.25)
 																	// (on utilise le carré pour gagner du temps de calcul en évitant une racine carrée pour la distance)
 
-	InventoryUI m_InventoryUI;                                      // gestionnaire d'inventaire
-	MagicManager m_MagicController;                                 // gestionnaire de magie
+	InventoryUI inventoryUI;										// gestionnaire d'inventaire
+	MagicManager magicController;									// gestionnaire de magie
 
 	public static PlayerManager Instance { get; protected set; }    // instance statique de cette classe
 
@@ -70,8 +70,8 @@ public class PlayerManager : MonoBehaviour
 
 	// Start is called before the first frame update
 	void Start() {
-		m_InventoryUI = InventoryUI.Instance;                       // gestionnaire d'inventaire
-		m_MagicController = MagicManager.Instance;              // gestionnaire de magie
+		inventoryUI = InventoryUI.Instance;							// gestionnaire d'inventaire
+		magicController = MagicManager.Instance;					// gestionnaire de magie
 
 		m_CharacterData = GetComponent<CharacterData>();            // caractéristiques du joueur
 		m_CharacterData.Init();                                     // ... initialisation
@@ -80,8 +80,6 @@ public class PlayerManager : MonoBehaviour
 
 		m_InteractableLayer = 1 << LayerMask.NameToLayer("Interactable");       // layer des objets intéractibles
 		m_PlayerLayer = 1 << LayerMask.NameToLayer("Player");                   // layer des objets intéractibles
-																				//layersExceptPostProcessing = ~(1 << LayerMask.NameToLayer("PostProcess"));
-																				//layersExceptIgnoreRaycast = ~(1 << LayerMask.NameToLayer("IgnoreRaycast"));
 
 		var postProcessingMask = 1 << LayerMask.NameToLayer("PostProcess");
 		var ignoreRaycastMask = 1 << LayerMask.NameToLayer("Ignore Raycast");
@@ -90,20 +88,18 @@ public class PlayerManager : MonoBehaviour
 	#endregion
 
 
-	// Update is called once per frame
 	void Update() {
 		// quitter le jeu par la touche escape
 		if (Input.GetKeyDown(KeyCode.Escape)) {
 			Application.Quit();
 		}
 
-
 		// Préparation du lancer de rayon de la caméra vers le pointeur de souris
 		Ray screenRay = CameraController.Instance.GameplayCamera.ScreenPointToRay(Input.mousePosition);
 
 		/**
 		Si une intéraction a été demandée, sommes nous arrivés 'AU CONTACT' ?
-		Rem : une intéraction peut être demandée soit :
+		Rem: une intéraction peut être demandée soit :
 			- par un clic sur un objet intéractible
 			- par la collision avec un intéractible (<see cref="OnTriggerEnter">)
 		*/
@@ -112,8 +108,8 @@ public class PlayerManager : MonoBehaviour
 		}
 
 		// récupération des objets en cours de drag & drop 
-		m_InvItemDragging = m_InventoryUI.currentlyDragged;         // objet d'inventaire
-		m_MagicOrb = m_MagicController.dragging;                    // orbe magique
+		m_InvItemDragging = inventoryUI.currentlyDragged;         // objet d'inventaire
+		m_MagicOrb = magicController.dragging;                    // orbe magique
 
 		// zoom
 		float mouseWheel = Input.GetAxis("Mouse ScrollWheel");
@@ -137,9 +133,9 @@ public class PlayerManager : MonoBehaviour
 
 			ObjectsRaycasts(screenRay);                             // Mettre en surbrillance les objets intéractibles lorsqu'ils sont sous le pointeur de souris
 
-			if (m_InvItemDragging == null && m_MagicController?.dragging == null) {		// éviter de déplacer le personnage si on est en cours de drag & drop
+			if (m_InvItemDragging == null && magicController?.dragging == null) {		// éviter de déplacer le personnage si on est en cours de drag & drop
 				if (Input.GetMouseButton(0)) {											// si le bouton de la souris est appuyé
-					if (m_InventoryUI.selectedEntry == null) {                          // si aucun objet d'inventaire n'est sélectionné
+					if (inventoryUI.selectedEntry == null) {                          // si aucun objet d'inventaire n'est sélectionné
 						if (m_TargetInteractable == null && m_TargetActivable == null && m_CurrentTargetCharacterData == null) {     // s'il n'y a pas d'intéraction en cours
 							InteractableObject obj = m_Highlighted as InteractableObject;
 							if (obj) {                                                                  // si on a cliqué sur un objet intéractible
@@ -160,8 +156,8 @@ public class PlayerManager : MonoBehaviour
 					} else {
 						//var itemEntry = m_InventoryUI.selectedEntry.entry as InventoryManager.InventoryEntry;
 						if (m_DropItem == null) {
-							m_DropItem = m_InventoryUI.selectedEntry.entry;
-							m_InventoryUI.DropOn3D(m_InventoryUI.selectedEntry.entry);          // DROP
+							m_DropItem = inventoryUI.selectedEntry.entry;
+							inventoryUI.DropOn3D(inventoryUI.selectedEntry.entry);          // DROP
 						}
 					}
 				}
@@ -179,6 +175,10 @@ public class PlayerManager : MonoBehaviour
 	}
 
 	#region Visuel
+	/// <summary>
+	/// Mise en évidence du mode 'magie activée'
+	/// </summary>
+	/// <param name="on"></param>
 	public void VisualMagicMode(bool on) {
 		if (on) {
 			body.material.EnableKeyword("_EMISSION");                                       // activer la texture émissive
@@ -281,8 +281,8 @@ public class PlayerManager : MonoBehaviour
 	/// </summary>
 	void CheckInteractableRange() {
 		Vector3 distance = m_TargetCollider.ClosestPointOnBounds(transform.position) - transform.position;  // calcul de la distance
-		if (m_TargetInteractable is Target && m_InventoryUI.selectedEntry != null && distance.sqrMagnitude < sqrInteractionDistance) {
-			m_InventoryUI.DropItem(m_TargetInteractable as Target, m_InventoryUI.selectedEntry.entry);                     // déposer l'objet d'inventaire
+		if (m_TargetInteractable is Target && inventoryUI.selectedEntry != null && distance.sqrMagnitude < sqrInteractionDistance) {
+			inventoryUI.DropItem(m_TargetInteractable as Target, inventoryUI.selectedEntry.entry);                     // déposer l'objet d'inventaire
 		} else if ((m_TargetInteractable.mode != InteractableObject.Mode.onClick || m_TargetInteractable.Clicked)
 			&& distance.sqrMagnitude < sqrInteractionDistance) {
 			m_TargetInteractable.InteractWith(m_CharacterData, m_TargetInteractable);         // déclencher l'intéraction

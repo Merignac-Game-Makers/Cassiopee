@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DanielLochner.Assets.SimpleScrollSnap;
+using TMPro;
 
 /// <summary>
 /// Gestionnaire général des interfaces (Dialogues, Inventaire, Magie ou QUêtes)
@@ -20,6 +21,10 @@ public class UIManager : MonoBehaviour
 	public Button exitButton;			// bouton exit
 	public GameObject questButton;      // bouton des quêtes		
 
+	public GameObject messageLabel;
+
+	Coroutine coroutine;
+
 	void Awake() {
 		Instance = this;
 	}
@@ -29,7 +34,6 @@ public class UIManager : MonoBehaviour
 		inventoryUI.Init(this);
 		magicUI.Init(this);
 		questButton.SetActive(false);
-
 	}
 
 	/// <summary>
@@ -37,8 +41,28 @@ public class UIManager : MonoBehaviour
 	/// (masquer le bouton grimoire quand on affiche l'inventaire ou les quêtes)
 	/// </summary>
 	public void ManageButtons() {
-		if (PlayerManager.Instance.gameObject.GetComponentInChildren<CharacterData>().isMagicEquiped) {
-			magicUI.SetState();
+		if (PlayerManager.Instance.gameObject.GetComponentInChildren<CharacterData>().isMagicEquiped) {	// si le joueur dispose du grimoire
+			magicUI.SetState();																			// coordonner les affichages
 		}
 	}
+
+	/// <summary>
+	/// afficher un message
+	/// </summary>
+	/// <param name="text">le message</param>
+	/// <param name="position">la position d'affichage</param>
+	public void ShowLabel(string text, Vector2 position) {
+		messageLabel.GetComponentInChildren<TMP_Text>().text = text;
+		messageLabel.transform.position = position;
+		if (coroutine!=null)
+			StopCoroutine(coroutine);
+		coroutine = StartCoroutine(IShow(messageLabel, 2));
+	}
+
+	IEnumerator IShow(GameObject obj, float s) {
+		obj.SetActive(true);
+		yield return new WaitForSeconds(s);
+		obj.SetActive(false);
+	}
+
 }
