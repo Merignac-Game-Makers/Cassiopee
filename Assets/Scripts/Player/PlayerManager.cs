@@ -213,18 +213,18 @@ public class PlayerManager : MonoBehaviour
 			}
 		}
 
-		// check for player : même logique avec le layer 'player'
-		count = Physics.SphereCastNonAlloc(screenRay, .2f, m_RaycastHitCache, 1000.0f, m_PlayerLayer);
-		if (count > 0) {
-			for (int i = 0; i < count; ++i) {
-				CharacterData obj = m_RaycastHitCache[i].collider.gameObject.GetComponentInParent<CharacterData>();
-				if (obj != null) {
-					SwitchHighlightedObject(obj);
-					somethingFound = true;
-					break;
-				}
-			}
-		}
+		//// check for player : même logique avec le layer 'player'
+		//count = Physics.SphereCastNonAlloc(screenRay, .2f, m_RaycastHitCache, 1000.0f, m_PlayerLayer);
+		//if (count > 0) {
+		//	for (int i = 0; i < count; ++i) {
+		//		CharacterData obj = m_RaycastHitCache[i].collider.gameObject.GetComponentInParent<CharacterData>();
+		//		if (obj != null) {
+		//			SwitchHighlightedObject(obj);
+		//			somethingFound = true;
+		//			break;
+		//		}
+		//	}
+		//}
 
 		if (!somethingFound && m_Highlighted != null) {         // si un objet est en surbrillance mais que la souris n'est plus dessus
 			SwitchHighlightedObject(null);                      // éteindre l'objet

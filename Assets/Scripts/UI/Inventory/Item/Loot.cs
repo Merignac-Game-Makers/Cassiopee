@@ -16,15 +16,15 @@ using static InteractableObject.Action;
 /// Finally it will notify the LootUI that a new loot is available in the world so the UI displays the name.
 /// </summary>
 public class Loot : InteractableObject
-{	
+{
 
 	static float AnimationTime = 0.1f;
 
 	public Item item;
 	public static InventoryUI inventoryUI;
 
-	public override bool IsInteractable() {							// l'objet est intéractif si
-		return !animate || m_AnimationTimer >= AnimationTime;		// l'animation de mise en place est terminée ou désactivée
+	public override bool IsInteractable() {                         // l'objet est intéractif si
+		return !animate || m_AnimationTimer >= AnimationTime;       // l'animation de mise en place est terminée ou désactivée
 	}
 
 	public bool animate => item.animate;
@@ -33,16 +33,18 @@ public class Loot : InteractableObject
 	Vector3 m_TargetPoint;
 	float m_AnimationTimer = 0.0f;
 
+	ZoomBase zoom;                          // script Zoom si ce volume est un zoom (il doit être porté par un parent)
 
 	void Awake() {
-		m_OriginalPosition = transform.position;					// préparation
-		m_TargetPoint = transform.position;							// de l'animation
-		m_AnimationTimer = AnimationTime - 0.1f;					// de mise en place
+		m_OriginalPosition = transform.position;                    // préparation
+		m_TargetPoint = transform.position;                         // de l'animation
+		m_AnimationTimer = AnimationTime - 0.1f;                    // de mise en place
 	}
 
 	protected override void Start() {
 		base.Start();
 		inventoryUI = InventoryUI.Instance;
+		zoom = GetComponentInParent<ZoomBase>();					// non null si l'objet est dans une zone couverte par un zoom
 	}
 
 
@@ -64,7 +66,7 @@ public class Loot : InteractableObject
 	/// <param name="target">le lieu (lorsqu'on pose un objet)</param>
 	/// <param name="action">l'action : prendre ou poser</param>
 	public override void InteractWith(CharacterData character, HighlightableObject target = null, Action action = take) {
-		base.InteractWith(character , target, action);
+		base.InteractWith(character, target, action);
 		// si on ramasse l'objet
 		if (action == take) {
 			SFXManager.PlaySound(SFXManager.Use.Sound2D, new SFXManager.PlayData() { Clip = SFXManager.PickupSound });
@@ -74,11 +76,15 @@ public class Loot : InteractableObject
 			inventoryUI.UpdateEntries(target);
 			Destroy(gameObject);
 
+			if (zoom) {         // si l'objet est dans un zoom
+				zoom.LootTaken(this);
+			}
+
 		} else
 		// si on dépose l'objet sur une cible
 		if (action == drop && target is Target) {
-			if ((target as Target).isFree && !item.combinable) {                        // et que cet emplacement est libre et que l'objet n'est pas combinable
-				inventoryUI.DropItem(target as Target, item.entry);                     // déposer l'objet d'inventaire
+			if ((target as Target).isAvailable(item) ) {					// et que cet emplacement est disponible pour cet objet
+				inventoryUI.DropItem(target as Target, item.entry);         // déposer l'objet d'inventaire
 			}
 		}
 	}

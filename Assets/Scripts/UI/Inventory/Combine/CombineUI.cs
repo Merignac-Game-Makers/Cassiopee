@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CombineUI : MonoBehaviour
 {
@@ -10,6 +11,9 @@ public class CombineUI : MonoBehaviour
     public Item item { get; private set; }
     public InventoryEntry entry { get; private set; }
 
+    private void Start() {
+        GetComponentInChildren<RawImage>().SizeToParent();
+    }
 
     public void SetObject(InventoryEntry entry) {
         Clear();

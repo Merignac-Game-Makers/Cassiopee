@@ -181,7 +181,7 @@ public class InventoryUI : UIBase
 						bool combinable = (entry as InventoryEntry).item.combinable;
 						
 						Target data = rh.collider.GetComponentInParent<Target>();						// si l'objet est une 'target' (lieu de dépôt d'objet d'inventaire autorisé)
-						if (data != null && data.isFree && !combinable) {								// et que cet emplacement est libre et que l'objet actuel n'est pas combinable
+						if (data != null && data.isAvailable((entry as InventoryEntry).item)) {			// et que cet emplacement est libre et que l'objet actuel n'est pas combinable
 							PlayerManager.Instance.RequestInteraction(data);							// aller jusqu'à la cible puis déposer l'objet d'inventaire
 						} else {
 							// REM: retiré car le décor n'est plus accessible quand le panneau 'combine' est affiché 

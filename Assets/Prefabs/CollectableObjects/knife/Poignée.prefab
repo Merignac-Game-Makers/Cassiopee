@@ -406,7 +406,7 @@ CapsuleCollider:
   m_Radius: 0.1
   m_Height: 0.1
   m_Direction: 0
-  m_Center: {x: 0.206, y: 0.353, z: 0.1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8467328427620637604
 GameObject:
   m_ObjectHideFlags: 0
@@ -431,7 +431,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8467328427620637604}
   m_LocalRotation: {x: -0, y: -0, z: -1.1482371e-11, w: 1}
-  m_LocalPosition: {x: 0.20600015, y: 0.35300004, z: 0.09919997}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 9168437351136864540}
@@ -461,17 +461,17 @@ PrefabInstance:
     - target: {fileID: 6749054390395526988, guid: 80e082e46de9d034ab8e34c7c8a6f1a8,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.2026
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6749054390395526988, guid: 80e082e46de9d034ab8e34c7c8a6f1a8,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.4735
+      value: 0.4
       objectReference: {fileID: 0}
     - target: {fileID: 6749054390395526988, guid: 80e082e46de9d034ab8e34c7c8a6f1a8,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.0878
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6749054390395526988, guid: 80e082e46de9d034ab8e34c7c8a6f1a8,
         type: 3}
@@ -530,23 +530,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 109203204951567378, guid: 80e082e46de9d034ab8e34c7c8a6f1a8,
         type: 3}
-      propertyPath: m_AspectRatio
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 109203204951567378, guid: 80e082e46de9d034ab8e34c7c8a6f1a8,
-        type: 3}
       propertyPath: m_OrthographicSize
       value: 0.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 109203204951567378, guid: 80e082e46de9d034ab8e34c7c8a6f1a8,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6846110150916388622, guid: 80e082e46de9d034ab8e34c7c8a6f1a8,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3181439226571838617, guid: 80e082e46de9d034ab8e34c7c8a6f1a8,
         type: 3}

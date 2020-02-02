@@ -21,6 +21,9 @@ public abstract class Item : ScriptableObject
 	public Item combineWith;
 	public Item obtain;
 
+	public bool dropable = true;
+
+
 	public InventoryEntry entry = null; // L'entrée d'inventaire lorsque l'objet a été ramassé
 
 	/// <summary>
@@ -45,47 +48,51 @@ public abstract class Item : ScriptableObject
 	}
 
 	public Item Combine(Item other) {
-		return (other == combineWith)? obtain: null;
+		return (other == combineWith) ? obtain : null;
 	}
 }
 
 #if UNITY_EDITOR
-	public class ItemEditor
-	{
-		SerializedProperty pNameProperty;
-		SerializedProperty pIconProperty;
-		SerializedProperty pDescriptionProperty;
-		SerializedProperty pWorldObjectPrefabProperty;
-		SerializedProperty pCombinable;
-		SerializedProperty pCombineWith;
-		SerializedProperty pObtain;
+public class ItemEditor
+{
+	SerializedProperty pNameProperty;
+	SerializedProperty pIconProperty;
+	SerializedProperty pDescriptionProperty;
+	SerializedProperty pWorldObjectPrefabProperty;
+	SerializedProperty pCombinable;
+	SerializedProperty pCombineWith;
+	SerializedProperty pObtain;
+	SerializedProperty pDropable;
 
 
 
-		public void Init(SerializedObject target) {
+	public void Init(SerializedObject target) {
 
-			pNameProperty = target.FindProperty(nameof(Item.ItemName));
-			pIconProperty = target.FindProperty(nameof(Item.ItemSprite));
-			pDescriptionProperty = target.FindProperty(nameof(Item.Description));
-			pWorldObjectPrefabProperty = target.FindProperty(nameof(Item.WorldObjectPrefab));
-			pCombinable = target.FindProperty(nameof(Item.combinable));
-			pCombineWith = target.FindProperty(nameof(Item.combineWith));
-			pObtain = target.FindProperty(nameof(Item.obtain));
-		}
+		pNameProperty = target.FindProperty(nameof(Item.ItemName));
+		pIconProperty = target.FindProperty(nameof(Item.ItemSprite));
+		pDescriptionProperty = target.FindProperty(nameof(Item.Description));
+		pWorldObjectPrefabProperty = target.FindProperty(nameof(Item.WorldObjectPrefab));
+		pCombinable = target.FindProperty(nameof(Item.combinable));
+		pCombineWith = target.FindProperty(nameof(Item.combineWith));
+		pObtain = target.FindProperty(nameof(Item.obtain));
+		pDropable = target.FindProperty(nameof(Item.dropable));
+	}
 
-		public void GUI(Item item) {
+	public void GUI(Item item) {
 
-			EditorGUILayout.PropertyField(pIconProperty);
-			EditorGUILayout.PropertyField(pNameProperty);
-			EditorGUILayout.PropertyField(pDescriptionProperty, GUILayout.MinHeight(128));
-			EditorGUILayout.PropertyField(pWorldObjectPrefabProperty);
+		EditorGUILayout.PropertyField(pIconProperty);
+		EditorGUILayout.PropertyField(pNameProperty);
+		EditorGUILayout.PropertyField(pDescriptionProperty, GUILayout.MinHeight(128));
+		EditorGUILayout.PropertyField(pWorldObjectPrefabProperty);
 
-			//EditorGUI.BeginChangeCheck();
-			item.combinable = EditorGUILayout.Toggle("Combinable", pCombinable.boolValue);
-			if (item.combinable) {
-				EditorGUILayout.PropertyField(pCombineWith);
-				EditorGUILayout.PropertyField(pObtain);
-			}
+		//EditorGUI.BeginChangeCheck();
+		item.combinable = EditorGUILayout.Toggle("Combinable", pCombinable.boolValue);
+		if (item.combinable) {
+			EditorGUILayout.PropertyField(pCombineWith);
+			EditorGUILayout.PropertyField(pObtain);
+		} else {
+			item.dropable = EditorGUILayout.Toggle("Déposable", pDropable.boolValue);
 		}
 	}
+}
 #endif
