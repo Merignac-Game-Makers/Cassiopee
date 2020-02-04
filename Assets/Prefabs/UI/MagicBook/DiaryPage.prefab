@@ -170,10 +170,10 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 406, y: -81.155}
-  m_SizeDelta: {x: 792, y: 62.31}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &2515126475754460922
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -236,7 +236,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_textAlignment: 257
+  m_textAlignment: 264
   m_characterSpacing: 0
   m_wordSpacing: 0
   m_lineSpacing: 0
@@ -246,7 +246,7 @@ MonoBehaviour:
   m_enableWordWrapping: 1
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
-  m_firstOverflowCharacterIndex: -1
+  m_firstOverflowCharacterIndex: 0
   m_linkedTextComponent: {fileID: 0}
   m_isLinkedTextComponent: 0
   m_isTextTruncated: 0
@@ -658,16 +658,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   leftPage: {fileID: 7780947891956881920}
+  leftContent: {fileID: 9214887596811757636}
   rightPage: {fileID: 1535381320520632922}
+  rightContent: {fileID: 3368286621315732845}
   title: {fileID: 7498026745277650353}
-  leftContent: {fileID: 3050341260408353635}
-  rightContent: {fileID: 630756155776013753}
   paragraphTemplate: {fileID: 2515126475754460917}
-  titleString: Test journal
-  paragraphs:
-  - Paragraphe 1 \n multiligne ?
-  - P2
-  - '... P3'
+  chapter: {fileID: 0}
 --- !u!1 &7610126243242392313
 GameObject:
   m_ObjectHideFlags: 0

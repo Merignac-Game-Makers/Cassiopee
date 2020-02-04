@@ -1198,9 +1198,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canvas: {fileID: 0}
   bookPanel: {fileID: 8922128012905997773}
-  baseBookContent: {fileID: 0}
   magicBookContent: {fileID: 0}
   questBookContent: {fileID: 0}
+  diaryBookContent: {fileID: 0}
   lastAvailablePage: 0
   interactable: 1
   currentPage: 0
@@ -1621,7 +1621,7 @@ RectTransform:
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 600, y: 0}
-  m_SizeDelta: {x: 210, y: 290}
+  m_SizeDelta: {x: 281, y: 420}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &7948127317091656094
 GameObject:

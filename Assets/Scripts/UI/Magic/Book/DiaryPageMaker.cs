@@ -10,43 +10,37 @@ using static PageMaker.Side;
 public class DiaryPageMaker : PageMaker
 {
 	public TMP_Text title;
-	public GameObject leftContent;
-	public GameObject rightContent;
 
-	GameObject currentContent => side == left ? leftContent : rightContent;
+	VerticalLayoutGroup currentContent => side == left ? leftContent : rightContent;
 
 	public TMP_Text paragraphTemplate;
 
 	Side side = left;
 
-	public string titleString;
-	public List<Paragraph> paragraphs; // { get; private set; }
+	public Chapter chapter;
 
-	private void Start() {
-		//paragraphs = new List<string>();
-		paragraphs.Add(Resources.Load("Diary/GM001") as Paragraph);
-		Make(); 
-	}
 
 	public override void Make() {
-		title.text = titleString;
+		if (chapter == null) return;
+			
+		title.text = chapter.title;
 		Clear(leftContent);
-		foreach (Paragraph p in paragraphs) {
-			AddParagraph(p.text);
+		Clear(rightContent);
+
+		for (int i = 0; i < chapter.state.Count; i++) {
+			if (chapter.paragraphs[i].enabled) {
+				AddParagraph(chapter.paragraphs[i].Get(chapter.state[i]));
+				chapter.state[i] = chapter.paragraphs[i].Next();
+			}
 		}
 	}
 
 	public void AddParagraph(string paragraph) {
 		TMP_Text newParagraph = Instantiate(paragraphTemplate, currentContent.transform, false);
 		newParagraph.text = paragraph;
-
 	}
 
-	void Clear(GameObject content) {
-		foreach (Transform child in content.transform) {
-			Destroy(child.gameObject);
-		}
-	}
+
 	//public bool UpdateQuest(QuestBase quest) {
 	//	SetQuestPanel qp = GetQuestPanel(quest);
 	//	if (qp != null) {

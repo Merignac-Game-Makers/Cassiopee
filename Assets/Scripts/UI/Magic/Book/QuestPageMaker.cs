@@ -8,8 +8,6 @@ using static PageMaker.Side;
 public class QuestPageMaker : PageMaker
 {
 	public TMP_Text title;
-	public GameObject leftContent;
-	public GameObject rightContent;
 
 	Side side = left;
 	public List<QuestBase> quests { get; private set; }

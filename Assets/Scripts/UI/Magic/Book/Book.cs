@@ -23,14 +23,15 @@ public class Book : MonoBehaviour
 
 	// Pages
 	public int TotalPageCount => pages.Count;
-	public BaseBookContent baseBookContent;			// gestionnaire du contenu commun
-	public MagicBookContent magicBookContent;       // gestionnaire du contenu de la section magie
-	public QuestBookContent questBookContent;       // gestionnaire du contenu de la section quêtes
+	public BaseBookContent baseBookContent { get; private set; }	// gestionnaire du contenu commun
+	public MagicBookContent magicBookContent;                       // gestionnaire du contenu de la section magie
+	public QuestBookContent questBookContent;                       // gestionnaire du contenu de la section quêtes
+	public DiaryBookContent diaryBookContent;                       // gestionnaire du contenu de la section journal
 
 	List<PageMaker> pages; 
-	List<PageMaker> magicPages;                     // les pages de la section magie
-	List<PageMaker> questPages;                     // les pages de la section quêtes
-	List<PageMaker> diaryPages;                     // les pages de la section journal
+	List<PageMaker> magicPages;										// les pages de la section magie
+	List<PageMaker> questPages;										// les pages de la section quêtes
+	List<PageMaker> diaryPages;										// les pages de la section journal
 
 	public int lastAvailablePage;
 
@@ -120,6 +121,7 @@ public class Book : MonoBehaviour
 		// initialisation du contenu des sections
 		magicPages = new List<PageMaker>(magicBookContent.content);
 		questPages = new List<PageMaker>(questBookContent.content);
+		diaryPages = new List<PageMaker>(diaryBookContent.content);
 
 		// on commence sur la section magie
 		SetSection(magic);
@@ -377,6 +379,9 @@ public class Book : MonoBehaviour
 				baseBookContent = questBookContent;
 				break;
 			case diary:
+				pages = diaryPages;
+				currentPage = currentDiaryPage;
+				baseBookContent = diaryBookContent;
 				break;
 		}
 		MakePages();

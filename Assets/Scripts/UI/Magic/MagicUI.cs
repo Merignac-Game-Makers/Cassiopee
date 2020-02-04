@@ -13,7 +13,6 @@ using static MagicButtonStates.State;
 public class MagicUI : UIBase
 {
 	// Définition du contenu du grimoire
-	[HideInInspector]
 	public int MaxPage => pages.Count;
 	public GameObject magicBookContent;
 	List<Page> pages;
@@ -36,7 +35,9 @@ public class MagicUI : UIBase
 	public Sprite sun;                  // image médaillon soleil
 
 	// autres
+	[Header("Autres")]
 	public GameObject playerBody;
+
 	public static MagicUI Instance;      // instance statique
 	public enum SelectedArtefact { Moon, Sun }                      // artefact sélectionnable
 	public SelectedArtefact selectedArtefact { get; private set; }  // artefact sélectionné
@@ -45,6 +46,8 @@ public class MagicUI : UIBase
 	private MagicTrainingManager magicTrainingManager;
 	private MagicButtonStates magicButtonStates;
 	private Material playerMaterial;
+
+
 	/// <summary>
 	/// initialisation
 	/// </summary>

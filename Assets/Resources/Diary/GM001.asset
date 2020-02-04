@@ -9,9 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2964b85542536264b8bfe1087292f963, type: 3}
+  m_Script: {fileID: 0}
   m_Name: GM001
-  m_EditorClassIdentifier: 
-  id: GM001
-  text: "J'ai rencontr\xE9 ma grand-m\xE8re.<br>Elle m'a conseill\xE9 de discuter
-    avec les villageois"
+  m_EditorClassIdentifier: Assembly-CSharp::Paragraph
+  enabled: 1
+  text:
+  - "J'arrive enfin au village...\nJ'ai peur de ce que je vais d\xE9couvrir. Reste-t-il
+    des survivants ?"
+  - "J'arrive enfin au village...\nJ'avais peur de ne trouver aucun survivant.\nFort
+    heureusement j'ai rencontr\xE9 grand-m\xE8re dans sa maison. Elle va bien mais
+    elle m'a accueillie avec de bien \xE9tranges propos."
+  idx: 1
