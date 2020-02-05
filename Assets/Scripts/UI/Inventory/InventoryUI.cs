@@ -46,9 +46,12 @@ public class InventoryUI : UIBase
 
 	bool? prevStatus = false;
 
+	private void Awake() {
+				Instance = this;
+
+	}
 
 	public override void Init(UIManager uiManager) {
-		Instance = this;
 		this.uiManager = uiManager;
 
 		combinePanel = combineUI.gameObject;

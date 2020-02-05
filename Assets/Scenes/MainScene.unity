@@ -2207,7 +2207,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 463098834}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -2221,21 +2221,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 416368969}
     m_Modifications:
-    - target: {fileID: 8246099305737036552, guid: 80e082e46de9d034ab8e34c7c8a6f1a8,
-        type: 3}
-      propertyPath: m_Name
-      value: TatooProjector
-      objectReference: {fileID: 0}
-    - target: {fileID: 8246099305737036552, guid: 80e082e46de9d034ab8e34c7c8a6f1a8,
-        type: 3}
-      propertyPath: m_Layer
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 8246099305737036552, guid: 80e082e46de9d034ab8e34c7c8a6f1a8,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6749054390395526988, guid: 80e082e46de9d034ab8e34c7c8a6f1a8,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2289,6 +2274,21 @@ PrefabInstance:
     - target: {fileID: 6749054390395526988, guid: 80e082e46de9d034ab8e34c7c8a6f1a8,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8246099305737036552, guid: 80e082e46de9d034ab8e34c7c8a6f1a8,
+        type: 3}
+      propertyPath: m_Name
+      value: TatooProjector
+      objectReference: {fileID: 0}
+    - target: {fileID: 8246099305737036552, guid: 80e082e46de9d034ab8e34c7c8a6f1a8,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8246099305737036552, guid: 80e082e46de9d034ab8e34c7c8a6f1a8,
+        type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -3904,10 +3904,10 @@ RectTransform:
   - {fileID: 1312841948}
   - {fileID: 1859556604}
   - {fileID: 532910040}
+  - {fileID: 90329131}
   - {fileID: 2032607362}
   - {fileID: 225538292}
   - {fileID: 1893945617}
-  - {fileID: 90329131}
   - {fileID: 1177649812}
   m_Father: {fileID: 0}
   m_RootOrder: 3
@@ -6553,10 +6553,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1093710607}
     m_Modifications:
-    - target: {fileID: 4078818899284029010, guid: 9fdffd9dce66e6a4480460d1ebaac4f1,
+    - target: {fileID: 4078818899284029013, guid: 9fdffd9dce66e6a4480460d1ebaac4f1,
         type: 3}
-      propertyPath: m_Name
-      value: CM vcam Holder
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4078818899284029011, guid: 9fdffd9dce66e6a4480460d1ebaac4f1,
         type: 3}
@@ -6628,15 +6628,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 14.91
       objectReference: {fileID: 0}
-    - target: {fileID: 4078818899363470664, guid: 9fdffd9dce66e6a4480460d1ebaac4f1,
+    - target: {fileID: 4078818899284029010, guid: 9fdffd9dce66e6a4480460d1ebaac4f1,
         type: 3}
       propertyPath: m_Name
-      value: CM vcam 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4078818899363470664, guid: 9fdffd9dce66e6a4480460d1ebaac4f1,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
+      value: CM vcam Holder
       objectReference: {fileID: 0}
     - target: {fileID: 4078818899363470665, guid: 9fdffd9dce66e6a4480460d1ebaac4f1,
         type: 3}
@@ -6688,9 +6683,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 179.99998
       objectReference: {fileID: 0}
-    - target: {fileID: 4078818899284029013, guid: 9fdffd9dce66e6a4480460d1ebaac4f1,
+    - target: {fileID: 4078818899363470664, guid: 9fdffd9dce66e6a4480460d1ebaac4f1,
         type: 3}
-      propertyPath: m_Enabled
+      propertyPath: m_Name
+      value: CM vcam 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4078818899363470664, guid: 9fdffd9dce66e6a4480460d1ebaac4f1,
+        type: 3}
+      propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4078818899363470666, guid: 9fdffd9dce66e6a4480460d1ebaac4f1,
@@ -7839,21 +7839,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 208280486}
     m_Modifications:
-    - target: {fileID: 8246099305737036552, guid: 80e082e46de9d034ab8e34c7c8a6f1a8,
-        type: 3}
-      propertyPath: m_Name
-      value: TatooProjector
-      objectReference: {fileID: 0}
-    - target: {fileID: 8246099305737036552, guid: 80e082e46de9d034ab8e34c7c8a6f1a8,
-        type: 3}
-      propertyPath: m_Layer
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 8246099305737036552, guid: 80e082e46de9d034ab8e34c7c8a6f1a8,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6749054390395526988, guid: 80e082e46de9d034ab8e34c7c8a6f1a8,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -7907,6 +7892,21 @@ PrefabInstance:
     - target: {fileID: 6749054390395526988, guid: 80e082e46de9d034ab8e34c7c8a6f1a8,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8246099305737036552, guid: 80e082e46de9d034ab8e34c7c8a6f1a8,
+        type: 3}
+      propertyPath: m_Name
+      value: TatooProjector
+      objectReference: {fileID: 0}
+    - target: {fileID: 8246099305737036552, guid: 80e082e46de9d034ab8e34c7c8a6f1a8,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8246099305737036552, guid: 80e082e46de9d034ab8e34c7c8a6f1a8,
+        type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -8061,15 +8061,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 189237159, guid: 5ea51587d2ce31345ac0d77b7eff7366, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.031161912
+      value: 0.031161917
       objectReference: {fileID: 0}
     - target: {fileID: 189237159, guid: 5ea51587d2ce31345ac0d77b7eff7366, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.96410704
+      value: 0.9641071
       objectReference: {fileID: 0}
     - target: {fileID: 189237159, guid: 5ea51587d2ce31345ac0d77b7eff7366, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.13142721
+      value: -0.13142724
       objectReference: {fileID: 0}
     - target: {fileID: 189237159, guid: 5ea51587d2ce31345ac0d77b7eff7366, type: 3}
       propertyPath: m_LocalRotation.w
@@ -9067,7 +9067,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: 0.018884275, y: 0.9811048, z: -0.1337444, w: 0.13852538}
+  m_LocalRotation: {x: 0.018884275, y: 0.9811048, z: -0.13374442, w: 0.13852537}
   m_LocalPosition: {x: -7.1084695, y: 2.54, z: 28.106655}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -9896,10 +9896,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1093710607}
     m_Modifications:
-    - target: {fileID: 4078818899284029010, guid: 9fdffd9dce66e6a4480460d1ebaac4f1,
+    - target: {fileID: 4078818899284029013, guid: 9fdffd9dce66e6a4480460d1ebaac4f1,
         type: 3}
-      propertyPath: m_Name
-      value: CM vcam Holder
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4078818899284029011, guid: 9fdffd9dce66e6a4480460d1ebaac4f1,
         type: 3}
@@ -9971,15 +9971,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 21.4
       objectReference: {fileID: 0}
-    - target: {fileID: 4078818899363470664, guid: 9fdffd9dce66e6a4480460d1ebaac4f1,
+    - target: {fileID: 4078818899284029010, guid: 9fdffd9dce66e6a4480460d1ebaac4f1,
         type: 3}
       propertyPath: m_Name
-      value: CM vcam4
-      objectReference: {fileID: 0}
-    - target: {fileID: 4078818899363470664, guid: 9fdffd9dce66e6a4480460d1ebaac4f1,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
+      value: CM vcam Holder
       objectReference: {fileID: 0}
     - target: {fileID: 4078818899363470665, guid: 9fdffd9dce66e6a4480460d1ebaac4f1,
         type: 3}
@@ -9999,22 +9994,22 @@ PrefabInstance:
     - target: {fileID: 4078818899363470665, guid: 9fdffd9dce66e6a4480460d1ebaac4f1,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.6064454
+      value: 0.60644543
       objectReference: {fileID: 0}
     - target: {fileID: 4078818899363470665, guid: 9fdffd9dce66e6a4480460d1ebaac4f1,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.19833879
+      value: -0.19833882
       objectReference: {fileID: 0}
     - target: {fileID: 4078818899363470665, guid: 9fdffd9dce66e6a4480460d1ebaac4f1,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.7532507
+      value: 0.7532506
       objectReference: {fileID: 0}
     - target: {fileID: 4078818899363470665, guid: 9fdffd9dce66e6a4480460d1ebaac4f1,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.15968482
+      value: 0.15968488
       objectReference: {fileID: 0}
     - target: {fileID: 4078818899363470665, guid: 9fdffd9dce66e6a4480460d1ebaac4f1,
         type: 3}
@@ -10031,9 +10026,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 179.99998
       objectReference: {fileID: 0}
-    - target: {fileID: 4078818899284029013, guid: 9fdffd9dce66e6a4480460d1ebaac4f1,
+    - target: {fileID: 4078818899363470664, guid: 9fdffd9dce66e6a4480460d1ebaac4f1,
         type: 3}
-      propertyPath: m_Enabled
+      propertyPath: m_Name
+      value: CM vcam4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4078818899363470664, guid: 9fdffd9dce66e6a4480460d1ebaac4f1,
+        type: 3}
+      propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4078818899363470666, guid: 9fdffd9dce66e6a4480460d1ebaac4f1,
@@ -10439,16 +10439,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1608085503}
     m_Modifications:
-    - target: {fileID: 8246099305737036552, guid: 80e082e46de9d034ab8e34c7c8a6f1a8,
-        type: 3}
-      propertyPath: m_Name
-      value: TatooProjector
-      objectReference: {fileID: 0}
-    - target: {fileID: 8246099305737036552, guid: 80e082e46de9d034ab8e34c7c8a6f1a8,
-        type: 3}
-      propertyPath: m_Layer
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6749054390395526988, guid: 80e082e46de9d034ab8e34c7c8a6f1a8,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -10504,6 +10494,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8246099305737036552, guid: 80e082e46de9d034ab8e34c7c8a6f1a8,
+        type: 3}
+      propertyPath: m_Name
+      value: TatooProjector
+      objectReference: {fileID: 0}
+    - target: {fileID: 8246099305737036552, guid: 80e082e46de9d034ab8e34c7c8a6f1a8,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 109203204951567378, guid: 80e082e46de9d034ab8e34c7c8a6f1a8,
         type: 3}
       propertyPath: m_OrthographicSize
@@ -10525,21 +10525,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 784878684}
     m_Modifications:
-    - target: {fileID: 8246099305737036552, guid: 80e082e46de9d034ab8e34c7c8a6f1a8,
-        type: 3}
-      propertyPath: m_Name
-      value: TatooProjector
-      objectReference: {fileID: 0}
-    - target: {fileID: 8246099305737036552, guid: 80e082e46de9d034ab8e34c7c8a6f1a8,
-        type: 3}
-      propertyPath: m_Layer
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 8246099305737036552, guid: 80e082e46de9d034ab8e34c7c8a6f1a8,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6749054390395526988, guid: 80e082e46de9d034ab8e34c7c8a6f1a8,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -10593,6 +10578,21 @@ PrefabInstance:
     - target: {fileID: 6749054390395526988, guid: 80e082e46de9d034ab8e34c7c8a6f1a8,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8246099305737036552, guid: 80e082e46de9d034ab8e34c7c8a6f1a8,
+        type: 3}
+      propertyPath: m_Name
+      value: TatooProjector
+      objectReference: {fileID: 0}
+    - target: {fileID: 8246099305737036552, guid: 80e082e46de9d034ab8e34c7c8a6f1a8,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8246099305737036552, guid: 80e082e46de9d034ab8e34c7c8a6f1a8,
+        type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -23452,10 +23452,30 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3209811023788057549}
     m_Modifications:
-    - target: {fileID: 4078818899284029010, guid: 9fdffd9dce66e6a4480460d1ebaac4f1,
+    - target: {fileID: 4078818899284029013, guid: 9fdffd9dce66e6a4480460d1ebaac4f1,
         type: 3}
-      propertyPath: m_Name
-      value: CM vcam Holder
+      propertyPath: m_Size.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4078818899284029013, guid: 9fdffd9dce66e6a4480460d1ebaac4f1,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4078818899284029013, guid: 9fdffd9dce66e6a4480460d1ebaac4f1,
+        type: 3}
+      propertyPath: m_Size.z
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4078818899284029013, guid: 9fdffd9dce66e6a4480460d1ebaac4f1,
+        type: 3}
+      propertyPath: m_Center.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4078818899284029013, guid: 9fdffd9dce66e6a4480460d1ebaac4f1,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4078818899284029011, guid: 9fdffd9dce66e6a4480460d1ebaac4f1,
         type: 3}
@@ -23512,10 +23532,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4078818899363470664, guid: 9fdffd9dce66e6a4480460d1ebaac4f1,
+    - target: {fileID: 4078818899284029010, guid: 9fdffd9dce66e6a4480460d1ebaac4f1,
         type: 3}
       propertyPath: m_Name
-      value: ZoomCam
+      value: CM vcam Holder
       objectReference: {fileID: 0}
     - target: {fileID: 4078818899363470665, guid: 9fdffd9dce66e6a4480460d1ebaac4f1,
         type: 3}
@@ -23540,12 +23560,12 @@ PrefabInstance:
     - target: {fileID: 4078818899363470665, guid: 9fdffd9dce66e6a4480460d1ebaac4f1,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.18496679
+      value: 0.18496682
       objectReference: {fileID: 0}
     - target: {fileID: 4078818899363470665, guid: 9fdffd9dce66e6a4480460d1ebaac4f1,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.046611156
+      value: -0.046611164
       objectReference: {fileID: 0}
     - target: {fileID: 4078818899363470665, guid: 9fdffd9dce66e6a4480460d1ebaac4f1,
         type: 3}
@@ -23567,30 +23587,15 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4078818899284029013, guid: 9fdffd9dce66e6a4480460d1ebaac4f1,
+    - target: {fileID: 4078818899284029012, guid: 9fdffd9dce66e6a4480460d1ebaac4f1,
         type: 3}
-      propertyPath: m_Size.x
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 4078818899284029013, guid: 9fdffd9dce66e6a4480460d1ebaac4f1,
+      propertyPath: zoomUI
+      value: 
+      objectReference: {fileID: 271829040}
+    - target: {fileID: 4078818899363470664, guid: 9fdffd9dce66e6a4480460d1ebaac4f1,
         type: 3}
-      propertyPath: m_Size.y
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 4078818899284029013, guid: 9fdffd9dce66e6a4480460d1ebaac4f1,
-        type: 3}
-      propertyPath: m_Size.z
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 4078818899284029013, guid: 9fdffd9dce66e6a4480460d1ebaac4f1,
-        type: 3}
-      propertyPath: m_Center.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4078818899284029013, guid: 9fdffd9dce66e6a4480460d1ebaac4f1,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
+      propertyPath: m_Name
+      value: ZoomCam
       objectReference: {fileID: 0}
     - target: {fileID: 4078818899363470666, guid: 9fdffd9dce66e6a4480460d1ebaac4f1,
         type: 3}
@@ -23607,11 +23612,6 @@ PrefabInstance:
       propertyPath: m_Lens.FieldOfView
       value: 79.65029
       objectReference: {fileID: 0}
-    - target: {fileID: 4078818899284029012, guid: 9fdffd9dce66e6a4480460d1ebaac4f1,
-        type: 3}
-      propertyPath: zoomUI
-      value: 
-      objectReference: {fileID: 271829040}
     m_RemovedComponents:
     - {fileID: 4078818899661736613, guid: 9fdffd9dce66e6a4480460d1ebaac4f1, type: 3}
     - {fileID: 4078818899284029013, guid: 9fdffd9dce66e6a4480460d1ebaac4f1, type: 3}
@@ -24075,7 +24075,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1835042690
 RectTransform:
   m_ObjectHideFlags: 0
@@ -24860,7 +24860,7 @@ RectTransform:
   m_Children:
   - {fileID: 871430741}
   m_Father: {fileID: 463098834}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -25461,10 +25461,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1093710607}
     m_Modifications:
-    - target: {fileID: 4078818899284029010, guid: 9fdffd9dce66e6a4480460d1ebaac4f1,
+    - target: {fileID: 4078818899284029013, guid: 9fdffd9dce66e6a4480460d1ebaac4f1,
         type: 3}
-      propertyPath: m_Name
-      value: CM vcam Holder
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4078818899284029011, guid: 9fdffd9dce66e6a4480460d1ebaac4f1,
         type: 3}
@@ -25536,15 +25536,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 17.9
       objectReference: {fileID: 0}
-    - target: {fileID: 4078818899363470664, guid: 9fdffd9dce66e6a4480460d1ebaac4f1,
+    - target: {fileID: 4078818899284029010, guid: 9fdffd9dce66e6a4480460d1ebaac4f1,
         type: 3}
       propertyPath: m_Name
-      value: CM vcam3
-      objectReference: {fileID: 0}
-    - target: {fileID: 4078818899363470664, guid: 9fdffd9dce66e6a4480460d1ebaac4f1,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
+      value: CM vcam Holder
       objectReference: {fileID: 0}
     - target: {fileID: 4078818899363470665, guid: 9fdffd9dce66e6a4480460d1ebaac4f1,
         type: 3}
@@ -25569,17 +25564,17 @@ PrefabInstance:
     - target: {fileID: 4078818899363470665, guid: 9fdffd9dce66e6a4480460d1ebaac4f1,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.13005224
+      value: -0.13005193
       objectReference: {fileID: 0}
     - target: {fileID: 4078818899363470665, guid: 9fdffd9dce66e6a4480460d1ebaac4f1,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.14189193
+      value: 0.14189157
       objectReference: {fileID: 0}
     - target: {fileID: 4078818899363470665, guid: 9fdffd9dce66e6a4480460d1ebaac4f1,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.66305035
+      value: 0.6630504
       objectReference: {fileID: 0}
     - target: {fileID: 4078818899363470665, guid: 9fdffd9dce66e6a4480460d1ebaac4f1,
         type: 3}
@@ -25596,9 +25591,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 179.99998
       objectReference: {fileID: 0}
-    - target: {fileID: 4078818899284029013, guid: 9fdffd9dce66e6a4480460d1ebaac4f1,
+    - target: {fileID: 4078818899363470664, guid: 9fdffd9dce66e6a4480460d1ebaac4f1,
         type: 3}
-      propertyPath: m_Enabled
+      propertyPath: m_Name
+      value: CM vcam3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4078818899363470664, guid: 9fdffd9dce66e6a4480460d1ebaac4f1,
+        type: 3}
+      propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4078818899363470666, guid: 9fdffd9dce66e6a4480460d1ebaac4f1,
@@ -26454,11 +26454,11 @@ RectTransform:
   m_Children:
   - {fileID: 474165254}
   m_Father: {fileID: 463098834}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 50, y: 50}
+  m_AnchoredPosition: {x: 50, y: 524}
   m_SizeDelta: {x: 150, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2046632342
@@ -26783,21 +26783,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 81662518}
     m_Modifications:
-    - target: {fileID: 8246099305737036552, guid: 80e082e46de9d034ab8e34c7c8a6f1a8,
-        type: 3}
-      propertyPath: m_Name
-      value: TatooProjector
-      objectReference: {fileID: 0}
-    - target: {fileID: 8246099305737036552, guid: 80e082e46de9d034ab8e34c7c8a6f1a8,
-        type: 3}
-      propertyPath: m_Layer
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 8246099305737036552, guid: 80e082e46de9d034ab8e34c7c8a6f1a8,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6749054390395526988, guid: 80e082e46de9d034ab8e34c7c8a6f1a8,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -26851,6 +26836,21 @@ PrefabInstance:
     - target: {fileID: 6749054390395526988, guid: 80e082e46de9d034ab8e34c7c8a6f1a8,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8246099305737036552, guid: 80e082e46de9d034ab8e34c7c8a6f1a8,
+        type: 3}
+      propertyPath: m_Name
+      value: TatooProjector
+      objectReference: {fileID: 0}
+    - target: {fileID: 8246099305737036552, guid: 80e082e46de9d034ab8e34c7c8a6f1a8,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8246099305737036552, guid: 80e082e46de9d034ab8e34c7c8a6f1a8,
+        type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -27259,6 +27259,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4403453363639611263, guid: 72640852616e86145b0cb05aefafac80,
+        type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3312108191185343626, guid: 72640852616e86145b0cb05aefafac80,
+        type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 7899698506341173285, guid: 72640852616e86145b0cb05aefafac80,
         type: 3}
       propertyPath: m_IsTrigger
@@ -27304,16 +27314,6 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 9d04f87b87f646f468d69d6e46fd45be, type: 2}
-    - target: {fileID: 4403453363639611263, guid: 72640852616e86145b0cb05aefafac80,
-        type: 3}
-      propertyPath: m_Layer
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3312108191185343626, guid: 72640852616e86145b0cb05aefafac80,
-        type: 3}
-      propertyPath: m_Layer
-      value: 2
-      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 1029740178544629648, guid: 72640852616e86145b0cb05aefafac80, type: 3}
     - {fileID: 1832790674450776555, guid: 72640852616e86145b0cb05aefafac80, type: 3}
@@ -27403,7 +27403,7 @@ PrefabInstance:
     - target: {fileID: 2096054656044043173, guid: 20fb836e123ff484387566a16b625d2f,
         type: 3}
       propertyPath: m_RootOrder
-      value: 10
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 2096054656044043173, guid: 20fb836e123ff484387566a16b625d2f,
         type: 3}
@@ -27428,7 +27428,7 @@ PrefabInstance:
     - target: {fileID: 2096054656044043173, guid: 20fb836e123ff484387566a16b625d2f,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 130.00002
+      value: 477
       objectReference: {fileID: 0}
     - target: {fileID: 2096054656044043173, guid: 20fb836e123ff484387566a16b625d2f,
         type: 3}

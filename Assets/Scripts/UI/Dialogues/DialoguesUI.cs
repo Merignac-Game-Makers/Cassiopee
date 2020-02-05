@@ -27,8 +27,11 @@ public class DialoguesUI : UIBase
 
 	UIManager uiManager;
 
+	private void Awake() {
+				Instance = this;
+	}
+
 	public override void Init(UIManager uiManager) {
-		Instance = this;
 		this.uiManager = uiManager;
 
 		gameObject.SetActive(true);

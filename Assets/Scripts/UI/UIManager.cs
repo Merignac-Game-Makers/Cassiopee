@@ -30,13 +30,22 @@ public class UIManager : MonoBehaviour
 		Instance = this;
 	}
 
-	void OnEnable() {
-		dialoguesUI.Init(this);				// initialisation du gestionnaire de dialogues
+	private void Start() {
+			dialoguesUI.Init(this);				// initialisation du gestionnaire de dialogues
 		inventoryUI.Init(this);             // initialisation du gestionnaire d'inventaire
 		diaryBookContent.Init();			// initialisation des pages du journal
 		magicUI.Init(this);                 // intialisation du gestionnaire de magie
 		questButton.SetActive(false);
+	
 	}
+
+	//void OnEnable() {
+	//	dialoguesUI.Init(this);				// initialisation du gestionnaire de dialogues
+	//	inventoryUI.Init(this);             // initialisation du gestionnaire d'inventaire
+	//	diaryBookContent.Init();			// initialisation des pages du journal
+	//	magicUI.Init(this);                 // intialisation du gestionnaire de magie
+	//	questButton.SetActive(false);
+	//}
 
 	/// <summary>
 	/// Gérer la coordination d'affichage des boutons
