@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 7f71ca7c959e49d4b8be972656410640
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - chapter: {fileID: 11400000, guid: a455b8e83ebcd5a4ba8505bc67868c1c, type: 2}
+  - lamePrefab: {fileID: 8765588293443467526, guid: 3f6fc7aaf0fa0544c9da9cb1724fc232,
+      type: 3}
+  - manchePrefab: {fileID: 8081288150008935764, guid: f8aa2e71f57e5174eb4d5dc8580f0396,
+      type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

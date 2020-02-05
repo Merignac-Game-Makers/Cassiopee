@@ -12,14 +12,15 @@ public class UIManager : MonoBehaviour
 {
 	public static UIManager Instance;
 
-	public DialoguesUI dialoguesUI;     // interface Dialogues
-	public InventoryUI inventoryUI;     // interface Inventaire
-	public MagicUI magicUI;             // interface Magie
+	public DialoguesUI dialoguesUI;				// interface Dialogues
+	public InventoryUI inventoryUI;				// interface Inventaire
+	public DiaryBookContent diaryBookContent;   // pages du journal
+	public MagicUI magicUI;						// interface Magie
 
-	public GameObject magicButton;      // bouton du grimoire		
-	public Button artifactButton;		// bouton des artefacts		
-	public Button exitButton;			// bouton exit
-	public GameObject questButton;      // bouton des quêtes		
+	public GameObject magicButton;				// bouton du grimoire		
+	public Button artifactButton;				// bouton des artefacts		
+	public Button exitButton;					// bouton exit
+	public GameObject questButton;				// bouton des quêtes		
 
 	public GameObject messageLabel;
 
@@ -30,9 +31,10 @@ public class UIManager : MonoBehaviour
 	}
 
 	void OnEnable() {
-		dialoguesUI.Init(this);
-		inventoryUI.Init(this);
-		magicUI.Init(this);
+		dialoguesUI.Init(this);				// initialisation du gestionnaire de dialogues
+		inventoryUI.Init(this);             // initialisation du gestionnaire d'inventaire
+		diaryBookContent.Init();			// initialisation des pages du journal
+		magicUI.Init(this);                 // intialisation du gestionnaire de magie
 		questButton.SetActive(false);
 	}
 

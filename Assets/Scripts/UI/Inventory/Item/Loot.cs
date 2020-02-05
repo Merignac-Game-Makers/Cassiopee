@@ -33,7 +33,8 @@ public class Loot : InteractableObject
 	Vector3 m_TargetPoint;
 	float m_AnimationTimer = 0.0f;
 
-	ZoomBase zoom;                          // script Zoom si ce volume est un zoom (il doit être porté par un parent)
+	ZoomBase zoom;                                                  // script Zoom si ce volume est un zoom (il doit être porté par un parent)
+	ChapterManager chapterManager;									// script pour gérer l'avancement du journal
 
 	void Awake() {
 		m_OriginalPosition = transform.position;                    // préparation
@@ -44,7 +45,8 @@ public class Loot : InteractableObject
 	protected override void Start() {
 		base.Start();
 		inventoryUI = InventoryUI.Instance;
-		zoom = GetComponentInParent<ZoomBase>();					// non null si l'objet est dans une zone couverte par un zoom
+		zoom = GetComponentInParent<ZoomBase>();                    // non null si l'objet est dans une zone couverte par un zoom
+		chapterManager = GetComponentInChildren<ChapterManager>();	// non null si l'objet induit une mise à jour du journal
 	}
 
 
@@ -76,8 +78,12 @@ public class Loot : InteractableObject
 			inventoryUI.UpdateEntries(target);
 			Destroy(gameObject);
 
-			if (zoom) {         // si l'objet est dans un zoom
+			if (zoom) {				// si l'objet est dans un zoom
 				zoom.LootTaken(this);
+			}
+
+			if (chapterManager) {   // si l'action sur l'objet induit une mise à jour du journal
+				chapterManager.Act(item);
 			}
 
 		} else

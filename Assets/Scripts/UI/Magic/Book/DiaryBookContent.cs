@@ -7,18 +7,25 @@ public class DiaryBookContent : BaseBookContent
 	public static DiaryBookContent Instance;
 	public GameObject pagePrefab;
 	public Book book;
-	public DiaryPageMaker[] content;
+	public DiaryPageMaker[] content { get; private set; } = new DiaryPageMaker[0];
 
-	public List<List<int>> story;
+	public List<List<int>> diary;
 
 	private void Awake() {
 		Instance = this;
 	}
-
-	private void Start() {
-		story = new List<List<int>>();									// initialiser la liste globale
+	
+	/// <summary>
+	/// Initialisation
+	/// Appelé par <see cref="UIManager.OnEnable"/>
+	/// </summary>
+	public void Init() {
+		DiaryManager.Instance.Init();
+		content = GetComponentsInChildren<DiaryPageMaker>();
+		book.diaryPages = new List<PageMaker>(content);
+		diary = new List<List<int>>();                                  // initialiser la liste globale des chapitres
 		for (int p = 0; p < content.Length; p++) {                      // pour chaque page
-			story.Add(content[p].chapter.State());						// ajouter les index courants des paragraphes
+			diary.Add(content[p].chapter.State());                      // ajouter les index courants des paragraphes
 		}
 	}
 

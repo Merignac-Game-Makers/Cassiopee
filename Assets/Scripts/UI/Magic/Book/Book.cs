@@ -31,7 +31,7 @@ public class Book : MonoBehaviour
 	List<PageMaker> pages; 
 	List<PageMaker> magicPages;										// les pages de la section magie
 	List<PageMaker> questPages;										// les pages de la section quêtes
-	List<PageMaker> diaryPages;										// les pages de la section journal
+	public List<PageMaker> diaryPages;										// les pages de la section journal
 
 	public int lastAvailablePage;
 
@@ -125,7 +125,6 @@ public class Book : MonoBehaviour
 
 		// on commence sur la section magie
 		SetSection(magic);
-		//MagicUI.Instance.helpButton.gameObject.SetActive(pages[currentPage].page.hasHelp);
 	}
 
 	public Vector3 transformPoint(Vector3 global) {

@@ -10,9 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2964b85542536264b8bfe1087292f963, type: 3}
-  m_Name: GM
+  m_Name: Couteau
   m_EditorClassIdentifier: 
   enabled: 1
-  title: "L'arriv\xE9e au village"
+  title: Le couteau rituel
   paragraphs:
-  - {fileID: 11400000, guid: d03e5cc89ad9eeb419e19042dc2c2e14, type: 2}
+  - {fileID: 11400000, guid: 3875231da66f4884e8cf6b2cde50997b, type: 2}
+  - {fileID: 11400000, guid: 4cf85d89baaf036489073a1835975508, type: 2}
+  state: 00000000

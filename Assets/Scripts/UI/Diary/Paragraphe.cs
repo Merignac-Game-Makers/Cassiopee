@@ -42,43 +42,43 @@ public class Paragraph : ScriptableObject
 }
 
 #if UNITY_EDITOR
-[CustomEditor(typeof(Paragraph))]
-public class ParagraphEditor : Editor
-{
-	SerializedProperty pEnabled;
-	SerializedProperty pText;
-	SerializedProperty pIdx;
+//[CustomEditor(typeof(Paragraph))]
+//public class ParagraphEditor : Editor
+//{
+//	SerializedProperty pEnabled;
+//	SerializedProperty pText;
+//	SerializedProperty pIdx;
 
-	Paragraph m_Paragraph;
+//	Paragraph m_Paragraph;
 
-	public void OnEnable() {
-		m_Paragraph = (Paragraph)target;
+//	public void OnEnable() {
+//		m_Paragraph = (Paragraph)target;
 
-		pEnabled = serializedObject.FindProperty(nameof(m_Paragraph.enabled));
-		pText = serializedObject.FindProperty(nameof(m_Paragraph.text));
-		pIdx = serializedObject.FindProperty(nameof(m_Paragraph.idx));
-	}
+//		pEnabled = serializedObject.FindProperty(nameof(m_Paragraph.enabled));
+//		pText = serializedObject.FindProperty(nameof(m_Paragraph.text));
+//		pIdx = serializedObject.FindProperty(nameof(m_Paragraph.idx));
+//	}
 
-	public override void OnInspectorGUI() {
-		EditorStyles.textField.wordWrap = true;
-		serializedObject.Update();
+//	public override void OnInspectorGUI() {
+//		EditorStyles.textField.wordWrap = true;
+//		serializedObject.Update();
 
-		EditorGUILayout.PropertyField(pEnabled);
+//		EditorGUILayout.PropertyField(pEnabled);
 
-		var size = EditorGUILayout.IntField("Nbre de variantes", m_Paragraph.text.Count);
-		if (size != m_Paragraph.text.Count && size != 0) {
-			m_Paragraph.text.Resize(size, "");
-		} else {
-			var options = new GUILayoutOption[] { GUILayout.MinHeight(128), GUILayout.ExpandHeight(true) };
-			for (int i = 0; i < size; i++) {
-				m_Paragraph.text[i] = GUILayout.TextArea(m_Paragraph.text[i], options);
-			}
+//		var size = EditorGUILayout.IntField("Nbre de variantes", m_Paragraph.text.Count);
+//		if (size != m_Paragraph.text.Count && size != 0) {
+//			m_Paragraph.text.Resize(size, "");
+//		} else {
+//			var options = new GUILayoutOption[] { GUILayout.MinHeight(128), GUILayout.ExpandHeight(true) };
+//			for (int i = 0; i < size; i++) {
+//				m_Paragraph.text[i] = GUILayout.TextArea(m_Paragraph.text[i], options);
+//			}
 
-		}
+//		}
 
-		EditorGUILayout.PropertyField(pIdx);
+//		EditorGUILayout.PropertyField(pIdx);
 
-		serializedObject.ApplyModifiedProperties();
-	}
-}
+//		serializedObject.ApplyModifiedProperties();
+//	}
+//}
 #endif

@@ -58,7 +58,7 @@ public class MagicUI : UIBase
 		panel.SetActive(false);         // panneau masqué
 		orbPanel.SetActive(false);		// panneau orbe masqué
 
-		book.Init();
+		book.Init();					// initialisation du grimoire
 
 		selectedArtefact = SelectedArtefact.Sun;    // artefact sélectionné par défaut = SUN
 

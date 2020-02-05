@@ -2,17 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ChapterManager : MonoBehaviour
+public abstract class ChapterManager : MonoBehaviour
 {
 	public Chapter chapter ;
-	DiaryPageMaker pageMaker;
 
-
-	private void Start() {
-		chapter = pageMaker.chapter;
-	}
-
-
-
-
+	public virtual void Act(Item item) { }
 }

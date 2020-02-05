@@ -14,7 +14,18 @@ public class EnterHouse : MonoBehaviour
 	LookAtConstraint lookAtContraint;
 	ConstraintSource constrainSource;
 	// Start is called before the first frame update
-	void Start() {
+	//void Start() {
+	//	player = PlayerManager.Instance.m_Agent;
+	//	if (lookAtAim != null) {
+	//		lookAtContraint = player.GetComponentInChildren<LookAtConstraint>();
+	//		constrainSource = new ConstraintSource();
+	//		constrainSource.sourceTransform = lookAtAim;
+	//		constrainSource.weight = 1;
+	//	}
+	//}
+
+
+	public void Enter() {
 		player = PlayerManager.Instance.m_Agent;
 		if (lookAtAim != null) {
 			lookAtContraint = player.GetComponentInChildren<LookAtConstraint>();
@@ -22,10 +33,6 @@ public class EnterHouse : MonoBehaviour
 			constrainSource.sourceTransform = lookAtAim;
 			constrainSource.weight = 1;
 		}
-	}
-
-
-	public void Enter() {
 		if (!isInside()) {
 			player.SetDestination(enterZone.transform.position);
 			if (lookAtAim != null) {
@@ -39,7 +46,7 @@ public class EnterHouse : MonoBehaviour
 	}
 
 	private void OnTriggerEnter(Collider other) {
-		if (other.gameObject == player.gameObject)
+		if (other.gameObject == PlayerManager.Instance.m_Agent.gameObject)
 			Enter();
 	}
 

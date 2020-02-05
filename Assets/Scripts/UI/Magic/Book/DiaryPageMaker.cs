@@ -25,7 +25,7 @@ public class DiaryPageMaker : PageMaker
 		for (int i = 0; i < chapter.state.Count; i++) {
 			if (chapter.paragraphs[i].enabled) {
 				AddParagraph(chapter.paragraphs[i].Get(chapter.state[i]));
-				chapter.state[i] = chapter.paragraphs[i].Next();
+				//chapter.state[i] = chapter.paragraphs[i].Next();
 			}
 		}
 	}
