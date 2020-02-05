@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class CombineUI : MonoBehaviour
 {
     public Transform objectHolder;
-    [Range(60f, 250f)] public float size = 200;
+    [Range(100f, 350f)] public float size = 250;
 
     public Item item { get; private set; }
     public InventoryEntry entry { get; private set; }
@@ -45,12 +45,16 @@ public class CombineUI : MonoBehaviour
 
     IEnumerator IScale(GameObject obj) {
         yield return new WaitForEndOfFrame();
+        Vector2 referenceResolution = UIManager.Instance.GetComponent<CanvasScaler>().referenceResolution;
+        Vector2 currentResolution = new Vector2(Screen.width, Screen.height);
+        float heightRatio = currentResolution.y / referenceResolution.y;
         var colliders = obj.GetComponentsInChildren<Collider>();
         float extents = 0;
         foreach (Collider collider in colliders) {
             extents = Mathf.Max(extents, collider.bounds.extents.magnitude);
         }
-        obj.transform.localScale = Vector3.one / extents * size;
+
+        obj.transform.localScale = Vector3.one / extents * size * heightRatio;
         //obj.transform.rotation = Quaternion.Euler(Vector3.zero);
     }
 }

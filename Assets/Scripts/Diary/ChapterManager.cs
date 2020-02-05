@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ChapterManager : MonoBehaviour
 {
-	public Chapter xvcb ;
+	public Chapter chapter ;
 	DiaryPageMaker pageMaker;
 
 
