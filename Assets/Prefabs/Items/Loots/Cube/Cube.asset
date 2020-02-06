@@ -17,10 +17,11 @@ MonoBehaviour:
   Description: a cube to test item picking
   WorldObjectPrefab: {fileID: 5198676109635102543, guid: bd221e523ec6bda479ee7c9b56b58321,
     type: 3}
-  animate: 0
-  combinable: 1
+  animate: 1
+  combinable: 0
   combineWith: {fileID: 11400000, guid: 9945bb5d3287ba34891b1650f7acbf65, type: 2}
   obtain: {fileID: 11400000, guid: 035ce6fa56ee1f847bf0164b666d48df, type: 2}
+  dropable: 1
   UsageEffects: []
 --- !u!114 &1107657640091256493
 MonoBehaviour:
