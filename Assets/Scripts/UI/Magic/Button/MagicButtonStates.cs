@@ -20,6 +20,7 @@ public class MagicButtonStates : MonoBehaviour
 
 
 	void Start() {
+		App.isMagicEquiped = true;
 		if (!bookButtonSelector) bookButtonSelector = GetComponentInChildren<SimpleScrollSnap>(true);
 		state = State.inactive;				// au démarrage du jeu le grimoire est inactif
 		questButton.SetActive(true);        // afficher également le bouton des quêtes
