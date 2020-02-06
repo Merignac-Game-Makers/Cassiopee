@@ -24,9 +24,9 @@ public class UIManager : MonoBehaviour
 
 	public GameObject magicButton;				// bouton du grimoire		
 	public Button artifactButton;				// bouton des artefacts		
-	public Button exitButton;                   // bouton exit
-	public Button questButton;              // bouton des quêtes		
-	public Button diaryButton;              // bouton du journal		
+	public Exit exitButton;						// bouton exit
+	public Button questButton;					// bouton des quêtes		
+	public Button diaryButton;					// bouton du journal		
 
 	public GameObject messageLabel;
 
@@ -57,6 +57,13 @@ public class UIManager : MonoBehaviour
 			questButton.gameObject.SetActive(false);
 			diaryButton.gameObject.SetActive(false);
 			artifactButton.gameObject.SetActive(false);
+			if (state == State.dialog) {
+				inventoryUI.SaveAndHide();
+				exitButton.SaveAndHide();
+			} else {
+				inventoryUI.Restore();
+				exitButton.Restore();
+			}
 		} else {
 			switch (state) {
 				case State.noMagic:									// magie inactive
@@ -65,6 +72,7 @@ public class UIManager : MonoBehaviour
 					diaryButton.gameObject.SetActive(true);
 					artifactButton.gameObject.SetActive(false);
 					inventoryUI.Save();
+					exitButton.Save();
 					break;
 				case State.openBook:								// magie active - grimoire ouvert
 					magicButton.SetActive(false);
@@ -72,6 +80,7 @@ public class UIManager : MonoBehaviour
 					diaryButton.gameObject.SetActive(false);
 					artifactButton.gameObject.SetActive(false);
 					inventoryUI.SaveAndHide();
+					exitButton.SaveAndHide();
 					break;
 				case State.closedBook:								// magie active - grimoire fermé
 					magicButton.SetActive(true);
@@ -79,6 +88,7 @@ public class UIManager : MonoBehaviour
 					diaryButton.gameObject.SetActive(true);
 					artifactButton.gameObject.SetActive(true);
 					inventoryUI.Restore();
+					exitButton.Restore();
 					break;
 				case State.dialog:									// dialogue
 					magicButton.SetActive(false);
@@ -86,6 +96,7 @@ public class UIManager : MonoBehaviour
 					diaryButton.gameObject.SetActive(false);
 					artifactButton.gameObject.SetActive(false);
 					inventoryUI.SaveAndHide();
+					exitButton.SaveAndHide();
 					break;
 			}
 		}
