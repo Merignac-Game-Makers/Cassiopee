@@ -307,12 +307,6 @@ public class PlayerManager : MonoBehaviour
 				m_TargetCollider = obj.GetComponentInChildren<Collider>();  //	- mémoriser le collider
 				m_Agent.SetDestination(obj.transform.position);             //	- diriger le joueur vers l'objet
 			}
-			//Target target = obj.GetComponentInChildren<Target>();
-			//if (target != null) {
-			//	m_TargetInteractable = obj;                                 //	- mémoriser l'intéractible (il sera testé dans le prochain update pour déclencher l'intéraction 'AU CONTACT')
-			//	m_TargetCollider = obj.GetComponentInChildren<Collider>();  //	- mémoriser le collider
-			//	m_Agent.SetDestination(obj.transform.position);             //	- diriger le joueur vers l'objet
-			//}
 		}
 	}
 

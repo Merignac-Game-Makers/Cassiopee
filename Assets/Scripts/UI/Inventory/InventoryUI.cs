@@ -47,7 +47,7 @@ public class InventoryUI : UIBase
 	bool? prevStatus = false;
 
 	private void Awake() {
-				Instance = this;
+		Instance = this;
 
 	}
 
@@ -102,7 +102,7 @@ public class InventoryUI : UIBase
 		iPanel.Hide(combinePanel);
 	}
 	public void Show() {
-		iPanel.Show();	
+		iPanel.Show();
 	}
 
 	/// <summary>
@@ -136,10 +136,10 @@ public class InventoryUI : UIBase
 	/// TODO: pour l'instant sans effet... à conserver ???
 	/// </summary>
 	/// <param name="hovered">L'entrée sous la souris</param>
-	public void ObjectHoveredEnter(EntryUI hovered) {		// début de survol
+	public void ObjectHoveredEnter(EntryUI hovered) {       // début de survol
 		hoveredItem = hovered;
 	}
-	public void ObjectHoverExited(EntryUI exited) {			// fin de survol
+	public void ObjectHoverExited(EntryUI exited) {         // fin de survol
 		if (hoveredItem == exited) {
 			hoveredItem = null;
 		}
@@ -176,30 +176,23 @@ public class InventoryUI : UIBase
 	/// <param name="entry">l'entrée d'inventaire contenant l'item à déposer</param>
 	public void DropOn3D(Entry entry) {
 		Ray screenRay = CameraController.Instance.GameplayCamera.ScreenPointToRay(Input.mousePosition);         // lancer de rayon
-		int count = Physics.SphereCastNonAlloc(screenRay, 1.0f, m_RaycastHitCache, 1000.0f, m_TargetLayer);     // combien d'objets du layer 'target'sous le pointeur ?
+		int count = Physics.SphereCastNonAlloc(screenRay, 1.0f, m_RaycastHitCache, 1000.0f, m_TargetLayer);     // combien d'objets du layer 'interactable'sous le pointeur ?
 		if (count > 0) {                                                            // s'il y a des objets sous le pointeur
 			foreach (RaycastHit rh in m_RaycastHitCache) {                          // pour chacun d'eux
 				if (rh.collider != null) {                                          // si l'objet a un collider
-					if (entry is InventoryEntry) {														// si on dépose un objet d'inventaire
+					if (entry is InventoryEntry) {                                                      // si on dépose un objet d'inventaire
 						bool combinable = (entry as InventoryEntry).item.combinable;
-						
-						Target data = rh.collider.GetComponentInParent<Target>();						// si l'objet est une 'target' (lieu de dépôt d'objet d'inventaire autorisé)
-						if (data != null && data.isAvailable((entry as InventoryEntry).item)) {			// et que cet emplacement est libre et que l'objet actuel n'est pas combinable
-							PlayerManager.Instance.RequestInteraction(data);							// aller jusqu'à la cible puis déposer l'objet d'inventaire
+
+						Target data = rh.collider.GetComponentInParent<Target>();                       // si l'objet est une 'target' (lieu de dépôt d'objet d'inventaire autorisé)
+						if (data != null && data.isAvailable((entry as InventoryEntry).item)) {         // et que cet emplacement est libre et que l'objet actuel n'est pas combinable
+							PlayerManager.Instance.RequestInteraction(data);                            // aller jusqu'à la cible puis déposer l'objet d'inventaire
+							break;
 						} else {
-							// REM: retiré car le décor n'est plus accessible quand le panneau 'combine' est affiché 
-							//	=> impossible de combiner avec un objet du décor
-							//Loot other = rh.collider.GetComponentInParent<Loot>();
-							//if (other != null && combinable) {											// si l'item actuellement sélectionné dans l'inventaire est combinable
-							//	Debug.Log("Combine");													// combiner
-							//} else {
 							uiManager.ShowLabel("Impossible d'utiliser cet objet ici", Input.mousePosition);
-							//}
 						}
-						break;	
-					} else if (entry is OrbEntry) {														// si on dépose un orbe de magie
-						MagicEffectBase data = rh.collider.GetComponentInChildren<MagicEffectBase>();	// si l'objet est une ' magic target' (lieu de dépôt d'orbe autorisé)
-						DropItem(data, entry as OrbEntry);												// déposer l'objet d'inventaire
+					} else if (entry is OrbEntry) {                                                     // si on dépose un orbe de magie
+						MagicEffectBase data = rh.collider.GetComponentInChildren<MagicEffectBase>();   // si l'objet est une ' magic target' (lieu de dépôt d'orbe autorisé)
+						DropItem(data, entry as OrbEntry);                                              // déposer l'objet d'inventaire
 						break;
 					}
 				}
@@ -214,10 +207,12 @@ public class InventoryUI : UIBase
 	/// <param name="entry">l'entrée d'inventaire </param>
 	public void DropItem(Target target, Entry entry) {
 		if (entry is InventoryEntry) {
-			CreateWorldRepresentation((entry as InventoryEntry).item, target);                          // créer l'objet 3D
+			Item item = (entry as InventoryEntry).item;
+			item.animate = true;
+			CreateWorldRepresentation(item, target);													// créer l'objet 3D
 			if (currentlyDragged != null)                                                               // si on est dans un 'drag & drop'
 				currentlyDragged.draggedEntry.transform.SetParent(currentlyDragged.originalParent);     // rattacher le 'drag & drop' à son parent original
-			InventoryManager.Instance.RemoveItem(entry as InventoryEntry);                              // retirer l'objet déposé de l'inventaire
+			InventoryManager.Instance.RemoveItem(item.entry);											// retirer l'objet déposé de l'inventaire
 		}
 	}
 
@@ -256,7 +251,7 @@ public class InventoryUI : UIBase
 
 	public void Restore() {
 		if (iPanel.isOn != prevStatus)
-				Toggle();
+			Toggle();
 		prevStatus = null;
 	}
 }
