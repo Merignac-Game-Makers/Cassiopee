@@ -14,6 +14,7 @@ public class MagicButtonStates : MonoBehaviour
 	public Animator halo;
 	public Book book;
 	public GameObject questButton;
+	public GameObject diaryButton;
 
 	public State state { get; private set; }
 
@@ -21,10 +22,8 @@ public class MagicButtonStates : MonoBehaviour
 	void Start() {
 		if (!bookButtonSelector) bookButtonSelector = GetComponentInChildren<SimpleScrollSnap>(true);
 		state = State.inactive;				// au démarrage du jeu le grimoire est inactif
-	}
-
-	private void OnEnable() {
-		questButton.SetActive(true);		// afficher également le bouton des quêtes
+		questButton.SetActive(true);        // afficher également le bouton des quêtes
+		diaryButton.SetActive(true);        // afficher également le bouton du journal
 	}
 
 	/// <summary>
@@ -63,8 +62,19 @@ public class MagicButtonStates : MonoBehaviour
 			book.SetMagicSection();
 		ToggleFullScreen();
 	}
+
+	/// <summary>
+	/// afficher le livre ouvert sur la section du journal
+	/// </summary>
+	public void ShowDiary() {
+		book.SetDiarySection();
+		bookButtonSelector.targetPanel = 2;
+		ToggleFullScreen();
+	}
+
 	public void Close() {
 		bookButtonSelector.GoToPanel(1);
 	}
+
 
 }

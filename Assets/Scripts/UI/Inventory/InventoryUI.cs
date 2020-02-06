@@ -247,12 +247,14 @@ public class InventoryUI : UIBase
 	}
 
 	public void SaveAndHide() {
-		prevStatus = iPanel.isOn;
+		Save();
 		Hide();
+	}
+	public void Save() {
+		prevStatus = iPanel.isOn;
 	}
 
 	public void Restore() {
-		//if (prevStatus != null && prevStatus != iPanel.isOn)
 		if (iPanel.isOn != prevStatus)
 				Toggle();
 		prevStatus = null;

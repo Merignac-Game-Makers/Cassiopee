@@ -5,6 +5,7 @@ using UnityEngine.AI;
 using UnityEngine.EventSystems;
 using static InteractableObject.Action;
 
+
 /// <summary>
 /// Gestion du personnage joueur
 ///		- Déplacements
@@ -46,7 +47,7 @@ public class PlayerManager : MonoBehaviour
 
 	// CharacterData
 	[HideInInspector]
-	public CharacterData m_CharacterData;                           // caractéristiques du joueur (santé, force...)
+	public CharacterData characterData;                           // caractéristiques du joueur (santé, force...)
 
 	// Raycast
 	RaycastHit[] m_RaycastHitCache = new RaycastHit[16];            // cache des résultats de lancer de rayon
@@ -73,8 +74,8 @@ public class PlayerManager : MonoBehaviour
 		inventoryUI = InventoryUI.Instance;							// gestionnaire d'inventaire
 		magicController = MagicManager.Instance;					// gestionnaire de magie
 
-		m_CharacterData = GetComponent<CharacterData>();            // caractéristiques du joueur
-		m_CharacterData.Init();                                     // ... initialisation
+		characterData = GetComponent<CharacterData>();            // caractéristiques du joueur
+		characterData.Init();                                     // ... initialisation
 
 		m_Agent = GetComponent<NavMeshAgent>();                     // préparation de la navigation
 
@@ -285,7 +286,7 @@ public class PlayerManager : MonoBehaviour
 			inventoryUI.DropItem(m_TargetInteractable as Target, inventoryUI.selectedEntry.entry);                     // déposer l'objet d'inventaire
 		} else if ((m_TargetInteractable.mode != InteractableObject.Mode.onClick || m_TargetInteractable.Clicked)
 			&& distance.sqrMagnitude < sqrInteractionDistance) {
-			m_TargetInteractable.InteractWith(m_CharacterData, m_TargetInteractable);         // déclencher l'intéraction
+			m_TargetInteractable.InteractWith(characterData, m_TargetInteractable);         // déclencher l'intéraction
 			m_TargetInteractable = null;                                // supprimer la détection pour éviter de redoubler l'intéraction
 		}
 	}

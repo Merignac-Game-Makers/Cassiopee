@@ -10,6 +10,11 @@ using TMPro;
 /// </summary>
 public class UIManager : MonoBehaviour
 {
+
+	public enum State { noMagic, openBook, closedBook, dialog }	// les états possibles de l'UI
+	public State state { get; private set; }    // l'état actuel de l'UI
+	private State prevState;					// l'état précédent de l'UI
+
 	public static UIManager Instance;
 
 	public DialoguesUI dialoguesUI;				// interface Dialogues
@@ -19,8 +24,9 @@ public class UIManager : MonoBehaviour
 
 	public GameObject magicButton;				// bouton du grimoire		
 	public Button artifactButton;				// bouton des artefacts		
-	public Button exitButton;					// bouton exit
-	public GameObject questButton;				// bouton des quêtes		
+	public Button exitButton;                   // bouton exit
+	public Button questButton;              // bouton des quêtes		
+	public Button diaryButton;              // bouton du journal		
 
 	public GameObject messageLabel;
 
@@ -31,30 +37,62 @@ public class UIManager : MonoBehaviour
 	}
 
 	private void Start() {
-			dialoguesUI.Init(this);				// initialisation du gestionnaire de dialogues
-		inventoryUI.Init(this);             // initialisation du gestionnaire d'inventaire
-		diaryBookContent.Init();			// initialisation des pages du journal
-		magicUI.Init(this);                 // intialisation du gestionnaire de magie
-		questButton.SetActive(false);
-	
+		dialoguesUI.Init(this);					// initialisation du gestionnaire de dialogues
+		inventoryUI.Init(this);					// initialisation du gestionnaire d'inventaire
+		diaryBookContent.Init();				// initialisation des pages du journal
+		magicUI.Init(this);						// intialisation du gestionnaire de magie
+		questButton.gameObject.SetActive(false);			// masquer le bouton des quêtes
+		diaryButton.gameObject.SetActive(false);			// masquer le bouton du journal
 	}
-
-	//void OnEnable() {
-	//	dialoguesUI.Init(this);				// initialisation du gestionnaire de dialogues
-	//	inventoryUI.Init(this);             // initialisation du gestionnaire d'inventaire
-	//	diaryBookContent.Init();			// initialisation des pages du journal
-	//	magicUI.Init(this);                 // intialisation du gestionnaire de magie
-	//	questButton.SetActive(false);
-	//}
 
 	/// <summary>
 	/// Gérer la coordination d'affichage des boutons
-	/// (masquer le bouton grimoire quand on affiche l'inventaire ou les quêtes)
+	/// (masquer le bouton grimoire quand on affiche l'inventaire ou les quêtes, ...)
 	/// </summary>
-	public void ManageButtons() {
-		if (PlayerManager.Instance.gameObject.GetComponentInChildren<CharacterData>().isMagicEquiped) {	// si le joueur dispose du grimoire
-			magicUI.SetState();																			// coordonner les affichages
+	public void ManageButtons(State state) {
+		prevState = this.state;					// mémoriser l'état précédent de l'UI
+		this.state = state;						// mémoriser le nouvel état de l'UI
+		if (!App.isMagicEquiped) {              // si le joueur ne dispose pas du grimoire
+			magicButton.SetActive(false);
+			questButton.gameObject.SetActive(false);
+			diaryButton.gameObject.SetActive(false);
+			artifactButton.gameObject.SetActive(false);
+		} else {
+			switch (state) {
+				case State.noMagic:									// magie inactive
+					magicButton.SetActive(true);
+					questButton.gameObject.SetActive(true);
+					diaryButton.gameObject.SetActive(true);
+					artifactButton.gameObject.SetActive(false);
+					inventoryUI.Save();
+					break;
+				case State.openBook:								// magie active - grimoire ouvert
+					magicButton.SetActive(false);
+					questButton.gameObject.SetActive(false);
+					diaryButton.gameObject.SetActive(false);
+					artifactButton.gameObject.SetActive(false);
+					inventoryUI.SaveAndHide();
+					break;
+				case State.closedBook:								// magie active - grimoire fermé
+					magicButton.SetActive(true);
+					questButton.gameObject.SetActive(true);
+					diaryButton.gameObject.SetActive(true);
+					artifactButton.gameObject.SetActive(true);
+					inventoryUI.Restore();
+					break;
+				case State.dialog:									// dialogue
+					magicButton.SetActive(false);
+					questButton.gameObject.SetActive(false);
+					diaryButton.gameObject.SetActive(false);
+					artifactButton.gameObject.SetActive(false);
+					inventoryUI.SaveAndHide();
+					break;
+			}
 		}
+	}
+
+	public void RestoreButtonsPreviousState() {
+		ManageButtons(prevState);
 	}
 
 	/// <summary>

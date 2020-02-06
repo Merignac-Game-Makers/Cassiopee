@@ -4,13 +4,15 @@ using UnityEngine;
 using UnityEngine.UI;
 using VIDE_Data;
 using TMPro;
+using static UIManager.State;
 
 public class DialoguesUI : UIBase
 {
 
 	public static DialoguesUI Instance;
 
-	public GameObject questsButton;
+	public GameObject questButton;
+	public GameObject diaryButton;
 	public GameObject inventory;
 
 	public GameObject container_NPC;
@@ -68,18 +70,31 @@ public class DialoguesUI : UIBase
 
 	public override void Toggle() {
 		panel.SetActive(!isOn);
-		questsButton.SetActive(!isOn);
+		if (App.isMagicEquiped) {
+			questButton.SetActive(!isOn);
+			diaryButton.SetActive(!isOn);
+		}
 		inventory.SetActive(!isOn);
 	}
 	public void Show() {
 		panel.SetActive(true);
-		questsButton.SetActive(false);
-		inventory.SetActive(false);
+		uiManager.ManageButtons(dialog);
+		//InventoryUI.Instance.SaveAndHide();
+		//if (App.isMagicEquiped) {
+		//	questButton.SetActive(false);
+		//	diaryButton.SetActive(!isOn);
+		//}
+		//inventory.SetActive(false);
 	}
 	public void Hide() {
 		panel.SetActive(false);
-		questsButton.SetActive(true);
-		inventory.SetActive(true);
+		uiManager.RestoreButtonsPreviousState();
+		//InventoryUI.Instance.Restore();
+		//if (App.isMagicEquiped) {
+		//	questButton.SetActive(true);
+		//	diaryButton.SetActive(!isOn);
+		//}
+		//inventory.SetActive(true);
 	}
 
 

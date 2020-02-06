@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using static MagicButtonStates;
 using static MagicButtonStates.State;
+using static UIManager.State;
 
 /// <summary>
 /// Code relatif à l'interface utilisateur du grimoire
@@ -112,20 +113,23 @@ public class MagicUI : UIBase
 
 	public void SetState(State state) {
 		if (state == active) {
-			artefactButton.gameObject.SetActive(true);                          // médaillon visible
+			//artefactButton.gameObject.SetActive(true);                          // médaillon visible
 			bookPanel.gameObject.SetActive(false);                              // livre ouvert invisible
-			inventory.Restore();												// remettre l'inventaire comme il était lors de l'ouverture du livre
-			PlayerManager.Instance.VisualMagicMode(true);						// mise en évidence du mode 'magie activée'
-		} else if (state == open) {
-			artefactButton.gameObject.SetActive(true);                          // médaillon visible
-			bookPanel.gameObject.SetActive(true);                               // livre ouvert visible
-			inventory.SaveAndHide();											// mémoriser la position de l'inventaire puis cacher l'inventaire
+			//inventory.Restore();												// remettre l'inventaire comme il était lors de l'ouverture du livre
 			PlayerManager.Instance.VisualMagicMode(true);                       // mise en évidence du mode 'magie activée'
+			UIManager.Instance.ManageButtons(closedBook);						// coordination des boutons de l'UI
+		} else if (state == open) {
+			//artefactButton.gameObject.SetActive(true);                          // médaillon visible
+			bookPanel.gameObject.SetActive(true);                               // livre ouvert visible
+			//inventory.SaveAndHide();											// mémoriser la position de l'inventaire puis cacher l'inventaire
+			PlayerManager.Instance.VisualMagicMode(true);                       // mise en évidence du mode 'magie activée'
+			UIManager.Instance.ManageButtons(openBook);                         // coordination des boutons de l'UI
 		} else {
-			artefactButton.gameObject.SetActive(false);                         // médaillon invisible
+			//artefactButton.gameObject.SetActive(false);                         // médaillon invisible
 			bookPanel.gameObject.SetActive(false);                              // livre ouvert invisible
 			MagicManager.Instance.SetMagicOff();                                // désactiver toute magie en cours
 			PlayerManager.Instance.VisualMagicMode(false);                      // annulation de la mise en évidence du mode 'magie activée'
+			UIManager.Instance.ManageButtons(noMagic);							// coordination des boutons de l'UI
 		}
 	}
 
