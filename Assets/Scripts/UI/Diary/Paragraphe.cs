@@ -34,14 +34,15 @@ public class Paragraph : ScriptableObject
 		else
 			return null;
 	}
-	public void Set(int version) {
+	public int Set(int version) {
 		if (version >=0 && version < text.Count) {
 			idx = version;
 		}
+		return idx;
 	}
 }
 
-#if UNITY_EDITOR
+//#if UNITY_EDITOR
 //[CustomEditor(typeof(Paragraph))]
 //public class ParagraphEditor : Editor
 //{
@@ -81,4 +82,4 @@ public class Paragraph : ScriptableObject
 //		serializedObject.ApplyModifiedProperties();
 //	}
 //}
-#endif
+//#endif

@@ -52,7 +52,7 @@ public class Chapter : ScriptableObject
 	/// <param name="version"></param>
 	public void SetParagraphVersion(int paragraphIndex, int version) {
 		if (paragraphIndex >= 0 && paragraphIndex < paragraphs.Count) {
-			paragraphs[paragraphIndex].Set(version);
+			state[paragraphIndex] = paragraphs[paragraphIndex].Set(version);
 		}
 	}
 

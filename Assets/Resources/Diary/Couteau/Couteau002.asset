@@ -13,5 +13,9 @@ MonoBehaviour:
   m_Name: Couteau002
   m_EditorClassIdentifier: Assembly-CSharp::Paragraph
   enabled: 0
-  text: []
-  idx: 0
+  text:
+  - J'ai la lame... il me faudrait le manche
+  - J'ai le manche... il me faudrait la lame
+  - J'ai le manche et la lame... il faudrait assembler les deux
+  - "Ca y est ! j'ai assembl\xE9 le couteau !"
+  idx: 3

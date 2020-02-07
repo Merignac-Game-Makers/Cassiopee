@@ -21,4 +21,6 @@ MonoBehaviour:
   combinable: 1
   combineWith: {fileID: 11400000, guid: 35a861c889904714f9318366a062e895, type: 2}
   obtain: {fileID: 11400000, guid: 399bd5c720ccacc4ca0c7e415c18b3bf, type: 2}
+  dropable: 1
+  chapter: {fileID: 11400000, guid: a455b8e83ebcd5a4ba8505bc67868c1c, type: 2}
   UsageEffects: []

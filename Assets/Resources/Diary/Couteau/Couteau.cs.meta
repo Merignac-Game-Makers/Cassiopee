@@ -9,6 +9,8 @@ MonoImporter:
       type: 3}
   - manchePrefab: {fileID: 8081288150008935764, guid: f8aa2e71f57e5174eb4d5dc8580f0396,
       type: 3}
+  - couteauPrefab: {fileID: 4507686147699674413, guid: ef505de3d9b26af47ae4caa2afffb8bf,
+      type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

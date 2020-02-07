@@ -29,12 +29,12 @@ public class DiaryBookContent : BaseBookContent
 		}
 	}
 
-	public void AddPage(Chapter chapter) {
-		var page = Instantiate(pagePrefab, transform);
-		var pageMaker = page.GetComponent<DiaryPageMaker>();
-		pageMaker.chapter = chapter;
-		pageMaker.Make();
-	}
+	//public void AddPage(Chapter chapter) {
+	//	var page = Instantiate(pagePrefab, transform);
+	//	var pageMaker = page.GetComponent<DiaryPageMaker>();
+	//	pageMaker.chapter = chapter;
+	//	pageMaker.Make();
+	//}
 
 	public void UpdateChapter(Chapter chapter) {
 		foreach (DiaryPageMaker dpm in GetComponentsInChildren<DiaryPageMaker>()) {

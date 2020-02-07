@@ -23,6 +23,8 @@ public abstract class Item : ScriptableObject
 
 	public bool dropable = true;
 
+	public Chapter chapter;                                         // chapitre du journal
+
 
 	public InventoryEntry entry = null; // L'entrée d'inventaire lorsque l'objet a été ramassé
 
@@ -43,13 +45,13 @@ public abstract class Item : ScriptableObject
 	/// L'entrée d'inventaire lorsque l'objet a été ramassé
 	/// </summary>
 	/// <returns></returns>
-	public virtual InventoryEntry GetEntry() {
-		return entry;
-	}
+	//public virtual InventoryEntry GetEntry() {
+	//	return entry;
+	//}
 
-	public Item Combine(Item other) {
-		return (other == combineWith) ? obtain : null;
-	}
+	//public Item Combine(Item other) {
+	//	return (other == combineWith) ? obtain : null;
+	//}
 }
 
 #if UNITY_EDITOR
@@ -64,6 +66,7 @@ public class ItemEditor
 	SerializedProperty pCombineWith;
 	SerializedProperty pObtain;
 	SerializedProperty pDropable;
+	SerializedProperty pChapter;
 
 
 
@@ -78,6 +81,7 @@ public class ItemEditor
 		pCombineWith = target.FindProperty(nameof(Item.combineWith));
 		pObtain = target.FindProperty(nameof(Item.obtain));
 		pDropable = target.FindProperty(nameof(Item.dropable));
+		pChapter = target.FindProperty(nameof(Item.chapter));
 	}
 
 	public void GUI(Item item) {
@@ -86,6 +90,7 @@ public class ItemEditor
 		EditorGUILayout.PropertyField(pNameProperty);
 		EditorGUILayout.PropertyField(pDescriptionProperty, GUILayout.MinHeight(128));
 		EditorGUILayout.PropertyField(pWorldObjectPrefabProperty);
+		EditorGUILayout.PropertyField(pChapter);
 		EditorGUILayout.PropertyField(pAnimate);
 
 		//EditorGUI.BeginChangeCheck();

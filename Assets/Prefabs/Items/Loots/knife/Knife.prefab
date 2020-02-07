@@ -66,6 +66,7 @@ MonoBehaviour:
   mode: 0
   Clicked: 0
   item: {fileID: 11400000, guid: 399bd5c720ccacc4ca0c7e415c18b3bf, type: 2}
+  chapter: {fileID: 11400000, guid: a455b8e83ebcd5a4ba8505bc67868c1c, type: 2}
 --- !u!1 &4639658398560991030
 GameObject:
   m_ObjectHideFlags: 0

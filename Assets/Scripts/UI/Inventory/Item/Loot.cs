@@ -46,7 +46,8 @@ public class Loot : InteractableObject
 		base.Start();
 		inventoryUI = InventoryUI.Instance;
 		zoom = GetComponentInParent<ZoomBase>();                    // non null si l'objet est dans une zone couverte par un zoom
-		chapterManager = GetComponentInChildren<ChapterManager>();	// non null si l'objet induit une mise à jour du journal
+
+		//chapterManager = GetComponentInChildren<ChapterManager>();  // non null si l'objet induit une mise à jour du journal
 	}
 
 
@@ -69,6 +70,13 @@ public class Loot : InteractableObject
 	/// <param name="action">l'action : prendre ou poser</param>
 	public override void InteractWith(CharacterData character, HighlightableObject target = null, Action action = take) {
 		base.InteractWith(character, target, action);
+		var chapters = DiaryBookContent.Instance.GetComponentsInChildren<DiaryPageMaker>();
+		foreach (DiaryPageMaker dpm in chapters) {
+			if (dpm.chapter == item.chapter) {
+				chapterManager = dpm.chapterManager;
+				break;
+			}
+		}		
 		// si on ramasse l'objet
 		if (action == take) {
 			SFXManager.PlaySound(SFXManager.Use.Sound2D, new SFXManager.PlayData() { Clip = SFXManager.PickupSound });

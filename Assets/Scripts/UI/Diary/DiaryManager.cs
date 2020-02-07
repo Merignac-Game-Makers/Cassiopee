@@ -27,7 +27,7 @@ public class DiaryManager : MonoBehaviour
 		foreach (ChapterManager cm in chapterManagers) {						// pour chaque chapitre trouvé
 			chapters.Add(cm.chapter);											// ajout à la liste des chapitres 
 			pageMaker = Instantiate(pagePrefab.gameObject, diaryBookContent.transform).GetComponentInChildren<DiaryPageMaker>();	// création de la page
-			pageMaker.chapter = cm.chapter;										// rattachement du chapitre à la page
+			pageMaker.SetChapterManager(cm);									// rattachement du chapitre à la page
 			//pageMaker.Make();
 		}
 	}

@@ -13,8 +13,12 @@ public class DiaryPageMaker : PageMaker
 
 	Side side = left;
 
-	public Chapter chapter;
+	public ChapterManager chapterManager;
+	public Chapter chapter { get; private set; }
 
+	private void Start() {
+		chapter = chapterManager.chapter;
+	}
 	public override void Make() {
 		if (chapter == null) return;
 			
@@ -28,6 +32,11 @@ public class DiaryPageMaker : PageMaker
 				//chapter.state[i] = chapter.paragraphs[i].Next();
 			}
 		}
+	}
+
+	public void SetChapterManager(ChapterManager cm) {
+		chapterManager = cm;
+		chapter = cm.chapter;
 	}
 
 	public void AddParagraph(string paragraph) {

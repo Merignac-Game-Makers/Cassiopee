@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 16f67a5c4af715e469a399ce6bb1de97, type: 3}
-  m_Name: Manche de couteau
+  m_Name: "Poign\xE9e"
   m_EditorClassIdentifier: 
   ItemName: Manche
   ItemSprite: {fileID: 21300000, guid: 6e8abb652c4f9204e8ce62a0b79a873b, type: 3}
@@ -21,4 +21,6 @@ MonoBehaviour:
   combinable: 1
   combineWith: {fileID: 11400000, guid: 4a30173cb22923a41ac133ae59f53b50, type: 2}
   obtain: {fileID: 11400000, guid: 399bd5c720ccacc4ca0c7e415c18b3bf, type: 2}
+  dropable: 1
+  chapter: {fileID: 11400000, guid: a455b8e83ebcd5a4ba8505bc67868c1c, type: 2}
   UsageEffects: []

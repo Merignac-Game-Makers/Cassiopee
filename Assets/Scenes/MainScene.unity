@@ -4296,6 +4296,8 @@ MonoBehaviour:
     type: 3}
   manchePrefab: {fileID: 8081288150008935764, guid: f8aa2e71f57e5174eb4d5dc8580f0396,
     type: 3}
+  couteauPrefab: {fileID: 4507686147699674413, guid: ef505de3d9b26af47ae4caa2afffb8bf,
+    type: 3}
 --- !u!1001 &503324996
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -23497,12 +23499,12 @@ PrefabInstance:
     - target: {fileID: 4078818899363470665, guid: 9fdffd9dce66e6a4480460d1ebaac4f1,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.18496682
+      value: 0.18496679
       objectReference: {fileID: 0}
     - target: {fileID: 4078818899363470665, guid: 9fdffd9dce66e6a4480460d1ebaac4f1,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.046611164
+      value: -0.046611156
       objectReference: {fileID: 0}
     - target: {fileID: 4078818899363470665, guid: 9fdffd9dce66e6a4480460d1ebaac4f1,
         type: 3}
@@ -25626,22 +25628,22 @@ PrefabInstance:
     - target: {fileID: 4078818899363470665, guid: 9fdffd9dce66e6a4480460d1ebaac4f1,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.72340673
+      value: 0.72340685
       objectReference: {fileID: 0}
     - target: {fileID: 4078818899363470665, guid: 9fdffd9dce66e6a4480460d1ebaac4f1,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.13005233
+      value: -0.13005224
       objectReference: {fileID: 0}
     - target: {fileID: 4078818899363470665, guid: 9fdffd9dce66e6a4480460d1ebaac4f1,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.14189197
+      value: 0.14189193
       objectReference: {fileID: 0}
     - target: {fileID: 4078818899363470665, guid: 9fdffd9dce66e6a4480460d1ebaac4f1,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.6630504
+      value: 0.66305035
       objectReference: {fileID: 0}
     - target: {fileID: 4078818899363470665, guid: 9fdffd9dce66e6a4480460d1ebaac4f1,
         type: 3}
@@ -28681,6 +28683,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: Lame
       objectReference: {fileID: 0}
+    - target: {fileID: 1334435587317663876, guid: 3f6fc7aaf0fa0544c9da9cb1724fc232,
+        type: 3}
+      propertyPath: chapter
+      value: 
+      objectReference: {fileID: 11400000, guid: a455b8e83ebcd5a4ba8505bc67868c1c,
+        type: 2}
     - target: {fileID: 264733909726084351, guid: 3f6fc7aaf0fa0544c9da9cb1724fc232,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -28841,6 +28849,12 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6160888008724591797, guid: f8aa2e71f57e5174eb4d5dc8580f0396,
+        type: 3}
+      propertyPath: chapter
+      value: 
+      objectReference: {fileID: 11400000, guid: a455b8e83ebcd5a4ba8505bc67868c1c,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f8aa2e71f57e5174eb4d5dc8580f0396, type: 3}
 --- !u!1001 &7321391479096786786

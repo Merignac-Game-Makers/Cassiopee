@@ -128,6 +128,7 @@ MonoBehaviour:
   mode: 0
   Clicked: 0
   item: {fileID: 11400000, guid: 4a30173cb22923a41ac133ae59f53b50, type: 2}
+  chapter: {fileID: 11400000, guid: a455b8e83ebcd5a4ba8505bc67868c1c, type: 2}
 --- !u!136 &1391410954470399549
 CapsuleCollider:
   m_ObjectHideFlags: 0
