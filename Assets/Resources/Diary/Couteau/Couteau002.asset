@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Couteau002
+  m_EditorClassIdentifier: Assembly-CSharp::Paragraph
+  enabled: 0
+  text:
+  - J'ai la lame... il me faudrait le manche
+  - J'ai le manche... il me faudrait la lame
+  - J'ai le manche et la lame... il faudrait assembler les deux
+  - "Ca y est ! j'ai assembl\xE9 le couteau !"
+  idx: 3

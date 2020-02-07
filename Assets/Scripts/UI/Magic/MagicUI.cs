@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using static MagicButtonStates;
 using static MagicButtonStates.State;
+using static UIManager.State;
 
 /// <summary>
 /// Code relatif à l'interface utilisateur du grimoire
@@ -13,7 +14,6 @@ using static MagicButtonStates.State;
 public class MagicUI : UIBase
 {
 	// Définition du contenu du grimoire
-	[HideInInspector]
 	public int MaxPage => pages.Count;
 	public GameObject magicBookContent;
 	List<Page> pages;
@@ -36,7 +36,9 @@ public class MagicUI : UIBase
 	public Sprite sun;                  // image médaillon soleil
 
 	// autres
+	[Header("Autres")]
 	public GameObject playerBody;
+
 	public static MagicUI Instance;      // instance statique
 	public enum SelectedArtefact { Moon, Sun }                      // artefact sélectionnable
 	public SelectedArtefact selectedArtefact { get; private set; }  // artefact sélectionné
@@ -45,6 +47,8 @@ public class MagicUI : UIBase
 	private MagicTrainingManager magicTrainingManager;
 	private MagicButtonStates magicButtonStates;
 	private Material playerMaterial;
+
+
 	/// <summary>
 	/// initialisation
 	/// </summary>
@@ -55,7 +59,7 @@ public class MagicUI : UIBase
 		panel.SetActive(false);         // panneau masqué
 		orbPanel.SetActive(false);		// panneau orbe masqué
 
-		book.Init();
+		book.Init();					// initialisation du grimoire
 
 		selectedArtefact = SelectedArtefact.Sun;    // artefact sélectionné par défaut = SUN
 
@@ -109,20 +113,23 @@ public class MagicUI : UIBase
 
 	public void SetState(State state) {
 		if (state == active) {
-			artefactButton.gameObject.SetActive(true);                          // médaillon visible
+			//artefactButton.gameObject.SetActive(true);                          // médaillon visible
 			bookPanel.gameObject.SetActive(false);                              // livre ouvert invisible
-			inventory.Restore();
-			PlayerManager.Instance.VisualMagicMode(true);
+			//inventory.Restore();												// remettre l'inventaire comme il était lors de l'ouverture du livre
+			PlayerManager.Instance.VisualMagicMode(true);                       // mise en évidence du mode 'magie activée'
+			UIManager.Instance.ManageButtons(closedBook);						// coordination des boutons de l'UI
 		} else if (state == open) {
-			artefactButton.gameObject.SetActive(true);                          // médaillon visible
+			//artefactButton.gameObject.SetActive(true);                          // médaillon visible
 			bookPanel.gameObject.SetActive(true);                               // livre ouvert visible
-			inventory.SaveAndHide();
-			PlayerManager.Instance.VisualMagicMode(true);
+			//inventory.SaveAndHide();											// mémoriser la position de l'inventaire puis cacher l'inventaire
+			PlayerManager.Instance.VisualMagicMode(true);                       // mise en évidence du mode 'magie activée'
+			UIManager.Instance.ManageButtons(openBook);                         // coordination des boutons de l'UI
 		} else {
-			artefactButton.gameObject.SetActive(false);                         // médaillon invisible
+			//artefactButton.gameObject.SetActive(false);                         // médaillon invisible
 			bookPanel.gameObject.SetActive(false);                              // livre ouvert invisible
 			MagicManager.Instance.SetMagicOff();                                // désactiver toute magie en cours
-			PlayerManager.Instance.VisualMagicMode(false);
+			PlayerManager.Instance.VisualMagicMode(false);                      // annulation de la mise en évidence du mode 'magie activée'
+			UIManager.Instance.ManageButtons(noMagic);							// coordination des boutons de l'UI
 		}
 	}
 

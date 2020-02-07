@@ -1,6 +1,8 @@
 ﻿using System;
 using UnityEngine;
 using System.Collections.Generic;
+using static InteractableObject.Action;
+
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -60,8 +62,8 @@ public class PNJ : InteractableObject
 	}
 
 	// intéraction avec un PNJ
-	public override void InteractWith(HighlightableObject target) {
-		DialogueTrigger dt = GetComponentInChildren<DialogueTrigger>();     // si il y a un dialogue
+	public override void InteractWith(CharacterData character, HighlightableObject target = null, Action action = talk) {
+		DialogueTrigger dt = GetComponentInChildren<DialogueTrigger>();     // si le PNJ a un dialogue
 		if (dt) {
 			PlayerManager.Instance.StopAgent();                             //	stopper la navigation
 			GetComponentInChildren<DialogueTrigger>().Run();                //	démarrer le dialogue	
@@ -72,7 +74,7 @@ public class PNJ : InteractableObject
 			}
 		}
 
-		base.InteractWith(target);                                          // intéraction par défaut
+		base.InteractWith(character, target, action);                      // intéraction par défaut
 	}
 
 }

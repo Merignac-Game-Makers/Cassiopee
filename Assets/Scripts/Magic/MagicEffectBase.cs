@@ -20,6 +20,12 @@ public abstract class MagicEffectBase : InteractableObject
 	/// </summary>
 	/// <param name="orb">l'orbe déposé sur la cible</param>
 	public void MakeMagicalStuff(MagicOrb orb) {
+		if (!enabled) 
+			return;
+		if (orb.constellation != page.constellation) {
+			UIManager.Instance.ShowLabel("Impossible ici", Input.mousePosition);
+
+		}
 		if (enabled && orb.constellation == page.constellation) {   // l'action n'est déclenchée que si l'orbe a été acquis avec la bonne constellation
 			Act(orb);                                               // générer l'action magique
 		}

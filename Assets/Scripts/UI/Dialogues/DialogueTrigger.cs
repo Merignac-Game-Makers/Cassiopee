@@ -18,12 +18,12 @@ public class DialogueTrigger : MonoBehaviour
 		dispatcher = gameObject.GetComponent<DialogueDispatcher>();             // le script de validation de dialogue (points d'entrée en fonction du statut de la quête [si elle existe])
 	}
 
-	// Update is called once per frame
-	void Update() {
-		if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject()) {
-			dialoguesUI.End(null);
-		}
-	}
+	//// Update is called once per frame
+	//void Update() {
+	//	if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject()) {
+	//		dialoguesUI.End(null);
+	//	}
+	//}
 
 	public void Run() {
 		if (!VD.isActive) {

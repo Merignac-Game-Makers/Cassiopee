@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.EventSystems;
-using static InventoryManager;
-using TMPro;
 
-public class ItemEntryUI : EntryUI 
+public class ItemEntryUI : EntryUI
 {
 	public Image iconeImage;
+	public Image plus;
 
 	ItemEntryUI[] all;
+	public Item item;
+	ChapterManager chapterManager;
 
 	private void Start() {
 		inventoryUI = InventoryUI.Instance;
@@ -20,11 +17,12 @@ public class ItemEntryUI : EntryUI
 	public override void Init(Entry entry) {
 		this.entry = entry;
 		entry.ui = this;
-		iconeImage.sprite = (entry as InventoryEntry).item.ItemSprite;
+		item = (entry as InventoryEntry).item;
+		iconeImage.sprite = item.ItemSprite;
 		lowerText.text = "";
-		label.text = (entry as InventoryEntry).item.ItemName;
+		label.text = item.ItemName;
+		plus.enabled = item.combinable;
 	}
-
 
 	/// <summary>
 	/// mise à jour
@@ -46,12 +44,42 @@ public class ItemEntryUI : EntryUI
 	}
 
 	public override void Toggle() {
-		base.Toggle();
-		all = inventoryUI.GetComponentsInChildren<ItemEntryUI>();
-		foreach(ItemEntryUI entry in all) {
-			if (entry!=this)
-				entry.Select(false);
+		var combineItem = inventoryUI.combineUI.item;
+		if (combineItem != null && item == combineItem.combineWith) {               // si une entrée combinable avec l'item est actuellement sélectionnée
+																					// Debug.Log("Combine");
+			var combineEntry = inventoryUI.combineUI.entry;                         //		récupérer l'entrée d'inventaire concernée
+			combineEntry.item = combineItem.obtain;                                 //		remplace l'item de cette entrée par le résultat de la combinaison
+			combineEntry.count = 1;                                                 //		en 1 exemplaire
+			combineEntry.ui.Init(combineEntry);                                     //		mettre à jour l'interface de cette entrée
+			inventoryUI.combineUI.SetObject(combineEntry);                          //		afficher l'objet obtenu dans le pannea 'combine'
+			inventoryUI.RemoveEntry(this);                                          //		supprimer l'entrée de l'objet utilisé pour la combinaison
+			SetChapter();
+			if (chapterManager != null) {
+				chapterManager.Act(combineEntry.item);
+			}
+		} else {                                                                    // sinon
+			all = inventoryUI.GetComponentsInChildren<ItemEntryUI>();
+			foreach (ItemEntryUI entry in all) {                                    // désélectionner toutes les autres entrées de l'inventaire
+				if (entry != this && entry.selected)
+					entry.Select(false);
+			}
+			base.Toggle();                                                          // sélectionner/déselectionner cette entrée
+			if (selected && item.combinable) {                                      // si on sélectionne et que l'item est combinable
+				inventoryUI.combineUI.SetObject(entry as InventoryEntry);           //		afficher le panneau 'combine'
+			} else {                                                                // sinon
+				inventoryUI.combineUI.Clear();                                      //		masquer le panneau combine
+			}
 		}
 	}
 
+	private void SetChapter() {
+		var chapters = DiaryBookContent.Instance.GetComponentsInChildren<DiaryPageMaker>();
+		foreach (DiaryPageMaker dpm in chapters) {
+			if (dpm.chapter == item.chapter) {
+				chapterManager = dpm.chapterManager;
+				break;
+			}
+		}
+
+	}
 }

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using UnityEngine;
 
 /// <summary>
 /// This handles the inventory of our character. Each slot can hold one
@@ -11,20 +10,6 @@ public class InventoryManager
 
 	public static InventoryManager Instance;
 	private InventoryUI inventoryUI;
-
-	/// <summary>
-	/// One entry in the inventory. Hold the type of Item and how many there is in that slot.
-	/// </summary>
-	public class InventoryEntry : Entry
-	{
-		public Item item;
-		public int count = 1;
-		public new ItemEntryUI ui;
-
-		public InventoryEntry(Item item) {
-			this.item = item;
-		}
-	}
 
 	// Pas de limite au nombre d'objets en inventaire
 	private const int numSlots = 0;
@@ -52,6 +37,7 @@ public class InventoryManager
 				entries[i].count += 1;                      // ajouter 1 à la quantité
 				found = true;                               // trouvé
 				entries[i].ui.UpdateEntry();                // mettre l'objet d'interface associé à jour	
+				item.entry = entries[i];
 				break;
 			}
 		}
@@ -61,6 +47,7 @@ public class InventoryManager
 			entry.ui =                                      // créer l'ojet d'interface associé
 				inventoryUI.AddItemEntry(entries.Count - 1, entry);
 			entries.Add(entry);
+			item.entry = entry;
 		}
 
 	}

@@ -13,7 +13,6 @@ public abstract class EntryUI : MonoBehaviour, IPointerClickHandler, IPointerEnt
 	public TMP_Text lowerText;
 	public TMP_Text label;
 	public Entry entry;
-	//public EquipmentItem equipmentItem { get; private set; }
 
 	public InventoryUI inventoryUI { get; set; }
 	public int Index { get; set; }

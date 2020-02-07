@@ -572,10 +572,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   leftPage: {fileID: 4938446946717636746}
+  leftContent: {fileID: 5805776291961744078}
   rightPage: {fileID: 4196612243044600016}
+  rightContent: {fileID: 129785676754589671}
   title: {fileID: 5151500243975182139}
-  leftContent: {fileID: 371376010979373545}
-  rightContent: {fileID: 2860767442952918835}
 --- !u!1 &6746236008088961915
 GameObject:
   m_ObjectHideFlags: 0
@@ -1678,6 +1678,11 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 4127637504115802573, guid: 94324e5e12fb73e4a8c257cdcb0b157c,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 654203303679012801, guid: 94324e5e12fb73e4a8c257cdcb0b157c,
         type: 3}
       propertyPath: m_fontSize
@@ -1692,11 +1697,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_textInfo.lineCount
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4127637504115802573, guid: 94324e5e12fb73e4a8c257cdcb0b157c,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 94324e5e12fb73e4a8c257cdcb0b157c, type: 3}

@@ -50,12 +50,14 @@ public class CubeInWell : QuestBase
 		}
 	}
 
+	// Remise à zéro
 	public override void Reset() {
 		var loots = holder.GetComponentsInChildren<Loot>();
-		foreach (Loot loot in loots) {
-			loot.InteractWith(PlayerManager.Instance.m_CharacterData);
+		// ramasser tous les objets contenus dans le réceptacle (le puits)
+		foreach (Loot loot in loots) {				
+			loot.InteractWith(PlayerManager.Instance.characterData);
 		}
-		AcceptQuest();
+		AcceptQuest();		// mettre la quête au statut 'acceptée'
 	}
 }
 
