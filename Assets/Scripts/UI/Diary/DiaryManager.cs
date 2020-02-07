@@ -25,7 +25,7 @@ public class DiaryManager : MonoBehaviour
 		chapterManagers = GetComponentsInChildren<ChapterManager>();			// récupération des chapitres (rattachés aux enfants de ce gameObject)
 		chapters = new List<Chapter>();											// initialisation de la liste des chapitres
 		foreach (ChapterManager cm in chapterManagers) {						// pour chaque chapitre trouvé
-			chapters.Add(cm.chapter);											// ajout à la liste des chapitres 
+			chapters.Add(cm.chapterInstance);									// ajout à la liste des chapitres 
 			pageMaker = Instantiate(pagePrefab.gameObject, diaryBookContent.transform).GetComponentInChildren<DiaryPageMaker>();	// création de la page
 			pageMaker.SetChapterManager(cm);									// rattachement du chapitre à la page
 			//pageMaker.Make();

@@ -284,6 +284,7 @@ public class PlayerManager : MonoBehaviour
 		Vector3 distance = m_TargetCollider.ClosestPointOnBounds(transform.position) - transform.position;  // calcul de la distance
 		if (m_TargetInteractable is Target && inventoryUI.selectedEntry != null && distance.sqrMagnitude < sqrInteractionDistance) {
 			inventoryUI.DropItem(m_TargetInteractable as Target, inventoryUI.selectedEntry.entry);                     // déposer l'objet d'inventaire
+			inventoryUI.selectedEntry = null;
 		} else if ((m_TargetInteractable.mode != InteractableObject.Mode.onClick || m_TargetInteractable.Clicked)
 			&& distance.sqrMagnitude < sqrInteractionDistance) {
 			m_TargetInteractable.InteractWith(characterData, m_TargetInteractable);         // déclencher l'intéraction

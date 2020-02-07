@@ -19,6 +19,10 @@ public abstract class EntryUI : MonoBehaviour, IPointerClickHandler, IPointerEnt
 
 	protected bool selected = false;
 
+	private void Start() {
+		inventoryUI = InventoryUI.Instance;
+	}
+
 	public abstract void Init(Entry entry);
 
 	/// <summary>
@@ -61,7 +65,8 @@ public abstract class EntryUI : MonoBehaviour, IPointerClickHandler, IPointerEnt
 		inventoryUI.currentlyDragged = new InventoryUI.DragData();                                  // créer un 'dragData'
 		inventoryUI.currentlyDragged.draggedEntry = this;                                           // qui contient cette entrée
 		inventoryUI.currentlyDragged.originalParent = (RectTransform)transform.parent;              // dont on mémorise le parent actuel
-		transform.SetParent(inventoryUI.DragCanvas.transform, true);                                // puis qu'on rattaceha au canvas 'DragCanvas'
+		transform.SetParent(inventoryUI.dragCanvas.transform, true);                                // puis qu'on rattachera au canvas 'DragCanvas'
+		inventoryUI.selectedEntry = this;
 	}
 
 	/// <summary>
