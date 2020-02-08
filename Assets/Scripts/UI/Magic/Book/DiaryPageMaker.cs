@@ -17,7 +17,7 @@ public class DiaryPageMaker : PageMaker
 	public Chapter chapter { get; private set; }
 
 	private void Start() {
-		chapter = chapterManager.chapter;
+		chapter = chapterManager.chapterInstance;
 	}
 	public override void Make() {
 		if (chapter == null) return;
@@ -36,7 +36,7 @@ public class DiaryPageMaker : PageMaker
 
 	public void SetChapterManager(ChapterManager cm) {
 		chapterManager = cm;
-		chapter = cm.chapter;
+		chapter = cm.chapterInstance;
 	}
 
 	public void AddParagraph(string paragraph) {

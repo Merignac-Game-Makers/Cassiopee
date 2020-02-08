@@ -99,7 +99,7 @@ public class ItemEditor
 			EditorGUILayout.PropertyField(pCombineWith);
 			EditorGUILayout.PropertyField(pObtain);
 		} else {
-			item.dropable = EditorGUILayout.Toggle("Déposable", pDropable.boolValue);
+			item.dropable = EditorGUILayout.Toggle("Dropable", pDropable.boolValue);
 		}
 	}
 }

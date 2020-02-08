@@ -24,22 +24,22 @@ public class Couteau : ChapterManager
 
 	public void Lame() {
 		lame = true;
-		chapter.paragraphs[1].enabled = true;
-		if (!manche) 
-			chapter.SetParagraphVersion(1, 0);
-		else 
-			chapter.SetParagraphVersion(1, 2);
+		chapterInstance.paragraphs[1].enabled = true;
+		if (!manche)
+			chapterInstance.SetParagraphVersion(1, 0);
+		else
+			chapterInstance.SetParagraphVersion(1, 2);
 	}
 	public void Manche() {
 		manche = true;
-		chapter.paragraphs[1].enabled = true;
-		if (!lame) 
-			chapter.SetParagraphVersion(1, 1);
-		else 
-			chapter.SetParagraphVersion(1, 2);
+		chapterInstance.paragraphs[1].enabled = true;
+		if (!lame)
+			chapterInstance.SetParagraphVersion(1, 1);
+		else
+			chapterInstance.SetParagraphVersion(1, 2);
 	}
 
 	public void Assemblage() {
-		chapter.SetParagraphVersion(1, 3);
+		chapterInstance.SetParagraphVersion(1, 3);
 	}
 }

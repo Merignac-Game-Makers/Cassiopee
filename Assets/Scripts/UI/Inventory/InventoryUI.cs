@@ -23,7 +23,7 @@ public class InventoryUI : UIBase
 	public ItemEntryUI itemEntryPrefab;
 	public RectTransform slotPrefab;
 
-	public Canvas DragCanvas;
+	public Canvas dragCanvas;
 
 	public static InventoryUI Instance;
 
@@ -62,7 +62,7 @@ public class InventoryUI : UIBase
 
 		currentlyDragged = null;
 
-		DragCanvasScaler = DragCanvas.GetComponentInParent<CanvasScaler>();
+		DragCanvasScaler = dragCanvas.GetComponentInParent<CanvasScaler>();
 
 		m_TargetLayer = 1 << LayerMask.NameToLayer("Interactable");
 	}
