@@ -1,12 +1,12 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class InfoPanel : MonoBehaviour
 {
 	public TMP_Text title, text;
-
+	public Image checkMark;
 	Animator animator;
 
 	private void Awake() {
@@ -19,9 +19,10 @@ public class InfoPanel : MonoBehaviour
 		else
 			animator.SetTrigger("close");
 	}
-	public void Set(string title, string text) {
+	public void Set(string title, string text, bool check) {
 		this.title.text = title;
 		this.text.text = text;
+		checkMark.enabled = check;
 	}
 
 	public void Show(float s) {
