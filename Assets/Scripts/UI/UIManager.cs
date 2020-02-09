@@ -11,22 +11,23 @@ using TMPro;
 public class UIManager : MonoBehaviour
 {
 
-	public enum State { noMagic, openBook, closedBook, dialog }	// les états possibles de l'UI
+	public enum State { noMagic, openBook, closedBook, dialog, end, quit }  // les états possibles de l'UI
 	public State state { get; private set; }    // l'état actuel de l'UI
-	private State prevState;					// l'état précédent de l'UI
+	private State prevState;                    // l'état précédent de l'UI
 
 	public static UIManager Instance;
 
-	public DialoguesUI dialoguesUI;				// interface Dialogues
-	public InventoryUI inventoryUI;				// interface Inventaire
+	public DialoguesUI dialoguesUI;             // interface Dialogues
+	public InventoryUI inventoryUI;             // interface Inventaire
 	public DiaryBookContent diaryBookContent;   // pages du journal
-	public MagicUI magicUI;						// interface Magie
+	public MagicUI magicUI;                     // interface Magie
+	public QuitUI quitUi;                       // interface Quit
 
-	public GameObject magicButton;				// bouton du grimoire		
-	public Button artifactButton;				// bouton des artefacts		
-	public Exit exitButton;						// bouton exit
-	public Button questButton;					// bouton des quêtes		
-	public Button diaryButton;					// bouton du journal		
+	public GameObject magicButton;              // bouton du grimoire		
+	public Button artifactButton;               // bouton des artefacts		
+	public Exit exitButton;                     // bouton exit
+	public Button questButton;                  // bouton des quêtes		
+	public Button diaryButton;                  // bouton du journal		
 
 	public GameObject messageLabel;
 
@@ -37,12 +38,17 @@ public class UIManager : MonoBehaviour
 	}
 
 	private void Start() {
-		dialoguesUI.Init(this);					// initialisation du gestionnaire de dialogues
-		inventoryUI.Init(this);					// initialisation du gestionnaire d'inventaire
-		diaryBookContent.Init();				// initialisation des pages du journal
-		magicUI.Init(this);						// intialisation du gestionnaire de magie
-		questButton.gameObject.SetActive(false);			// masquer le bouton des quêtes
-		diaryButton.gameObject.SetActive(false);			// masquer le bouton du journal
+		dialoguesUI.Init(this);                 // initialisation du gestionnaire de dialogues
+		inventoryUI.Init(this);                 // initialisation du gestionnaire d'inventaire
+		diaryBookContent.Init();                // initialisation des pages du journal
+		magicUI.Init(this);                     // intialisation du gestionnaire de magie
+		questButton.gameObject.SetActive(false);            // masquer le bouton des quêtes
+		diaryButton.gameObject.SetActive(false);            // masquer le bouton du journal
+	}
+
+	public void ShowQuitUi() {
+		ManageButtons(State.quit);
+		quitUi.Show(true);
 	}
 
 	/// <summary>
@@ -50,23 +56,30 @@ public class UIManager : MonoBehaviour
 	/// (masquer le bouton grimoire quand on affiche l'inventaire ou les quêtes, ...)
 	/// </summary>
 	public void ManageButtons(State state) {
-		prevState = this.state;					// mémoriser l'état précédent de l'UI
-		this.state = state;						// mémoriser le nouvel état de l'UI
+		prevState = this.state;                 // mémoriser l'état précédent de l'UI
+		this.state = state;                     // mémoriser le nouvel état de l'UI
 		if (!App.isMagicEquiped) {              // si le joueur ne dispose pas du grimoire
 			magicButton.SetActive(false);
 			questButton.gameObject.SetActive(false);
 			diaryButton.gameObject.SetActive(false);
 			artifactButton.gameObject.SetActive(false);
-			if (state == State.dialog) {
-				inventoryUI.SaveAndHide();
-				exitButton.SaveAndHide();
-			} else {
-				inventoryUI.Restore();
-				exitButton.Restore();
+			switch (state) {
+				case State.dialog:
+					inventoryUI.SaveAndHide();
+					exitButton.SaveAndHide();
+					break;
+				case State.quit:
+					inventoryUI.SaveAndHide();
+					exitButton.SaveAndHide();
+					break;
+				default:
+					inventoryUI.Restore();
+					exitButton.Restore();
+					break;
 			}
 		} else {
 			switch (state) {
-				case State.noMagic:									// magie inactive
+				case State.noMagic:                                 // magie inactive
 					magicButton.SetActive(true);
 					questButton.gameObject.SetActive(true);
 					diaryButton.gameObject.SetActive(true);
@@ -74,7 +87,7 @@ public class UIManager : MonoBehaviour
 					inventoryUI.Save();
 					exitButton.Save();
 					break;
-				case State.openBook:								// magie active - grimoire ouvert
+				case State.openBook:                                // magie active - grimoire ouvert
 					magicButton.SetActive(false);
 					questButton.gameObject.SetActive(false);
 					diaryButton.gameObject.SetActive(false);
@@ -82,7 +95,7 @@ public class UIManager : MonoBehaviour
 					inventoryUI.SaveAndHide();
 					exitButton.SaveAndHide();
 					break;
-				case State.closedBook:								// magie active - grimoire fermé
+				case State.closedBook:                              // magie active - grimoire fermé
 					magicButton.SetActive(true);
 					questButton.gameObject.SetActive(true);
 					diaryButton.gameObject.SetActive(true);
@@ -90,7 +103,23 @@ public class UIManager : MonoBehaviour
 					inventoryUI.Restore();
 					exitButton.Restore();
 					break;
-				case State.dialog:									// dialogue
+				case State.dialog:                                  // dialogue
+					magicButton.SetActive(false);
+					questButton.gameObject.SetActive(false);
+					diaryButton.gameObject.SetActive(false);
+					artifactButton.gameObject.SetActive(false);
+					inventoryUI.SaveAndHide();
+					exitButton.SaveAndHide();
+					break;
+				case State.end:                                     // fin
+					magicButton.SetActive(false);
+					questButton.gameObject.SetActive(false);
+					diaryButton.gameObject.SetActive(false);
+					artifactButton.gameObject.SetActive(false);
+					inventoryUI.SaveAndHide();
+					exitButton.SaveAndHide();
+					break;
+				case State.quit:                                     // quit
 					magicButton.SetActive(false);
 					questButton.gameObject.SetActive(false);
 					diaryButton.gameObject.SetActive(false);
@@ -114,7 +143,7 @@ public class UIManager : MonoBehaviour
 	public void ShowLabel(string text, Vector2 position) {
 		messageLabel.GetComponentInChildren<TMP_Text>().text = text;
 		messageLabel.transform.position = position;
-		if (coroutine!=null)
+		if (coroutine != null)
 			StopCoroutine(coroutine);
 		coroutine = StartCoroutine(IShow(messageLabel, 2));
 	}

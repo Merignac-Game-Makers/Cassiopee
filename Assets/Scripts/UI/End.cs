@@ -5,14 +5,6 @@ using UnityEngine;
 public class End : MonoBehaviour
 {
 	Animator anim;
-	public GameObject magicButton;
-	public GameObject artefactButton;
-	public GameObject inventoryButton;
-	public GameObject questButton;
-	public GameObject diaryButton;
-	public GameObject inventory;
-	public GameObject Magic;
-	public GameObject Quest;
 
 
 	private void Start() {
@@ -20,14 +12,7 @@ public class End : MonoBehaviour
 	}
 
 	public void animEnd() {
-		magicButton.SetActive(false);
-		artefactButton.SetActive(false);
-		inventoryButton.SetActive(false);
-		questButton.SetActive(false);
-		diaryButton.SetActive(false);
-		inventory.SetActive(false);
-		Magic.SetActive(false);
-		Quest.SetActive(false);
+		UIManager.Instance.ManageButtons(UIManager.State.end);
 		anim.Play("End");
 	}
 
