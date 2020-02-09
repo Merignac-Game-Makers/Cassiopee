@@ -48,7 +48,7 @@ public abstract class QuestBase : MonoBehaviour, IQuest
 	public virtual void AcceptQuest() {
 		//status = Accepted;
 		//UIManager.Instance.inventoryButton?.gameObject.GetComponentInParent<Animator>()?.SetTrigger("startColor");
-		infopanel.Set("Nouvel objectif", shortText);
+		infopanel.Set("Nouvel objectif", shortText, false);
 		infopanel.Show(3);
 		QuestBookContent.Instance.AddQuest(this);
 		questManager.SetStatus(this, Accepted);
@@ -56,7 +56,7 @@ public abstract class QuestBase : MonoBehaviour, IQuest
 	public virtual void QuestDone() {
 		//status = Done;
 		//UIManager.Instance.inventoryButton?.gameObject.GetComponentInParent<Animator>()?.SetTrigger("startColor");
-		infopanel.Set("Objectif atteint", shortText);
+		infopanel.Set("Objectif atteint", shortText, true);
 		infopanel.Show(3);
 		QuestBookContent.Instance.UpdateQuest(this);
 		questManager.SetStatus(this, Done);

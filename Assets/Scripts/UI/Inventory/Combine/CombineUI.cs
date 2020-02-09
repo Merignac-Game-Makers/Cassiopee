@@ -57,4 +57,9 @@ public class CombineUI : MonoBehaviour
         obj.transform.localScale = Vector3.one / extents * size * heightRatio;
         //obj.transform.rotation = Quaternion.Euler(Vector3.zero);
     }
+
+    public void Hide() {
+        //gameObject.SetActive(false);
+        InventoryUI.Instance.selectedEntry.Toggle();//.Select(false);
+    }
 }
