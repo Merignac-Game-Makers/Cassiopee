@@ -181,8 +181,8 @@ public class PlayerManager : MonoBehaviour
 			}
 		}
 
-		if (inTransit && !m_Agent.hasPath)          // à la fin d'un déplacement 'en transit'
-			EndTransit();                           // on n'est plus en transit
+		//if (inTransit && !m_Agent.hasPath)          // à la fin d'un déplacement 'en transit'
+		//	EndTransit();                           // on n'est plus en transit
 
 		// controler la vitesse sur les NavMesh Links (par défaut elle est trop rapide)
 		if (m_Agent.isOnOffMeshLink && !MoveAcrossNavMeshesStarted) {
@@ -335,9 +335,6 @@ public class PlayerManager : MonoBehaviour
 		inTransit = true;                               // on est en transit
 		MagicManager.Instance.ResetConstellation();     // désactiver les objets magiques en quittant le lieu actuel
 	}
-	public void EndTransit() {
-		inTransit = false;                              // on n'est plus en transit
-	}
 
 	/// <summary>
 	/// interrompre la navigation
@@ -345,6 +342,7 @@ public class PlayerManager : MonoBehaviour
 	public void StopAgent() {
 		m_Agent.ResetPath();                    // annulation de la navigation en cours
 		m_Agent.velocity = Vector3.zero;        // vitesse nulle
+		inTransit = false;                      // on n'est plus en transit
 	}
 
 	/// <summary>

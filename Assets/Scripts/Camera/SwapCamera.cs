@@ -53,15 +53,8 @@ public class SwapCamera : MonoBehaviour
 	}
 
 	private void OnTriggerExit(Collider other) {
-		if (other == player && vCams.Contains(localCam)) {                  // si la caméra locale est dans la pile
-			vCams.Pop();                                                    // retirer la caméra locale de la pile
-			localCam.gameObject.SetActive(false);                           // désactiver la caméra locale
-			vCams.Peek().gameObject.SetActive(true);                        // réactiver la caméra précédente
-			CameraController.Instance.m_CurrentDistance = Dist(vCams.Peek().m_Lens.FieldOfView); // restaurer facteur de zoom
-			UIManager.Instance.exitButton.gameObject.SetActive(false);      // masquer le bouton 'exit'
-
-			if (zoomUI)
-				zoomUI.gameObject.SetActive(false);
+		if (other == player && vCams.Contains(localCam)) {                      // si la caméra locale est dans la pile
+			Exit();
 		}
 	}
 
@@ -70,11 +63,12 @@ public class SwapCamera : MonoBehaviour
 	}
 
 	public void Exit() {
-		vCams.Pop();                                                    // retirer la caméra locale de la pile
-		localCam.gameObject.SetActive(false);                           // désactiver la caméra locale
-		vCams.Peek().gameObject.SetActive(true);                        // réactiver la caméra précédente
-		CameraController.Instance.m_CurrentDistance = Dist(vCams.Peek().m_Lens.FieldOfView); // restaurer facteur de zoom
-		if (zoomUI)
-			zoomUI.gameObject.SetActive(false);
+		vCams.Pop();														// retirer la caméra locale de la pile
+		if (currentCam == localCam.gameObject) {                            // si la caméra locale est active
+			localCam.gameObject.SetActive(false);                           // désactiver la caméra locale
+			vCams.Peek().gameObject.SetActive(true);                        // réactiver la caméra précédente
+			CameraController.Instance.m_CurrentDistance = Dist(vCams.Peek().m_Lens.FieldOfView); // restaurer facteur de zoom
+			UIManager.Instance.exitButton.gameObject.SetActive(false);      // masquer le bouton 'exit'
+		}
 	}
 }

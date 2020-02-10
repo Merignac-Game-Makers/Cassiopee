@@ -121,6 +121,36 @@ Transform:
   m_Father: {fileID: 482131859805702226}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &525577842867963300
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7503203968485733582}
+  m_Layer: 9
+  m_Name: GlobalCamTarget
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7503203968485733582
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 525577842867963300}
+  m_LocalRotation: {x: 0.02174632, y: 0.0004061907, z: 0.0021067138, w: 0.9997613}
+  m_LocalPosition: {x: -0.0002319341, y: 1.232611, z: 0.0039999885}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4811650441031108621}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &553769373788474813
 GameObject:
   m_ObjectHideFlags: 0
@@ -344,7 +374,7 @@ Transform:
   - {fileID: 7768267982253917162}
   - {fileID: 4977684470347869997}
   m_Father: {fileID: 4811650441031108621}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1749159443976639640
 GameObject:
@@ -930,7 +960,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4811650441031108621}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!137 &8204024740014120578
 SkinnedMeshRenderer:
@@ -1325,7 +1355,7 @@ Transform:
   m_LocalScale: {x: 0.6666667, y: 0.6666667, z: 0.6666667}
   m_Children: []
   m_Father: {fileID: 4811650441031108621}
-  m_RootOrder: 2
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!20 &224769062969205686
 Camera:
@@ -1360,7 +1390,7 @@ Camera:
     serializedVersion: 2
     m_Bits: 512
   m_RenderingPath: -1
-  m_TargetTexture: {fileID: 8400000, guid: 884ad8332a43b334a91cbe41361e1e70, type: 2}
+  m_TargetTexture: {fileID: 8400000, guid: 2f6e6bd79b5e00f4f8197c0030a7cdab, type: 2}
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 1
@@ -2119,6 +2149,7 @@ GameObject:
   - component: {fileID: 1379326229}
   - component: {fileID: 8180896919473661133}
   - component: {fileID: 8523343730264047768}
+  - component: {fileID: 3555020964043091998}
   m_Layer: 9
   m_Name: AmyIdle
   m_TagString: Untagged
@@ -2137,9 +2168,10 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_Children:
+  - {fileID: 5067903622188604047}
   - {fileID: 1600167079012943648}
   - {fileID: 4989065329267272331}
-  - {fileID: 5067903622188604047}
+  - {fileID: 7503203968485733582}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2282,6 +2314,7 @@ MonoBehaviour:
   lookAtCoolTime: 0.1
   lookAtHeatTime: 0.1
   looking: 1
+  lookAtWeight: 1
 --- !u!143 &8180896919473661133
 CharacterController:
   m_ObjectHideFlags: 0
@@ -2312,11 +2345,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 887bcfb6486e70d46853200612cb9dad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  desiredRotationSpeed: 0.1
-  anim: {fileID: 3192042047931835767}
-  allowPlayerRotation: 0.1
-  cam: {fileID: 0}
-  controller: {fileID: 8180896919473661133}
   enableFeetIk: 1
   heightFromGroundRaycast: 1.14
   raycastDownDistance: 1.5
@@ -2330,10 +2358,26 @@ MonoBehaviour:
   rightFootAnimVariableName: RightFootCurve
   useProIkFeature: 0
   showSolverDebug: 1
-  HorizontalAnimSmoothTime: 0.2
-  VerticalAnimTime: 0.2
-  StartAnimTime: 0.3
-  StopAnimTime: 0.15
+  animSmoothTime: 0.2
+--- !u!1183024399 &3555020964043091998
+LookAtConstraint:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8402928889148750366}
+  m_Enabled: 1
+  m_Weight: 1
+  m_RotationAtRest: {x: 0, y: 0, z: 0}
+  m_RotationOffset: {x: 0, y: 0, z: 0}
+  m_Roll: 0
+  m_WorldUpObject: {fileID: 0}
+  m_UseUpObject: 0
+  m_IsContraintActive: 0
+  m_IsLocked: 0
+  m_Sources:
+  - sourceTransform: {fileID: 0}
+    weight: 1
 --- !u!1 &8404989632853118587
 GameObject:
   m_ObjectHideFlags: 0

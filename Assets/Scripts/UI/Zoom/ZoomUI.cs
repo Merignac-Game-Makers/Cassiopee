@@ -9,8 +9,6 @@ public class ZoomUI : MonoBehaviour
 
 	public void Enter(SwapCamera swapCamera) {
 		this.swapCamera = swapCamera;
-		if (active)
-			gameObject.SetActive(true);
 	}
 
 	public void Exit() {

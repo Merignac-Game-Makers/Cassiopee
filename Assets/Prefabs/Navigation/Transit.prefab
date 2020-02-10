@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1029740178544629650}
+  - component: {fileID: 4939500628639884719}
   m_Layer: 2
   m_Name: Transit
   m_TagString: Untagged
@@ -33,6 +34,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4939500628639884719
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1029740178544629651}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b68089d9b4a39c94c95cad5715560fd1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  localCam: {fileID: 8227561471995629726}
 --- !u!1 &1029740180266964095
 GameObject:
   m_ObjectHideFlags: 0
@@ -45,6 +59,7 @@ GameObject:
   - component: {fileID: 1604163720919430116}
   - component: {fileID: 4183593983370666207}
   - component: {fileID: 8070676797593092655}
+  - component: {fileID: 7254485634580009496}
   m_Layer: 2
   m_Name: DestinationPoint
   m_TagString: Untagged
@@ -61,7 +76,7 @@ Transform:
   m_GameObject: {fileID: 1029740180266964095}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 5}
-  m_LocalScale: {x: 0.1, y: 0.1, z: 0.4}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children: []
   m_Father: {fileID: 1029740178544629650}
   m_RootOrder: 1
@@ -123,8 +138,21 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 1
+  m_Radius: 2
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &7254485634580009496
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1029740180266964095}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 263cf1c94ef705c4c81432570429628f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  localCam: {fileID: 8227561471995629726}
 --- !u!1 &2236094483904781694
 GameObject:
   m_ObjectHideFlags: 0
@@ -208,7 +236,7 @@ GameObject:
   - component: {fileID: 2575125839683688567}
   - component: {fileID: 8887076578468290747}
   - component: {fileID: 3588216353838093485}
-  - component: {fileID: 3962839052156005848}
+  - component: {fileID: 4384187225646855333}
   m_Layer: 0
   m_Name: Cube (0)
   m_TagString: Untagged
@@ -289,7 +317,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &3962839052156005848
+--- !u!114 &4384187225646855333
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -298,7 +326,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3312108191185343626}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b68089d9b4a39c94c95cad5715560fd1, type: 3}
+  m_Script: {fileID: 11500000, guid: 2ee22ba65b34def4ebfae70e81c67606, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   destinationPoint: {fileID: 1029740180266964094}
@@ -314,12 +342,12 @@ GameObject:
   - component: {fileID: 4202861226774926040}
   - component: {fileID: 8227561471995629726}
   m_Layer: 0
-  m_Name: CM vcam7
+  m_Name: Vcam transit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4202861226774926040
 Transform:
   m_ObjectHideFlags: 0
