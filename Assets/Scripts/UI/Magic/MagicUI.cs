@@ -15,7 +15,7 @@ public class MagicUI : UIBase
 {
 	// Définition du contenu du grimoire
 	public int MaxPage => pages.Count;
-	public GameObject magicBookContent;
+	public MagicBookContent magicBookContent;
 	List<Page> pages;
 
 	// objets d'interface
