@@ -23,22 +23,22 @@ public class Book : MonoBehaviour
 
 	// Pages
 	public int TotalPageCount => pages.Count;
-	public BaseBookContent baseBookContent { get; private set; }	// gestionnaire du contenu commun
+	public BaseBookContent baseBookContent { get; private set; }    // gestionnaire du contenu commun
 	public MagicBookContent magicBookContent;                       // gestionnaire du contenu de la section magie
 	public QuestBookContent questBookContent;                       // gestionnaire du contenu de la section quêtes
 	public DiaryBookContent diaryBookContent;                       // gestionnaire du contenu de la section journal
 
-	List<PageMaker> pages; 
-	List<PageMaker> magicPages;										// les pages de la section magie
-	List<PageMaker> questPages;										// les pages de la section quêtes
-	public List<PageMaker> diaryPages;										// les pages de la section journal
+	List<PageMaker> pages;
+	List<PageMaker> magicPages;                                     // les pages de la section magie
+	List<PageMaker> questPages;                                     // les pages de la section quêtes
+	public List<PageMaker> diaryPages;                                      // les pages de la section journal
 
 	public int lastAvailablePage;
 
 	public bool interactable = true;
 
 	public int currentPage = 0;
-	int currentMagicPage = 0;
+	public int currentMagicPage { get; set; } = 0;
 	int currentQuestPage = 0;
 	int currentDiaryPage = 0;
 
@@ -87,6 +87,11 @@ public class Book : MonoBehaviour
 	//current flip mode
 	FlipMode mode;
 
+	public static Book Instance { get; private set; }
+
+	private void Awake() {
+		Instance = this;
+	}
 
 	void Start() {
 		section = magic;
@@ -175,7 +180,7 @@ public class Book : MonoBehaviour
 		Right.transform.SetParent(ClippingPlane.transform, true);
 		Right.transform.SetAsFirstSibling();
 
-		}
+	}
 	public void UpdateBookRTLToPoint(Vector3 followLocation) {
 		mode = FlipMode.RightToLeft;
 		f = followLocation;
@@ -254,12 +259,10 @@ public class Book : MonoBehaviour
 		return c;
 	}
 	public void DragRightPageToPoint(Vector3 point) {
-		//if (!magicBookContent.GetNextAvailablePage(currentPage)) return;
-		if (nextLeft==null) return;
+		if (nextLeft == null) return;
 		pageDragging = true;
 		mode = FlipMode.RightToLeft;
 		f = point;
-		// MagicUI.Instance.helpButton.gameObject.SetActive(false);
 
 		NextPageClip.rectTransform.pivot = new Vector2(0, 0.12f);
 		ClippingPlane.rectTransform.pivot = new Vector2(1, 0.35f);
@@ -386,7 +389,13 @@ public class Book : MonoBehaviour
 		MakePages();
 		UpdateCurrentPages();
 	}
-	public void SetMagicSection() {
+	public void SetMagicSection(PageMaker pm = null) {
+		if (pm) {
+			if (section == magic)
+				currentPage = magicBookContent.GetPageIndex(pm);
+			else
+				currentMagicPage = magicBookContent.GetPageIndex(pm);
+		}
 		SetSection(magic);
 	}
 	public void SetQuestSection() {
@@ -410,24 +419,18 @@ public class Book : MonoBehaviour
 	}
 	void Flip() {
 		if (mode == FlipMode.RightToLeft) {
-			//currentPage += 1;
-			var pt = baseBookContent.GetNextAvailablePage(currentPage);
+			var pt = baseBookContent.GetNextAvailablePage(currentPage);     // trouver la page suivante
 			if (pt) {
 				currentPage = pages.IndexOf(pt);
 				SetPage(LeftNext, nextLeft);
 				SetPage(RightNext, nextRight);
-				//LeftNext.sprite = N1.GetSprite();
-				//RightNext.sprite = N2.GetSprite();
 			}
 		} else {
-			//currentPage -= 1;
-			var pt = baseBookContent.GetPreviousAvailablePage(currentPage);
+			var pt = baseBookContent.GetPreviousAvailablePage(currentPage); // trouver la page précédente
 			if (pt) {
 				currentPage = pages.IndexOf(pt);
 				SetPage(LeftNext, prevLeft);
 				SetPage(RightNext, prevRight);
-				//LeftNext.sprite = P1.GetSprite();
-				//RightNext.sprite = P2.GetSprite();
 			}
 		}
 
@@ -490,11 +493,6 @@ public class Book : MonoBehaviour
 	}
 
 	void SetPage(Transform owner, GameObject page) {
-		//foreach (PageMaker child in owner.GetComponentsInChildren<PageMaker>()) {
-		//	Destroy(child.gameObject);
-		//}
-		//var p = Instantiate(page, owner, false);
-
 		page.transform.SetParent(owner, false);
 	}
 

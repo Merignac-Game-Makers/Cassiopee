@@ -26,4 +26,8 @@ public class MagicBookContent : BaseBookContent
         }
         return null;
     }
+
+    public int GetPageIndex(PageMaker pm) {
+        return (new List<PageMaker>(content)).IndexOf(pm);
+    }
 }

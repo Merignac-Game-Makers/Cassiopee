@@ -1343,6 +1343,7 @@ MonoBehaviour:
   shortText: Utiliser la magie pour faire jaillir de l'eau du puits
   nextQuests: []
   previousQuests: []
+  magicPage: {fileID: 55652046}
 --- !u!4 &131060626 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6749054390395526988, guid: 80e082e46de9d034ab8e34c7c8a6f1a8,
@@ -8937,6 +8938,22 @@ PrefabInstance:
       propertyPath: lookAtAim
       value: 
       objectReference: {fileID: 235849480}
+    - target: {fileID: 235631803, guid: 5ea51587d2ce31345ac0d77b7eff7366, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 235631803, guid: 5ea51587d2ce31345ac0d77b7eff7366, type: 3}
+      propertyPath: m_Size.x
+      value: -4.85
+      objectReference: {fileID: 0}
+    - target: {fileID: 235631803, guid: 5ea51587d2ce31345ac0d77b7eff7366, type: 3}
+      propertyPath: m_Size.y
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 235631803, guid: 5ea51587d2ce31345ac0d77b7eff7366, type: 3}
+      propertyPath: m_Size.z
+      value: 7.73
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5ea51587d2ce31345ac0d77b7eff7366, type: 3}
 --- !u!4 &941540213 stripped
@@ -24940,12 +24957,12 @@ PrefabInstance:
     - target: {fileID: 4078818899363470665, guid: 9fdffd9dce66e6a4480460d1ebaac4f1,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.18496682
+      value: 0.18496679
       objectReference: {fileID: 0}
     - target: {fileID: 4078818899363470665, guid: 9fdffd9dce66e6a4480460d1ebaac4f1,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.046611164
+      value: -0.046611156
       objectReference: {fileID: 0}
     - target: {fileID: 4078818899363470665, guid: 9fdffd9dce66e6a4480460d1ebaac4f1,
         type: 3}
