@@ -15,9 +15,9 @@ using UnityEngine.UI;
         
         public void Init(InventoryUI owner)
         {
-            bookSlot.Owner = owner;
-            sunSlot.Owner = owner;
-            moonSlot.Owner = owner;
+            bookSlot.inventoryUI = owner;
+            sunSlot.inventoryUI = owner;
+            moonSlot.inventoryUI = owner;
         }
 
         //public void UpdateEquipment(EquipmentSystem equipment, StatSystem system)

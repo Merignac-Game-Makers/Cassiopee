@@ -1,11 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using System;
-using UnityEngine.UIElements;
-using UnityEditor.UIElements;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
+
 
 
 //[CreateAssetMenu(fileName = "Page", menuName = "Custom/Spell book page", order = -999)]
@@ -47,7 +46,7 @@ public class PageTemplateEditor : Editor
 		}
 
 		EditorGUILayout.PropertyField(pageProperty);
-		if (cName!=null && cName!="") {
+		if (cName != null && cName != "") {
 			EditorGUILayout.LabelField(cName, EditorStyles.boldLabel);
 			EditorGUILayout.PropertyField(constellationsProperty, true);
 		}

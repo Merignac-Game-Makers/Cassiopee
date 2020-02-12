@@ -2,6 +2,9 @@
 
 public class WaterInWell : QuestBase
 {
+
+	public MagicPageMaker magicPage;
+
 	/// <summary>
 	/// bien qu'apparement inutiles les méthodes 'Quest...'
 	/// sont nécessaires ici pour que le VIDE_Dialogue Editor puisse les utiliser
@@ -12,6 +15,13 @@ public class WaterInWell : QuestBase
 	}
 	public override void AcceptQuest() {
 		base.AcceptQuest();
+		if (magicPage) {
+			magicPage.page.isAvailable = true;
+			Book book = Book.Instance;
+			if (book) {
+				book.SetMagicSection(magicPage);
+			}
+		}
 	}
 	public override void QuestDone() {
 		base.QuestDone();
@@ -41,12 +51,21 @@ public class WaterInWell : QuestBase
 [CustomEditor(typeof(WaterInWell)), CanEditMultipleObjects]
 public class WaterInWellEditor : QuestBaseEditor
 {
+	WaterInWell thisQuest;
+	SerializedProperty pMagicPage;
+
 	public override void OnEnable() {
 		base.OnEnable();
+		thisQuest = (WaterInWell)target;
+		pMagicPage = serializedObject.FindProperty(nameof(thisQuest.magicPage));
+
 	}
 
 	public override void OnInspectorGUI() {
+		serializedObject.Update();
 		base.OnInspectorGUI();
+		EditorGUILayout.PropertyField(pMagicPage);
+		serializedObject.ApplyModifiedProperties();
 	}
 
 }

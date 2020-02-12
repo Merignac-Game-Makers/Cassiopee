@@ -1,6 +1,9 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
 using UnityEngine.UI;
-
+using static InventoryManager;
 
 /// <summary>
 /// Handle all the UI code related to the inventory (drag'n'drop of object, using objects, equipping object etc.)
@@ -9,20 +12,18 @@ public class InventoryUI : UIBase
 {
 	public class DragData
 	{
-		public ItemEntryUI DraggedEntry;
-		public RectTransform OriginalParent;
+		public EntryUI draggedEntry;
+		public RectTransform originalParent;
 	}
 
+	public CombineUI combineUI;
 	public GameObject bookPanel;
+	public GameObject content;
 
-	public RectTransform[] ItemSlots;
+	public ItemEntryUI itemEntryPrefab;
+	public RectTransform slotPrefab;
 
-	public ItemEntryUI ItemEntryPrefab;
-	public ItemTooltip Tooltip;
-
-	//public EquipmentUI EquipementUI;
-
-	public Canvas DragCanvas;
+	public Canvas dragCanvas;
 
 	public static InventoryUI Instance;
 
@@ -31,61 +32,92 @@ public class InventoryUI : UIBase
 	int m_TargetLayer;
 
 
-	public DragData CurrentlyDragged { get; set; }
+	public GameObject combinePanel { get; private set; }
+	public DragData currentlyDragged { get; set; }
 	public CanvasScaler DragCanvasScaler { get; private set; }
 
-	[HideInInspector]
-	public ItemEntryUI[] m_ItemEntries;
+	public List<ItemEntryUI> entries { get; private set; } = new List<ItemEntryUI>();
 
-	ItemEntryUI m_HoveredItem;
-	HighlightableObject m_Item;
+	public EntryUI selectedEntry { get; set; }
+	EntryUI hoveredItem;
+	InventoryPanel iPanel;
+	HighlightableObject item;
 	UIManager uiManager;
 
+	bool? prevStatus = false;
 
-	public override void Init(UIManager uiManager) {
+	private void Awake() {
 		Instance = this;
-		this.uiManager = uiManager;
-
-		gameObject.SetActive(true);
-		panel.SetActive(false);
-
-		CurrentlyDragged = null;
-
-		DragCanvasScaler = DragCanvas.GetComponentInParent<CanvasScaler>();
-
-		m_ItemEntries = new ItemEntryUI[ItemSlots.Length];
-
-		for (int i = 0; i < m_ItemEntries.Length; ++i) {
-			m_ItemEntries[i] = Instantiate(ItemEntryPrefab, ItemSlots[i]);
-			m_ItemEntries[i].gameObject.SetActive(false);
-			m_ItemEntries[i].Owner = this;
-			m_ItemEntries[i].InventoryEntry = i;
-		}
-
-		m_TargetLayer = 1 << LayerMask.NameToLayer("Interactable");
 
 	}
 
+	public override void Init(UIManager uiManager) {
+		this.uiManager = uiManager;
+
+		combinePanel = combineUI.gameObject;
+		combinePanel.SetActive(false);
+
+		iPanel = panel.GetComponent<InventoryPanel>();
+		gameObject.SetActive(true);
+
+		currentlyDragged = null;
+
+		DragCanvasScaler = dragCanvas.GetComponentInParent<CanvasScaler>();
+
+		m_TargetLayer = 1 << LayerMask.NameToLayer("Interactable");
+	}
+
 	void OnEnable() {
-		m_HoveredItem = null;
-		Tooltip.gameObject.SetActive(false);
+		hoveredItem = null;
+	}
+
+	public ItemEntryUI AddItemEntry(int idx, InventoryEntry inventoryEntry) {
+		RectTransform slot = Instantiate(slotPrefab, content.transform);        // créer un nouvel emplacement
+		ItemEntryUI itemEntry = Instantiate(itemEntryPrefab, slot);             // créer une nouvelle entrée d'inventaire dans cet emplacement																				//itemEntry.gameObject.SetActive(true);
+		itemEntry.Init(inventoryEntry);
+		if (entries.Count == 0)                                                 // si c'est le 1er objet
+			Show();                                                             // montrer l'inventaire
+		entries.Add(itemEntry);
+		return itemEntry;
+	}
+
+	/// <summary>
+	/// détruire une entrée
+	/// </summary>
+	/// <param name="entryUi"></param>
+	public void RemoveEntry(ItemEntryUI entryUi) {
+		Destroy(entryUi.transform.parent.gameObject);       // détruire le slot qui contient l'entrée
+		entries.Remove(entryUi);
+		if (entries.Count == 0)                                                 // si l'inventaire est vide
+			Hide();                                                             // cacher l'inventaire
 	}
 
 	/// <summary>
 	/// bascule d'affichage
 	/// </summary>
 	public override void Toggle() {
-		panel.SetActive(!isOn);			// monter /cacher le panneau d'inventaire
-		uiManager.ManageButtons();		// adapter l'affichage des autres boutons
-		if (!isOn) {
-			uiManager.questsUI.SetOff();
-		} 
+		iPanel.Toggle(combinePanel);
+	}
+	public void Hide() {
+		iPanel.Hide(combinePanel);
+	}
+	public void Show() {
+		iPanel.Show();
 	}
 
-	public void Load(HighlightableObject item) {
-		m_Item = item;
-		for (int i = 0; i < m_ItemEntries.Length; ++i) {
-			m_ItemEntries[i].UpdateEntry();
+	/// <summary>
+	/// Actualiser l'affichage de toutes les entrés d'iventaire
+	/// </summary>
+	/// <param name="item"></param>
+	public void UpdateEntries(HighlightableObject item) {
+		this.item = item;
+		for (int i = entries.Count - 1; i > 0; i--) {
+			if ((entries[i].entry as InventoryEntry).count <= 0) {
+				Destroy(entries[i].gameObject);
+				entries.RemoveAt(i);
+			} else {
+				entries[i].UpdateEntry();
+			}
 		}
 	}
 
@@ -94,60 +126,73 @@ public class InventoryUI : UIBase
 	/// (inutilisé pour l'instant)
 	/// </summary>
 	/// <param name="usedItem"></param>
-	public void ObjectDoubleClicked(InventorySystem.InventoryEntry usedItem) {
-		//if(m_Data.Inventory.UseItem(usedItem))
-		//    SFXManager.PlaySound(SFXManager.Use.Sound2D, new SFXManager.PlayData() {Clip = usedItem.Item is EquipmentItem ? SFXManager.ItemEquippedSound : SFXManager.ItemUsedSound} );
-		InventorySystem.Instance.UseItem(usedItem);
-		ObjectHoverExited(m_HoveredItem);
-		Load(m_Item);
+	public void ObjectDoubleClicked(Entry usedItem) {
+		InventoryManager.Instance.UseItem(usedItem);
+		ObjectHoverExited(hoveredItem);
 	}
 
-
-	public void ObjectHoveredEnter(ItemEntryUI hovered) {
-		m_HoveredItem = hovered;
-
-		Tooltip.gameObject.SetActive(true);
-
-		Item itemUsed = m_HoveredItem.InventoryEntry != -1 ? InventorySystem.Instance.Entries[m_HoveredItem.InventoryEntry].Item : m_HoveredItem.EquipmentItem;
-
-		Tooltip.Name.text = itemUsed.ItemName;
-		Tooltip.DescriptionText.text = itemUsed.GetDescription();
+	/// <summary>
+	/// Survol par le pointeur de souris
+	/// TODO: pour l'instant sans effet... à conserver ???
+	/// </summary>
+	/// <param name="hovered">L'entrée sous la souris</param>
+	public void ObjectHoveredEnter(EntryUI hovered) {       // début de survol
+		hoveredItem = hovered;
 	}
-
-	public void ObjectHoverExited(ItemEntryUI exited) {
-		if (m_HoveredItem == exited) {
-			m_HoveredItem = null;
-			Tooltip.gameObject.SetActive(false);
+	public void ObjectHoverExited(EntryUI exited) {         // fin de survol
+		if (hoveredItem == exited) {
+			hoveredItem = null;
 		}
 	}
 
 	public void HandledDroppedEntry(Vector3 position) {
 		// check for drop on ItemSlots
-		for (int i = 0; i < ItemSlots.Length; ++i) {
-			RectTransform t = ItemSlots[i];
+		for (int i = 0; i < content.transform.childCount; ++i) {                                // pour chaque slot
+			var slot = content.transform.GetChild(i).GetComponent<RectTransform>();
+			if (RectTransformUtility.RectangleContainsScreenPoint(slot, position)) {            // si on lache sur ce slot
+				var entryUi = slot.GetComponentInChildren<ItemEntryUI>();                       // récuperer l'entrée contenue dans ce slot
 
-			if (RectTransformUtility.RectangleContainsScreenPoint(t, position)) {
-				if (m_ItemEntries[i] != CurrentlyDragged.DraggedEntry) {
-					var prevItem = InventorySystem.Instance.Entries[CurrentlyDragged.DraggedEntry.InventoryEntry];
-					InventorySystem.Instance.Entries[CurrentlyDragged.DraggedEntry.InventoryEntry] = InventorySystem.Instance.Entries[i];
-					InventorySystem.Instance.Entries[i] = prevItem;
-
-					CurrentlyDragged.DraggedEntry.UpdateEntry();
-					m_ItemEntries[i].UpdateEntry();
+				if (entryUi != null) {                                                          // s'il y a déjà une entrée => déplacer l'entrée
+					var prevParent = entryUi.transform.parent;
+					entryUi.transform.SetParent(currentlyDragged.originalParent, false);        // vers le slot vide
+					currentlyDragged.originalParent = prevParent as RectTransform;
+					currentlyDragged.draggedEntry.UpdateEntry();                                // mettre l'entrée déposée à jour
 					return;
 				}
 			}
 		}
 		// check for drop on 3D target
-		Ray screenRay = CameraController.Instance.GameplayCamera.ScreenPointToRay(Input.mousePosition);
-		int count = Physics.SphereCastNonAlloc(screenRay, 1.0f, m_RaycastHitCache, 1000.0f, m_TargetLayer);
-		if (count > 0) {
-			foreach (RaycastHit rh in m_RaycastHitCache) {
-				if (rh.collider != null) {
-					Target data = rh.collider.GetComponentInParent<Target>();
-					if (data != null && data.isFree) {
-						//Debug.Log("Drop Item");
-						DropItem(data, PlayerManager.Instance.m_InvItemDragging);
+		//DropOn3D(PlayerManager.Instance.m_InvItemDragging.draggedEntry.entry);
+		DropOn3D(currentlyDragged.draggedEntry.entry);
+	}
+
+	/// <summary>
+	/// Gérer la dépose sur un objet 3D du décor
+	/// l'entry peut être :
+	///		- un objet d'inventaire
+	///		- un orbe de magie
+	///	le lieu de dépôt doit être dans le layer "Target"
+	/// </summary>
+	/// <param name="entry">l'entrée d'inventaire contenant l'item à déposer</param>
+	public void DropOn3D(Entry entry) {
+		Ray screenRay = CameraController.Instance.GameplayCamera.ScreenPointToRay(Input.mousePosition);         // lancer de rayon
+		int count = Physics.SphereCastNonAlloc(screenRay, 1.0f, m_RaycastHitCache, 1000.0f, m_TargetLayer);     // combien d'objets du layer 'interactable'sous le pointeur ?
+		if (count > 0) {                                                            // s'il y a des objets sous le pointeur
+			foreach (RaycastHit rh in m_RaycastHitCache) {                          // pour chacun d'eux
+				if (rh.collider != null) {                                          // si l'objet a un collider
+					if (entry is InventoryEntry) {                                                      // si on dépose un objet d'inventaire
+						bool combinable = (entry as InventoryEntry).item.combinable;
+
+						Target data = rh.collider.GetComponentInParent<Target>();                       // si l'objet est une 'target' (lieu de dépôt d'objet d'inventaire autorisé)
+						if (data != null && data.isAvailable((entry as InventoryEntry).item)) {         // et que cet emplacement est libre et que l'objet actuel n'est pas combinable
+							PlayerManager.Instance.RequestInteraction(data);                            // aller jusqu'à la cible puis déposer l'objet d'inventaire
+							break;
+						} else {
+							uiManager.ShowLabel("Impossible d'utiliser cet objet ici", Input.mousePosition);
+						}
+					} else if (entry is OrbEntry) {                                                     // si on dépose un orbe de magie
+						MagicEffectBase data = rh.collider.GetComponentInChildren<MagicEffectBase>();   // si l'objet est une ' magic target' (lieu de dépôt d'orbe autorisé)
+						DropItem(data, entry as OrbEntry);                                              // déposer l'objet d'inventaire
 						break;
 					}
 				}
@@ -155,47 +200,58 @@ public class InventoryUI : UIBase
 		}
 	}
 
-	private void DropItem(Target target, InventoryUI.DragData dragData) {
-		var EntryIndex = dragData.DraggedEntry.InventoryEntry;
-		CreateWorldRepresentation(InventorySystem.Instance.Entries[EntryIndex].Item, target);
-		//target.DoQuests();
-		InventorySystem.Instance.RemoveItem(EntryIndex);
+	/// <summary>
+	/// Déposer un objet d'inventaire
+	/// </summary>
+	/// <param name="target">le lieu</param>
+	/// <param name="entry">l'entrée d'inventaire </param>
+	public void DropItem(Target target, Entry entry) {
+		if (entry is InventoryEntry) {
+			Item item = (entry as InventoryEntry).item;
+			item.animate = true;
+			CreateWorldRepresentation(item, target);													// créer l'objet 3D
+			if (currentlyDragged != null)                                                               // si on est dans un 'drag & drop'
+				currentlyDragged.draggedEntry.transform.SetParent(currentlyDragged.originalParent);     // rattacher le 'drag & drop' à son parent original
+			InventoryManager.Instance.RemoveItem(item.entry);											// retirer l'objet déposé de l'inventaire
+		}
+	}
+
+	/// <summary>
+	/// Déposer un orbe de magie 
+	/// </summary>
+	/// <param name="target">le lieu</param>
+	/// <param name="entry">l'entrée orbe</param>
+	private void DropItem(MagicEffectBase target, OrbEntry entry) {
+		if (target != null && target.isFree) {          // si on lâche l'orbe sur une cible de magie
+			target.MakeMagicalStuff(entry.orb);         // déclencher la magie
+			entry.ui.Select(false);
+		} else {
+			uiManager.ShowLabel("Impossible ici", Input.mousePosition);
+		}
+
 	}
 
 	void CreateWorldRepresentation(Item item, Target target) {
 		var pos = target.gameObject.transform.position + Vector3.up * item.WorldObjectPrefab.gameObject.transform.localScale.y / 2;
 		// if the item have a world object prefab set use that...
 		if (item.WorldObjectPrefab != null) {
-			//var obj = Instantiate(item.WorldObjectPrefab, pos, new Quaternion(), target.transform);
-			//obj.transform.localScale = new Vector3(
-			//	obj.transform.localScale.x / target.transform.localScale.x,
-			//	obj.transform.localScale.y / target.transform.localScale.y,
-			//	obj.transform.localScale.z / target.transform.localScale.z
-			//	); 
 			var obj = Instantiate(item.WorldObjectPrefab, pos, new Quaternion());
 			obj.transform.parent = target.gameObject.transform;
 			obj.layer = LayerMask.NameToLayer("Interactable");
 		}
-		//else {//...otherwise, we create a billboard using the item sprite
-		//	GameObject billboard = new GameObject("ItemBillboard");
-		//	billboard.transform.SetParent(transform, false);
-		//	billboard.transform.localPosition = Vector3.up * 0.3f;
-		//	billboard.layer = LayerMask.NameToLayer("Interactable");
-
-		//	var renderer = billboard.AddComponent<SpriteRenderer>();
-		//	renderer.sharedMaterial = ResourceManager.Instance.BillboardMaterial;
-		//	renderer.sprite = item.ItemSprite;
-
-		//	var rect = item.ItemSprite.rect;
-		//	float maxSize = rect.width > rect.height ? rect.width : rect.height;
-		//	float scale = item.ItemSprite.pixelsPerUnit / maxSize;
-
-		//	billboard.transform.localScale = scale * Vector3.one * 0.5f;
-
-
-		//	var bc = billboard.AddComponent<BoxCollider>();
-		//	bc.size = new Vector3(0.5f, 0.5f, 0.5f) * (1.0f / scale);
-		//}
 	}
 
+	public void SaveAndHide() {
+		Save();
+		Hide();
+	}
+	public void Save() {
+		prevStatus = iPanel.isOn;
+	}
+
+	public void Restore() {
+		if (iPanel.isOn != prevStatus)
+			Toggle();
+		prevStatus = null;
+	}
 }

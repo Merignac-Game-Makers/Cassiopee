@@ -7,53 +7,75 @@ using UnityEngine.UI;
 public class MagicButtonStates : MonoBehaviour
 {
 
-    SimpleScrollSnap bookButtonSelector;
+	SimpleScrollSnap bookButtonSelector;
 
 	public enum State { inactive, active, open }
 
 	public Animator halo;
+	public Book book;
+	public GameObject questButton;
+	public GameObject diaryButton;
+
 	public State state { get; private set; }
-	private MagicUI magicUI;
-	private InventoryUI inventoryUI;
 
-	// Start is called before the first frame update
-	void Start()
-    {
- 		magicUI = MagicUI.Instance;
-		inventoryUI = InventoryUI.Instance;
-		bookButtonSelector = GetComponentInChildren<SimpleScrollSnap>();
 
-		// au démarrage du jeu
-		state = State.inactive;
+	void Start() {
+		App.isMagicEquiped = true;
+		if (!bookButtonSelector) bookButtonSelector = GetComponentInChildren<SimpleScrollSnap>(true);
+		state = State.inactive;				// au démarrage du jeu le grimoire est inactif
+		questButton.SetActive(true);        // afficher également le bouton des quêtes
+		diaryButton.SetActive(true);        // afficher également le bouton du journal
 	}
 
 	/// <summary>
 	/// bascule affichage plein écran
 	/// </summary>
 	public void ToggleFullScreen() {
-		if (bookButtonSelector.targetPanel == 1) {
-			//if (halo.GetCurrentAnimatorStateInfo(0).IsName("Empty") || halo.GetCurrentAnimatorStateInfo(0).IsName("colorOFF"))
+		if (!bookButtonSelector) bookButtonSelector = GetComponentInChildren<SimpleScrollSnap>(true);
+		if (bookButtonSelector.targetPanel == 1) {					// inactif
 			if (state == State.inactive)
 				halo.SetTrigger("startColorON");
 			state = State.active;
-		} else if (bookButtonSelector.targetPanel == 2) {
+		} else if (bookButtonSelector.targetPanel == 2) {			// actif fermé
 			state = State.open;
-		} else {
-			//if (halo.GetCurrentAnimatorStateInfo(0).IsName("colorON"))
+		} else {													// actif ouvert
 			if (state == State.active)
 				halo.SetTrigger("startColorOFF");
 			state = State.inactive;
 		}
-		magicUI.SetState(state);
+		MagicUI.Instance.SetState(state);
+	}
 
-		//bookPanel.SetActive(!bookPanel.activeInHierarchy);
-		if (magicUI.isOn && inventoryUI.isOn) {
-			inventoryUI.Toggle();
-		}
+	/// <summary>
+	/// afficher le livre ouvert sur la section des quêtes
+	/// </summary>
+	public void ShowQuests() {
+		book.SetQuestSection();
+		bookButtonSelector.targetPanel = 2;
+		ToggleFullScreen();
+	}
+
+	/// <summary>
+	/// afficher le livre ouvert sur la section de la magie
+	/// </summary>
+	public void ShowMagic() {
+		if (book.section != Book.Section.magic)
+			book.SetMagicSection();
+		ToggleFullScreen();
+	}
+
+	/// <summary>
+	/// afficher le livre ouvert sur la section du journal
+	/// </summary>
+	public void ShowDiary() {
+		book.SetDiarySection();
+		bookButtonSelector.targetPanel = 2;
+		ToggleFullScreen();
 	}
 
 	public void Close() {
 		bookButtonSelector.GoToPanel(1);
 	}
+
 
 }

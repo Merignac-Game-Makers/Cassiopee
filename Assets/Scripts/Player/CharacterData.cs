@@ -12,15 +12,12 @@ public class CharacterData : HighlightableObject
 {
 	public string CharacterName;
 
-	//[HideInInspector]
-	public bool isMagicEquiped = false;
-
 	//public StatSystem Stats;
 	/// <summary>
 	/// The starting weapon equipped when the Character is created. Set through the Unity Editor.
 	/// </summary>
 	//public Weapon StartingWeapon;
-	public InventorySystem Inventory = new InventorySystem();
+	public InventoryManager Inventory = new InventoryManager();
 	//public EquipmentSystem Equipment = new EquipmentSystem();
 
 	public AudioClip[] HitClip;
@@ -46,27 +43,8 @@ public class CharacterData : HighlightableObject
 		//Stats.Init(this);
 		Inventory.Init(this);
 		//Equipment.Init(this);
-
-		//if (StartingWeapon != null)
-		//{
-		//    StartingWeapon.UsedBy(this);
-		//    Equipment.InitWeapon(StartingWeapon, this);
-		//}
 	}
 
-	void Awake() {
-		//Animator anim = GetComponentInChildren<Animator>();
-		//if(anim != null)
-		//    SceneLinkedSMB<CharacterData>.Initialise(anim, this);
-	}
-
-	// Update is called once per frame
-	void Update() {
-		//Stats.Tick();
-
-		//if (m_AttackCoolDown > 0.0f)
-		//    m_AttackCoolDown -= Time.deltaTime;
-	}
 
 	/// <summary>
 	/// Will check if that CharacterData can reach the given target with its currently equipped weapon. Will rarely

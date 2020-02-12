@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
-public static class Extensions 
+public static class Extensions
 {
 	/// <summary>
 	/// Classe générique pour comparer 2 listes
@@ -32,4 +33,22 @@ public static class Extensions
 	public static List<T> Reverse<T>(this IEnumerable<T> list) where T : class {
 		return new List<T>(new Stack<T>(list));
 	}
+
+	/// <summary>
+	/// modifier la taille d'un liste
+	/// </summary>
+	public static void Resize<T>(this List<T> list, int sz, T c) {
+		int cur = list.Count;
+		if (sz < cur)
+			list.RemoveRange(sz, cur - sz);
+		else if (sz > cur) {
+			if (sz > list.Capacity) //this bit is purely an optimisation, to avoid multiple automatic capacity changes.
+				list.Capacity = sz;
+			list.AddRange(Enumerable.Repeat(c, sz - cur));
+		}
+	}
+	public static void Resize<T>(this List<T> list, int sz) where T : new() {
+		Resize(list, sz, new T());
+	}
+
 }

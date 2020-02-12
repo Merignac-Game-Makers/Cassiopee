@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using static MagicButtonStates;
 using static MagicButtonStates.State;
+using static UIManager.State;
 
 /// <summary>
 /// Code relatif à l'interface utilisateur du grimoire
@@ -13,21 +14,21 @@ using static MagicButtonStates.State;
 public class MagicUI : UIBase
 {
 	// Définition du contenu du grimoire
-	[HideInInspector]
 	public int MaxPage => pages.Count;
-	public GameObject magicBookContent;
+	public MagicBookContent magicBookContent;
 	List<Page> pages;
 
 	// objets d'interface
 	[Header("Panels")]
 	public GameObject bookPanel;        // panneau livre ouvert (plein écran)
 	public Book book;                   // livre
+	public InventoryUI inventory;       // inventaire
+	public GameObject orbPanel;			// orbe
 
 
 	[Header("Boutons")]
 	public GameObject bookButton;       // activer/désactiver le grimoire
 	public GameObject artefactButton;   // bouton artefact 
-	public GameObject helpButton;       // bouton aide
 
 	// zones de contenu
 	[Header("Zones de contenu")]
@@ -35,7 +36,9 @@ public class MagicUI : UIBase
 	public Sprite sun;                  // image médaillon soleil
 
 	// autres
+	[Header("Autres")]
 	public GameObject playerBody;
+
 	public static MagicUI Instance;      // instance statique
 	public enum SelectedArtefact { Moon, Sun }                      // artefact sélectionnable
 	public SelectedArtefact selectedArtefact { get; private set; }  // artefact sélectionné
@@ -44,6 +47,8 @@ public class MagicUI : UIBase
 	private MagicTrainingManager magicTrainingManager;
 	private MagicButtonStates magicButtonStates;
 	private Material playerMaterial;
+
+
 	/// <summary>
 	/// initialisation
 	/// </summary>
@@ -52,13 +57,12 @@ public class MagicUI : UIBase
 
 		gameObject.SetActive(true);     // Book UI actif
 		panel.SetActive(false);         // panneau masqué
+		orbPanel.SetActive(false);		// panneau orbe masqué
 
-		book.Init();
-		//ShowPage(currentPageIdx);       // afficher la page courante
+		book.Init();					// initialisation du grimoire
 
 		selectedArtefact = SelectedArtefact.Sun;    // artefact sélectionné par défaut = SUN
 
-		//bookButton.GetComponent<Image>().color = new Color(1, 1, 1, .6f);   // grimoire transparent
 		bookButton.gameObject.SetActive(false);                             // grimoire masqué
 		artefactButton.gameObject.SetActive(false);                         // artefact masqué
 
@@ -109,18 +113,18 @@ public class MagicUI : UIBase
 
 	public void SetState(State state) {
 		if (state == active) {
-			artefactButton.gameObject.SetActive(true);                          // médaillon visible
 			bookPanel.gameObject.SetActive(false);                              // livre ouvert invisible
-			PlayerManager.Instance.VisualMagicMode(true);
+			PlayerManager.Instance.VisualMagicMode(true);                       // mise en évidence du mode 'magie activée'
+			UIManager.Instance.ManageButtons(closedBook);						// coordination des boutons de l'UI
 		} else if (state == open) {
-			artefactButton.gameObject.SetActive(true);                          // médaillon visible
 			bookPanel.gameObject.SetActive(true);                               // livre ouvert visible
-			PlayerManager.Instance.VisualMagicMode(true);
+			PlayerManager.Instance.VisualMagicMode(true);                       // mise en évidence du mode 'magie activée'
+			UIManager.Instance.ManageButtons(openBook);                         // coordination des boutons de l'UI
 		} else {
-			artefactButton.gameObject.SetActive(false);                         // médaillon invisible
 			bookPanel.gameObject.SetActive(false);                              // livre ouvert invisible
 			MagicManager.Instance.SetMagicOff();                                // désactiver toute magie en cours
-			PlayerManager.Instance.VisualMagicMode(false);
+			PlayerManager.Instance.VisualMagicMode(false);                      // annulation de la mise en évidence du mode 'magie activée'
+			UIManager.Instance.ManageButtons(noMagic);							// coordination des boutons de l'UI
 		}
 	}
 

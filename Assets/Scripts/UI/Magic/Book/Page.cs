@@ -13,6 +13,7 @@ public class Page : ScriptableObject
 	public Sprite picture;
 	public string text;
 	public string constellation;
+	public bool isAvailable = false;
 
 	public bool hasHelp;
 	public Sprite helpPicture;
@@ -27,6 +28,7 @@ public class PageEditor : Editor
 	SerializedProperty pText;
 	SerializedProperty pConstellation;
 	SerializedProperty pHasHelp;
+	SerializedProperty pIsAvailable;
 	SerializedProperty pHelpPicture;
 
 	Page m_Page;
@@ -39,6 +41,7 @@ public class PageEditor : Editor
 		pText = serializedObject.FindProperty(nameof(m_Page.text));
 		pConstellation = serializedObject.FindProperty(nameof(m_Page.constellation));
 		pHasHelp = serializedObject.FindProperty(nameof(m_Page.hasHelp));
+		pIsAvailable = serializedObject.FindProperty(nameof(m_Page.isAvailable));
 		pHelpPicture = serializedObject.FindProperty(nameof(m_Page.helpPicture));
 
 	}
@@ -59,6 +62,7 @@ public class PageEditor : Editor
 		pText.stringValue = GUILayout.TextArea(pText.stringValue, options);
 
 		EditorGUILayout.PropertyField(pConstellation);
+		EditorGUILayout.PropertyField(pIsAvailable);
 
 		serializedObject.ApplyModifiedProperties();
 	}

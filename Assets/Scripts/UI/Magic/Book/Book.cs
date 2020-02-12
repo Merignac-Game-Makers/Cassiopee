@@ -3,39 +3,53 @@ using System.Collections;
 using UnityEngine.UI;
 using UnityEngine.Events;
 using System.Collections.Generic;
+using static PageMaker.Side;
+using static Book.Section;
 
 public enum FlipMode
 {
 	RightToLeft,
 	LeftToRight
 }
-[ExecuteInEditMode]
+//[ExecuteInEditMode]
 public class Book : MonoBehaviour
 {
 	public Canvas canvas;
-	[SerializeField]
-	RectTransform BookPanel;
-	public Sprite background;
+	public RectTransform bookPanel;
 
-	public PageMaker P1;
-	public PageMaker P2;
-	public PageMaker C1;
-	public PageMaker C2;
-	public PageMaker N1;
-	public PageMaker N2;
+	// section
+	public enum Section { magic, quests, diary }
+	public Section section { get; private set; }
 
+	// Pages
 	public int TotalPageCount => pages.Count;
-	public GameObject magicBookContent;
-	List<Page> pages;
+	public BaseBookContent baseBookContent { get; private set; }    // gestionnaire du contenu commun
+	public MagicBookContent magicBookContent;                       // gestionnaire du contenu de la section magie
+	public QuestBookContent questBookContent;                       // gestionnaire du contenu de la section quêtes
+	public DiaryBookContent diaryBookContent;                       // gestionnaire du contenu de la section journal
+
+	List<PageMaker> pages;
+	List<PageMaker> magicPages;                                     // les pages de la section magie
+	List<PageMaker> questPages;                                     // les pages de la section quêtes
+	public List<PageMaker> diaryPages;                                      // les pages de la section journal
+
+	public int lastAvailablePage;
 
 	public bool interactable = true;
-	public bool enableShadowEffect = true;
-	//represent the index of the sprite shown in the right page
+
 	public int currentPage = 0;
-	//public int TotalPageCount
-	//{
-	//    get { return bookPages.Length; }
-	//}
+	public int currentMagicPage { get; set; } = 0;
+	int currentQuestPage = 0;
+	int currentDiaryPage = 0;
+
+	public Transform pagesStack;
+	GameObject prevLeft;
+	GameObject prevRight;
+	GameObject currLeft;
+	public GameObject currRight { get; private set; }
+	GameObject nextLeft;
+	GameObject nextRight;
+
 	public Vector3 EndBottomLeft {
 		get { return ebl; }
 	}
@@ -44,19 +58,18 @@ public class Book : MonoBehaviour
 	}
 	public float Height {
 		get {
-			return BookPanel.rect.height;
+			return bookPanel.rect.height;
 		}
 	}
 	public Image ClippingPlane;
 	public Image NextPageClip;
-	public Image Shadow;
-	public Image ShadowLTR;
-	public Image Left;
-	public Image LeftNext;
-	public Image Right;
-	public Image RightNext;
+	public RectTransform Left;
+	public RectTransform LeftNext;
+	public RectTransform Right;
+	public RectTransform RightNext;
 	public UnityEvent OnFlip;
 	float radius1, radius2;
+
 	//Spine Bottom
 	Vector3 sb;
 	//Spine Top
@@ -74,46 +87,53 @@ public class Book : MonoBehaviour
 	//current flip mode
 	FlipMode mode;
 
+	public static Book Instance { get; private set; }
+
+	private void Awake() {
+		Instance = this;
+	}
+
 	void Start() {
-		UpdateSprites();
+		section = magic;
+		UpdateCurrentPages();
+		magicBookContent = MagicBookContent.Instance;
+		questBookContent = QuestBookContent.Instance;
 	}
 
 	public void Init() {
 		float scaleFactor = 1;
 		if (canvas) scaleFactor = canvas.scaleFactor;
-		float pageWidth = (BookPanel.rect.width * scaleFactor - 1) / 2;
-		float pageHeight = BookPanel.rect.height * scaleFactor;
+		float pageWidth = (bookPanel.rect.width * scaleFactor - 1) / 2;
+		float pageHeight = bookPanel.rect.height * scaleFactor;
 		Left.gameObject.SetActive(false);
 		Right.gameObject.SetActive(false);
-		UpdateSprites();
-		Vector3 globalsb = BookPanel.transform.position + new Vector3(0, -pageHeight / 2);
+		//UpdateSprites();
+		Vector3 globalsb = bookPanel.transform.position + new Vector3(0, -pageHeight / 2);
 		sb = transformPoint(globalsb);
-		Vector3 globalebr = BookPanel.transform.position + new Vector3(pageWidth, -pageHeight / 2);
+		Vector3 globalebr = bookPanel.transform.position + new Vector3(pageWidth, -pageHeight / 2);
 		ebr = transformPoint(globalebr);
-		Vector3 globalebl = BookPanel.transform.position + new Vector3(-pageWidth, -pageHeight / 2);
+		Vector3 globalebl = bookPanel.transform.position + new Vector3(-pageWidth, -pageHeight / 2);
 		ebl = transformPoint(globalebl);
-		Vector3 globalst = BookPanel.transform.position + new Vector3(0, pageHeight / 2);
+		Vector3 globalst = bookPanel.transform.position + new Vector3(0, pageHeight / 2);
 		st = transformPoint(globalst);
 		radius1 = Vector2.Distance(sb, ebr);
 		float scaledPageWidth = pageWidth / scaleFactor;
 		float scaledPageHeight = pageHeight / scaleFactor;
 		radius2 = Mathf.Sqrt(scaledPageWidth * scaledPageWidth + scaledPageHeight * scaledPageHeight);
 		ClippingPlane.rectTransform.sizeDelta = new Vector2(scaledPageWidth * 2, scaledPageHeight + scaledPageWidth * 2);
-		Shadow.rectTransform.sizeDelta = new Vector2(scaledPageWidth, scaledPageHeight + scaledPageWidth * 0.6f);
-		ShadowLTR.rectTransform.sizeDelta = new Vector2(scaledPageWidth, scaledPageHeight + scaledPageWidth * 0.6f);
 		NextPageClip.rectTransform.sizeDelta = new Vector2(scaledPageWidth, scaledPageHeight + scaledPageWidth * 0.6f);
 
-		pages = new List<Page>();
-		foreach (PageTemplate pt in magicBookContent.GetComponentsInChildren<PageTemplate>()) {
-			pages.Add(pt.page);
-		}
+		// initialisation du contenu des sections
+		magicPages = new List<PageMaker>(magicBookContent.content);
+		questPages = new List<PageMaker>(questBookContent.content);
+		diaryPages = new List<PageMaker>(diaryBookContent.content);
 
-		MakePages();
-		MagicUI.Instance.helpButton.gameObject.SetActive(pages[currentPage].hasHelp);
+		// on commence sur la section magie
+		SetSection(magic);
 	}
 
 	public Vector3 transformPoint(Vector3 global) {
-		Vector2 localPos = BookPanel.InverseTransformPoint(global);
+		Vector2 localPos = bookPanel.InverseTransformPoint(global);
 		//RectTransformUtility.ScreenPointToLocalPointInRectangle(BookPanel, global, null, out localPos);
 		return localPos;
 	}
@@ -134,13 +154,10 @@ public class Book : MonoBehaviour
 	public void UpdateBookLTRToPoint(Vector3 followLocation) {
 		mode = FlipMode.LeftToRight;
 		f = followLocation;
-		ShadowLTR.transform.SetParent(ClippingPlane.transform, true);
-		ShadowLTR.transform.localPosition = new Vector3(0, 0, 0);
-		ShadowLTR.transform.localEulerAngles = new Vector3(0, 0, 0);
 		Left.transform.SetParent(ClippingPlane.transform, true);
 
-		Right.transform.SetParent(BookPanel.transform, true);
-		LeftNext.transform.SetParent(BookPanel.transform, true);
+		Right.transform.SetParent(bookPanel.transform, true);
+		LeftNext.transform.SetParent(bookPanel.transform, true);
 
 		c = Calc_C_Position(followLocation);
 		Vector3 t1;
@@ -148,33 +165,29 @@ public class Book : MonoBehaviour
 		if (T0_T1_Angle < 0) T0_T1_Angle += 180;
 
 		ClippingPlane.transform.eulerAngles = new Vector3(0, 0, T0_T1_Angle - 90);
-		ClippingPlane.transform.position = BookPanel.TransformPoint(t1);
+		ClippingPlane.transform.position = bookPanel.TransformPoint(t1);
 
 		//page position and angle
-		Left.transform.position = BookPanel.TransformPoint(c);
+		Left.transform.position = bookPanel.TransformPoint(c);
 		float C_T1_dy = t1.y - c.y;
 		float C_T1_dx = t1.x - c.x;
 		float C_T1_Angle = Mathf.Atan2(C_T1_dy, C_T1_dx) * Mathf.Rad2Deg;
 		Left.transform.eulerAngles = new Vector3(0, 0, C_T1_Angle - 180);
 
 		NextPageClip.transform.eulerAngles = new Vector3(0, 0, T0_T1_Angle - 90);
-		NextPageClip.transform.position = BookPanel.TransformPoint(t1);
+		NextPageClip.transform.position = bookPanel.TransformPoint(t1);
 		LeftNext.transform.SetParent(NextPageClip.transform, true);
 		Right.transform.SetParent(ClippingPlane.transform, true);
 		Right.transform.SetAsFirstSibling();
 
-		ShadowLTR.rectTransform.SetParent(Left.rectTransform, true);
 	}
 	public void UpdateBookRTLToPoint(Vector3 followLocation) {
 		mode = FlipMode.RightToLeft;
 		f = followLocation;
-		Shadow.transform.SetParent(ClippingPlane.transform, true);
-		Shadow.transform.localPosition = new Vector3(0, 0, 0);
-		Shadow.transform.localEulerAngles = new Vector3(0, 0, 0);
 		Right.transform.SetParent(ClippingPlane.transform, true);
 
-		Left.transform.SetParent(BookPanel.transform, true);
-		RightNext.transform.SetParent(BookPanel.transform, true);
+		Left.transform.SetParent(bookPanel.transform, true);
+		RightNext.transform.SetParent(bookPanel.transform, true);
 		c = Calc_C_Position(followLocation);
 		Vector3 t1;
 		float T0_T1_Angle = Calc_T0_T1_Angle(c, ebr, out t1);
@@ -182,22 +195,21 @@ public class Book : MonoBehaviour
 
 		ClippingPlane.rectTransform.pivot = new Vector2(1, 0.35f);
 		ClippingPlane.transform.eulerAngles = new Vector3(0, 0, T0_T1_Angle + 90);
-		ClippingPlane.transform.position = BookPanel.TransformPoint(t1);
+		ClippingPlane.transform.position = bookPanel.TransformPoint(t1);
 
 		//page position and angle
-		Right.transform.position = BookPanel.TransformPoint(c);
+		Right.transform.position = bookPanel.TransformPoint(c);
 		float C_T1_dy = t1.y - c.y;
 		float C_T1_dx = t1.x - c.x;
 		float C_T1_Angle = Mathf.Atan2(C_T1_dy, C_T1_dx) * Mathf.Rad2Deg;
 		Right.transform.eulerAngles = new Vector3(0, 0, C_T1_Angle);
 
 		NextPageClip.transform.eulerAngles = new Vector3(0, 0, T0_T1_Angle + 90);
-		NextPageClip.transform.position = BookPanel.TransformPoint(t1);
+		NextPageClip.transform.position = bookPanel.TransformPoint(t1);
 		RightNext.transform.SetParent(NextPageClip.transform, true);
 		Left.transform.SetParent(ClippingPlane.transform, true);
 		Left.transform.SetAsFirstSibling();
 
-		Shadow.rectTransform.SetParent(Right.rectTransform, true);
 	}
 	private float Calc_T0_T1_Angle(Vector3 c, Vector3 bookCorner, out Vector3 t1) {
 		Vector3 t0 = (c + bookCorner) / 2;
@@ -247,36 +259,35 @@ public class Book : MonoBehaviour
 		return c;
 	}
 	public void DragRightPageToPoint(Vector3 point) {
-		if (currentPage >= TotalPageCount-1) return;
+		if (nextLeft == null) return;
 		pageDragging = true;
 		mode = FlipMode.RightToLeft;
 		f = point;
-			MagicUI.Instance.helpButton.gameObject.SetActive(false);
 
 		NextPageClip.rectTransform.pivot = new Vector2(0, 0.12f);
 		ClippingPlane.rectTransform.pivot = new Vector2(1, 0.35f);
 
 		Left.gameObject.SetActive(true);
-		Left.rectTransform.pivot = new Vector2(0, 0);
+		Left.pivot = new Vector2(0, 0);
 		Left.transform.position = RightNext.transform.position;
 		Left.transform.eulerAngles = new Vector3(0, 0, 0);
-		//Left.sprite = (currentPage < bookPages.Length) ? bookPages[currentPage] : background;
-		Left.sprite = C2.GetSprite();
+		//------------------------------- feuille qui tourne : page de gauche (c'est l'actuelle page de droite)
+		SetPage(Left, currRight);
 		Left.transform.SetAsFirstSibling();
 
 		Right.gameObject.SetActive(true);
 		Right.transform.position = RightNext.transform.position;
 		Right.transform.eulerAngles = new Vector3(0, 0, 0);
-		//Right.sprite = (currentPage < bookPages.Length - 1) ? bookPages[currentPage + 1] : background;
-		Right.sprite = N1.GetSprite();
+		//------------------------------- feuille qui tourne : page de droite (ce sera la page de gauche après rotation)
+		SetPage(Right, nextLeft);
 
-		//RightNext.sprite = (currentPage < bookPages.Length - 2) ? bookPages[currentPage + 2] : background;
-		RightNext.sprite = N2.GetSprite();
+		//------------------------------- page suivante :  page de droite
+		SetPage(RightNext, nextRight);
 
 		LeftNext.transform.SetAsFirstSibling();
-		if (enableShadowEffect) Shadow.gameObject.SetActive(true);
 		UpdateBookRTLToPoint(f);
 	}
+
 	public void OnMouseDragRightPage() {
 		if (interactable) {
 			DragRightPageToPoint(transformPoint(Input.mousePosition));
@@ -288,30 +299,28 @@ public class Book : MonoBehaviour
 		pageDragging = true;
 		mode = FlipMode.LeftToRight;
 		f = point;
-			MagicUI.Instance.helpButton.gameObject.SetActive(false);
 
 		NextPageClip.rectTransform.pivot = new Vector2(1, 0.12f);
 		ClippingPlane.rectTransform.pivot = new Vector2(0, 0.35f);
 
 		Right.gameObject.SetActive(true);
 		Right.transform.position = LeftNext.transform.position;
-		//Right.sprite = bookPages[currentPage - 1];
-		Right.sprite = C1.GetSprite();
+		//------------------------------- feuille qui tourne : page de droite (c'est l'actuelle page de gauche)
+		SetPage(Right, currLeft);
 		Right.transform.eulerAngles = new Vector3(0, 0, 0);
 		Right.transform.SetAsFirstSibling();
 
 		Left.gameObject.SetActive(true);
-		Left.rectTransform.pivot = new Vector2(1, 0);
+		Left.pivot = new Vector2(1, 0);
 		Left.transform.position = LeftNext.transform.position;
 		Left.transform.eulerAngles = new Vector3(0, 0, 0);
-		//Left.sprite = (currentPage >= 2) ? bookPages[currentPage - 2] : background;
-		Left.sprite = P2.GetSprite();
+		//------------------------------- feuille qui tourne : page de gauche (ce sera la page de droite après rotation)
+		SetPage(Left, prevRight);
 
-		//LeftNext.sprite = (currentPage >= 3) ? bookPages[currentPage - 3] : background;
-		LeftNext.sprite = P1.GetSprite();
+		//------------------------------- page précédente :  page de gauche
+		SetPage(LeftNext, prevLeft);
 
 		RightNext.transform.SetAsFirstSibling();
-		if (enableShadowEffect) ShadowLTR.gameObject.SetActive(true);
 		UpdateBookLTRToPoint(f);
 	}
 	public void OnMouseDragLeftPage() {
@@ -337,20 +346,71 @@ public class Book : MonoBehaviour
 				TweenForward();
 		}
 	}
-	Coroutine currentCoroutine;
-	void UpdateSprites() {
-		LeftNext.sprite = C1.GetSprite();
-		RightNext.sprite = C2.GetSprite();
+
+
+	public void SetSection(Book.Section section) {
+		currLeft = null;
+		currRight = null;
+		prevLeft = null;
+		prevRight = null;
+		nextLeft = null;
+		nextRight = null;
+		switch (this.section) {
+			case magic:
+				currentMagicPage = currentPage;
+				break;
+			case quests:
+				currentQuestPage = currentPage;
+				break;
+			case diary:
+				currentDiaryPage = currentPage;
+				break;
+		}
+
+		this.section = section;
+		switch (section) {
+			case magic:
+				pages = magicPages;
+				currentPage = currentMagicPage;
+				baseBookContent = magicBookContent;
+				break;
+			case quests:
+				questPages = new List<PageMaker>(questBookContent.content);
+				pages = questPages;
+				currentPage = currentQuestPage;
+				baseBookContent = questBookContent;
+				break;
+			case diary:
+				pages = diaryPages;
+				currentPage = currentDiaryPage;
+				baseBookContent = diaryBookContent;
+				break;
+		}
+		MakePages();
+		UpdateCurrentPages();
+	}
+	public void SetMagicSection(PageMaker pm = null) {
+		if (pm) {
+			if (section == magic)
+				currentPage = magicBookContent.GetPageIndex(pm);
+			else
+				currentMagicPage = magicBookContent.GetPageIndex(pm);
+		}
+		SetSection(magic);
+	}
+	public void SetQuestSection() {
+		SetSection(quests);
+	}
+	public void SetDiarySection() {
+		SetSection(diary);
 	}
 
-	public void StartUpdateSprites2() {
-		StartCoroutine(UpdateSprites2());
+	Coroutine currentCoroutine;
+	public void UpdateCurrentPages() {
+		SetPage(LeftNext, currLeft);
+		SetPage(RightNext, currRight);
 	}
-	IEnumerator UpdateSprites2() {
-		yield return new WaitForEndOfFrame();
-		LeftNext.sprite = C1.GetSprite();
-		RightNext.sprite = C2.GetSprite();
-	}
+
 	public void TweenForward() {
 		if (mode == FlipMode.RightToLeft)
 			currentCoroutine = StartCoroutine(TweenTo(ebl, 0.15f, () => { Flip(); }));
@@ -359,28 +419,32 @@ public class Book : MonoBehaviour
 	}
 	void Flip() {
 		if (mode == FlipMode.RightToLeft) {
-			currentPage += 1;
-			LeftNext.sprite = N1.GetSprite();
-			RightNext.sprite = N2.GetSprite();
+			var pt = baseBookContent.GetNextAvailablePage(currentPage);     // trouver la page suivante
+			if (pt) {
+				currentPage = pages.IndexOf(pt);
+				SetPage(LeftNext, nextLeft);
+				SetPage(RightNext, nextRight);
+			}
 		} else {
-			currentPage -= 1;
-			LeftNext.sprite = P1.GetSprite();
-			RightNext.sprite = P2.GetSprite();
+			var pt = baseBookContent.GetPreviousAvailablePage(currentPage); // trouver la page précédente
+			if (pt) {
+				currentPage = pages.IndexOf(pt);
+				SetPage(LeftNext, prevLeft);
+				SetPage(RightNext, prevRight);
+			}
 		}
 
 		MakePages();
 
-		LeftNext.transform.SetParent(BookPanel.transform, true);
-		Left.transform.SetParent(BookPanel.transform, true);
-		LeftNext.transform.SetParent(BookPanel.transform, true);
+		LeftNext.transform.SetParent(bookPanel.transform, true);
+		Left.transform.SetParent(bookPanel.transform, true);
+		LeftNext.transform.SetParent(bookPanel.transform, true);
 		Left.gameObject.SetActive(false);
 		Right.gameObject.SetActive(false);
-		Right.transform.SetParent(BookPanel.transform, true);
-		RightNext.transform.SetParent(BookPanel.transform, true);
-		Shadow.gameObject.SetActive(false);
-		ShadowLTR.gameObject.SetActive(false);
+		Right.transform.SetParent(bookPanel.transform, true);
+		RightNext.transform.SetParent(bookPanel.transform, true);
 
-		StartUpdateSprites2();
+		//StartUpdateSprites2();
 
 		if (OnFlip != null)
 			OnFlip.Invoke();
@@ -389,9 +453,9 @@ public class Book : MonoBehaviour
 		if (mode == FlipMode.RightToLeft) {
 			currentCoroutine = StartCoroutine(TweenTo(ebr, 0.15f,
 				() => {
-					UpdateSprites();
-					RightNext.transform.SetParent(BookPanel.transform);
-					Right.transform.SetParent(BookPanel.transform);
+					UpdateCurrentPages();
+					RightNext.transform.SetParent(bookPanel.transform);
+					Right.transform.SetParent(bookPanel.transform);
 
 					Left.gameObject.SetActive(false);
 					Right.gameObject.SetActive(false);
@@ -401,10 +465,10 @@ public class Book : MonoBehaviour
 		} else {
 			currentCoroutine = StartCoroutine(TweenTo(ebl, 0.15f,
 				() => {
-					UpdateSprites();
+					UpdateCurrentPages();
 
-					LeftNext.transform.SetParent(BookPanel.transform);
-					Left.transform.SetParent(BookPanel.transform);
+					LeftNext.transform.SetParent(bookPanel.transform);
+					Left.transform.SetParent(bookPanel.transform);
 
 					Left.gameObject.SetActive(false);
 					Right.gameObject.SetActive(false);
@@ -426,33 +490,49 @@ public class Book : MonoBehaviour
 		}
 		if (onFinish != null)
 			onFinish();
-		MagicUI.Instance.helpButton.gameObject.SetActive(pages[currentPage].hasHelp);
 	}
 
-
+	void SetPage(Transform owner, GameObject page) {
+		page.transform.SetParent(owner, false);
+	}
 
 	void MakePages() {
-		MakePreviousPages(currentPage - 1);
-		MakeCurrentPages(currentPage);
-		MakeNextPages(currentPage + 1);
+		foreach (PageMaker pm in pagesStack.GetComponentsInChildren<PageMaker>()) {
+			Destroy(pm.gameObject);
+		}
+		MakePreviousPages();
+		MakeCurrentPages();
+		MakeNextPages();
 	}
 
-	void MakeCurrentPages(int num) {
-		if (num >= 0 && num < TotalPageCount) {
-			C1.Make(pages[num], PageMaker.Side.left);
-			C2.Make(pages[num], PageMaker.Side.right);
+	public void MakeCurrentPages() {
+		if (currentPage >= 0 && currentPage < TotalPageCount) {
+			PageMaker pm = pages[currentPage];
+			pm.Make();
+			pm.SetSide(left);
+			currLeft = Instantiate(pm.gameObject, pagesStack, false).gameObject;
+			pm.SetSide(right);
+			currRight = Instantiate(pm.gameObject, pagesStack, false).gameObject;
 		}
 	}
-	void MakePreviousPages(int num) {
-		if (num >= 0 && num < TotalPageCount) {
-			P1.Make(pages[num], PageMaker.Side.left);
-			P2.Make(pages[num], PageMaker.Side.right);
+	void MakePreviousPages() {
+		PageMaker pm = baseBookContent.GetPreviousAvailablePage(currentPage);
+		if (pm) {
+			pm.Make();
+			pm.SetSide(left);
+			prevLeft = Instantiate(pm.gameObject, pagesStack, false).gameObject;
+			pm.SetSide(right);
+			prevRight = Instantiate(pm.gameObject, pagesStack, false).gameObject;
 		}
 	}
-	void MakeNextPages(int num) {
-		if (num >= 0 && num < TotalPageCount) {
-			N1.Make(pages[num], PageMaker.Side.left);
-			N2.Make(pages[num], PageMaker.Side.right);
+	void MakeNextPages() {
+		PageMaker pm = baseBookContent.GetNextAvailablePage(currentPage);
+		if (pm) {
+			pm.Make();
+			pm.SetSide(left);
+			nextLeft = Instantiate(pm.gameObject, pagesStack, false).gameObject;
+			pm.SetSide(right);
+			nextRight = Instantiate(pm.gameObject, pagesStack, false).gameObject;
 		}
 	}
 }

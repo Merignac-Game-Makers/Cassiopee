@@ -1,127 +1,85 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.EventSystems;
 
+public class ItemEntryUI : EntryUI
+{
+	public Image iconeImage;
+	public Image plus;
 
-public class ItemEntryUI : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler, 
-    IBeginDragHandler, IDragHandler, IEndDragHandler
-{    
-    public Image IconeImage;
-    public Text ItemCount;
+	ItemEntryUI[] all;
+	public Item item;
+	ChapterManager chapterManager;
 
-    public int InventoryEntry { get; set; } = -1;
-    public EquipmentItem EquipmentItem { get; private set; }
-    
-    public InventoryUI Owner { get; set; }
-    public int Index { get; set; }
+	private void Start() {
+		inventoryUI = InventoryUI.Instance;
+	}
 
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        if (eventData.clickCount % 2 == 0)
-        {
-            if (InventoryEntry != -1)
-            {
-                if(InventorySystem.Instance.Entries[InventoryEntry] != null)
-                    InventoryUI.Instance.ObjectDoubleClicked(InventorySystem.Instance.Entries[InventoryEntry]);
-            }
-        }
-    }
+	public override void Init(Entry entry) {
+		this.entry = entry;
+		entry.ui = this;
+		item = (entry as InventoryEntry).item;
+		iconeImage.sprite = item.ItemSprite;
+		lowerText.text = "";
+		label.text = item.ItemName;
+		plus.enabled = item.combinable;
+	}
 
+	/// <summary>
+	/// mise à jour
+	/// </summary>
+	public override void UpdateEntry() {
+		bool isEnabled = entry != null && (entry as InventoryEntry)?.count > 0;
 
-    public void OnPointerEnter(PointerEventData eventData)
-    {
-        Owner.ObjectHoveredEnter(this);
-    }
+		if (isEnabled) {
+			iconeImage.sprite = (entry as InventoryEntry)?.item.ItemSprite;
+			if ((entry as InventoryEntry)?.count > 1) {
+				lowerText.gameObject.SetActive(true);
+				lowerText.text = (entry as InventoryEntry)?.count.ToString();
+			} else {
+				lowerText.gameObject.SetActive(false);
+			}
+		} else {
+			inventoryUI.RemoveEntry(this);
+		}
+	}
 
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        Owner.ObjectHoverExited(this);
-    }
+	public override void Toggle() {
+		var combineItem = inventoryUI.combineUI.item;
+		if (combineItem != null && item == combineItem.combineWith) {               // si une entrée combinable avec l'item est actuellement sélectionnée
+																					// Debug.Log("Combine");
+			var combineEntry = inventoryUI.combineUI.entry;                         //		récupérer l'entrée d'inventaire concernée
+			combineEntry.item = combineItem.obtain;                                 //		remplace l'item de cette entrée par le résultat de la combinaison
+			combineEntry.count = 1;                                                 //		en 1 exemplaire
+			combineEntry.ui.Init(combineEntry);                                     //		mettre à jour l'interface de cette entrée
+			inventoryUI.combineUI.SetObject(combineEntry);                          //		afficher l'objet obtenu dans le pannea 'combine'
+			inventoryUI.RemoveEntry(this);                                          //		supprimer l'entrée de l'objet utilisé pour la combinaison
+			SetChapter();
+			if (chapterManager != null) {
+				chapterManager.Act(combineEntry.item);
+			}
+		} else {                                                                    // sinon
+			all = inventoryUI.GetComponentsInChildren<ItemEntryUI>();
+			foreach (ItemEntryUI entry in all) {                                    // désélectionner toutes les autres entrées de l'inventaire
+				if (entry != this && entry.selected)
+					entry.Select(false);
+			}
+			base.Toggle();                                                          // sélectionner/déselectionner cette entrée
+			if (selected && item.combinable) {                                      // si on sélectionne et que l'item est combinable
+				inventoryUI.combineUI.SetObject(entry as InventoryEntry);           //		afficher le panneau 'combine'
+			} else {                                                                // sinon
+				inventoryUI.combineUI.Clear();                                      //		masquer le panneau combine
+			}
+		}
+	}
 
-    public void UpdateEntry()
-    {
-        var entry = InventorySystem.Instance.Entries[InventoryEntry];
-        bool isEnabled = entry != null;
-        
-        gameObject.SetActive(isEnabled);
-        
-        if (isEnabled)
-        {
-            IconeImage.sprite = entry.Item.ItemSprite;
+	private void SetChapter() {
+		var chapters = DiaryBookContent.Instance.GetComponentsInChildren<DiaryPageMaker>();
+		foreach (DiaryPageMaker dpm in chapters) {
+			if (dpm.chapter == item.chapter) {
+				chapterManager = dpm.chapterManager;
+				break;
+			}
+		}
 
-            if (entry.Count > 1)
-            {
-                ItemCount.gameObject.SetActive(true);
-                ItemCount.text = entry.Count.ToString();
-            }
-            else
-            {
-                ItemCount.gameObject.SetActive(false);
-            }
-        }
-    }
-
-    public void SetupEquipment(EquipmentItem itm)
-    {
-        EquipmentItem = itm;
-
-        enabled = itm != null;
-        IconeImage.enabled = enabled;
-        if (enabled)
-            IconeImage.sprite = itm.ItemSprite;
-    }
-
-    public void OnBeginDrag(PointerEventData eventData)
-    {
-        if(EquipmentItem != null)
-            return;
-        
-        Owner.CurrentlyDragged = new InventoryUI.DragData();
-        Owner.CurrentlyDragged.DraggedEntry = this;
-        Owner.CurrentlyDragged.OriginalParent = (RectTransform)transform.parent;
-        
-        transform.SetParent(Owner.DragCanvas.transform, true);
-    }
-    
-    public void OnDrag(PointerEventData eventData)
-    {
-        if(EquipmentItem != null)
-            return;
-        
-        transform.localPosition = transform.localPosition + UnscaleEventDelta(eventData.delta);
-    }
-    
-    
-    Vector3 UnscaleEventDelta(Vector3 vec)
-    {
-        Vector2 referenceResolution = Owner.DragCanvasScaler.referenceResolution;
-        Vector2 currentResolution = new Vector2(Screen.width, Screen.height);
- 
-        //float widthRatio = currentResolution.x / referenceResolution.x;
-        float heightRatio = currentResolution.y / referenceResolution.y;
-        //float ratio = Mathf.Lerp(widthRatio, heightRatio,  Owner.DragCanvasScaler.matchWidthOrHeight);
-
-        return vec / heightRatio;
-
-        //return new Vector3(vec.x / heightRatio, vec.y / heightRatio, vec.z);
-    }
-
-    public void OnEndDrag(PointerEventData eventData)
-    {
-        if(EquipmentItem != null)
-            return;
-        
-        Owner.HandledDroppedEntry(eventData.position);
-        
-        RectTransform t = transform as RectTransform;
-        
-        transform.SetParent(Owner.CurrentlyDragged.OriginalParent, true);
-        Owner.CurrentlyDragged = null;
-
-        t.offsetMax = -Vector2.one * 4;
-        t.offsetMin = Vector2.one * 4;
-    }
+	}
 }
