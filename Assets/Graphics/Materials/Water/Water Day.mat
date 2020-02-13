@@ -21,7 +21,7 @@ Material:
     m_TexEnvs:
     - _BumpMap:
         m_Texture: {fileID: 2800000, guid: 09e350b54acf68c4ca8b3f46a5a64977, type: 3}
-        m_Scale: {x: 80, y: 80}
+        m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap2:
         m_Texture: {fileID: 2800000, guid: 9926e8b8960d1c24da43e476d2968241, type: 3}
@@ -73,7 +73,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _MainTex:
         m_Texture: {fileID: 2800000, guid: 29b073a0522333d45bd8685816b2dbd6, type: 3}
-        m_Scale: {x: 30, y: 30}
+        m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
         m_Texture: {fileID: 0}
@@ -115,7 +115,7 @@ Material:
     - _Brightness: 1
     - _BumpScale: 1
     - _Contrast: 1
-    - _ContrastMt: 1.4
+    - _ContrastMt: 1.5
     - _Cutoff: 0.52
     - _Cycle: 3
     - _Depth: 2.2
@@ -134,13 +134,13 @@ Material:
     - _Glossiness: 0.5
     - _GlossyReflections: 1
     - _Intensity: 2
-    - _IntensityMicrowave: 0.2
-    - _IntensityMt: 2.5
-    - _IntensityNm: 0.7
+    - _IntensityMicrowave: 0.7
+    - _IntensityMt: 2.2
+    - _IntensityNm: 0.35
     - _IntensityRef: 1.7
     - _InvFade: 0
-    - _MainDetailFlow: 0
-    - _MainDetailScale: 3
+    - _MainDetailFlow: 0.15
+    - _MainDetailScale: 1
     - _Metallic: 0
     - _MicrowaveScale: 0.5
     - _MinuteDetailIntensity: 1.455
@@ -151,19 +151,19 @@ Material:
     - _NormalmapDetailScale: 0.1
     - _NormalmapDetailScaleA: 1
     - _NormalmapDetailScaleB: 5
-    - _NormalmapDetailSpeed: 0.3
+    - _NormalmapDetailSpeed: 0.01
     - _OcclusionStrength: 1
     - _Parallax: 0.1
-    - _ParallaxScale: 0.35
+    - _ParallaxScale: 0.001
     - _Radius: 1
     - _Reflect: 1
     - _RefractionIntensity: 0.61
     - _RefractionSpeed: 1.61
-    - _ReverseFlow: -5
+    - _ReverseFlow: 0
     - _Saturation: 1
     - _Shininess: 0.23
     - _SmoothnessTextureChannel: 0
-    - _SoftFactor: 0.8
+    - _SoftFactor: 0.4
     - _SpecularHighlights: 1
     - _Speed: 0.5
     - _SpeedX: 0.1

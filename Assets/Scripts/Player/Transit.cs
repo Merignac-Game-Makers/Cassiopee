@@ -5,6 +5,9 @@ using Cinemachine;
 
 /// <summary>
 /// Masquer les aides visuelles des transits
+/// 
+/// Les actions en début de transit sont portées par la classe <see cref="TransitTrigger"/>
+/// Les actions en fin de transit sont portées par la classe <see cref="TransitEnd"/>
 /// </summary>
 public class Transit : MonoBehaviour
 {
@@ -19,5 +22,13 @@ public class Transit : MonoBehaviour
 		foreach (Renderer r in renderers) {
 			r.enabled = false;
 		}
+		// passer les variables utiles aux triggers et au point de destination
+		var destionationPoint = GetComponentInChildren<TransitEnd>();
+		foreach (TransitTrigger tt in GetComponentsInChildren<TransitTrigger>()) {
+			tt.localCam = localCam;
+			tt.destinationPoint = destionationPoint.transform;
+			tt.transitEnd = destionationPoint;
+		}
+		destionationPoint.localCam = localCam;
 	}
 }

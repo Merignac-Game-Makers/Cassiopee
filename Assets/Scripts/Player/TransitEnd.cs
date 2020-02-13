@@ -8,7 +8,7 @@ using Cinemachine;
 /// </summary>
 public class TransitEnd : MonoBehaviour
 {
-	public CinemachineVirtualCamera localCam;
+	public CinemachineVirtualCamera localCam { get; set; }
 	private PlayerManager player;
 	private Stack<CinemachineVirtualCamera> vCams => CameraController.Instance.vCams;
 
@@ -18,12 +18,14 @@ public class TransitEnd : MonoBehaviour
 
 	public void OnTriggerEnter(Collider other) {
 		if (other.gameObject.GetComponentInChildren<PlayerManager>()) {
-			if (localCam) {                                                     //	  s'il existe une caméra dédiée pour ce transit
-				localCam.gameObject.SetActive(false);                           //		désactiver la caméra locale
-				vCams.Peek().gameObject.SetActive(true);						//		réactiver la caméra précédente
-			}
-			player.StopAgent();													// arrêter le déplacement du joueur
+			player.StopAgent();                                                 // arrêter le déplacement du joueur
+		}
+	}
 
+	public void End() {
+		if (localCam) {                                                     //	  s'il existe une caméra dédiée pour ce transit
+			vCams.Peek().gameObject.SetActive(true);                        //		réactiver la caméra précédente
+			localCam.gameObject.SetActive(false);                           //		désactiver la caméra locale
 		}
 	}
 }

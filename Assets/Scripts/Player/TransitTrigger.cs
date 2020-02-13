@@ -8,8 +8,9 @@ using Cinemachine;
 /// </summary>
 public class TransitTrigger : MonoBehaviour
 {
-	public Transform destinationPoint;
-	public CinemachineVirtualCamera localCam;
+	public Transform destinationPoint { get; set; }
+	public TransitEnd transitEnd { get; set; }
+	public CinemachineVirtualCamera localCam { get; set; }
 	private PlayerManager player;
 	private Stack<CinemachineVirtualCamera> vCams => CameraController.Instance.vCams;
 
@@ -25,7 +26,9 @@ public class TransitTrigger : MonoBehaviour
 					vCams.Peek().gameObject.SetActive(false);                       //		désactiver la caméra précédente
 				}
 				player.StartTransitTo(destinationPoint.position);					// diriger le joueur vers le point de destination du transit
-			} 
+			} else {
+				transitEnd.End();
+			}
 		}
 	}
 

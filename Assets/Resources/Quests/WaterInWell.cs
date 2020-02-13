@@ -17,7 +17,10 @@ public class WaterInWell : QuestBase
 		base.AcceptQuest();
 		if (magicPage) {
 			magicPage.page.isAvailable = true;
-
+			Book book = Book.Instance;
+			if (book) {
+				book.SetMagicSection(magicPage);
+			}
 		}
 	}
 	public override void QuestDone() {
