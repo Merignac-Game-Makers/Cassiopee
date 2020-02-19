@@ -10557,7 +10557,7 @@ Camera:
   m_FOVAxisMode: 0
   m_SensorSize: {x: 36, y: 24}
   m_LensShift: {x: 0, y: 0}
-  m_FocalLength: 16.04
+  m_FocalLength: 14.390001
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
@@ -10566,7 +10566,7 @@ Camera:
     height: 1
   near clip plane: 0.1
   far clip plane: 5000
-  field of view: 73.6025
+  field of view: 79.65029
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -10591,8 +10591,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: -0.09462975, y: 0.6912076, z: -0.09206104, w: -0.7104943}
-  m_LocalPosition: {x: 25.564775, y: 2.5400004, z: 26.525604}
+  m_LocalRotation: {x: 0.24363941, y: 0.18592706, z: -0.0476493, w: 0.9506842}
+  m_LocalPosition: {x: 5.4013906, y: 3.244729, z: -2.3821173}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1093710607}
@@ -16072,7 +16072,7 @@ PrefabInstance:
     - target: {fileID: 4078818899926954468, guid: 80ff4c8aaf136574299b55409c568f03,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.23079228
+      value: 0.23079225
       objectReference: {fileID: 0}
     - target: {fileID: 4078818899926954468, guid: 80ff4c8aaf136574299b55409c568f03,
         type: 3}
@@ -16717,6 +16717,16 @@ PrefabInstance:
       propertyPath: target
       value: 
       objectReference: {fileID: 1379326231}
+    - target: {fileID: 2015058654908909961, guid: 6a7983858f64600b98ba552c2b67b4da,
+        type: 3}
+      propertyPath: turnSpeed
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2015058654908909961, guid: 6a7983858f64600b98ba552c2b67b4da,
+        type: 3}
+      propertyPath: moveSpeed
+      value: 10
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6a7983858f64600b98ba552c2b67b4da, type: 3}
 --- !u!4 &1746897082 stripped
