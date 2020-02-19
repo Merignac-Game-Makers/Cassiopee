@@ -8,27 +8,27 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: 02 - Default
-    second: {fileID: 2100000, guid: 9b58b97cb83f1d3499b2ff173ed5fc77, type: 2}
+    second: {fileID: 2100000, guid: 5a5517e1502522a4a942552f5b53bb9b, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: White
-    second: {fileID: 2100000, guid: 78e273b5bd449ce488836e0056cfc9fe, type: 2}
+    second: {fileID: 2100000, guid: f5005da2703fbe84482b752925c1980c, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: ground
-    second: {fileID: 2100000, guid: f41ce7f3b5949c642a2d2e670a0f68d5, type: 2}
+    second: {fileID: 2100000, guid: ffc038c35fa32e243bff3e9555b61ff3, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: porte
-    second: {fileID: 2100000, guid: ac9d2854602926c459df67f6aeef28fe, type: 2}
+    second: {fileID: 2100000, guid: fca701b70147c4642a2dd91eaa0fd2fa, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: toit
-    second: {fileID: 2100000, guid: fe1f7c6c1a86856498fcce314399fe5a, type: 2}
+    second: {fileID: 2100000, guid: 8e3ce02e4a33929488ef95d0c7115192, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
@@ -59,7 +59,7 @@ ModelImporter:
     isReadable: 0
   meshes:
     lODScreenPercentages: []
-    globalScale: 39.3
+    globalScale: 50
     meshCompression: 0
     addColliders: 0
     useSRGBMaterialColor: 1
@@ -106,7 +106,7 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    globalScale: 39.3
+    globalScale: 1.27
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0

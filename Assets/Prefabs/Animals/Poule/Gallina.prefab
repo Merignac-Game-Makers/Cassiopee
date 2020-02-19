@@ -483,7 +483,7 @@ GameObject:
   m_Component:
   - component: {fileID: 522806450653393076}
   - component: {fileID: 7623295043661389262}
-  - component: {fileID: 8907809955589470310}
+  - component: {fileID: 7959297210586636622}
   m_Layer: 0
   m_Name: Gallina
   m_TagString: Untagged
@@ -528,7 +528,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &8907809955589470310
+--- !u!114 &7959297210586636622
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -540,7 +540,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25e4c799813d10e4d95a016541af54bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0
+  speed: 1
 --- !u!1 &3649796435329006245
 GameObject:
   m_ObjectHideFlags: 0

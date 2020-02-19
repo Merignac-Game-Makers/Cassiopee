@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Galina : MonoBehaviour
+public class AnimatorSpeed : MonoBehaviour
 {
     [Range (.5f, 1.5f)]
-    public float speed = 1;
+    public float speed = 1f;
     void Start()
     {
         var anim = GetComponent<Animator>();

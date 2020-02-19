@@ -17,7 +17,7 @@ public class TransitEnd : MonoBehaviour
 	}
 
 	public void OnTriggerEnter(Collider other) {
-		if (other.gameObject.GetComponentInChildren<PlayerManager>()) {
+		if (player.inTransit && other.gameObject.GetComponentInChildren<PlayerManager>()) {
 			player.StopAgent();                                                 // arrêter le déplacement du joueur
 		}
 	}

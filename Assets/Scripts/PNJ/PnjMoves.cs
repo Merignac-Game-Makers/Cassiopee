@@ -8,7 +8,7 @@ public abstract class PnjMoves : MonoBehaviour
 
     protected NavMeshAgent agent;
 
-    void Start()
+    protected virtual void Start()
     {
         agent = GetComponent<NavMeshAgent>();
     }
