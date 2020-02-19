@@ -276,12 +276,14 @@ public class PlayerManager : MonoBehaviour
 	/// </summary>
 	/// <param name="other">objet rencontré</param>
 	public void OnTriggerEnter(Collider other) {
-		m_TargetInteractable = other.gameObject.GetComponent<InteractableObject>();
-		if (m_TargetInteractable != null) {                 // si l'objet rencontré est un 'intéractible'
-			if (!m_TargetInteractable.IsInteractable()) {   //		si son statut est 'inactif'
-				m_TargetInteractable = null;                //			on annule la détection
-			} else {                                        //		si son statut est 'actif'
-				m_TargetCollider = m_TargetInteractable.GetComponentInChildren<Collider>(); // on mémorise son collider
+		if (other.gameObject != this.gameObject) {
+			m_TargetInteractable = other.gameObject.GetComponent<InteractableObject>();
+			if (m_TargetInteractable != null) {                 // si l'objet rencontré est un 'intéractible'
+				if (!m_TargetInteractable.IsInteractable()) {   //		si son statut est 'inactif'
+					m_TargetInteractable = null;                //			on annule la détection
+				} else {                                        //		si son statut est 'actif'
+					m_TargetCollider = m_TargetInteractable.GetComponentInChildren<Collider>(); // on mémorise son collider
+				}
 			}
 		}
 	}

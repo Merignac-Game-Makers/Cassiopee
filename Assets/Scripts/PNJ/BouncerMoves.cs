@@ -4,14 +4,19 @@ using UnityEngine;
 
 public class BouncerMoves : PnjMoves
 {
-	public Vector3 move;
+	public Transform restPosition;
+	Vector3 pos;
+
+	protected override void Start() {
+		base.Start();
+		pos = restPosition.position;
+	}
 
 	public override void MoveToPos(Vector3 position) {
 		agent.destination = position;
 	}
 
 	public void GoBack() {
-		var pos = agent.transform.position + move;
 		MoveToPos(pos);
 	}
 }

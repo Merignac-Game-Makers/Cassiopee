@@ -31,9 +31,9 @@ public class Book : MonoBehaviour
 	List<PageMaker> pages;
 	List<PageMaker> magicPages;                                     // les pages de la section magie
 	List<PageMaker> questPages;                                     // les pages de la section quêtes
-	public List<PageMaker> diaryPages;                                      // les pages de la section journal
+	public List<PageMaker> diaryPages { get; set; }                 // les pages de la section journal
 
-	public int lastAvailablePage;
+	//public int lastAvailablePage;
 
 	public bool interactable = true;
 
@@ -397,6 +397,9 @@ public class Book : MonoBehaviour
 				currentMagicPage = magicBookContent.GetPageIndex(pm);
 		}
 		SetSection(magic);
+	}
+	public void SetMagicSection() {
+		SetMagicSection(null);
 	}
 	public void SetQuestSection() {
 		SetSection(quests);
