@@ -75,7 +75,8 @@ public class Book : MonoBehaviour
 	//Spine Top
 	Vector3 st;
 	//corner of the page
-	Vector3 c;
+	public Vector3 c { get; set; }
+	Vector3 displacement;
 	//Edge Bottom Right
 	Vector3 ebr;
 	//Edge Bottom Left
@@ -256,6 +257,8 @@ public class Book : MonoBehaviour
 		float C_ST_distance = Vector2.Distance(c, st);
 		if (C_ST_distance > radius2)
 			c = r2;
+
+		displacement = c - this.c;
 		return c;
 	}
 	public void DragRightPageToPoint(Vector3 point) {
@@ -272,6 +275,7 @@ public class Book : MonoBehaviour
 		Left.transform.position = RightNext.transform.position;
 		Left.transform.eulerAngles = new Vector3(0, 0, 0);
 		//------------------------------- feuille qui tourne : page de gauche (c'est l'actuelle page de droite)
+		Clear(Left);
 		SetPage(Left, currRight);
 		Left.transform.SetAsFirstSibling();
 
@@ -279,9 +283,12 @@ public class Book : MonoBehaviour
 		Right.transform.position = RightNext.transform.position;
 		Right.transform.eulerAngles = new Vector3(0, 0, 0);
 		//------------------------------- feuille qui tourne : page de droite (ce sera la page de gauche après rotation)
+
+		Clear(Right);
 		SetPage(Right, nextLeft);
 
 		//------------------------------- page suivante :  page de droite
+		Clear(RightNext);
 		SetPage(RightNext, nextRight);
 
 		LeftNext.transform.SetAsFirstSibling();
@@ -306,6 +313,7 @@ public class Book : MonoBehaviour
 		Right.gameObject.SetActive(true);
 		Right.transform.position = LeftNext.transform.position;
 		//------------------------------- feuille qui tourne : page de droite (c'est l'actuelle page de gauche)
+		Clear(Right);
 		SetPage(Right, currLeft);
 		Right.transform.eulerAngles = new Vector3(0, 0, 0);
 		Right.transform.SetAsFirstSibling();
@@ -315,9 +323,11 @@ public class Book : MonoBehaviour
 		Left.transform.position = LeftNext.transform.position;
 		Left.transform.eulerAngles = new Vector3(0, 0, 0);
 		//------------------------------- feuille qui tourne : page de gauche (ce sera la page de droite après rotation)
+		Clear(Left);
 		SetPage(Left, prevRight);
 
 		//------------------------------- page précédente :  page de gauche
+		Clear(LeftNext);
 		SetPage(LeftNext, prevLeft);
 
 		RightNext.transform.SetAsFirstSibling();
@@ -425,6 +435,7 @@ public class Book : MonoBehaviour
 			var pt = baseBookContent.GetNextAvailablePage(currentPage);     // trouver la page suivante
 			if (pt) {
 				currentPage = pages.IndexOf(pt);
+				Clear(LeftNext);
 				SetPage(LeftNext, nextLeft);
 				SetPage(RightNext, nextRight);
 			}
@@ -433,6 +444,7 @@ public class Book : MonoBehaviour
 			if (pt) {
 				currentPage = pages.IndexOf(pt);
 				SetPage(LeftNext, prevLeft);
+				Clear(RightNext);
 				SetPage(RightNext, prevRight);
 			}
 		}
@@ -447,8 +459,6 @@ public class Book : MonoBehaviour
 		Right.transform.SetParent(bookPanel.transform, true);
 		RightNext.transform.SetParent(bookPanel.transform, true);
 
-		//StartUpdateSprites2();
-
 		if (OnFlip != null)
 			OnFlip.Invoke();
 	}
@@ -459,35 +469,34 @@ public class Book : MonoBehaviour
 					UpdateCurrentPages();
 					RightNext.transform.SetParent(bookPanel.transform);
 					Right.transform.SetParent(bookPanel.transform);
-
 					Left.gameObject.SetActive(false);
 					Right.gameObject.SetActive(false);
 					pageDragging = false;
 				}
-				));
+			));
 		} else {
 			currentCoroutine = StartCoroutine(TweenTo(ebl, 0.15f,
 				() => {
 					UpdateCurrentPages();
-
 					LeftNext.transform.SetParent(bookPanel.transform);
 					Left.transform.SetParent(bookPanel.transform);
-
 					Left.gameObject.SetActive(false);
 					Right.gameObject.SetActive(false);
 					pageDragging = false;
 				}
-				));
+			));
 		}
 	}
 	public IEnumerator TweenTo(Vector3 to, float duration, System.Action onFinish) {
-		int steps = (int)(duration / 0.025f);
-		Vector3 displacement = (to - f) / steps;
+		//int steps = (int)(duration / 0.1f);
+		//Vector3 displacement = (to - f) / steps;
+		int steps = (int)((to - f).x / displacement.x);
+		Vector3 increment = (to - f) / steps;
 		for (int i = 0; i < steps - 1; i++) {
 			if (mode == FlipMode.RightToLeft)
-				UpdateBookRTLToPoint(f + displacement);
+				UpdateBookRTLToPoint(f + increment);
 			else
-				UpdateBookLTRToPoint(f + displacement);
+				UpdateBookLTRToPoint(f + increment);
 
 			yield return new WaitForSeconds(0.025f);
 		}
@@ -495,17 +504,27 @@ public class Book : MonoBehaviour
 			onFinish();
 	}
 
+	/// <summary>
+	/// changer le parent d'une page
+	/// </summary>
+	/// <param name="owner">le parent</param>
+	/// <param name="page">la page</param>
 	void SetPage(Transform owner, GameObject page) {
 		page.transform.SetParent(owner, false);
 	}
+	void Clear(Transform owner) {
+		for (int i = owner.childCount - 1; i >= 0; i--) {
+			Destroy(owner.GetChild(i).gameObject);
+		}
+	}
 
 	void MakePages() {
-		foreach (PageMaker pm in pagesStack.GetComponentsInChildren<PageMaker>()) {
+		foreach (PageMaker pm in pagesStack.GetComponentsInChildren<PageMaker>()) {	// vider pagesStack
 			Destroy(pm.gameObject);
 		}
-		MakePreviousPages();
-		MakeCurrentPages();
-		MakeNextPages();
+		MakePreviousPages();														// créer les pages précédentes (gauche + droite)
+		MakeCurrentPages();															// créer les pages courantes (idem)
+		MakeNextPages();															// créer les pages suivantes (idem)
 	}
 
 	public void MakeCurrentPages() {
