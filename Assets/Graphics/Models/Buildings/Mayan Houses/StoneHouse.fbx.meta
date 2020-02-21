@@ -3,32 +3,12 @@ guid: 58ec95a6b43448b46bf5f97062087b01
 ModelImporter:
   serializedVersion: 26
   internalIDToNameTable: []
-  externalObjects:
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: 20 - Default
-    second: {fileID: 2100000, guid: 5e257399ae87c8e44815256e7520dbaa, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Fronton
-    second: {fileID: 2100000, guid: 2f77bd6755a25cf4794a1fa72e1c2b2c, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Pierre
-    second: {fileID: 2100000, guid: ddf1ecf29dfd3554fa2de0a1009b570e, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: White
-    second: {fileID: 2100000, guid: 70e44de8f9e00724c8f210ea444450d6, type: 2}
+  externalObjects: {}
   materials:
     importMaterials: 1
     materialName: 0
     materialSearch: 1
-    materialLocation: 1
+    materialLocation: 0
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
