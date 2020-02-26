@@ -55,6 +55,7 @@ public class PlayerManager : MonoBehaviour
 	RaycastHit m_HitInfo = new RaycastHit();                        // résultat unitaire du lancer de rayon
 	int m_InteractableLayer;                                        // layer des objets intéractibles
 	int m_PlayerLayer;                                              // layer du personnage
+	int m_SasLayer;                                                 // layer des sas
 	int raycastableLayers;                                          // tous les layers à tester pour le Raycast
 	bool isClicOnUI;                                                // le clic en cours a-t-il débuté sur un élément d'interface ?
 
@@ -83,6 +84,7 @@ public class PlayerManager : MonoBehaviour
 
 		m_InteractableLayer = 1 << LayerMask.NameToLayer("Interactable");       // layer des objets intéractibles
 		m_PlayerLayer = 1 << LayerMask.NameToLayer("Player");                   // layer des objets intéractibles
+		m_SasLayer = 1 << LayerMask.NameToLayer("Sas");                         // layer des osas
 
 		var postProcessingMask = 1 << LayerMask.NameToLayer("PostProcess");
 		var ignoreRaycastMask = 1 << LayerMask.NameToLayer("Ignore Raycast");
@@ -145,14 +147,19 @@ public class PlayerManager : MonoBehaviour
 			isClicOnUI = EventSystem.current.IsPointerOverGameObject();
 		}
 
+		//// si on est arrivé à destination => on n'est plus en transit
+		//if (inTransit && m_Agent.remainingDistance <= m_Agent.stoppingDistance && (!m_Agent.hasPath || m_Agent.velocity.sqrMagnitude == 0f)) {
+		//	inTransit = false;
+		//}
+
 		// Gestion de la souris (mouseHover et clic)
-		if (!isClicOnUI) {                                           // éviter de déplacer le personnage si on pointe sur un objet d'interface
+		if (!isClicOnUI) {                                          // éviter de déplacer le personnage si on pointe sur un objet d'interface
 
 			ObjectsRaycasts(screenRay);                             // Mettre en surbrillance les objets intéractibles lorsqu'ils sont sous le pointeur de souris
 
-			if (m_InvItemDragging == null && magicManager?.dragging == null) {      // éviter de déplacer le personnage si on est en cours de drag & drop
+			if (m_InvItemDragging == null && magicManager?.dragging == null) {          // éviter de déplacer le personnage si on est en cours de drag & drop
 				if (Input.GetMouseButton(0)) {                                          // si le bouton de la souris est appuyé
-					if (inventoryUI.selectedEntry == null) {                          // si aucun objet d'inventaire n'est sélectionné
+					if (inventoryUI.selectedEntry == null) {                            // si aucun objet d'inventaire n'est sélectionné
 						if (m_TargetInteractable == null && m_TargetActivable == null && m_CurrentTargetCharacterData == null) {     // s'il n'y a pas d'intéraction en cours
 							InteractableObject obj = m_Highlighted as InteractableObject;
 							if (obj) {                                                                  // si on a cliqué sur un objet intéractible
@@ -171,7 +178,6 @@ public class PlayerManager : MonoBehaviour
 							}
 						}
 					} else {
-						//var itemEntry = m_InventoryUI.selectedEntry.entry as InventoryManager.InventoryEntry;
 						if (m_DropItem == null) {
 							m_DropItem = inventoryUI.selectedEntry.entry;
 							inventoryUI.DropOn3D(inventoryUI.selectedEntry.entry);          // DROP
@@ -180,9 +186,6 @@ public class PlayerManager : MonoBehaviour
 				}
 			}
 		}
-
-		//if (inTransit && !m_Agent.hasPath)          // à la fin d'un déplacement 'en transit'
-		//	EndTransit();                           // on n'est plus en transit
 
 		// controler la vitesse sur les NavMesh Links (par défaut elle est trop rapide)
 		if (m_Agent.isOnOffMeshLink && !MoveAcrossNavMeshesStarted) {
@@ -217,6 +220,15 @@ public class PlayerManager : MonoBehaviour
 	void ObjectsRaycasts(Ray screenRay) {
 		bool somethingFound = false;
 
+		//int count = Physics.SphereCastNonAlloc(screenRay, .2f, m_RaycastHitCache, 1000.0f, m_SasLayer);							// objets du calque 'Sas' sous la souris
+		//if (count > 0) {
+		//	for (int i = 0; i < count; ++i) {                                                                                   // pour chacun d'entre eux
+		//		EnterHouse obj = m_RaycastHitCache[i].collider.gameObject.GetComponentInParent<EnterHouse>();                   // si c'est bien un sas => dans obj
+		//		if (obj != null && Input.GetMouseButtonDown(0)) {
+		//			obj.Enter();
+		//		}
+		//	}
+		//}
 		// check for interactable Object
 		int count = Physics.SphereCastNonAlloc(screenRay, .2f, m_RaycastHitCache, 1000.0f, m_InteractableLayer);                // objets du calque 'Interactable' sous la souris
 		if (count > 0) {
@@ -332,12 +344,6 @@ public class PlayerManager : MonoBehaviour
 	#endregion
 
 	#region Navigation
-	public void StartTransitTo(Vector3 pos) {
-		m_Agent.SetDestination(pos);                    // diriger le joueur vers la destination
-		inTransit = true;                               // on est en transit
-		MagicManager.Instance.ResetConstellation();     // désactiver les objets magiques en quittant le lieu actuel
-	}
-
 	/// <summary>
 	/// interrompre la navigation
 	/// </summary>
