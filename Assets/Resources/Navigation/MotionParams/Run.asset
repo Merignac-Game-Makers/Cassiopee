@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Run
   m_EditorClassIdentifier: 
   mode: 2
-  speed: 10
+  speed: 15
   angularSpeed: 3600
-  acceleration: 15
+  acceleration: 50

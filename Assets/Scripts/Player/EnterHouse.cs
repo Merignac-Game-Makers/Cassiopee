@@ -40,16 +40,18 @@ public class EnterHouse : MonoBehaviour
 		// définir la destination
 		player.m_Agent.SetDestination(inPoint.position);
 		player.inTransit = true;							// ce déplacement est assimilable à un transit
+		yield return new WaitForSeconds(.1f);
 		// approcher de l'entrée
 		while (inside.bounds.SqrDistance(player.transform.position) > player.m_Agent.radius * player.m_Agent.radius)
 			yield return new WaitForSeconds(.1f);
 		// à l'entrée : réduire la vitesse
-		player.m_Agent.speed = 5;
+		//player.m_Agent.speed = 5;
+		player.SetMotionMode(MotionMode.walk);
 		while (player.m_Agent.hasPath)
 			yield return new WaitForSeconds(.25f);
 		// quand on est arrivé
 		UIManager.Instance.exitButton.outPoint = outPoint.position;
-		UIManager.Instance.exitButton.defaultSpeed = maxSpeed;
+		//UIManager.Instance.exitButton.defaultSpeed = maxSpeed;
 		UIManager.Instance.exitButton.Show();                                       // afficher le bouton Exit
 		player.inTransit = false;													// on n'est plus en transit
 		if (lookAtAim != null) {													// si le personnage doit regarder dans une direction précise

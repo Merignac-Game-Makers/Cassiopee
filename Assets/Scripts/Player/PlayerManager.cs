@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.EventSystems;
 using static InteractableObject.Action;
+using static MotionMode;
 
 
 /// <summary>
@@ -33,6 +34,10 @@ public class PlayerManager : MonoBehaviour
 	[HideInInspector]
 	public bool inTransit;                                          // l'agent est-il dans un transit (chagement de zone assisté)
 	public bool canInterruptTransit;                                // un transit peut-il être interrompu ?
+	// modes de déplacement
+	public Dictionary<MotionMode, MotionParams> motionModes;        // liste des modes de dféplacements possibles (marche, course, ...)
+	public MotionMode currentMotionMode { get; set; } = run;        // mode de déplacement courant
+	public MotionMode previousMotionMode { get; set; } = run;       // mode de déplacement précédent
 
 	// Interactions
 	InteractableObject m_TargetInteractable = null;                 // objet avec lequel le joueur intéragit
@@ -81,6 +86,10 @@ public class PlayerManager : MonoBehaviour
 		characterData.Init();                                       // ... initialisation
 
 		m_Agent = GetComponent<NavMeshAgent>();                     // préparation de la navigation
+		motionModes = new Dictionary<MotionMode, MotionParams>();							// liste des modes de déplacement
+		motionModes[walk] = (MotionParams)Resources.Load("Navigation/MotionParams/Walk");	// récupération des caractéristiques du mode 'marche' (vitesse, accélération, ...)
+		motionModes[run] = (MotionParams)Resources.Load("Navigation/MotionParams/Run");     // récupération des caractéristiques du mode 'course' (vitesse, accélération, ...)
+		SetMotionMode(run);														// le mode initial est 'course'
 
 		m_InteractableLayer = 1 << LayerMask.NameToLayer("Interactable");       // layer des objets intéractibles
 		m_PlayerLayer = 1 << LayerMask.NameToLayer("Player");                   // layer des objets intéractibles
@@ -91,21 +100,6 @@ public class PlayerManager : MonoBehaviour
 		raycastableLayers = ~(postProcessingMask | ignoreRaycastMask);
 	}
 	#endregion
-
-
-	//static bool WantsToQuit() {
-	//	return false;
-	//}
-
-	//static void Quit() {
-	//	Debug.Log("Quitting the Player");
-	//}
-
-	//[RuntimeInitializeOnLoadMethod]
-	//static void RunOnStart() {
-	//	Application.wantsToQuit += WantsToQuit;
-	//	Application.quitting += Quit;
-	//}
 
 	void Update() {
 		// quitter le jeu par la touche escape
@@ -382,6 +376,18 @@ public class PlayerManager : MonoBehaviour
 		m_Agent.CompleteOffMeshLink();                                      // quitter le mode 'NavMesh Link'
 		MoveAcrossNavMeshesStarted = false;
 		m_Agent.SetDestination(destination);                                // continuer vers la destination initiale
+	}
+
+	public void SetMotionMode(MotionMode mode) {
+		previousMotionMode = currentMotionMode;
+		currentMotionMode = mode;
+		m_Agent.speed = motionModes[mode].speed;
+		m_Agent.acceleration = motionModes[mode].acceleration;
+		m_Agent.angularSpeed = motionModes[mode].angularSpeed;
+	}
+	public void RestoreMotionMode() {
+		currentMotionMode = previousMotionMode;
+		SetMotionMode(previousMotionMode);
 	}
 	#endregion
 
