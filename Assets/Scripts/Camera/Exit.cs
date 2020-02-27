@@ -2,13 +2,15 @@
 
 public class Exit : MonoBehaviour
 {
-	[HideInInspector]
-	public Vector3 outPoint;
+	public Vector3 outPoint { get; set; }
 
 	bool? prevStatus;
 
 	public void GetOut() {
 		PlayerManager.Instance.m_Agent.SetDestination(outPoint);
+		//PlayerManager.Instance.m_Agent.speed = defaultSpeed;
+		PlayerManager.Instance.SetMotionMode(MotionMode.run);
+		Hide();
 	}
 
 	public void SaveAndHide() {

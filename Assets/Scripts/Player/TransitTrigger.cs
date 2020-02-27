@@ -12,28 +12,33 @@ public class TransitTrigger : MonoBehaviour
 	public TransitEnd transitEnd { get; set; }
 	public CinemachineVirtualCamera localCam { get; set; }
 	private PlayerManager player;
+	private Collider playerCollider;
 	private Stack<CinemachineVirtualCamera> vCams => CameraController.Instance.vCams;
 
 	public void Start() {
 		player = PlayerManager.Instance;
+		playerCollider = player.gameObject.GetComponentInChildren<Collider>();
 	}
 
 	public void OnTriggerEnter(Collider other) {
-		if (other.gameObject.GetComponentInChildren<PlayerManager>()) {
-			if (IsFacingForward(other)) {											// si on rentre dans le sens du transit
-				if (localCam) {														//	  s'il existe une caméra dédiée pour ce transit
+		if (other == playerCollider) {
+		if (IsFacingForward(other)) {                                           // si on rentre dans le sens du transit
+				if (localCam) {                                                     //	  s'il existe une caméra dédiée pour ce transit
 					localCam.gameObject.SetActive(true);                            //		activer la caméra locale
 					vCams.Peek().gameObject.SetActive(false);                       //		désactiver la caméra précédente
 				}
-				player.StartTransitTo(destinationPoint.position);					// diriger le joueur vers le point de destination du transit
-			} else {
-				transitEnd.End();
+				player.m_Agent.SetDestination(destinationPoint.position);           // diriger le joueur vers la destination
+				player.inTransit = true;											// on est en transit
+				MagicManager.Instance.ResetConstellation();							// désactiver les objets magiques en quittant le lieu actuel
+
+			} else {															// si on entre dans l'autre sens
+				transitEnd.End();													//		transition de caméra de fin de transit
 			}
 		}
 	}
 
 	/// <summary>
-	/// Le joueur entre-t-il dnas le sens du transit ?
+	/// Le joueur entre-t-il dans le sens du transit ?
 	/// </summary>
 	/// <param name="other">le joueur</param>
 	/// <returns>positif si le joueur entre dans le sens du transit</returns>

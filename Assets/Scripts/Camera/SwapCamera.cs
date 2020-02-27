@@ -37,11 +37,11 @@ public class SwapCamera : MonoBehaviour
 
 	private void OnTriggerEnter(Collider other) {
 		// si on est à l'intérieur du volume surveillé
-		if (other == player && !vCams.Contains(localCam)) {                 // si la caméra localde n'est pas dans la pile des caméras
-			if (!PlayerManager.Instance.inTransit) {
+		if (other == player && !vCams.Contains(localCam)) {                 // si la caméra locale n'est pas dans la pile des caméras
+			//if (!PlayerManager.Instance.inTransit) {
 				localCam.gameObject.SetActive(true);                        // activer la caméra locale
 				currentCam.SetActive(false);                                // désactiver la caméra précédente
-			}
+			//}
 			vCams.Push(localCam);                                           // ajouter la caméra locale à la pile
 			CameraController.Instance.m_CurrentDistance = Dist(vCams.Peek().m_Lens.FieldOfView); // restaurer facteur de zoom
 			if (outPoint != null) {

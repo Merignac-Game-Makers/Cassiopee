@@ -3,59 +3,64 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Animations;
+using UnityEngine.EventSystems;
 
 public class EnterHouse : MonoBehaviour
 {
-	public Collider sas;
 	public Collider inside;
-	public GameObject enterZone;
+	public Transform inPoint;
+	public Transform outPoint;
 	public Transform lookAtAim;
-	NavMeshAgent player;
+	PlayerManager player;
 	LookAtConstraint lookAtContraint;
 	ConstraintSource constrainSource;
-	// Start is called before the first frame update
-	//void Start() {
-	//	player = PlayerManager.Instance.m_Agent;
-	//	if (lookAtAim != null) {
-	//		lookAtContraint = player.GetComponentInChildren<LookAtConstraint>();
-	//		constrainSource = new ConstraintSource();
-	//		constrainSource.sourceTransform = lookAtAim;
-	//		constrainSource.weight = 1;
-	//	}
-	//}
 
+	float maxSpeed;
+
+	private void OnMouseDown() {
+		player = PlayerManager.Instance;
+		maxSpeed = player.m_Agent.speed;
+		Enter();
+	}
 
 	public void Enter() {
-		player = PlayerManager.Instance.m_Agent;
-		if (lookAtAim != null) {
-			lookAtContraint = player.GetComponentInChildren<LookAtConstraint>();
-			constrainSource = new ConstraintSource();
-			constrainSource.sourceTransform = lookAtAim;
-			constrainSource.weight = 1;
-		}
-		if (!isInside()) {
-			player.SetDestination(enterZone.transform.position);
-			if (lookAtAim != null) {
-				StartCoroutine(ILookAt());
-			}
-		}
+		StartCoroutine(IEnter());
+		
+	}
+	public void Exit() {
+		player = PlayerManager.Instance;
+		player.m_Agent.SetDestination(outPoint.position);
 	}
 
 	bool isInside() {
 		return inside.bounds.Contains(player.transform.position);
 	}
 
-	private void OnTriggerEnter(Collider other) {
-		if (other.gameObject == PlayerManager.Instance.m_Agent.gameObject)
-			Enter();
-	}
-
-	IEnumerator ILookAt() {
-		lookAtContraint.SetSource(0, constrainSource);
-		lookAtContraint.constraintActive = true;
-		while (player.hasPath)
-			yield return new WaitForSeconds(1f);
-		lookAtContraint.constraintActive = false;
-
+	IEnumerator IEnter() {
+		// définir la destination
+		player.m_Agent.SetDestination(inPoint.position);
+		player.inTransit = true;							// ce déplacement est assimilable à un transit
+		yield return new WaitForSeconds(.1f);
+		// approcher de l'entrée
+		while (inside.bounds.SqrDistance(player.transform.position) > player.m_Agent.radius * player.m_Agent.radius)
+			yield return new WaitForSeconds(.1f);
+		// à l'entrée : réduire la vitesse
+		//player.m_Agent.speed = 5;
+		player.SetMotionMode(MotionMode.walk);
+		while (player.m_Agent.hasPath)
+			yield return new WaitForSeconds(.25f);
+		// quand on est arrivé
+		UIManager.Instance.exitButton.outPoint = outPoint.position;
+		//UIManager.Instance.exitButton.defaultSpeed = maxSpeed;
+		UIManager.Instance.exitButton.Show();                                       // afficher le bouton Exit
+		player.inTransit = false;													// on n'est plus en transit
+		if (lookAtAim != null) {													// si le personnage doit regarder dans une direction précise
+			lookAtContraint = player.GetComponentInChildren<LookAtConstraint>();	// définir la direction
+			constrainSource = new ConstraintSource() { sourceTransform = lookAtAim, weight = 1};
+			lookAtContraint.SetSource(0, constrainSource);
+			lookAtContraint.constraintActive = true;
+			yield return new WaitForSeconds(.2f);
+			lookAtContraint.constraintActive = false;
+		}
 	}
 }

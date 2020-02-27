@@ -7,6 +7,7 @@ using static MotionMode;
 
 [RequireComponent(typeof(NavMeshAgent))]
 [RequireComponent(typeof(Animator))]
+
 public class LocomotionSimpleAgent : MonoBehaviour
 {
     public Dictionary<MotionMode, MotionParams> motionModes;
