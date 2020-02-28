@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 using UnityEngine.EventSystems;
+using static CameraController;
 
 public class SwapCamera : MonoBehaviour
 {
@@ -11,24 +12,26 @@ public class SwapCamera : MonoBehaviour
 	/// </summary>
 	/// 
 	CinemachineBrain cinemachineBrain;      // cinemachine
-	CinemachineVirtualCamera localCam;      // la caméra locale à activer pour la zone
+	LocalCam localCam;      // la caméra locale à activer pour la zone
 	Collider player;
 
-	public GameObject outPoint;				// point de sortie si on est en intérieur et qu'on appuie sur le bouton Exit
 	ZoomBase zoom;							// script Zoom si ce volume est un zoom (il doit être porté par un parent)
 	ZoomUI zoomUI;							// fenêtre Zoom pour affichage
 
 	GameObject currentCam => cinemachineBrain.ActiveVirtualCamera.VirtualCameraGameObject;
 
-	Stack<CinemachineVirtualCamera> vCams => CameraController.Instance.vCams;
+	Stack<LocalCam> vCams => CameraController.Instance.vCams;
 	CameraController camController;
+
+	public float maxAngle = 45;
+	public MotionMode motionMode = MotionMode.run;
 
 	// initialisation des variables
 	void Start() {
 		camController = CameraController.Instance;
-		cinemachineBrain = CameraController.Instance.gameObject.GetComponentInChildren<CinemachineBrain>();
-		localCam = gameObject.GetComponentInChildren<CinemachineVirtualCamera>();
-		localCam.gameObject.SetActive(false);
+		cinemachineBrain = camController.gameObject.GetComponentInChildren<CinemachineBrain>();
+		localCam = new LocalCam(gameObject.GetComponentInChildren<CinemachineVirtualCamera>(), maxAngle, motionMode);
+		localCam.cam.gameObject.SetActive(false);
 		player = PlayerManager.Instance.gameObject.GetComponentInChildren<Collider>();
 		zoom = GetComponentInParent<ZoomBase>();
 		if (zoom)
@@ -39,15 +42,13 @@ public class SwapCamera : MonoBehaviour
 		// si on est à l'intérieur du volume surveillé
 		if (other == player && !vCams.Contains(localCam)) {                 // si la caméra locale n'est pas dans la pile des caméras
 			//if (!PlayerManager.Instance.inTransit) {
-				localCam.gameObject.SetActive(true);                        // activer la caméra locale
+				localCam.cam.gameObject.SetActive(true);                        // activer la caméra locale
 				currentCam.SetActive(false);                                // désactiver la caméra précédente
 			//}
 			vCams.Push(localCam);                                           // ajouter la caméra locale à la pile
-			CameraController.Instance.m_CurrentDistance = Dist(vCams.Peek().m_Lens.FieldOfView); // restaurer facteur de zoom
-			if (outPoint != null) {
-				UIManager.Instance.exitButton.GetComponent<Exit>().outPoint = outPoint.transform.position;
-				UIManager.Instance.exitButton.gameObject.SetActive(true);   // si besoin, afficher le bouton 'exit'
-			}
+			camController.m_CurrentDistance = Dist(vCams.Peek().cam.m_Lens.FieldOfView); // restaurer facteur de zoom
+			camController.MaxAngle = vCams.Peek().maxAngle;
+			PlayerManager.Instance.SetMotionMode(vCams.Peek().motionMode);
 
 			if (zoomUI)
 				zoomUI.Enter(this);
@@ -65,12 +66,14 @@ public class SwapCamera : MonoBehaviour
 	}
 
 	public void Exit() {
-		vCams.Pop();														// retirer la caméra locale de la pile
-		if (currentCam == localCam.gameObject) {                            // si la caméra locale est active
-			localCam.gameObject.SetActive(false);                           // désactiver la caméra locale
-			vCams.Peek().gameObject.SetActive(true);                        // réactiver la caméra précédente
-			CameraController.Instance.m_CurrentDistance = Dist(vCams.Peek().m_Lens.FieldOfView); // restaurer facteur de zoom
-			UIManager.Instance.exitButton.gameObject.SetActive(false);      // masquer le bouton 'exit'
+		vCams.Pop();															// retirer la caméra locale de la pile
+		if (currentCam == localCam.cam.gameObject) {							// si la caméra locale est active
+			localCam.cam.gameObject.SetActive(false);                           // désactiver la caméra locale
+			vCams.Peek().cam.gameObject.SetActive(true);                        // réactiver la caméra précédente
+			camController.MaxAngle = vCams.Peek().maxAngle;
+			PlayerManager.Instance.SetMotionMode(vCams.Peek().motionMode);
+			camController.m_CurrentDistance = Dist(vCams.Peek().cam.m_Lens.FieldOfView); // restaurer facteur de zoom
+			UIManager.Instance.exitButton.gameObject.SetActive(false);			// masquer le bouton 'exit'
 		}
 	}
 }

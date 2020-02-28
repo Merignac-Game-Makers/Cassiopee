@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
+using static CameraController;
 
 /// <summary>
 /// Point d'arrivée de transit
@@ -10,7 +11,7 @@ public class TransitEnd : MonoBehaviour
 {
 	public CinemachineVirtualCamera localCam { get; set; }
 	private PlayerManager player;
-	private Stack<CinemachineVirtualCamera> vCams => CameraController.Instance.vCams;
+	private Stack<LocalCam> vCams => CameraController.Instance.vCams;
 
 	public void Start() {
 		player = PlayerManager.Instance;
@@ -23,9 +24,9 @@ public class TransitEnd : MonoBehaviour
 	}
 
 	public void End() {
-		if (localCam) {                                                     //	  s'il existe une caméra dédiée pour ce transit
-			vCams.Peek().gameObject.SetActive(true);                        //		réactiver la caméra précédente
-			localCam.gameObject.SetActive(false);                           //		désactiver la caméra locale
+		if (localCam) {															//	  s'il existe une caméra dédiée pour ce transit
+			vCams.Peek().cam.gameObject.SetActive(true);                        //		réactiver la caméra précédente
+			localCam.gameObject.SetActive(false);								//		désactiver la caméra locale
 		}
 	}
 }

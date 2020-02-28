@@ -24,7 +24,8 @@ public class MovementInput : MonoBehaviour
 	public bool enableFeetIk = true;
 	[Range(0, 2)] [SerializeField] private float heightFromGroundRaycast = 1.14f;
 	[Range(0, 2)] [SerializeField] private float raycastDownDistance = 1.5f;
-	[SerializeField] private LayerMask environmentLayer;
+	//[SerializeField] private LayerMask environmentLayer;
+	public LayerMask environmentLayer;
 	[SerializeField] private float pelvisOffset = 0f;
 	[Range(0, 1)] [SerializeField] private float pelvisUpAndDownSpeed = 0.28f;
 	[Range(0, 1)] [SerializeField] private float feetToIkPositionSpeed = 0.5f;
@@ -39,6 +40,10 @@ public class MovementInput : MonoBehaviour
 	[Header("Animation Smoothing")]
 	[Range(0, 1f)]
 	public float animSmoothTime = 0.2f; //velocity dampening
+
+	public LayerMask EnvironmentLayer { get => EnvironmentLayer2; set => EnvironmentLayer2 = value; }
+	public LayerMask EnvironmentLayer1 { get => EnvironmentLayer2; set => EnvironmentLayer2 = value; }
+	public LayerMask EnvironmentLayer2 { get => environmentLayer; set => environmentLayer = value; }
 
 	#endregion
 
@@ -196,7 +201,7 @@ public class MovementInput : MonoBehaviour
 		if (showSolverDebug)
 			Debug.DrawLine(fromSkyPosition, fromSkyPosition + Vector3.up * (raycastDownDistance + heightFromGroundRaycast), Color.yellow);
 
-		if (Physics.Raycast(fromSkyPosition, Vector3.down, out feetOutHit, raycastDownDistance + heightFromGroundRaycast, environmentLayer)) {
+		if (Physics.Raycast(fromSkyPosition, Vector3.down, out feetOutHit, raycastDownDistance + heightFromGroundRaycast, EnvironmentLayer2)) {
 			//finding our feet ik positions from the sky position
 			feetIkPositions = fromSkyPosition;
 			feetIkPositions.y = feetOutHit.point.y + pelvisOffset;

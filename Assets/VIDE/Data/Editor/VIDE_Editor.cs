@@ -9,6 +9,7 @@ using System.Reflection;
 using bf = System.Reflection.BindingFlags;
 using System.Text.RegularExpressions;
 using System.Linq;
+using UnityEngine.Networking;
 
 public class VIDE_Editor : EditorWindow
 {
@@ -60,7 +61,8 @@ public class VIDE_Editor : EditorWindow
     string searchWord;
     Vector2 searchScrollView;
 
-    WWW news;
+    //WWW news;
+    UnityWebRequest news;
     List<string> saveNames = new List<string>() { };
     List<string> saveNamesFull = new List<string>() { };
 
@@ -261,7 +263,8 @@ public class VIDE_Editor : EditorWindow
     void CheckNews()
     {
         newsHeadline = "Checking...";
-        news = new WWW("https://chrishendersonb.com/vide/videnews.txt");
+       // news = new WWW("https://chrishendersonb.com/vide/videnews.txt");
+        news = new UnityWebRequest("https://chrishendersonb.com/vide/videnews.txt");
     }
 
     double lastTime;
@@ -274,9 +277,9 @@ public class VIDE_Editor : EditorWindow
         if (news != null)
             if (news.isDone)
             {
-                if (news.text.Length > 10)
+                if (news.downloadHandler.text.Length > 10)
                 {
-                    string[] st = news.text.Split(","[0]);
+                    string[] st = news.downloadHandler.text.Split(","[0]);
                     newsHeadline = st[0];
                     if (st.Length > 1)
                         newsHeadlineLink = st[1];

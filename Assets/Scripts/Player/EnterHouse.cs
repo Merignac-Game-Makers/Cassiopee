@@ -44,9 +44,7 @@ public class EnterHouse : MonoBehaviour
 		// approcher de l'entrée
 		while (inside.bounds.SqrDistance(player.transform.position) > player.m_Agent.radius * player.m_Agent.radius)
 			yield return new WaitForSeconds(.1f);
-		// à l'entrée : réduire la vitesse
-		//player.m_Agent.speed = 5;
-		player.SetMotionMode(MotionMode.walk);
+		// attendre d'être arrivé
 		while (player.m_Agent.hasPath)
 			yield return new WaitForSeconds(.25f);
 		// quand on est arrivé

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 using UnityEngine.Rendering.PostProcessing;
+using static CameraController.LocalCam;
 
 /// <summary>
 /// Control the camera, mainly used as a reference to the main camera through the singleton instance, and to handle
@@ -10,6 +11,20 @@ using UnityEngine.Rendering.PostProcessing;
 /// </summary>
 public class CameraController : MonoBehaviour
 {
+
+	public class LocalCam
+	{
+		public CinemachineVirtualCamera cam;
+		public float maxAngle = 45;
+		public MotionMode motionMode = MotionMode.run;
+
+		public LocalCam(CinemachineVirtualCamera cam, float maxAngle = 45f, MotionMode motionMode = MotionMode.run) {
+			this.cam = cam;
+			this.maxAngle = maxAngle;
+			this.motionMode = motionMode;
+		}
+	}
+
 	public static CameraController Instance { get; set; }
 
 	public Camera GameplayCamera;
@@ -18,7 +33,7 @@ public class CameraController : MonoBehaviour
 	public PostProcessVolume ppv;
 
 	[HideInInspector]
-	public Stack<CinemachineVirtualCamera> vCams { get; set; }
+	public Stack<LocalCam> vCams { get; set; }
 
 	CinemachineBrain cinemachineBrain;
 	/// <summary>
@@ -47,8 +62,8 @@ public class CameraController : MonoBehaviour
 
 	void Start() {
 		cinemachineBrain = GetComponent<CinemachineBrain>();
-		vCams = new Stack<CinemachineVirtualCamera>();
-		vCams.Push(vCam);
+		vCams = new Stack<LocalCam>();
+		vCams.Push(new LocalCam(vCam));
 		Zoom(0);
 	}
 
@@ -59,7 +74,7 @@ public class CameraController : MonoBehaviour
 	public void Zoom(float distance) {
 		m_CurrentDistance = Mathf.Clamp01(m_CurrentDistance + distance);
 		if (vCams.Peek() != null)
-			vCams.Peek().m_Lens.FieldOfView = MinAngle + (MaxAngle - MinAngle) * m_CurrentDistance;
+			vCams.Peek().cam.m_Lens.FieldOfView = MinAngle + (MaxAngle - MinAngle) * m_CurrentDistance;
 	}
 
 	private void Update() {
@@ -71,7 +86,7 @@ public class CameraController : MonoBehaviour
 		DepthOfField pr;
 		ppv.sharedProfile.TryGetSettings<DepthOfField>(out pr);
 		var camPos = GameplayCamera.transform.position;
-		var targetPos = vCams.Peek().LookAt.transform.position;
+		var targetPos = vCams.Peek().cam.LookAt.transform.position;
 		
 		pr.focusDistance.value = Vector3.Distance(targetPos, camPos);
 	}

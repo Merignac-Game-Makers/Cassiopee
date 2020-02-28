@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
+using static CameraController;
 
 /// <summary>
 /// Déclencheurs de transit
@@ -13,7 +14,7 @@ public class TransitTrigger : MonoBehaviour
 	public CinemachineVirtualCamera localCam { get; set; }
 	private PlayerManager player;
 	private Collider playerCollider;
-	private Stack<CinemachineVirtualCamera> vCams => CameraController.Instance.vCams;
+	private Stack<LocalCam> vCams => CameraController.Instance.vCams;
 
 	public void Start() {
 		player = PlayerManager.Instance;
@@ -25,7 +26,7 @@ public class TransitTrigger : MonoBehaviour
 		if (IsFacingForward(other)) {                                           // si on rentre dans le sens du transit
 				if (localCam) {                                                     //	  s'il existe une caméra dédiée pour ce transit
 					localCam.gameObject.SetActive(true);                            //		activer la caméra locale
-					vCams.Peek().gameObject.SetActive(false);                       //		désactiver la caméra précédente
+					vCams.Peek().cam.gameObject.SetActive(false);                   //		désactiver la caméra précédente
 				}
 				player.m_Agent.SetDestination(destinationPoint.position);           // diriger le joueur vers la destination
 				player.inTransit = true;											// on est en transit

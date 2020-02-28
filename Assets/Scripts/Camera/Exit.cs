@@ -9,7 +9,7 @@ public class Exit : MonoBehaviour
 	public void GetOut() {
 		PlayerManager.Instance.m_Agent.SetDestination(outPoint);
 		//PlayerManager.Instance.m_Agent.speed = defaultSpeed;
-		PlayerManager.Instance.SetMotionMode(MotionMode.run);
+		//PlayerManager.Instance.SetMotionMode(MotionMode.run);
 		Hide();
 	}
 

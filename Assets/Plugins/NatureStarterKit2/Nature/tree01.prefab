@@ -82,7 +82,7 @@ MeshRenderer:
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
   m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 0
+  m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
@@ -176,7 +176,9 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - _AO: 2.4
     - _AlphaClip: 0
+    - _BaseLight: 0.35
     - _BillboardKwToggle: 0
     - _BillboardShadowFade: 0.5
     - _Blend: 0
@@ -275,6 +277,8 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - _AO: 2.4
+    - _BaseLight: 0.35
     - _BillboardKwToggle: 0
     - _BillboardShadowFade: 0.5
     - _Cutoff: 0.3
@@ -282,6 +286,7 @@ Material:
     - _HueVariationKwToggle: 0
     - _Metallic: 0
     - _NormalMapKwToggle: 0
+    - _Occlusion: 7.5
     - _ShadowOffsetScale: 1
     - _ShadowStrength: 0.8
     - _Shininess: 0.078125
