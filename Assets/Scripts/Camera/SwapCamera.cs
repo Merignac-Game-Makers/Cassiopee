@@ -29,8 +29,8 @@ public class SwapCamera : MonoBehaviour
 	// initialisation des variables
 	void Start() {
 		camController = CameraController.Instance;
-		cinemachineBrain = camController.gameObject.GetComponentInChildren<CinemachineBrain>();
-		localCam = new LocalCam(gameObject.GetComponentInChildren<CinemachineVirtualCamera>(), maxAngle, motionMode);
+		cinemachineBrain = camController.gameObject.GetComponentInChildren<CinemachineBrain>(true);
+		localCam = new LocalCam(gameObject.GetComponentInChildren<CinemachineVirtualCamera>(true), maxAngle, motionMode);
 		localCam.cam.gameObject.SetActive(false);
 		player = PlayerManager.Instance.gameObject.GetComponentInChildren<Collider>();
 		zoom = GetComponentInParent<ZoomBase>();
