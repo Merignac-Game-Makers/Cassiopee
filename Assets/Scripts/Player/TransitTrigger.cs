@@ -9,8 +9,9 @@ using static CameraController;
 /// </summary>
 public class TransitTrigger : MonoBehaviour
 {
-	public Transform destinationPoint { get; set; }
-	public TransitEnd transitEnd { get; set; }
+	public bool reverse = false;
+	public Transit transit { get; set; }
+	//public TransitEnd transitEnd { get; set; }
 	public CinemachineVirtualCamera localCam { get; set; }
 	private PlayerManager player;
 	private Collider playerCollider;
@@ -28,12 +29,15 @@ public class TransitTrigger : MonoBehaviour
 					localCam.gameObject.SetActive(true);                            //		activer la caméra locale
 					vCams.Peek().cam.gameObject.SetActive(false);                   //		désactiver la caméra précédente
 				}
-				player.m_Agent.SetDestination(destinationPoint.position);           // diriger le joueur vers la destination
-				player.inTransit = true;											// on est en transit
+				transit.StartPath(reverse);
 				MagicManager.Instance.ResetConstellation();							// désactiver les objets magiques en quittant le lieu actuel
 
 			} else {															// si on entre dans l'autre sens
-				transitEnd.End();													//		transition de caméra de fin de transit
+				//transit.EndPath();                                              //		transition de caméra de fin de transit
+				if (localCam) {                                                         //	  s'il existe une caméra dédiée pour ce transit
+					vCams.Peek().cam.gameObject.SetActive(true);                        //		réactiver la caméra précédente
+					localCam.gameObject.SetActive(false);                               //		désactiver la caméra locale
+				}
 			}
 		}
 	}

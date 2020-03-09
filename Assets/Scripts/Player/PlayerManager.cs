@@ -34,6 +34,8 @@ public class PlayerManager : MonoBehaviour
 	[HideInInspector]
 	public bool inTransit;                                          // l'agent est-il dans un transit (chagement de zone assisté)
 	public bool canInterruptTransit;                                // un transit peut-il être interrompu ?
+	public Transit currentTransit { get; set; } = null;
+
 	// modes de déplacement
 	public Dictionary<MotionMode, MotionParams> motionModes;        // liste des modes de dféplacements possibles (marche, course, ...)
 	public MotionMode currentMotionMode { get; set; } = run;        // mode de déplacement courant
@@ -185,6 +187,10 @@ public class PlayerManager : MonoBehaviour
 		if (m_Agent.isOnOffMeshLink && !MoveAcrossNavMeshesStarted) {
 			MoveAcrossNavMeshesStarted = true;
 			StartCoroutine(MoveAcrossNavMeshLink(m_Agent.destination));
+		}
+
+		for (int i = 0; i < m_Agent.path.corners.Length - 1; i++) {
+			Debug.DrawLine(m_Agent.path.corners[i], m_Agent.path.corners[i + 1], Color.red);
 		}
 	}
 
