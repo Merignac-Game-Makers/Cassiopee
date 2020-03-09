@@ -100,7 +100,7 @@ public class Transit : MonoBehaviour
 
 	void Update() {
 		// Choose the next destination point when the agent gets close to the current one.
-		if (player.currentTransit == this && !player.m_Agent.pathPending && player.m_Agent.remainingDistance < player.m_Agent.radius * 2)
+		if (player.currentTransit == this && !player.m_Agent.pathPending && player.m_Agent.remainingDistance < player.m_Agent.radius * 5)
 			GotoNextPoint();
 	}
 
