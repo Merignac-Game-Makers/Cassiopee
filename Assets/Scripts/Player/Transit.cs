@@ -11,37 +11,30 @@ using static CameraController;
 /// Les actions en début de transit sont portées par la classe <see cref="TransitTrigger"/>
 /// Les actions en fin de transit sont portées par la classe <see cref="TransitEnd"/>
 /// </summary>
-public class Transit : MonoBehaviour
+public class Transit : SwapCamera
 {
-	// local camera
-	public CinemachineVirtualCamera localCam;
 	// points : start, end, wayPoints
 	public Transform startPoint;
 	public Transform endPoint;
 	public Transform[] path;
 
-	private PlayerManager player;
 	private int idx = 0;
 	private Vector3 targetPoint;
-	private Stack<LocalCam> vCams => CameraController.Instance.vCams;
 
 	public bool reverse { get; set; } = false;
 
-	public void Start() {
-		// désactiver la caméra locale
-		localCam.gameObject.SetActive(false);
+	public override void Start() {
+		base.Start();
 		// désactiver toute représentation graphique
 		// (les renderers sont des aides pour la mise en place)
 		Renderer[] renderers = GetComponentsInChildren<Renderer>();
 		foreach (Renderer r in renderers) {
 			r.enabled = false;
 		}
-		// récupérer le joueur
-		player = PlayerManager.Instance;
 
 		// passer les variables utiles aux triggers
 		foreach (TransitTrigger tt in GetComponentsInChildren<TransitTrigger>()) {
-			tt.localCam = localCam;
+			tt.localCam = localCam.cam;
 			tt.transit = this;
 		}
 	}
@@ -53,6 +46,7 @@ public class Transit : MonoBehaviour
 	/// </summary>
 	/// <param name="reverse">si reverse = true : c'est un trajet retour</param>
 	public void StartPath(bool reverse) {
+		Enter();
 		this.reverse = reverse;
 		player.m_Agent.autoBraking = false;		// désactiver le freinage à l'arrivée pour éviter les à-coups au passage des checkPoints
 		idx = reverse? path.Length: -1;			// on commence au début ... ou à la fin si c'est un retour
@@ -66,12 +60,9 @@ public class Transit : MonoBehaviour
 	/// </summary>
 	private void EndPath() {
 		player.StopAgent();                                 // arrêter le déplacement du joueur
-		player.currentTransit = null;						// on n'est plus en transit
+		player.currentTransit = null;                       // on n'est plus en transit
 
-		if (localCam) {                                     //	  s'il existe une caméra dédiée pour ce transit
-			vCams.Peek().cam.gameObject.SetActive(true);    //		réactiver la caméra précédente
-			localCam.gameObject.SetActive(false);           //		désactiver la caméra locale
-		}
+		Exit();
 	}
 
 	/// <summary>

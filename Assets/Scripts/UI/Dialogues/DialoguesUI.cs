@@ -30,7 +30,7 @@ public class DialoguesUI : UIBase
 	UIManager uiManager;
 
 	private void Awake() {
-				Instance = this;
+		Instance = this;
 	}
 
 	public override void Init(UIManager uiManager) {
@@ -62,7 +62,7 @@ public class DialoguesUI : UIBase
 		VD.OnNodeChange += UpdateUI;
 		VD.OnEnd += End;
 		if (VD.isActive)
-			VD.Next(); 
+			VD.Next();
 		else {
 			VD.BeginDialogue(dialog);
 		}
@@ -135,12 +135,12 @@ public class DialoguesUI : UIBase
 			container_NPC.SetActive(true);
 
 			// set sprite
-			if (data.creferences[data.commentIndex].sprites != null)				
-				NPC_Sprite.sprite = data.creferences[data.commentIndex].sprites;	// specific for comment i exists
-			else if (data.sprite != null)		
-				NPC_Sprite.sprite = data.sprite;									// specific for node if exists
+			if (data.creferences[data.commentIndex].sprites != null)
+				NPC_Sprite.sprite = data.creferences[data.commentIndex].sprites;    // specific for comment i exists
+			else if (data.sprite != null)
+				NPC_Sprite.sprite = data.sprite;                                    // specific for node if exists
 			else if (VD.assigned.defaultNPCSprite != null)
-				NPC_Sprite.sprite = VD.assigned.defaultNPCSprite;					// for dialog
+				NPC_Sprite.sprite = VD.assigned.defaultNPCSprite;                   // for dialog
 
 			// set name
 			// If it has a tag, show it, otherwise let's use the alias we set in the VIDE Assign
@@ -154,7 +154,7 @@ public class DialoguesUI : UIBase
 		}
 	}
 
-	
+
 
 	public void End(VD.NodeData data) {
 		Hide();
@@ -184,7 +184,7 @@ public class DialoguesUI : UIBase
 		VD.Next();
 	}
 
-	public enum QuestStatus { None, Accepted, Refused, Done}
+	public enum QuestStatus { None, Accepted, Refused, Done }
 	[HideInInspector]
 	public QuestStatus questStatus = QuestStatus.None;
 	public void RefuseQuest() {

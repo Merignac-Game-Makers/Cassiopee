@@ -12,7 +12,6 @@ public class TransitTrigger : MonoBehaviour
 {
 	public bool reverse = false;
 	public Transit transit { get; set; }
-	//public TransitEnd transitEnd { get; set; }
 	public CinemachineVirtualCamera localCam { get; set; }
 	private PlayerManager player;
 	private Collider playerCollider;
@@ -26,19 +25,18 @@ public class TransitTrigger : MonoBehaviour
 	public void OnTriggerEnter(Collider other) {
 		if (other == playerCollider) {
 			if (IsFacingForward(player.m_Agent)) {                                  // si on rentre dans le sens du transit
-				if (localCam) {                                                     //	  s'il existe une caméra dédiée pour ce transit
-					localCam.gameObject.SetActive(true);                            //		activer la caméra locale
-					vCams.Peek().cam.gameObject.SetActive(false);                   //		désactiver la caméra précédente
-				}
+				//if (localCam) {                                                     //	  s'il existe une caméra dédiée pour ce transit
+				//	localCam.gameObject.SetActive(true);                            //		activer la caméra locale
+				//	vCams.Peek().cam.gameObject.SetActive(false);                   //		désactiver la caméra précédente
+				//}
 				transit.StartPath(reverse);
-				MagicManager.Instance.ResetConstellation();                         // désactiver les objets magiques en quittant le lieu actuel
-
-			} else {                                                            // si on entre dans l'autre sens
-																				//transit.EndPath();                                              //		transition de caméra de fin de transit
-				if (localCam) {                                                         //	  s'il existe une caméra dédiée pour ce transit
-					vCams.Peek().cam.gameObject.SetActive(true);                        //		réactiver la caméra précédente
-					localCam.gameObject.SetActive(false);                               //		désactiver la caméra locale
-				}
+				MagicManager.Instance.ResetConstellation();								// désactiver les objets magiques en quittant le lieu actuel
+			} else {																// si on entre dans l'autre sens
+				//if (localCam) {                                                         //	  s'il existe une caméra dédiée pour ce transit
+				//	vCams.Peek().cam.gameObject.SetActive(true);                        //		réactiver la caméra précédente
+				//	localCam.gameObject.SetActive(false);                               //		désactiver la caméra locale
+				//}
+				transit.Exit();
 			}
 		}
 	}

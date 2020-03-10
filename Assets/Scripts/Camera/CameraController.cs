@@ -23,6 +23,10 @@ public class CameraController : MonoBehaviour
 			this.maxAngle = maxAngle;
 			this.motionMode = motionMode;
 		}
+
+		public void SetActive(bool on) {
+			cam.gameObject.SetActive(on);
+		}
 	}
 
 	public static CameraController Instance { get; set; }
@@ -64,7 +68,7 @@ public class CameraController : MonoBehaviour
 		cinemachineBrain = GetComponent<CinemachineBrain>();
 		vCams = new Stack<LocalCam>();
 		vCams.Push(new LocalCam(vCam));
-		Zoom(0);
+		//Zoom(0);
 	}
 
 	/// <summary>
@@ -73,8 +77,9 @@ public class CameraController : MonoBehaviour
 	/// <param name="distance">The distance to zoom, need to be in range [0..1] (will be clamped) </param>
 	public void Zoom(float distance) {
 		m_CurrentDistance = Mathf.Clamp01(m_CurrentDistance + distance);
-		if (vCams.Peek() != null)
-			vCams.Peek().cam.m_Lens.FieldOfView = MinAngle + (MaxAngle - MinAngle) * m_CurrentDistance;
+		//if (vCams.Peek() != null)
+			//vCams.Peek().cam.m_Lens.FieldOfView = MinAngle + (MaxAngle - MinAngle) * m_CurrentDistance;
+		cinemachineBrain.ActiveVirtualCamera.VirtualCameraGameObject.GetComponent<CinemachineVirtualCamera>().m_Lens.FieldOfView = MinAngle + (MaxAngle - MinAngle) * m_CurrentDistance;
 	}
 
 	private void Update() {

@@ -23,7 +23,7 @@ public class MagicUI : UIBase
 	public GameObject bookPanel;        // panneau livre ouvert (plein écran)
 	public Book book;                   // livre
 	public InventoryUI inventory;       // inventaire
-	public GameObject orbPanel;			// orbe
+	public GameObject orbPanel;         // orbe
 
 
 	[Header("Boutons")]
@@ -49,17 +49,20 @@ public class MagicUI : UIBase
 	private Material playerMaterial;
 
 
+	private void Awake() {
+		Instance = this;                // instance statique
+	}
+
 	/// <summary>
 	/// initialisation
 	/// </summary>
 	public override void Init(UIManager uiManager) {
-		Instance = this;                // instance statique
 
 		gameObject.SetActive(true);     // Book UI actif
 		panel.SetActive(false);         // panneau masqué
-		orbPanel.SetActive(false);		// panneau orbe masqué
+		orbPanel.SetActive(false);      // panneau orbe masqué
 
-		book.Init();					// initialisation du grimoire
+		book.Init();                    // initialisation du grimoire
 
 		selectedArtefact = SelectedArtefact.Sun;    // artefact sélectionné par défaut = SUN
 
@@ -115,7 +118,7 @@ public class MagicUI : UIBase
 		if (state == active) {
 			bookPanel.gameObject.SetActive(false);                              // livre ouvert invisible
 			PlayerManager.Instance.VisualMagicMode(true);                       // mise en évidence du mode 'magie activée'
-			UIManager.Instance.ManageButtons(closedBook);						// coordination des boutons de l'UI
+			UIManager.Instance.ManageButtons(closedBook);                       // coordination des boutons de l'UI
 		} else if (state == open) {
 			bookPanel.gameObject.SetActive(true);                               // livre ouvert visible
 			PlayerManager.Instance.VisualMagicMode(true);                       // mise en évidence du mode 'magie activée'
@@ -124,7 +127,7 @@ public class MagicUI : UIBase
 			bookPanel.gameObject.SetActive(false);                              // livre ouvert invisible
 			MagicManager.Instance.SetMagicOff();                                // désactiver toute magie en cours
 			PlayerManager.Instance.VisualMagicMode(false);                      // annulation de la mise en évidence du mode 'magie activée'
-			UIManager.Instance.ManageButtons(noMagic);							// coordination des boutons de l'UI
+			UIManager.Instance.ManageButtons(noMagic);                          // coordination des boutons de l'UI
 		}
 	}
 

@@ -64,7 +64,10 @@ public class PlayerManager : MonoBehaviour
 	int m_PlayerLayer;                                              // layer du personnage
 	int m_SasLayer;                                                 // layer des sas
 	int raycastableLayers;                                          // tous les layers à tester pour le Raycast
+
+	// souris
 	bool isClicOnUI;                                                // le clic en cours a-t-il débuté sur un élément d'interface ?
+	PlacesUI swipe;													// gestion du swipe
 
 	// Visuel
 	public Renderer body;                                           // Mesh renderer du corps
@@ -83,6 +86,7 @@ public class PlayerManager : MonoBehaviour
 		inventoryUI = InventoryUI.Instance;                         // gestionnaire d'inventaire
 		uiManager = UIManager.Instance;                             // gestionnaire d'interface utilisateur
 		magicManager = MagicManager.Instance;                       // gestionnaire de magie
+		swipe = PlacesUI.Instance;									// gestion du swipe
 
 		characterData = GetComponent<CharacterData>();              // caractéristiques du joueur
 		characterData.Init();                                       // ... initialisation
@@ -131,7 +135,7 @@ public class PlayerManager : MonoBehaviour
 		if (!Mathf.Approximately(mouseWheel, 0.0f)) {
 			Vector3 view = mainCamera.ScreenToViewportPoint(Input.mousePosition);
 			if (view.x > 0f && view.x < 1f && view.y > 0f && view.y < 1f)
-				CameraController.Instance.Zoom(-mouseWheel * Time.deltaTime * 40.0f);
+				CameraController.Instance.Zoom(-mouseWheel * Time.deltaTime * 10.0f);
 		}
 
 		// au début d'un clic, on commence par effacer tous les objets en cours d'intéraction
@@ -153,7 +157,8 @@ public class PlayerManager : MonoBehaviour
 
 			ObjectsRaycasts(screenRay);                             // Mettre en surbrillance les objets intéractibles lorsqu'ils sont sous le pointeur de souris
 
-			if (m_InvItemDragging == null && magicManager?.dragging == null) {          // éviter de déplacer le personnage si on est en cours de drag & drop
+			if (swipe.isSwiping) StopAgent();
+			if (m_InvItemDragging == null && magicManager?.dragging == null && !swipe.isSwiping) {		// éviter de déplacer le personnage si on est en cours de drag & drop
 				if (Input.GetMouseButton(0)) {                                          // si le bouton de la souris est appuyé
 					if (inventoryUI.selectedEntry == null) {                            // si aucun objet d'inventaire n'est sélectionné
 						if (m_TargetInteractable == null && m_TargetActivable == null && m_CurrentTargetCharacterData == null) {     // s'il n'y a pas d'intéraction en cours
@@ -189,6 +194,7 @@ public class PlayerManager : MonoBehaviour
 			StartCoroutine(MoveAcrossNavMeshLink(m_Agent.destination));
 		}
 
+		// débuggage du trajet
 		for (int i = 0; i < m_Agent.path.corners.Length - 1; i++) {
 			Debug.DrawLine(m_Agent.path.corners[i], m_Agent.path.corners[i + 1], Color.red);
 		}

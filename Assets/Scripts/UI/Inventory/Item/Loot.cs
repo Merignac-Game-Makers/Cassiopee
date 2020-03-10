@@ -86,8 +86,8 @@ public class Loot : InteractableObject
 			inventoryUI.UpdateEntries(target);
 			Destroy(gameObject);
 
-			if (zoom) {				// si l'objet est dans un zoom
-				zoom.LootTaken(this);
+			if (zoom && zoom is LootZoom) {              // si l'objet est dans un zoom basé sur les Loots
+				((LootZoom)zoom).LootTaken(this);
 			}
 
 			if (chapterManager) {   // si l'action sur l'objet induit une mise à jour du journal
