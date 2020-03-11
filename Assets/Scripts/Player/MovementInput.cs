@@ -7,6 +7,8 @@ using UnityEngine.AI;
 //This script requires you to have setup your animator with 3 parameters, "InputMagnitude", "InputX", "InputZ"
 //With a blend tree to control the inputmagnitude and allow blending between animations.
 [RequireComponent(typeof(CharacterController))]
+[RequireComponent(typeof(Animator))]
+[RequireComponent(typeof(NavMeshAgent))]
 public class MovementInput : MonoBehaviour
 {
 	#region Variables
@@ -20,19 +22,22 @@ public class MovementInput : MonoBehaviour
 	private Quaternion leftFootIkRotation, rightFootIkRotation;
 	private float lastPelvisPositionY, lastRightFootPositionY, lastLeftFootPositionY;
 
+	//[Range(0.01f, 1f)] public float timeScale = 1;
+
 	[Header("Feet Grounder")]
 	public bool enableFeetIk = true;
-	[Range(0, 2)] [SerializeField] private float heightFromGroundRaycast = 1.14f;
-	[Range(0, 2)] [SerializeField] private float raycastDownDistance = 1.5f;
-	[SerializeField] private LayerMask environmentLayer;
+	[Range(0, 9)] [SerializeField] private float heightFromGroundRaycast = 1.14f;
+	[Range(0, 10)] [SerializeField] private float raycastDownDistance = 1.5f;
+	//[SerializeField] private LayerMask environmentLayer;
+	public LayerMask environmentLayer;
 	[SerializeField] private float pelvisOffset = 0f;
 	[Range(0, 1)] [SerializeField] private float pelvisUpAndDownSpeed = 0.28f;
 	[Range(0, 1)] [SerializeField] private float feetToIkPositionSpeed = 0.5f;
 
-	public string leftFootAnimVariableName = "LeftFootCurve";
-	public string rightFootAnimVariableName = "RightFootCurve";
+	//public string leftFootAnimVariableName = "LeftFootCurve";
+	//public string rightFootAnimVariableName = "RightFootCurve";
 
-	public bool useProIkFeature = false;
+	//public bool useProIkFeature = false;
 	public bool showSolverDebug = true;
 
 
@@ -40,27 +45,25 @@ public class MovementInput : MonoBehaviour
 	[Range(0, 1f)]
 	public float animSmoothTime = 0.2f; //velocity dampening
 
+	public LayerMask EnvironmentLayer { get => EnvironmentLayer2; set => EnvironmentLayer2 = value; }
+	public LayerMask EnvironmentLayer1 { get => EnvironmentLayer2; set => EnvironmentLayer2 = value; }
+	public LayerMask EnvironmentLayer2 { get => environmentLayer; set => environmentLayer = value; }
+
 	#endregion
 
 	#region Initialization
 	// Initialization of variables
 	void Start() {
-		anim = this.GetComponent<Animator>();
-		agent = this.GetComponent<NavMeshAgent>();
+		//timeScale = 1f;
+
+		anim = GetComponent<Animator>();
+		agent = GetComponent<NavMeshAgent>();
 
 		if (anim == null)
 			Debug.LogError("We require " + transform.name + " game object to have an animator. This will allow for Foot IK to function");
 		if (agent == null)
 			Debug.LogError("We require " + transform.name + " game object to have a Nav Mesh Agent. This will allow for Foot IK to function");
 	}
-
-
-	// Update is called once per frame
-	void Update() {
-		InputMagnitude();
-
-	}
-
 	#endregion
 
 
@@ -85,10 +88,12 @@ public class MovementInput : MonoBehaviour
 
 	#region FeetGrounding
 
-	/// <summary>
-	/// We are updating the AdjustFeetTarget method and also find the position of each foot inside our Solver Position.
-	/// </summary>
-	private void FixedUpdate() {
+	// Update is called once per frame
+	void Update() {
+		InputMagnitude();
+		//Time.timeScale = timeScale;
+
+
 		if (enableFeetIk == false) { return; }
 		if (anim == null) { return; }
 
@@ -98,7 +103,6 @@ public class MovementInput : MonoBehaviour
 		//find and raycast to the ground to find positions
 		FeetPositionSolver(rightFootPosition, ref rightFootIkPosition, ref rightFootIkRotation); // handle the solver for right foot
 		FeetPositionSolver(leftFootPosition, ref leftFootIkPosition, ref leftFootIkRotation); //handle the solver for the left foot
-
 	}
 
 	private void OnAnimatorIK(int layerIndex) {
@@ -110,18 +114,18 @@ public class MovementInput : MonoBehaviour
 		//right foot ik position and rotation -- utilise the pro features in here
 		anim.SetIKPositionWeight(AvatarIKGoal.RightFoot, 1);
 
-		if (useProIkFeature) {
-			anim.SetIKRotationWeight(AvatarIKGoal.RightFoot, anim.GetFloat(rightFootAnimVariableName));
-		}
+		//if (useProIkFeature) {
+		//	anim.SetIKRotationWeight(AvatarIKGoal.RightFoot, anim.GetFloat(rightFootAnimVariableName));
+		//}
 
 		MoveFeetToIkPoint(AvatarIKGoal.RightFoot, rightFootIkPosition, rightFootIkRotation, ref lastRightFootPositionY);
 
 		//left foot ik position and rotation -- utilise the pro features in here
 		anim.SetIKPositionWeight(AvatarIKGoal.LeftFoot, 1);
 
-		if (useProIkFeature) {
-			anim.SetIKRotationWeight(AvatarIKGoal.LeftFoot, anim.GetFloat(leftFootAnimVariableName));
-		}
+		//if (useProIkFeature) {
+		//	anim.SetIKRotationWeight(AvatarIKGoal.LeftFoot, anim.GetFloat(leftFootAnimVariableName));
+		//}
 
 		MoveFeetToIkPoint(AvatarIKGoal.LeftFoot, leftFootIkPosition, leftFootIkRotation, ref lastLeftFootPositionY);
 	}
@@ -194,9 +198,9 @@ public class MovementInput : MonoBehaviour
 		RaycastHit feetOutHit;
 
 		if (showSolverDebug)
-			Debug.DrawLine(fromSkyPosition, fromSkyPosition + Vector3.up * (raycastDownDistance + heightFromGroundRaycast), Color.yellow);
+			Debug.DrawLine(fromSkyPosition, fromSkyPosition + Vector3.down * raycastDownDistance, Color.yellow);
 
-		if (Physics.Raycast(fromSkyPosition, Vector3.down, out feetOutHit, raycastDownDistance + heightFromGroundRaycast, environmentLayer)) {
+		if (Physics.Raycast(fromSkyPosition, Vector3.down, out feetOutHit, raycastDownDistance + heightFromGroundRaycast, EnvironmentLayer2)) {
 			//finding our feet ik positions from the sky position
 			feetIkPositions = fromSkyPosition;
 			feetIkPositions.y = feetOutHit.point.y + pelvisOffset;
@@ -214,8 +218,8 @@ public class MovementInput : MonoBehaviour
 	/// <param name="feetPositions">Feet positions.</param>
 	/// <param name="foot">Foot.</param>
 	private void AdjustFeetTarget(ref Vector3 feetPositions, HumanBodyBones foot) {
-		feetPositions = anim.GetBoneTransform(foot).position;
-		feetPositions.y = transform.position.y + heightFromGroundRaycast;
+		feetPositions = anim.GetBoneTransform(foot).position;				// récupérer la postion du pied
+		feetPositions.y = transform.position.y + heightFromGroundRaycast;	// repmonter la position pour la source du raycast
 
 	}
 

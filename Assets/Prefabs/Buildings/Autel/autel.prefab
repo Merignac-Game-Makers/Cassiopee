@@ -54,15 +54,16 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 2f269f6d47287a947b1273a93c567591, type: 2}
-  - {fileID: 0}
-  - {fileID: 2100000, guid: 5d4551f929a574d47aaba09fade32caf, type: 2}
-  - {fileID: 2100000, guid: 1ee8b660e86a4dc49a7191fd1f09be07, type: 2}
-  - {fileID: 2100000, guid: 580be54dc35dcda4a990a53528bc1b27, type: 2}
-  - {fileID: 2100000, guid: 435a1867de595e54e8e253ff8a36fe54, type: 2}
+  - {fileID: 2100000, guid: f4d1b41536e707c45b3b304fb11a8130, type: 2}
+  - {fileID: 2100000, guid: 9b7df61a8d0a11046bc01f8df8eebe0e, type: 2}
+  - {fileID: 2100000, guid: db1fa6af8ed6dce4e872021ce81a351d, type: 2}
+  - {fileID: 2100000, guid: e4ac8f7d6d1037b42bb7d8a112c15368, type: 2}
+  - {fileID: 2100000, guid: e57e3830acda9a54b825bb78ad268187, type: 2}
+  - {fileID: 2100000, guid: 9b7df61a8d0a11046bc01f8df8eebe0e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.EventSystems;
 using static InteractableObject.Action;
+using static MotionMode;
 
 
 /// <summary>
@@ -33,6 +34,12 @@ public class PlayerManager : MonoBehaviour
 	[HideInInspector]
 	public bool inTransit;                                          // l'agent est-il dans un transit (chagement de zone assisté)
 	public bool canInterruptTransit;                                // un transit peut-il être interrompu ?
+	public Transit currentTransit { get; set; } = null;
+
+	// modes de déplacement
+	public Dictionary<MotionMode, MotionParams> motionModes;        // liste des modes de dféplacements possibles (marche, course, ...)
+	public MotionMode currentMotionMode { get; set; } = run;        // mode de déplacement courant
+	public MotionMode previousMotionMode { get; set; } = run;       // mode de déplacement précédent
 
 	// Interactions
 	InteractableObject m_TargetInteractable = null;                 // objet avec lequel le joueur intéragit
@@ -57,7 +64,10 @@ public class PlayerManager : MonoBehaviour
 	int m_PlayerLayer;                                              // layer du personnage
 	int m_SasLayer;                                                 // layer des sas
 	int raycastableLayers;                                          // tous les layers à tester pour le Raycast
+
+	// souris
 	bool isClicOnUI;                                                // le clic en cours a-t-il débuté sur un élément d'interface ?
+	PlacesUI swipe;													// gestion du swipe
 
 	// Visuel
 	public Renderer body;                                           // Mesh renderer du corps
@@ -76,11 +86,16 @@ public class PlayerManager : MonoBehaviour
 		inventoryUI = InventoryUI.Instance;                         // gestionnaire d'inventaire
 		uiManager = UIManager.Instance;                             // gestionnaire d'interface utilisateur
 		magicManager = MagicManager.Instance;                       // gestionnaire de magie
+		swipe = PlacesUI.Instance;									// gestion du swipe
 
 		characterData = GetComponent<CharacterData>();              // caractéristiques du joueur
 		characterData.Init();                                       // ... initialisation
 
 		m_Agent = GetComponent<NavMeshAgent>();                     // préparation de la navigation
+		motionModes = new Dictionary<MotionMode, MotionParams>();							// liste des modes de déplacement
+		motionModes[walk] = (MotionParams)Resources.Load("Navigation/MotionParams/Walk");	// récupération des caractéristiques du mode 'marche' (vitesse, accélération, ...)
+		motionModes[run] = (MotionParams)Resources.Load("Navigation/MotionParams/Run");     // récupération des caractéristiques du mode 'course' (vitesse, accélération, ...)
+		SetMotionMode(run);														// le mode initial est 'course'
 
 		m_InteractableLayer = 1 << LayerMask.NameToLayer("Interactable");       // layer des objets intéractibles
 		m_PlayerLayer = 1 << LayerMask.NameToLayer("Player");                   // layer des objets intéractibles
@@ -91,21 +106,6 @@ public class PlayerManager : MonoBehaviour
 		raycastableLayers = ~(postProcessingMask | ignoreRaycastMask);
 	}
 	#endregion
-
-
-	//static bool WantsToQuit() {
-	//	return false;
-	//}
-
-	//static void Quit() {
-	//	Debug.Log("Quitting the Player");
-	//}
-
-	//[RuntimeInitializeOnLoadMethod]
-	//static void RunOnStart() {
-	//	Application.wantsToQuit += WantsToQuit;
-	//	Application.quitting += Quit;
-	//}
 
 	void Update() {
 		// quitter le jeu par la touche escape
@@ -135,7 +135,7 @@ public class PlayerManager : MonoBehaviour
 		if (!Mathf.Approximately(mouseWheel, 0.0f)) {
 			Vector3 view = mainCamera.ScreenToViewportPoint(Input.mousePosition);
 			if (view.x > 0f && view.x < 1f && view.y > 0f && view.y < 1f)
-				CameraController.Instance.Zoom(-mouseWheel * Time.deltaTime * 40.0f);
+				CameraController.Instance.Zoom(-mouseWheel * Time.deltaTime * 10.0f);
 		}
 
 		// au début d'un clic, on commence par effacer tous les objets en cours d'intéraction
@@ -157,7 +157,8 @@ public class PlayerManager : MonoBehaviour
 
 			ObjectsRaycasts(screenRay);                             // Mettre en surbrillance les objets intéractibles lorsqu'ils sont sous le pointeur de souris
 
-			if (m_InvItemDragging == null && magicManager?.dragging == null) {          // éviter de déplacer le personnage si on est en cours de drag & drop
+			if (swipe.isSwiping) StopAgent();
+			if (m_InvItemDragging == null && magicManager?.dragging == null && !swipe.isSwiping) {		// éviter de déplacer le personnage si on est en cours de drag & drop
 				if (Input.GetMouseButton(0)) {                                          // si le bouton de la souris est appuyé
 					if (inventoryUI.selectedEntry == null) {                            // si aucun objet d'inventaire n'est sélectionné
 						if (m_TargetInteractable == null && m_TargetActivable == null && m_CurrentTargetCharacterData == null) {     // s'il n'y a pas d'intéraction en cours
@@ -191,6 +192,11 @@ public class PlayerManager : MonoBehaviour
 		if (m_Agent.isOnOffMeshLink && !MoveAcrossNavMeshesStarted) {
 			MoveAcrossNavMeshesStarted = true;
 			StartCoroutine(MoveAcrossNavMeshLink(m_Agent.destination));
+		}
+
+		// débuggage du trajet
+		for (int i = 0; i < m_Agent.path.corners.Length - 1; i++) {
+			Debug.DrawLine(m_Agent.path.corners[i], m_Agent.path.corners[i + 1], Color.red);
 		}
 	}
 
@@ -382,6 +388,18 @@ public class PlayerManager : MonoBehaviour
 		m_Agent.CompleteOffMeshLink();                                      // quitter le mode 'NavMesh Link'
 		MoveAcrossNavMeshesStarted = false;
 		m_Agent.SetDestination(destination);                                // continuer vers la destination initiale
+	}
+
+	public void SetMotionMode(MotionMode mode) {
+		previousMotionMode = currentMotionMode;
+		currentMotionMode = mode;
+		m_Agent.speed = motionModes[mode].speed;
+		m_Agent.acceleration = motionModes[mode].acceleration;
+		m_Agent.angularSpeed = motionModes[mode].angularSpeed;
+	}
+	public void RestoreMotionMode() {
+		currentMotionMode = previousMotionMode;
+		SetMotionMode(previousMotionMode);
 	}
 	#endregion
 

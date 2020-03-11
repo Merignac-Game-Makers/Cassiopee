@@ -19,8 +19,8 @@ public class UIManager : MonoBehaviour
 
 	public DialoguesUI dialoguesUI;             // interface Dialogues
 	public InventoryUI inventoryUI;             // interface Inventaire
-	public DiaryBookContent diaryBookContent;   // pages du journal
 	public MagicUI magicUI;                     // interface Magie
+	public PlacesUI placesUI;                   // interface Places
 	public QuitUI quitUi;                       // interface Quit
 
 	public GameObject magicButton;              // bouton du grimoire		
@@ -29,17 +29,24 @@ public class UIManager : MonoBehaviour
 	public Button questButton;                  // bouton des quêtes		
 	public Button diaryButton;                  // bouton du journal		
 
+	public DiaryBookContent diaryBookContent;   // pages du journal
 	public GameObject messageLabel;
 
 	Coroutine coroutine;
 
 	void Awake() {
 		Instance = this;
+		placesUI.gameObject.SetActive(true);			// pour activer le Awake même si le GameObject est désactivé dans l'éditeur
+		inventoryUI.gameObject.SetActive(true);			// pour activer le Awake même si le GameObject est désactivé dans l'éditeur
+		dialoguesUI.gameObject.SetActive(true);			// pour activer le Awake même si le GameObject est désactivé dans l'éditeur
+		magicUI.gameObject.SetActive(true);				// pour activer le Awake même si le GameObject est désactivé dans l'éditeur
+		diaryBookContent.gameObject.SetActive(true);    // pour activer le Awake même si le GameObject est désactivé dans l'éditeur
 	}
 
 	private void Start() {
 		dialoguesUI.Init(this);                 // initialisation du gestionnaire de dialogues
 		inventoryUI.Init(this);                 // initialisation du gestionnaire d'inventaire
+		placesUI.Init();
 		diaryBookContent.Init();                // initialisation des pages du journal
 		magicUI.Init(this);                     // intialisation du gestionnaire de magie
 		questButton.gameObject.SetActive(false);            // masquer le bouton des quêtes

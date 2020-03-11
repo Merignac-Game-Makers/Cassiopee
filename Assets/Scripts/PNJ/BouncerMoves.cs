@@ -5,6 +5,7 @@ using UnityEngine;
 public class BouncerMoves : PnjMoves
 {
 	public Transform restPosition;
+	public Animator house;
 	Vector3 pos;
 
 	protected override void Start() {
@@ -18,5 +19,9 @@ public class BouncerMoves : PnjMoves
 
 	public void GoBack() {
 		MoveToPos(pos);
+		var anim = house.GetComponentInChildren<Animator>();
+		if (anim) {
+			anim.SetTrigger("OpenDoors");
+		}
 	}
 }

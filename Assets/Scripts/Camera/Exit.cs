@@ -3,13 +3,13 @@
 public class Exit : MonoBehaviour
 {
 	public Vector3 outPoint { get; set; }
-	public float defaultSpeed { get; set; } = 50f;
 
 	bool? prevStatus;
 
 	public void GetOut() {
 		PlayerManager.Instance.m_Agent.SetDestination(outPoint);
-		PlayerManager.Instance.m_Agent.speed = defaultSpeed;
+		//PlayerManager.Instance.m_Agent.speed = defaultSpeed;
+		//PlayerManager.Instance.SetMotionMode(MotionMode.run);
 		Hide();
 	}
 

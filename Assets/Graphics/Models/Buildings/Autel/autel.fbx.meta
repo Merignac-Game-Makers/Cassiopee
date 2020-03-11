@@ -1,44 +1,44 @@
 fileFormatVersion: 2
 guid: 7491a18fc5ca6f14da740b03e684ca12
 ModelImporter:
-  serializedVersion: 26
+  serializedVersion: 19300
   internalIDToNameTable: []
   externalObjects:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: 'Material #143'
-    second: {fileID: 2100000, guid: 0518ca0c749f2104295306b68d9807ed, type: 2}
+      name: Material #143
+    second: {fileID: 2100000, guid: 9b7df61a8d0a11046bc01f8df8eebe0e, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: 'Material #144'
-    second: {instanceID: 0}
+      name: Material #144
+    second: {fileID: 2100000, guid: 9b7df61a8d0a11046bc01f8df8eebe0e, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: 'Material #145'
-    second: {instanceID: 0}
+      name: Material #145
+    second: {fileID: 2100000, guid: e57e3830acda9a54b825bb78ad268187, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: 'Material #146'
-    second: {instanceID: 0}
+      name: Material #146
+    second: {fileID: 2100000, guid: e4ac8f7d6d1037b42bb7d8a112c15368, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: 'Material #147'
-    second: {instanceID: 0}
+      name: Material #147
+    second: {fileID: 2100000, guid: db1fa6af8ed6dce4e872021ce81a351d, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: 'Material #148'
-    second: {instanceID: 0}
+      name: Material #148
+    second: {fileID: 2100000, guid: f4d1b41536e707c45b3b304fb11a8130, type: 2}
   materials:
-    importMaterials: 1
+    materialImportMode: 1
     materialName: 0
     materialSearch: 1
-    materialLocation: 0
+    materialLocation: 1
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
@@ -99,7 +99,6 @@ ModelImporter:
     normalSmoothingSource: 0
   referencedClips: []
   importAnimation: 1
-  copyAvatar: 0
   humanDescription:
     serializedVersion: 3
     human: []
@@ -117,8 +116,10 @@ ModelImporter:
     hasExtraRoot: 0
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 0
   humanoidOversampling: 1
+  avatarSetup: 0
   additionalBone: 0
   userData: 
   assetBundleName: 

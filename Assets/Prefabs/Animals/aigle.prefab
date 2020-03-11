@@ -1400,9 +1400,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
-  axis: {x: 0, y: 1, z: 0}
-  moveSpeed: 5
-  turnSpeed: 0.5
+  moveSpeed: 10
+  turnSpeed: 3
+  radius: 10
+  altitude: 10
 --- !u!1 &3893265594596668797
 GameObject:
   m_ObjectHideFlags: 0
@@ -1709,7 +1710,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5096272151822576871}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 5, z: 0}
+  m_LocalPosition: {x: 0, y: -2, z: 0}
   m_LocalScale: {x: 3.4915, y: 3.4915, z: 3.4915}
   m_Children:
   - {fileID: 4030869290367469128}

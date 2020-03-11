@@ -2,35 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class ZoomBase : MonoBehaviour
+interface LootZoom
 {
-	public ZoomUI zoomUI { get; private set; }
-	public List<Loot> loots;
-	public SwapCamera swapCamera { get; private set; }
+	void LootTaken(Loot loot);
+}
 
-	void Start() {
-		zoomUI = UIManager.Instance.GetComponentInChildren<ZoomUI>(true);
-		swapCamera = GetComponentInChildren<SwapCamera>();
-	}
+public abstract class ZoomBase : SwapCamera
+{
 
 	public virtual bool TestExit() {
 		if (AllDone()) {									// si les conditions de sortie sont réunies
-			swapCamera.Exit();								// Sortir
-			swapCamera.gameObject.SetActive(false);			// désactiver le zoom
+			Exit();												// Sortir
+			//enabled = false;                                    // désactiver le zoom
+			GetComponent<Collider>().enabled = false;
 			return true;
 		}
 		return false;
 	}
 
 	public abstract bool AllDone();
-
-	public virtual void LootTaken(Loot loot) {
-		foreach(Loot l in loots) {
-			if (l == loot) { 
-				loots.Remove(l);
-				TestExit();
-				break;
-			}
-		}
-	}
 }
