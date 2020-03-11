@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 984076676726141818}
   - component: {fileID: 5294005461526127376}
   - component: {fileID: 5872333436629997715}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: EndGate (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -310,7 +310,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b68089d9b4a39c94c95cad5715560fd1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  localCam: {fileID: 8227561471995629726}
+  maxAngle: 45
+  motionMode: 2
   startPoint: {fileID: 2768251574833027662}
   endPoint: {fileID: 3225758660521681376}
   path: []
@@ -491,7 +492,7 @@ GameObject:
   - component: {fileID: 8887076578468290747}
   - component: {fileID: 3588216353838093485}
   - component: {fileID: 4384187225646855333}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: StartGate (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
